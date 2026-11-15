@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-RrT58+c3qKRBxkXk/DlpvQvlPK4ptg3XAoyTCX8pBnc=' 'sha256-3kUJRw3imQB4sILA6qP0rs8BsofKxtKoO8GylmTEh5U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; worker-src 'self'; connect-src https://fogoltmnmdabjimxsjnm.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="icons/icon-192.png"><meta name="theme-color" content="#e9eee8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121815" media="(prefers-color-scheme: dark)"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Mossgate"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-jlS+E+tb7JkcN9/Wrp7SAnsoFlTQeRj4NyQeR7pPvPE=' 'sha256-3kUJRw3imQB4sILA6qP0rs8BsofKxtKoO8GylmTEh5U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; worker-src 'self'; connect-src https://fogoltmnmdabjimxsjnm.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="icons/icon-192.png"><meta name="theme-color" content="#e9eee8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121815" media="(prefers-color-scheme: dark)"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Mossgate"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
 <title>Mossgate Idle</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1609,7 +1609,7 @@ const SK=n=>'mossgate-idle-slot-'+n;
 let SLOT=0;const SAVESTAT={ok:true,at:0,err:'',bak:0};
 
 /* ---------- save integrity: signed, tamper-evident saves ---------- */
-const BUILD_TS=1794771264000;
+const BUILD_TS=1794773323000;
 const SIGKEY=['mg','8f2c','-gate','Q7x','r0ot','5e1d','|idle','b9'].join('');
 const SHA_K=(()=>{const k=[];for(let n=2;k.length<64;n++){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)k.push(Math.floor((Math.cbrt(n)%1)*4294967296));}return k;})();
 const SHA_H=(()=>{const h=[];for(let n=2;h.length<8;n++){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)h.push(Math.floor((Math.sqrt(n)%1)*4294967296));}return h;})();
@@ -1711,14 +1711,14 @@ function spinWheel(paid){
  S.wheel.win={idx,coins:r.coins||0,items:r.items||[]};S.wheel.spins++;dirty.v=1;return{idx,r};}
 
 /* ---------- duel arena ---------- */
-const DUELT=[{id:'nov',n:'Novice Duellist',i:'🧑',m:.6},{id:'vet',n:'Veteran Duellist',i:'🧔',m:1},{id:'chp',n:'Arena Champion',i:'🥷',m:1.25},{id:'leg',n:'Legend of the Arena',i:'👑',m:1.6}];
+const DUELT=[{id:'nov',n:'Novice Duellist',i:'🧑',m:.75},{id:'vet',n:'Veteran Duellist',i:'🧔',m:1},{id:'chp',n:'Arena Champion',i:'🥷',m:1.15},{id:'leg',n:'Legend of the Arena',i:'👑',m:1.35}];
 const DUELN=['Brannoc','Isolde','Garrick','Mara the Quick','Tobren','Sable','Hob Ironjaw','Vesper','Dunmar','Quill','Ratcliff','Odalys','Ser Pell','Kestrel'];
 function duelStats(){const pc=playerCombat(),sp=PS.type==='magic'?SPELLS[0]:null;return{a:pc.atkRoll,d:pc.defRoll,mx:Math.max(1,maxHitPlayer(sp)),hp:Math.max(10,maxHp())};}
 function duelFight(st,m,full){
  m=1+(m-1)*.35;
  return duelFightO(st,{a:st.a*m,d:st.d*m,mx:Math.max(1,Math.round(st.mx*m)),hp:Math.max(10,Math.round(st.hp*m))},full);}
 function duelFightO(st,O,full){
- const P={a:st.a,d:st.d,mx:st.mx,hp:st.hp};
+ const HK=3;O={a:O.a,d:O.d,mx:O.mx,hp:O.hp*HK};const P={a:st.a,d:st.d,mx:st.mx,hp:st.hp*HK};
  let ph=P.hp,oh=O.hp,turn=Math.random()<.5?0:1;const rounds=[];
  for(let i=0;i<300&&ph>0&&oh>0;i++,turn^=1){
   const A=turn?O:P,D=turn?P:O;let dmg=0;
@@ -1729,7 +1729,7 @@ function duelFightO(st,O,full){
 const DUELC={};
 function duelOdds(t){const st=duelStats(),k=[st.a|0,st.d|0,st.mx,st.hp,t.id].join('|');if(DUELC[k]!=null)return DUELC[k];
  let w=0;const N=800;for(let i=0;i<N;i++)if(duelFight(st,t.m,false).win)w++;return DUELC[k]=w/N;}
-function duelPay(t){const w=duelOdds(t);return Math.round(Math.min(25,Math.max(1,0.92/Math.max(w,.01)))*100)/100;}
+function duelPay(t){const w=duelOdds(t);return Math.round(Math.min(10,Math.max(1,0.92/Math.max(w,.01)))*100)/100;}
 function duelStart(tid,stake){
  const D=UI.duel;if(D&&D.shown<D.rounds.length)return;
  const t=DUELT.find(x=>x.id===tid);stake=Math.floor(+stake);
@@ -1782,8 +1782,8 @@ async function pvRefresh(){
  catch(x){P.msg='Could not reach the arena.';}
  P.busy=0;dirty.v=1;}
 function pvOdds(o){const st=duelStats(),k=[st.a|0,st.d|0,st.mx,st.hp,o.id].join('|'),P=PV();if(P.odds[k]!=null)return P.odds[k];
- const c=pvClean(o.snap||{});let w=0;const N=600;for(let i=0;i<N;i++)if(duelFightO(st,c,false).win)w++;return P.odds[k]=w/N;}
-function pvPay(o){return Math.round(Math.min(25,Math.max(1,0.92/Math.max(pvOdds(o),.01)))*100)/100;}
+ const c=pvClean(o.snap||{});let w=0;const N=1500;for(let i=0;i<N;i++)if(duelFightO(st,c,false).win)w++;return P.odds[k]=w/N;}
+function pvPay(o){return Math.round(Math.min(10,Math.max(1,0.92/Math.max(pvOdds(o),.01)))*100)/100;}
 function pvStart(oid,stake){
  const D=UI.duel;if(D&&D.shown<D.rounds.length)return;
  const P=PV(),o=(P.list||[]).find(x=>x.id===oid);stake=Math.floor(+stake);
@@ -1795,7 +1795,7 @@ function pvStart(oid,stake){
  if(r.win){pay=Math.floor(stake*mult);S.coins+=pay;S.pvp.w++;S.pvp.won+=pay-stake;}
  else if(r.draw){pay=stake;S.coins+=pay;}
  else{S.pvp.l++;S.pvp.lost+=stake;}
- UI.duel={t:{i:'⚔️'},name:o.name,stake,pay,res:r.win?'win':r.draw?'draw':'loss',rounds:r.rounds,pmax:r.pmax,omax:Math.max(10,Math.round(pvClean(o.snap||{}).hp)),shown:0};
+ UI.duel={t:{i:'⚔️'},name:o.name,stake,pay,res:r.win?'win':r.draw?'draw':'loss',rounds:r.rounds,pmax:r.pmax,omax:r.omax,shown:0};
  if(!r.draw)hsCall('pvp_report',{p_id:S.hs.id,p_secret:S.hs.secret,p_opp:oid,p_won:!!r.win}).then(()=>pvRefresh()).catch(()=>{});
  dirty.v=1;}
 'use strict';
