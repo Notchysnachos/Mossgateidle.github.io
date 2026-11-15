@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-ai3LFbuz1z0b/IgGcOkKLhhJ1qcMNvsHXZsvSryqxhY=' 'sha256-3kUJRw3imQB4sILA6qP0rs8BsofKxtKoO8GylmTEh5U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; worker-src 'self'; connect-src https://fogoltmnmdabjimxsjnm.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="icons/icon-192.png"><meta name="theme-color" content="#e9eee8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121815" media="(prefers-color-scheme: dark)"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Mossgate"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Xh6yKCnI3h2dWwqpMdvpK65zTWlenwecEEDnnFcVBvo=' 'sha256-3kUJRw3imQB4sILA6qP0rs8BsofKxtKoO8GylmTEh5U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; worker-src 'self'; connect-src https://fogoltmnmdabjimxsjnm.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="icons/icon-192.png"><meta name="theme-color" content="#e9eee8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121815" media="(prefers-color-scheme: dark)"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Mossgate"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
 <title>Mossgate Idle</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1225,13 +1225,13 @@ const SLOTS=['weapon','shield','helmet','body','legs','boots','gloves','ring','a
 
 function newState(){
  const s={v:1,name:'Adventurer',saved:Date.now(),clock:0,play:0,coins:100,bank:{},nb:0,bankBuys:0,xp:{},pres:{},hs:null,mast:{},upg:{},equip:{},acts:[null,null],perk:{},wheel:{last:0,win:null,spins:0},cb:null,buffs:{},
-  farm:{plots:[],auto:true,allot:3,herb:2,tree:1},stats:{kills:0,deaths:0,actions:0,coins:0},bk:{},bpity:{},col:{},dg:{clears:{},relics:{},log:[]},hp:100,dgn:{},bag:{items:{},n:0,up:0,mode:'bank'},theme:'auto',pets:{},pet:'',cape:'',duel:{w:0,l:0,won:0,lost:0,streak:0,best:0},sl:{task:null,pts:0,streak:0,done:0,block:[]}};
+  farm:{plots:[],auto:true,allot:3,herb:2,tree:1},stats:{kills:0,deaths:0,actions:0,coins:0},bk:{},bpity:{},col:{},dg:{clears:{},relics:{},log:[]},hp:100,dgn:{},bag:{items:{},n:0,up:0,mode:'bank'},theme:'auto',pets:{},pet:'',cape:'',duel:{w:0,l:0,won:0,lost:0,streak:0,best:0},sl:{task:null,pts:0,streak:0,done:0,block:[],auto:0,autoOwn:0}};
  ALLSK.forEach(id=>s.xp[id]=0);s.xp.hp=XPT[9];s.hp=100;
  ensure(s);
  s.bank.food_shrimp=10;s.nb=1;s.equip={weapon:'g_bronze_sword',food:'food_shrimp'};
  return s;}
 function ensure(s){
- if(!s.sl)s.sl={task:null,pts:0,streak:0,done:0,block:[]};
+ if(!s.sl)s.sl={task:null,pts:0,streak:0,done:0,block:[],auto:0,autoOwn:0};if(s.sl.auto==null)s.sl.auto=0;if(s.sl.autoOwn==null)s.sl.autoOwn=0;
  if(!s.duel)s.duel={w:0,l:0,won:0,lost:0,streak:0,best:0};
  if(!s.pets)s.pets={};if(s.pet==null)s.pet='';for(const k in s.pets)if(!PETB[k])delete s.pets[k];if(s.pet&&!PETB[s.pet])s.pet='';if(s.cape==null)s.cape='';
  ALLSK.forEach(id=>{if(s.xp[id]==null)s.xp[id]=0;});if(!s.pres)s.pres={};if(!s.hs)s.hs={id:hsUuid(),secret:hsRand(16),on:false,name:'',last:0};
@@ -1530,6 +1530,7 @@ function buyItem(id,q){let cost;if(SUPPLY[id])cost=SUPPLY[id];else{const c=CROP.
 /* ---------- main step ---------- */
 function step(dt){
  S.clock+=dt;S.play+=dt;
+ if(S.sl&&S.sl.sw){const id=S.sl.sw;S.sl.sw=null;const m=MONS[id];if(m&&!(S.cb&&S.cb.mon===id))startCombat(m.area,id);}
  for(const k in S.buffs){const b=S.buffs[k];b.left-=dt;if(b.left<=0)delete S.buffs[k];}
  const mh=maxHp();if(S.hp<mh)S.hp=Math.min(mh,S.hp+mh*0.0025*(1+agiB('reg'))*dt);
  for(const A of S.acts.slice()){if(!A||!S.acts.includes(A))continue;if(A.sk==='combat'){if(S.cb)stepCombat(dt);}else stepAct(A,dt);}}
@@ -1545,7 +1546,7 @@ const SK=n=>'mossgate-idle-slot-'+n;
 let SLOT=0;const SAVESTAT={ok:true,at:0,err:'',bak:0};
 
 /* ---------- save integrity: signed, tamper-evident saves ---------- */
-const BUILD_TS=1794730737000;
+const BUILD_TS=1794731248000;
 const SIGKEY=['mg','8f2c','-gate','Q7x','r0ot','5e1d','|idle','b9'].join('');
 const SHA_K=(()=>{const k=[];for(let n=2;k.length<64;n++){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)k.push(Math.floor((Math.cbrt(n)%1)*4294967296));}return k;})();
 const SHA_H=(()=>{const h=[];for(let n=2;h.length<8;n++){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)h.push(Math.floor((Math.sqrt(n)%1)*4294967296));}return h;})();
@@ -1687,10 +1688,14 @@ function slayKill(M){const t=S.sl&&S.sl.task;if(!t||t.mon!==M.id)return;
   let pts=10;if(sl.streak%10===0)pts=50;if(sl.streak%50===0)pts=150;sl.pts+=pts;
   const xp=Math.round(t.n*M.hp*0.5),coins=Math.round(t.n*M.cb*6*cg()+100);
   gainXp('slayer',xp);addCoins(coins);sl.task=null;
-  if(!TRACK)toast('Slayer task complete! +'+fmt(xp)+' XP, '+pts+' points, 🪙 '+fmt(coins),'boss');}}
+  if(!TRACK)toast('Slayer task complete! +'+fmt(xp)+' XP, '+pts+' points, 🪙 '+fmt(coins),'boss');
+  if(sl.auto&&sl.autoOwn){slayAssign();if(sl.task)sl.sw=sl.task.mon;}}}
 function slayReroll(){const sl=S.sl;if(!sl.task||sl.pts<30)return;sl.pts-=30;sl.task=null;sl.streak=0;slayAssign();}
 function slayBlock(){const sl=S.sl;if(!sl.task||sl.pts<100||sl.block.length>=5)return;sl.pts-=100;sl.block.push(sl.task.mon);sl.task=null;sl.streak=0;dirty.v=1;}
 function slayUnblock(id){const sl=S.sl;sl.block=sl.block.filter(x=>x!==id);dirty.v=1;}
+
+function slayBuyAuto(){const sl=S.sl;if(sl.autoOwn||sl.pts<400)return;sl.pts-=400;sl.autoOwn=1;sl.auto=1;dirty.v=1;toast('Auto Slayer unlocked and switched on.','boss');if(!sl.task){slayAssign();}if(sl.task)sl.sw=sl.task.mon;}
+function slayToggleAuto(){const sl=S.sl;if(!sl.autoOwn)return;sl.auto=sl.auto?0:1;dirty.v=1;if(sl.auto){if(!sl.task)slayAssign();if(sl.task)sl.sw=sl.task.mon;}}
 'use strict';
 /* ===== Mossgate Idle: UI ===== */
 const UI={tgt:0,page:'home',navOpen:false,bsel:null,bcat:'all',bq:'',bsort:0,rsel:null,slot:null,pick:null,area:'farm',confirm:false,imp:'',msg:'',modal:null,nm:'',rn:''};
@@ -1831,6 +1836,7 @@ function slayerPage(){
   <div class="row" style="margin-top:10px"><button class="btn pri sm" data-a="slayfight">${S.cb&&S.cb.mon===t.mon?'Fighting…':'Go fight'}</button><button class="btn sm${sl.pts<30?' off':''}" data-a="slayreroll">Reroll (30 pts)</button><button class="btn sm${sl.pts<100||sl.block.length>=5?' off':''}" data-a="slayblock">Block monster (100 pts)</button></div>`;}
  else h+=`<div class="sub" style="margin-top:8px">You have no task. The Master picks a monster you have the Slayer level for, favouring tougher ones as you level up (low-level monsters drop off the list). Complete tasks to earn bonus XP, coins and points; every 10th task in a row pays 50 points, every 50th pays 150.</div><div class="row" style="margin-top:10px"><button class="btn pri sm" data-a="slayget">Get a task</button></div>`;
  h+='</div>';
+ h+=`<div class="panel"><h3>Slayer rewards</h3><div class="row"><span class="ci">🤖</span><div><b>Auto Slayer</b><div class="sub">When you finish a task, the Master instantly gives you the next one and you start fighting it. Switch it on and off whenever you like.</div></div><div class="sp"></div>${sl.autoOwn?`<button class="btn ${sl.auto?'pri':''} sm" data-a="slayauto">${sl.auto?'On':'Off'}</button>`:`<button class="btn pri sm${sl.pts<400?' off':''}" data-a="slaybuyauto">Unlock · 400 pts</button>`}</div></div>`;
  if(sl.block.length)h+=`<div class="panel"><h3>Blocked monsters (${sl.block.length}/5)</h3><div class="chips">${sl.block.map(id=>`<button class="tag" data-a="slayunblock" data-id="${id}">${MONS[id].i} ${MONS[id].n} ✕</button>`).join('')}</div></div>`;
  h+=`<div class="panel"><h3>Monsters by Slayer level</h3><div class="sub">Rerolling or blocking resets your streak. Area monsters and area bosses can be assigned (bosses come in small numbers). Kills anywhere count toward the task.</div><div class="chips" style="margin-top:8px">${Object.values(MONS).filter(m=>!m.dg&&!m.nosl).sort((a,b)=>a.cb-b.cb).map(m=>`<span class="tag${slReq(m)>lv('slayer')?' off':''}" style="${slReq(m)>lv('slayer')?'opacity:.5':''}">${m.i} ${m.n} · Slayer ${slReq(m)}</span>`).join('')}</div></div>`;
  return h;}
@@ -2137,7 +2143,7 @@ function handle(d){
   case'stance':if(S.cb)S.cb.stance=+d.i;UI.stance=+d.i;break;
   case'spell':if(lv('mag')>=SPELLS[+d.i].lvl){if(S.cb)S.cb.spell=+d.i;UI.spell=+d.i;}break;
   case'eslot':UI.slot=UI.slot===d.s?null:d.s;break;case'equip':equip(d.id);break;case'unequip':unequip(d.s);break;
-  case'bsort':UI.bsort=(UI.bsort+1)%BSORT.length;break;case'rask':UI.rsel=+d.r;break;case'rcancel':UI.rsel=null;break;case'rsell':{const r=+d.r;let g=0;Object.keys(S.bank).forEach(id=>{const it=ITEMS[id];if(it.rar===r&&!it.uniq){const n=cnt(id);g+=n*it.v;sell(id,n);}});UI.rsel=null;UI.bsel=null;if(g)toast('Sold '+RAR[r][0]+' items for 🪙 '+fmt(g),'info');break;}case'duelgo':duelStart(d.t,UI.dstake);break;case'dstk':UI.dstake=d.v==='all'?S.coins:d.v==='half'?Math.floor(S.coins/2):+d.v;break;case'duelclr':UI.duel=null;break;case'slayget':slayAssign();break;case'slayreroll':slayReroll();break;case'slayblock':slayBlock();break;case'slayunblock':slayUnblock(d.id);break;case'slayfight':{const t=S.sl.task;if(t&&!(S.cb&&S.cb.mon===t.mon)){const m=MONS[t.mon];startCombat(m.area,t.mon);}break;}case'bsel':UI.bsel=d.id;break;case'bcat':UI.bcat=d.c;break;
+  case'bsort':UI.bsort=(UI.bsort+1)%BSORT.length;break;case'rask':UI.rsel=+d.r;break;case'rcancel':UI.rsel=null;break;case'rsell':{const r=+d.r;let g=0;Object.keys(S.bank).forEach(id=>{const it=ITEMS[id];if(it.rar===r&&!it.uniq){const n=cnt(id);g+=n*it.v;sell(id,n);}});UI.rsel=null;UI.bsel=null;if(g)toast('Sold '+RAR[r][0]+' items for 🪙 '+fmt(g),'info');break;}case'duelgo':duelStart(d.t,UI.dstake);break;case'dstk':UI.dstake=d.v==='all'?S.coins:d.v==='half'?Math.floor(S.coins/2):+d.v;break;case'duelclr':UI.duel=null;break;case'slaybuyauto':slayBuyAuto();break;case'slayauto':slayToggleAuto();break;case'slayget':slayAssign();break;case'slayreroll':slayReroll();break;case'slayblock':slayBlock();break;case'slayunblock':slayUnblock(d.id);break;case'slayfight':{const t=S.sl.task;if(t&&!(S.cb&&S.cb.mon===t.mon)){const m=MONS[t.mon];startCombat(m.area,t.mon);}break;}case'bsel':UI.bsel=d.id;break;case'bcat':UI.bcat=d.c;break;
   case'sell':sell(d.id,+d.q);break;case'drink':usePotion(d.id);break;
   case'upg':buyUpg(d.sk);break;case'buybank':buyBank();break;case'buyplot':buyPlot(d.c);break;case'buyi':buyItem(d.id,+d.q);break;case'buyperk':buyPerk(d.id);break;
   case'pick':UI.pick=+d.i;break;case'pickclose':UI.pick=null;break;
