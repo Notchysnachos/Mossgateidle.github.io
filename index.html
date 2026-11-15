@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-RL4SNcY39U9ou+fYq20Jkd1+rge5iQ2h0EYn5YZjmsg=' 'sha256-3kUJRw3imQB4sILA6qP0rs8BsofKxtKoO8GylmTEh5U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; worker-src 'self'; connect-src https://fogoltmnmdabjimxsjnm.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="icons/icon-192.png"><meta name="theme-color" content="#e9eee8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121815" media="(prefers-color-scheme: dark)"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Mossgate"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-XgKcJfKyumK3QISgCN1DiJ//KTDHx3fODNTckJXvYNI=' 'sha256-3kUJRw3imQB4sILA6qP0rs8BsofKxtKoO8GylmTEh5U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; worker-src 'self'; connect-src https://fogoltmnmdabjimxsjnm.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="icons/icon-192.png"><meta name="theme-color" content="#e9eee8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121815" media="(prefers-color-scheme: dark)"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Mossgate"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
 <title>Mossgate Idle</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -206,6 +206,8 @@ table{border-collapse:collapse;width:100%;font-size:13px}td,th{padding:5px 8px;b
 .hpn{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-style:normal;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.7)}
 .dlog{display:flex;flex-direction:column;gap:2px;margin-top:10px;font-size:13px;min-height:60px}.dres{margin-top:8px;font-weight:700;font-size:16px}.dres.win{color:var(--gold)}.dres.loss{color:var(--hp)}
 #dstake{padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:var(--panel2);color:inherit;font:inherit;width:100%}
+
+.wk{display:inline-flex;align-items:center;gap:4px;font:600 11px var(--f-body);padding:2px 8px 2px 4px;border-radius:999px;border:1px solid var(--line);background:var(--panel2);color:var(--ink)}.wk .ic{width:16px;height:16px}.wk.hit{border-color:var(--accent,#2e7d52);background:color-mix(in srgb,var(--accent,#2e7d52) 16%,var(--panel2))}
 </style>
 <div class="app" id="app"><aside class="rail" id="rail"></aside><div class="main"><header class="top" id="top"></header><main class="page" id="page"></main></div></div>
 <div class="toasts" id="toasts" aria-live="polite"></div><div id="modal"></div><div id="ctx"></div>
@@ -299,7 +301,7 @@ const BOWL=[0,1,2,4,6,7,8],BOWN=['Wooden','Oak','Willow','Maple','Yew','Magic','
 BOWL.forEach((li,k)=>{const L=LOGS[li],p=T[k].p;
  mk('bow_'+k,BOWN[k]+' Bow','🏹',R(L[4]*2.6+2),'gear',{slot:'weapon',wt:'ranged',sp:2.4,st:{rngA:R(8*p),rngS:R(5*p)},tier:k});
  ACT.fletch.push({id:'bow_'+k,n:BOWN[k]+' Bow',i:'🏹',lvl:L[2],xp:R(L[3]*2+4),t:3.5,in:{['log_'+L[0]]:2},out:{['bow_'+k]:1}});
- mk('staff_'+k,BOWN[k]+' Staff','🪄',R(L[4]*3.6+2),'gear',{slot:'weapon',wt:'magic',sp:2.8,st:{magA:R(8*p),magD:R(4*p)},tier:k});
+ mk('staff_'+k,BOWN[k]+' Staff','🪄',R(L[4]*3.6+2),'gear',{slot:'weapon',wt:'magic',sp:2.6,st:{magA:R(8*p),magD:R(4*p)},tier:k});
  ACT.fletch.push({id:'staff_'+k,n:BOWN[k]+' Staff',i:'🪄',lvl:Math.min(99,L[2]+1),xp:R(L[3]*2.6+4),t:4,in:{['log_'+L[0]]:3},out:{['staff_'+k]:1}});});
 
 /* crafting: hide armour */
@@ -519,7 +521,7 @@ const ESTAFF=[['estaff_air','Staff of Air',15,'staff_1',{rune_air:40},['rune_air
  ['estaff_mystic','Mystic Staff',70,'staff_5',{rune_air:60,rune_water:60,rune_earth:60,rune_fire:60,rune_cosmic:20},['rune_air','rune_water','rune_earth','rune_fire'],'#c07aff'],
  ['estaff_soul','Necromancer Staff',90,'staff_6',{rune_death:40,rune_blood:40,rune_soul:30},['rune_death','rune_blood'],'#9affc8']];
 ESTAFF.forEach((s,k)=>{const base=ITEMS[s[3]],bt=base.tier,p=T[bt].p,m=k<4?1.25:k===4?1.4:1.5;
- mk(s[0],s[1],'🪄',R(base.v*3+200*(k+1)),'gear',{slot:'weapon',wt:'magic',sp:2.8,st:{magA:R(8*p*m),magD:R(4*p*m)},tier:bt,inf:s[5],lr:['mag',s[2]],col:s[6]});
+ mk(s[0],s[1],'🪄',R(base.v*3+200*(k+1)),'gear',{slot:'weapon',wt:'magic',sp:2.6,st:{magA:R(8*p*m),magD:R(4*p*m)},tier:bt,inf:s[5],lr:['mag',s[2]],col:s[6]});
  ACT.craft.push({id:s[0],n:s[1],i:'🪄',lvl:s[2],xp:R(80+s[2]*5),t:5,in:Object.assign({[s[3]]:1},s[4]),out:{[s[0]]:1}});});
 /* new runes also drop from monsters */
 const RDROP={goblin:[['rune_mind',0.15,3,8]],hobgob:[['rune_body',0.15,3,8]],chief:[['rune_mind',0.2,5,10],['rune_body',0.15,4,9]],wolf:[['rune_nature',0.08,2,5]],bandit:[['rune_chaos',0.1,3,8]],bear:[['rune_nature',0.1,2,5]],
@@ -630,7 +632,7 @@ DUNGEONS.forEach(d=>{const c=d.cape;mk(c.id,c.n,'🧣',R(c.req*c.req*60),'gear',
 const BAG_CAP=[1000,2000,4000,8000,15000,30000,60000],BAG_COST=[0,20000,100000,500000,2500000,12000000,60000000];
 
 /* player combat tuning: accuracy buff, damage floor (fraction of max hit), max-hit multiplier by style */
-const GEARW=1.5,ACC_BUFF=1.4,DMG_MIN=0.25,HIT_MULT={melee:1.35,ranged:1.35,magic:1.12};
+const GEARW=1.5,ACC_BUFF=1.4,DMG_MIN=0.25,HIT_MULT={melee:1.35,ranged:1.5,magic:1.12};
 
 /* ===== pets and cape colours ===== */
 const PET_BASE=120000,PET_LV=400,PET_DELVE=1/150,PET_DG=1/250,PET_RAID=1/400;
@@ -1562,6 +1564,16 @@ function maxHitPlayer(spell){
  return Math.floor(mh*(1+buff('str')/100+.03*pk('dmg'))*HIT_MULT[t]);}
 const hitChance=(a,d)=>a>d?1-(d+2)/(2*(a+1)):a/(2*(d+1));
 function awardCombatXp(skills,x){const f=cxm();const list=skills.split('+');list.forEach(s=>gainXp(s,x/list.length*f));}
+/* ---------- enemy weaknesses ---------- */
+const WEAK_MULT=1.25;
+const WKT={melee:'chicken cow farmhand goblin hobgob chief wolf bear ogre brute hellhound zombie itroll iwarrior dkbeast warlord alpha drk_derek',
+ ranged:'bandit spider imp drake wyvern gdragon bdragon rdragon blkdragon fdragon giant cyclops fgiant tyrant wyrm blf_count ars_warmaster',
+ magic:'skel wight lich golem demon gdemon abdemon nech glacor elder titan scarecrow ama_pharaoh ama_1 ama_2'};
+const WKM={};for(const k in WKT)WKT[k].split(' ').forEach(id=>WKM[id]=k);
+const WKC={};
+function weakOf(M){if(!M)return null;const key=M.pt||M.id;if(WKC[M.id])return WKC[M.id];
+ let w=WKM[M.id]||WKM[key];if(!w){let h=0;for(const ch of String(key))h=(h*31+ch.charCodeAt(0))>>>0;w=['melee','ranged','magic'][h%3];}
+ return WKC[M.id]=w;}
 function playerAttack(C,M){
  const t=PS.type;let spell=null;
  if(t==='ranged'){const am=S.equip.ammo;if(!am||cnt(am)<1){stopCombat('Out of arrows.');return false;}take(am,1);}
@@ -1575,6 +1587,7 @@ function playerAttack(C,M){
  if(spell)gainXp('mag',spell.xp*cxm());
  if(dmg>0&&spell&&C.dg)dmg=Math.max(1,Math.ceil(dmg*DGB[C.dg].mag));
  if(dmg>0&&C.dg&&DGB[C.dg].res)dmg=Math.max(1,Math.ceil(dmg*DGB[C.dg].res[t]));
+ if(dmg>0&&t===weakOf(M))dmg=Math.ceil(dmg*WEAK_MULT);
  if(dmg>0){C.mhp-=dmg;C.last=dmg;if(spell&&spell.leech)S.hp=Math.min(maxHp(),S.hp+Math.ceil(dmg*spell.leech));awardCombatXp(st,dmg*(t==='magic'?0.3:0.4));gainXp('hp',dmg*0.133*cxm());}else C.last=0;
  if(C.mhp<=0)kill(C,M);
  return true;}
@@ -1655,7 +1668,7 @@ const SK=n=>'mossgate-idle-slot-'+n;
 let SLOT=0;const SAVESTAT={ok:true,at:0,err:'',bak:0};
 
 /* ---------- save integrity: signed, tamper-evident saves ---------- */
-const BUILD_TS=1794785752000;
+const BUILD_TS=1794786911000;
 const SIGKEY=['mg','8f2c','-gate','Q7x','r0ot','5e1d','|idle','b9'].join('');
 const SHA_K=(()=>{const k=[];for(let n=2;k.length<64;n++){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)k.push(Math.floor((Math.cbrt(n)%1)*4294967296));}return k;})();
 const SHA_H=(()=>{const h=[];for(let n=2;h.length<8;n++){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)h.push(Math.floor((Math.sqrt(n)%1)*4294967296));}return h;})();
@@ -1971,6 +1984,8 @@ function cloudPanel(){const C=CL();let h='<div class="panel"><h2>☁️ Cloud sa
   if(cur&&C.force===n)h+='<button class="btn sm" data-a="clupf">Overwrite cloud with this save</button>';
   h+='</div></div>';}
  return h+(C.msg?`<div class="sub" style="margin-top:6px">${esc(C.msg)}</div>`:'')+'</div>';}
+const WKI={melee:()=>P.swords(),ranged:()=>P.bow('#a8642e'),magic:()=>P.orb()},WKN={melee:'Melee',ranged:'Ranged',magic:'Magic'};
+function wkTag(M,live){const w=weakOf(M);if(!w)return'';const on=live&&PS.type===w;return`<span class="wk wk-${w}${on?' hit':''}" title="Takes ${Math.round((WEAK_MULT-1)*100)}% more damage from ${WKN[w].toLowerCase()} attacks">${WKI[w]()}Weak to ${WKN[w]}${on?' ✓':''}</span>`;}
 function hiscoresPage(){
  const hs=S.hs,sort=UI.hsSort||'total',B=UI.hsb||{},e=B[sort];
  let h=`<div class="panel"><h2>🏆 Hiscores</h2><div class="sub">See how you rank against other players. If you join, only your chosen name, your skill levels and XP and your play time are shared. Nothing else leaves your device. You can leave at any time and your entry is deleted.</div>`;
@@ -2049,7 +2064,7 @@ function slayerPage(){
  const sl=S.sl,t=sl.task,M=t?MONS[t.mon]:null;
  let h=skHead('slayer');
  h+=`<div class="panel"><div class="row"><h3 style="margin:0">💀 Slayer Master</h3><div class="sp"></div><span class="pill">Points ${fmt(sl.pts)}</span><span class="pill">Tasks ${sl.done}</span><span class="pill">Streak ${sl.streak}</span></div>`;
- if(t){h+=`<div class="row" style="margin-top:10px"><span class="ci">${M.i}</span><div><b>Kill ${t.n} ${M.n}${M.boss?' (boss)':''}</b><div class="sub">${M.area?AREAS.find(a=>a.id===M.area).n:''} · combat level ${M.cb} · ${fmt(Math.max(3,M.hp))} Slayer XP per kill</div></div></div><div style="margin-top:8px">${bar(pc(t.got,t.n),'xp big')}</div><div class="sub" style="margin-top:4px">${t.got} / ${t.n} slain</div>
+ if(t){h+=`<div class="row" style="margin-top:10px"><span class="ci">${M.i}</span><div><b>Kill ${t.n} ${M.n}${M.boss?' (boss)':''}</b><div class="sub">${wkTag(M,0)} ${M.area?AREAS.find(a=>a.id===M.area).n:''} · combat level ${M.cb} · ${fmt(Math.max(3,M.hp))} Slayer XP per kill</div></div></div><div style="margin-top:8px">${bar(pc(t.got,t.n),'xp big')}</div><div class="sub" style="margin-top:4px">${t.got} / ${t.n} slain</div>
   <div class="row" style="margin-top:10px"><button class="btn pri sm" data-a="slayfight">${S.cb&&S.cb.mon===t.mon?'Fighting…':'Go fight'}</button><button class="btn sm${sl.pts<30?' off':''}" data-a="slayreroll">Reroll (30 pts)</button><button class="btn sm${sl.pts<100||sl.block.length>=5?' off':''}" data-a="slayblock">Block monster (100 pts)</button></div>`;}
  else h+=`<div class="sub" style="margin-top:8px">You have no task. The Master picks a monster you have the Slayer level for, favouring tougher ones as you level up (low-level monsters drop off the list). Complete tasks to earn bonus XP, coins and points; every 10th task in a row pays 50 points, every 50th pays 150.</div><div class="row" style="margin-top:10px"><button class="btn pri sm" data-a="slayget">Get a task</button></div>`;
  h+='</div>';
@@ -2136,7 +2151,7 @@ function monCard(M){
  let bw='';if(M.boss){const col=Object.keys(S.col).filter(k=>k.startsWith('bw_'+M.id+'_')).length;bw=`<div class="io"><b>Weapons</b>${[0,1,2].map(t=>ITEMS['bw_'+M.id+'_'+t+'_4'].i).join('')}<span class="sub">${Math.round(M.wch*100)}% per kill (guaranteed every 8)</span></div><div class="io">${RAR.map((r,i)=>`<span style="color:${r[2]};font-size:12px">${r[0]} ${RARW[i]}%</span>`).join(' · ')}</div><div class="io"><b>Armour</b>${[0,1,2,3,4,5].map(p=>ITEMS['ba_'+M.id+'_'+p+'_4'].i).join('')}<span class="sub">25% per kill (guaranteed every 10), same rarities</span></div><div class="io"><b>Collected</b>weapons ${col}/15 · armour ${Object.keys(S.col).filter(k=>k.startsWith('ba_'+M.id+'_')).length}/30 · <b>Kills</b>${S.bk[M.id]||0}</div>`;}
  const dr=M.drops.filter(d=>d[0]!=='bones').slice(0,5).map(d=>ITEMS[d[0]].i).join(' ');
  return`<div class="card${on?' on':''}" role="button" tabindex="0" data-a="mon" data-id="${M.id}"><div class="ch"><span class="ci">${M.i}</span><div><div class="cn">${M.n}${M.boss?' <span class="pill">Boss</span>':''}</div><div class="cm">Combat level ${M.cb}</div></div></div>
- <div class="stats"><span>HP <b>${M.hp}</b></span><span>Max hit <b>${M.maxHit}</b></span><span>🪙 <b>${M.coins[0]}–${M.coins[1]}</b></span></div>${bw}<div class="io"><b>Drops</b> ${dr||'—'}</div>
+ <div class="stats"><span>HP <b>${M.hp}</b></span><span>Max hit <b>${M.maxHit}</b></span><span>🪙 <b>${M.coins[0]}–${M.coins[1]}</b></span></div><div style="margin:6px 0 2px">${wkTag(M,0)}</div>${bw}<div class="io"><b>Drops</b> ${dr||'—'}</div>
  <button class="btn ${on?'dng':'pri'} sm" style="align-self:flex-start">${on?'Stop fighting':'Fight'}</button></div>`;}
 
 function dungeonsPage(raid){
@@ -2146,7 +2161,7 @@ function dungeonsPage(raid){
   const r=dgs(d.id),lock=d.after&&!(dgs(d.after).clears>0),ok=combatLevel()>=d.req&&!lock,on=S.cb&&S.cb.dg===d.id,total=d.waves.length+1;
   const item=id=>{const it=ITEMS[id],o=own(id);return`<span class="dgi${o?' got':''}" data-tip="${id}" title="${it.n}">${it.i}<span>${it.n}</span>${o?'<b>✔</b>':''}</span>`;};
   const mons=d.mid.map(id=>MONS[id]).concat([MONS[d.bid]]);
-  let live='';if(on){const C=S.cb,M=MONS[C.mon];live=`<div class="dglive"><b>Wave ${C.wave<total?C.wave+'/'+d.waves.length:'Boss'}</b> · ${M.n}${bar(pc(Math.max(0,C.mhp),M.hp),'hp')}<span class="sub">You: ${Math.ceil(S.hp)} / ${maxHp()} HP</span></div>`;}
+  let live='';if(on){const C=S.cb,M=MONS[C.mon];live=`<div class="dglive"><b>Wave ${C.wave<total?C.wave+'/'+d.waves.length:'Boss'}</b> · ${M.n} ${wkTag(M,1)}${bar(pc(Math.max(0,C.mhp),M.hp),'hp')}<span class="sub">You: ${Math.ceil(S.hp)} / ${maxHp()} HP</span></div>`;}
   h+=`<div class="panel dgc${on?' on':''}"><div class="row"><h3 style="margin:0">${d.i} ${d.n}</h3><div class="sp"></div><span class="pill${ok?'':' bad'}">Combat ${d.req}+</span></div>
   <div class="sub" style="margin-top:4px">${d.desc}</div>${d.mech?`<div class="sub" style="margin-top:4px"><b>Mechanic:</b> ${d.mech}</div>`:''}${lock?`<div class="sub bad" style="margin-top:4px">Locked: clear ${DGB[d.after].n} first.</div>`:''}
   <div class="stats" style="margin-top:8px"><span>Best <b>${r.best>=total?'Cleared':r.best?'Wave '+r.best:'-'}</b></span><span>Attempts <b>${r.tries}</b></span><span>Clears <b>${r.clears}</b></span>${r.fast?`<span>Fastest <b>${fmtT(r.fast)}</b></span>`:''}<span>Clear bonus <b>🪙 ${fmt(d.bonus)}</b></span></div>
@@ -2185,7 +2200,7 @@ function combatPage(){
  /* fight */
  if(S.cb){const C=S.cb;
   h+=`<div class="panel"><div class="fight"><div class="fighter"><div class="big">${playerPortrait()}</div><b>${S.name||'You'}</b>${bar(pc(S.hp,maxHp()),'hp big')}<div class="sub">${Math.ceil(S.hp)} / ${maxHp()} HP</div>${bar(pc(C.pt,PS.sp),'thin')}<div class="hit">${C.mlast!=null&&C.mlast>0?'−'+C.mlast:C.mlast===0?'dodged':''}</div></div>
-  <div class="fighter"><div class="big">${M.i}</div><b>${C.dg?(C.wave<=DGB[C.dg].waves.length?'Wave '+C.wave+'/'+DGB[C.dg].waves.length+' · ':'Boss · ')+M.n:M.n}</b>${bar(pc(Math.max(0,C.mhp),M.hp),'hp big')}<div class="sub">${C.rs>0?'Respawning…':Math.max(0,Math.ceil(C.mhp))+' / '+M.hp+' HP'}</div>${bar(pc(C.mt,M.sp),'thin')}<div class="hit">${C.last!=null&&C.last>0?'−'+C.last:C.last===0?'miss':''}</div></div></div>
+  <div class="fighter"><div class="big">${M.i}</div><b>${C.dg?(C.wave<=DGB[C.dg].waves.length?'Wave '+C.wave+'/'+DGB[C.dg].waves.length+' · ':'Boss · ')+M.n:M.n}</b>${bar(pc(Math.max(0,C.mhp),M.hp),'hp big')}<div class="sub">${C.rs>0?'Respawning…':Math.max(0,Math.ceil(C.mhp))+' / '+M.hp+' HP'}</div><div>${wkTag(M,1)}</div>${bar(pc(C.mt,M.sp),'thin')}<div class="hit">${C.last!=null&&C.last>0?'−'+C.last:C.last===0?'miss':''}</div></div></div>
   <div class="row" style="margin-top:10px"><span class="sub">Kills this fight: <b>${C.kills}</b></span><div class="sp"></div><button class="btn dng sm" data-a="stop">Stop</button></div>
   <div class="log" style="margin-top:6px">${C.log.map(l=>`<div>🪙 ${l.c}${l.got.map(g=>' · '+ITEMS[g[0]].i+(g[1]>1?'×'+g[1]:'')).join('')}</div>`).join('')||'<div>No kills yet.</div>'}</div></div>`;}
  h+='<div class="chips">'+AREAS.map(a=>`<button class="tag${UI.area===a.id?' on':''}" data-a="area" data-id="${a.id}">${a.i} ${a.n}</button>`).join('')+'</div>';
