@@ -1,4 +1,6 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Mossgate Idle</title><meta name="description" content="Mossgate Idle, a Melvor-style browser idle game."><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
+<title>Mossgate Idle</title>
+
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@600;700&family=Rubik:wght@400;500;600&display=swap">
 <style>
@@ -145,6 +147,16 @@ table{border-collapse:collapse;width:100%;font-size:13px}td,th{padding:5px 8px;b
 .fighter .big .ic.pt{width:104px;height:104px;vertical-align:top}
 .avatar .ic.pt{width:56px;height:56px}
 .at .ic.pt{width:1.6em;height:1.6em}
+
+.tip{position:fixed;z-index:60;pointer-events:none;max-width:260px;min-width:170px;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:9px;padding:9px 11px;box-shadow:0 6px 22px rgba(0,0,0,.28);font-size:12.5px;display:flex;flex-direction:column;gap:4px}
+.tip .tn{display:flex;align-items:center;gap:7px;font-size:14px}
+.tip .tk{color:var(--mute);font-size:11.5px}
+.tip .tr{display:flex;flex-direction:column;gap:2px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:5px 0}
+.tip .tr div{display:flex;justify-content:space-between;gap:14px}
+.tip .tr span{color:var(--mute)}
+.tip i{font-style:normal;font-size:11px}.tip i.up{color:var(--good)}.tip i.dn{color:var(--bad)}
+.tip .tq{color:var(--mute)}.tip .tq.bad{color:var(--bad)}
+.statln{color:var(--accent);font-weight:500;font-size:12.5px}
 </style>
 <div class="app" id="app"><aside class="rail" id="rail"></aside><div class="main"><header class="top" id="top"></header><main class="page" id="page"></main></div></div>
 <div class="toasts" id="toasts" aria-live="polite"></div><div id="modal"></div><div id="ctx"></div>
@@ -158,7 +170,7 @@ const MXP=L=>Math.round(XPT[L-1]*0.06); // mastery xp needed for level L
 
 const ITEMS={};
 function mk(id,n,i,v,cat,o){ITEMS[id]=Object.assign({id,n,i,v,cat},o||{});return ITEMS[id];}
-const ACT={wc:[],fish:[],mine:[],fm:[],cook:[],smith:[],fletch:[],craft:[],thief:[],agi:[],herb:[],rc:[]};
+const ACT={wc:[],fish:[],mine:[],fm:[],cook:[],smith:[],fletch:[],craft:[],thief:[],agi:[],herb:[],rc:[],dung:[]};
 const R=Math.round;
 
 const SKILLS=[
@@ -166,7 +178,7 @@ const SKILLS=[
  ['fish','Fishing','🎣','Catch fish to cook or sell.'],
  ['mine','Mining','⛏️','Mine ore, coal, essence and gems.'],
  ['fm','Firemaking','🔥','Burn logs for experience and ashes.'],
- ['cook','Cooking','🍳','Cook fish into food that heals you in combat.'],
+ ['cook','Cooking','🍳','Cook fish into food that heals you in combat. Every cook burns one log, and better fish need better logs.'],
  ['smith','Smithing','🔨','Smelt bars and forge weapons, armour and arrowtips.'],
  ['fletch','Fletching','🪶','Make bows, staves and arrows.'],
  ['craft','Crafting','🧵','Craft hide armour, robes and jewellery.'],
@@ -174,11 +186,12 @@ const SKILLS=[
  ['farm','Farming','🌱','Grow crops and herbs in real time, even while you are away.'],
  ['herb','Herblore','🧪','Brew potions that boost your skills and combat.'],
  ['rc','Runecrafting','🔮','Turn essence into runes for magic.'],
- ['agi','Agility','🏃','Run obstacle courses for coins and experience.']
+ ['agi','Agility','🏃','Run obstacle courses for coins and experience.'],
+ ['dung','Dungeoneering','🏰','Delve into dungeons floor by floor. Clear them for experience, coins, loot and permanent relics. Floors hurt, so bring food.']
 ];
 const COMBAT=[['atk','Attack','⚔️'],['str','Strength','💪'],['def','Defence','🛡️'],['hp','Hitpoints','❤️'],['rng','Ranged','🏹'],['mag','Magic','🔮']];
 const SKN={};SKILLS.forEach(s=>SKN[s[0]]={n:s[1],i:s[2],d:s[3]});COMBAT.forEach(s=>SKN[s[0]]={n:s[1],i:s[2],d:''});
-const SKKIND={wc:'gather',fish:'gather',mine:'gather',thief:'thief',agi:'gather',fm:'art',cook:'art',smith:'art',fletch:'art',craft:'art',herb:'art',rc:'art',farm:'farm'};
+const SKKIND={wc:'gather',fish:'gather',mine:'gather',thief:'thief',agi:'gather',dung:'dungeon',fm:'art',cook:'art',smith:'art',fletch:'art',craft:'art',herb:'art',rc:'art',farm:'farm'};
 const ALLSK=COMBAT.map(c=>c[0]).concat(SKILLS.map(s=>s[0]));
 
 const T=[
@@ -201,9 +214,9 @@ LOGS.forEach((l,k)=>{const id='log_'+l[0];mk(id,l[1],'🪵',l[4],'log');
 
 /* fishing + cooking */
 const FISH=[['shrimp','Shrimp',1,8,2,3,30],['sardine','Sardine',8,13,3,3.2,40],['trout','Trout',18,22,6,3.5,70],['salmon','Salmon',28,32,9,3.8,95],['lobster','Lobster',40,46,16,4.2,130],['swordfish','Swordfish',52,64,26,4.6,175],['shark','Shark',65,86,45,5,230],['ray','Manta Ray',78,115,75,5.5,290],['eel','Abyss Eel',90,160,130,6,370]];
-FISH.forEach(f=>{mk('fish_'+f[0],'Raw '+f[1],'🐟',f[4],'fish');mk('food_'+f[0],f[1],'🍖',R(f[4]*2.2+1),'food',{heal:f[6],slot:'food'});
+FISH.forEach((f,k)=>{mk('fish_'+f[0],'Raw '+f[1],'🐟',f[4],'fish');mk('food_'+f[0],f[1],'🍖',R(f[4]*2.2+1),'food',{heal:f[6],slot:'food'});
  ACT.fish.push({id:'fish_'+f[0],n:f[1],i:'🐟',lvl:f[2],xp:f[3],t:f[5],out:{['fish_'+f[0]]:1}});
- ACT.cook.push({id:'cook_'+f[0],n:'Cook '+f[1],i:'🍖',lvl:f[2],xp:R(f[3]*0.9+1),t:3,in:{['fish_'+f[0]]:1},out:{['food_'+f[0]]:1}});});
+ ACT.cook.push({id:'cook_'+f[0],n:'Cook '+f[1],i:'🍖',lvl:f[2],xp:R(f[3]*0.9+1),t:3,in:{['fish_'+f[0]]:1,['log_'+LOGS[Math.min(LOGS.length-1,Math.floor(k*0.9))][0]]:1},out:{['food_'+f[0]]:1}});});
 
 /* mining */
 const ORES=[['copper','Copper Ore',1,7,2,3],['tin','Tin Ore',1,7,2,3],['iron','Iron Ore',15,16,5,3.4],['coal','Coal',30,30,9,3.8],['mithril','Mithril Ore',35,36,18,4],['adamant','Adamant Ore',50,56,34,4.5],['rune','Rune Ore',65,85,60,5],['dragon','Dragonite Ore',80,130,110,6],['ess','Rune Essence',1,5,2,2.5]];
@@ -245,7 +258,7 @@ HIDES.forEach((h,k)=>{HP_.forEach(pc=>{const id='h_'+h[0]+'_'+pc[0];
  ACT.craft.push({id,n:HNAME[k]+' '+pc[1],i:'🥼',lvl:Math.min(99,h[2]+pc[3]),xp:R((12+h[2]*0.9)*pc[2]),t:3.5,in:{['hide_'+h[0]]:pc[2]},out:{[id]:1}});});});
 /* crafting: cloth + robes */
 const CLOTH=[['linen','Linen',1,'crop_flax',1],['silk','Silk',38,'crop_silkweed',3.2],['lunar','Lunar',68,'crop_moonthread',7]];
-const RP=[['hat','Hat',1,0,'helmet',{def:1,magA:3,magD:1}],['top','Robe Top',3,3,'body',{def:3,magA:8,magD:3}],['bottom','Robe Bottom',2,2,'legs',{def:2,magA:5,magD:2}]];
+const RP=[['hat','Hat',1,0,'helmet',{def:1,magA:3,magD:1}],['top','Robe Top',3,3,'body',{def:3,magA:8,magD:3}],['bottom','Robe Bottom',2,2,'legs',{def:2,magA:5,magD:2}],['boots','Sandals',1,1,'boots',{def:1,magA:2,magD:1}],['gloves','Gloves',1,1,'gloves',{def:1,magA:2,magD:1}]];
 CLOTH.forEach((c,k)=>{mk('cloth_'+c[0],c[1]+' Cloth','🧶',[8,50,200][k],'misc');
  ACT.craft.push({id:'cloth_'+c[0],n:c[1]+' Cloth',i:'🧶',lvl:c[2],xp:[10,60,160][k],t:3,in:{[c[3]]:3},out:{['cloth_'+c[0]]:1}});
  RP.forEach(pc=>{const id='r_'+c[0]+'_'+pc[0];mk(id,c[1]+' '+pc[1],'👘',R(pc[2]*[8,50,200][k]*1.6+4),'gear',{slot:pc[4],st:scale(pc[5],c[4]),tier:k});
@@ -259,9 +272,10 @@ JW.forEach((j,k)=>{
  ACT.craft.push({id:'amu_'+j[0],n:j[1]+' Amulet',i:'📿',lvl:j[2]+4,xp:R(60+j[2]*3),t:4,in:{['gem_'+j[0]]:1,bar_mithril:2},out:{['amu_'+j[0]]:1}});});
 
 /* runecrafting */
-const RUNES=[['air','Air Rune','💨',1,4],['water','Water Rune','💧',5,8],['earth','Earth Rune','🪨',9,12],['fire','Fire Rune','🔥',14,17]];
-RUNES.forEach(r=>{mk('rune_'+r[0],r[1],r[2],2,'rune');
- ACT.rc.push({id:'rc_'+r[0],n:r[1]+'s',i:r[2],lvl:r[3],xp:r[4],t:2.5,in:{ore_ess:1},out:{['rune_'+r[0]]:6}});});
+const RUNES=[['air','Air Rune','💨',1,4,2,6],['water','Water Rune','💧',5,8,2,6],['earth','Earth Rune','🪨',9,12,2,6],['fire','Fire Rune','🔥',14,17,2,6],
+ ['mind','Mind Rune','🧠',3,6,3,6],['body','Body Rune','💪',20,22,4,6],['cosmic','Cosmic Rune','✨',27,30,9,5],['chaos','Chaos Rune','🌀',35,42,14,5],['nature','Nature Rune','🍃',44,54,22,4],['law','Law Rune','⚖️',54,68,34,4],['death','Death Rune','💀',65,85,50,3],['blood','Blood Rune','🩸',77,108,80,3],['soul','Soul Rune','👻',90,135,120,2]];
+RUNES.forEach(r=>{mk('rune_'+r[0],r[1],r[2],r[5],'rune');
+ ACT.rc.push({id:'rc_'+r[0],n:r[1]+'s',i:r[2],lvl:r[3],xp:r[4],t:2.5,in:{ore_ess:1},out:{['rune_'+r[0]]:r[6]}});});
 const SPELLS=[
  {id:'gust',n:'Gust',lvl:1,max:25,xp:6,cost:{rune_air:2}},
  {id:'wave',n:'Splash Wave',lvl:10,max:40,xp:11,cost:{rune_water:2,rune_air:2}},
@@ -271,7 +285,15 @@ const SPELLS=[
  {id:'surge',n:'Tidal Surge',lvl:50,max:150,xp:55,cost:{rune_water:6,rune_air:3}},
  {id:'tremor',n:'Tremor',lvl:60,max:190,xp:72,cost:{rune_earth:6,rune_air:3}},
  {id:'inferno',n:'Inferno',lvl:70,max:240,xp:95,cost:{rune_fire:6,rune_air:3}},
- {id:'cyclone',n:'Cyclone',lvl:80,max:300,xp:125,cost:{rune_air:10,rune_water:4}}];
+ {id:'cyclone',n:'Cyclone',lvl:80,max:300,xp:125,cost:{rune_air:10,rune_water:4}},
+ {id:'mindbolt',n:'Mind Bolt',lvl:15,max:50,xp:14,cost:{rune_mind:3,rune_air:2}},
+ {id:'lance',n:'Cosmic Lance',lvl:33,max:105,xp:34,cost:{rune_cosmic:2,rune_air:3,rune_fire:2}},
+ {id:'chaosbolt',n:'Chaos Bolt',lvl:45,max:135,xp:50,cost:{rune_chaos:3,rune_fire:3}},
+ {id:'thorns',n:'Thorn Volley',lvl:55,max:175,xp:64,cost:{rune_nature:3,rune_earth:4}},
+ {id:'smite',n:'Law Smite',lvl:65,max:220,xp:82,cost:{rune_law:2,rune_air:5,rune_water:3}},
+ {id:'deathsurge',n:'Death Surge',lvl:75,max:280,xp:110,cost:{rune_death:3,rune_fire:4,rune_air:3}},
+ {id:'barrage',n:'Blood Barrage',lvl:85,max:345,xp:145,cost:{rune_blood:3,rune_death:2,rune_water:4},leech:0.25},
+ {id:'soulstorm',n:'Soul Storm',lvl:95,max:430,xp:195,cost:{rune_soul:2,rune_blood:2,rune_death:2},leech:0.35}];
 
 /* thieving */
 const THIEF=[['man','Townsperson','🧍',1,8,[1,10],25,[]],['farmer','Farmer','🧑‍🌾',10,16,[4,28],40,[['seed_potato',0.1,1,3]]],['warrior','Guard','💂',20,26,[20,70],70,[['bar_iron',0.05,1,1]]],
@@ -350,7 +372,7 @@ AREAS.forEach(a=>{a.mons=a.mons.map(m=>{const cb=m[3],boss=!!m[5];
 
 /* shop */
 const UPG_COST=[400,3500,22000,140000,900000,5e6,3e7,1.5e8],UPG_LV=[5,20,40,60,80,90,95,99],UPG_N=['Iron','Steel','Mithril','Adamant','Rune','Dragon','Celestial','Mythic'],UPG_MAX=8;
-const TOOLS={farm:'Watering Can',wc:'Axe',fish:'Fishing Rod',mine:'Pickaxe',fm:'Tinderbox',cook:'Cooking Pot',smith:'Hammer',fletch:'Carving Knife',craft:'Needle Set',thief:'Lockpicks',herb:'Mortar',rc:'Talisman',agi:'Climbing Gear'};
+const TOOLS={farm:'Watering Can',wc:'Axe',fish:'Fishing Rod',mine:'Pickaxe',fm:'Tinderbox',cook:'Cooking Pot',smith:'Hammer',fletch:'Carving Knife',craft:'Needle Set',thief:'Lockpicks',herb:'Mortar',rc:'Talisman',dung:'Delver Kit',agi:'Climbing Gear'};
 const BANK_BASE=60,BANK_STEP=10,bankCost=n=>Math.round(1500*Math.pow(1.45,n)),BANK_MAXBUY=20;
 const plotCost=(cat,owned)=>cat==='allot'?Math.round(1500*Math.pow(2.3,owned-3)):Math.round(3500*Math.pow(2.6,owned-2));
 const PLOT_MAX={allot:8,herb:5};
@@ -363,7 +385,7 @@ const PERKS=[
  {id:'eat',n:'Field Medic',d:'Eat food at a higher health level (+5% per tier, from 50%)',max:5,cost:[40000,180000,700000,2.5e6,9e6]},
  {id:'gold',n:"Merchant's Ledger",d:'+5% coins from monsters, thieving and agility',max:5,cost:[90000,450000,1.8e6,7e6,22e6]},
  {id:'off',n:'Camp Bed',d:'+6 hours of offline progress',max:5,cost:[100000,500000,2e6,8e6,25e6]}];
-const SUPPLY={vial:25,food_shrimp:20,food_trout:55,food_salmon:85,food_lobster:150,arrow_bronze:6,arrow_iron:14,arrow_steel:28,arrow_mithril:60,rune_air:6,rune_water:6,rune_earth:6,rune_fire:6,ore_ess:8,log_normal:8,log_oak:20,ore_copper:10,ore_tin:10,ore_coal:30,bones:6};
+const SUPPLY={rune_mind:6,rune_body:6,rune_cosmic:14,rune_chaos:26,rune_nature:40,log_willow:36,log_teak:55,vial:25,food_shrimp:20,food_trout:55,food_salmon:85,food_lobster:150,arrow_bronze:6,arrow_iron:14,arrow_steel:28,arrow_mithril:60,rune_air:6,rune_water:6,rune_earth:6,rune_fire:6,ore_ess:8,log_normal:8,log_oak:20,ore_copper:10,ore_tin:10,ore_coal:30,bones:6};
 
 /* ===== bosses and rarity weapons ===== */
 const RAR=[['Common','Rough','#9aa0a6'],['Uncommon','Fine','#4caf6a'],['Rare','Superior','#4a8be0'],['Epic','Exalted','#a855d6'],['Legendary','Mythic','#f0a030']];
@@ -397,6 +419,47 @@ Object.keys(ITEMS).forEach(id=>{const it=ITEMS[id];
  else if(id.startsWith('h_'))it.lr=['rng',HIDES[it.tier][2]];
  else if(id.startsWith('r_'))it.lr=['mag',CLOTH[it.tier][2]];
  if(it.lr&&it.lr[1]<=1)delete it.lr;});
+
+/* ===== magic gear: tomes, jewellery, elemental staves ===== */
+const MAGIC_TOME=[['tome_wiz',"Wizard's Tome",10,{cloth_linen:2,rune_mind:20},{magA:5,magD:2,def:2},'#4a7ad6'],['tome_elem','Elemental Tome',35,{cloth_silk:2,rune_air:30,rune_water:30,rune_earth:30,rune_fire:30},{magA:14,magD:6,def:5},'#2fb9a0'],['tome_arc','Arcane Tome',60,{cloth_silk:3,rune_cosmic:25,rune_law:15,rune_nature:20},{magA:26,magD:12,def:8},'#b45af0'],['tome_soul','Tome of Souls',85,{cloth_lunar:3,rune_death:20,rune_blood:20,rune_soul:15},{magA:44,magD:22,def:12},'#7affc8']];
+MAGIC_TOME.forEach((t,k)=>{mk(t[0],t[1],'📘',R(80*Math.pow(3.2,k)),'gear',{slot:'shield',st:t[4],tier:k,lr:['mag',t[2]],col:t[5]});
+ ACT.craft.push({id:t[0],n:t[1],i:'📘',lvl:t[2],xp:R(60+t[2]*4),t:4.5,in:t[3],out:{[t[0]]:1}});});
+const MAGIC_JW=[['mring_wiz',"Wizard's Ring",'ring',25,{ring_sapphire:1,rune_cosmic:6},{magA:9,magD:4},'#8a7aff'],['mring_arc','Arcane Ring','ring',55,{ring_ruby:1,rune_nature:10,rune_cosmic:10},{magA:20,magD:9,def:4},'#d65aff'],
+ ['mamu_arc','Amulet of Arcana','amulet',50,{amu_emerald:1,rune_cosmic:8,rune_law:6},{magA:22,magD:11},'#5ad6ff'],['mamu_soul','Amulet of Souls','amulet',85,{amu_diamond:1,rune_soul:8,rune_blood:8},{magA:38,magD:20,def:10},'#9affc8']];
+MAGIC_JW.forEach((j,k)=>{mk(j[0],j[1],j[2]==='ring'?'💍':'📿',R(300*Math.pow(2.4,k)),'gear',{slot:j[2],st:j[5],tier:k,lr:['mag',j[3]],col:j[6]});
+ ACT.craft.push({id:j[0],n:j[1],i:j[2]==='ring'?'💍':'📿',lvl:j[3],xp:R(90+j[3]*4),t:4,in:j[4],out:{[j[0]]:1}});});
+const ESTAFF=[['estaff_air','Staff of Air',15,'staff_1',{rune_air:40},['rune_air'],'#b8c8d8'],['estaff_water','Staff of Water',25,'staff_2',{rune_water:50},['rune_water'],'#3b82d6'],['estaff_earth','Staff of Earth',35,'staff_3',{rune_earth:60},['rune_earth'],'#8a6a3a'],['estaff_fire','Staff of Fire',45,'staff_4',{rune_fire:70},['rune_fire'],'#e0572a'],
+ ['estaff_mystic','Mystic Staff',70,'staff_5',{rune_air:60,rune_water:60,rune_earth:60,rune_fire:60,rune_cosmic:20},['rune_air','rune_water','rune_earth','rune_fire'],'#c07aff'],
+ ['estaff_soul','Necromancer Staff',90,'staff_6',{rune_death:40,rune_blood:40,rune_soul:30},['rune_death','rune_blood'],'#9affc8']];
+ESTAFF.forEach((s,k)=>{const base=ITEMS[s[3]],bt=base.tier,p=T[bt].p,m=k<4?1.25:k===4?1.4:1.5;
+ mk(s[0],s[1],'🪄',R(base.v*3+200*(k+1)),'gear',{slot:'weapon',wt:'magic',sp:2.8,st:{magA:R(8*p*m),magD:R(4*p*m)},tier:bt,inf:s[5],lr:['mag',s[2]],col:s[6]});
+ ACT.craft.push({id:s[0],n:s[1],i:'🪄',lvl:s[2],xp:R(80+s[2]*5),t:5,in:Object.assign({[s[3]]:1},s[4]),out:{[s[0]]:1}});});
+/* new runes also drop from monsters */
+const RDROP={goblin:[['rune_mind',0.15,3,8]],hobgob:[['rune_body',0.15,3,8]],chief:[['rune_mind',0.2,5,10],['rune_body',0.15,4,9]],wolf:[['rune_nature',0.08,2,5]],bandit:[['rune_chaos',0.1,3,8]],bear:[['rune_nature',0.1,2,5]],
+ skel:[['rune_body',0.2,5,12],['rune_chaos',0.1,3,8]],wight:[['rune_cosmic',0.15,3,8]],lich:[['rune_law',0.12,2,5],['rune_death',0.08,2,4]],giant:[['rune_nature',0.12,3,8]],golem:[['rune_cosmic',0.18,4,9]],cyclops:[['rune_chaos',0.15,4,10]],
+ imp:[['rune_chaos',0.15,4,10]],drake:[['rune_death',0.12,2,5]],brute:[['rune_blood',0.1,2,4]],wyvern:[['rune_blood',0.12,2,5],['rune_soul',0.05,1,3]],gdragon:[['rune_death',0.2,3,6],['rune_soul',0.1,1,3]],elder:[['rune_soul',0.25,2,5],['rune_blood',0.2,3,6]],
+ tyrant:[['rune_death',0.25,3,7]],titan:[['rune_law',0.2,3,6]],wyrm:[['rune_blood',0.2,3,6]],warlord:[['rune_chaos',0.2,4,9]],alpha:[['rune_nature',0.2,3,7]],scarecrow:[['rune_mind',0.3,4,10]]};
+Object.keys(RDROP).forEach(id=>{if(MONS[id])RDROP[id].forEach(d=>MONS[id].drops.push(d));});
+
+/* ===== dungeoneering ===== */
+const DUNG=[
+ ['warren','Goblin Warren',1,3,3,20,3,'#6dae4a',[['bones',.5,1,2],['ore_copper',.4,2,6],['ore_tin',.4,2,6],['bar_bronze',.2,1,2],['rune_mind',.2,3,8],['seed_cabbage',.1,1,3]]],
+ ['cellar','Mossy Cellar',8,8,4,24,5,'#6a8f5a',[['ore_iron',.4,2,6],['bar_iron',.25,1,3],['log_oak',.4,3,8],['rune_body',.2,3,8],['gem_sapphire',.06,1,1],['herb_green',.12,1,2]]],
+ ['barrow','Barrow Crypt',16,16,4,28,8,'#8a8fb0',[['bones',.5,1,3],['bar_steel',.2,1,3],['rune_earth',.4,5,14],['rune_chaos',.15,3,7],['gem_sapphire',.1,1,2],['herb_mint',.12,1,2]]],
+ ['mines','Flooded Mines',25,26,5,32,12,'#4a8aa8',[['ore_coal',.5,3,9],['ore_mithril',.3,1,4],['bar_mithril',.15,1,2],['gem_emerald',.1,1,2],['rune_cosmic',.15,3,6]]],
+ ['nest','Spider Nest',34,38,5,36,17,'#7a4a8a',[['hide_wolf',.4,1,3],['cloth_silk',.25,1,3],['herb_sun',.15,1,3],['gem_emerald',.12,1,2],['rune_nature',.2,3,7]]],
+ ['library','Haunted Library',43,50,6,40,24,'#a8864a',[['rune_cosmic',.35,4,10],['rune_law',.2,2,5],['cloth_silk',.25,1,3],['gem_ruby',.08,1,2],['herb_frost',.15,1,3]]],
+ ['stronghold','Orc Stronghold',52,62,6,44,33,'#4a7a32',[['ore_adamant',.3,1,4],['bar_adamant',.2,1,3],['hide_bear',.4,1,3],['gem_ruby',.1,1,2],['rune_chaos',.3,5,12]]],
+ ['frozen','Frozen Catacombs',61,74,7,48,44,'#8fc8e8',[['bar_adamant',.25,1,3],['rune_water',.5,10,30],['rune_death',.2,2,5],['gem_ruby',.12,1,2],['herb_frost',.2,1,3]]],
+ ['temple','Sunken Temple',70,86,7,52,58,'#2fb9a0',[['rune_law',.3,3,8],['rune_death',.25,3,6],['gem_diamond',.04,1,1],['bar_rune',.15,1,2],['cloth_lunar',.2,1,3]]],
+ ['forge','Obsidian Forge',79,96,8,56,75,'#e0602a',[['ore_rune',.35,1,4],['bar_rune',.25,1,3],['rune_fire',.5,15,40],['gem_diamond',.06,1,1],['herb_ember',.2,1,3]]],
+ ['void','Void Sanctum',88,104,8,60,95,'#9a5af0',[['rune_blood',.25,2,6],['rune_soul',.1,1,3],['gem_diamond',.08,1,2],['bar_dragon',.1,1,2],['cloth_lunar',.3,1,4]]],
+ ['vault',"Dragon's Vault",95,112,9,66,120,'#e0b030',[['dragon_bone',.6,1,3],['dragon_scale',.12,1,2],['bar_dragon',.2,1,3],['rune_soul',.2,1,4],['gem_diamond',.12,1,2],['ore_dragon',.3,1,4]]]];
+const BOSSN=['Warren Chief','Cellar Lurker','Barrow King','Drowned Foreman','Brood Mother','Archivist Wraith','Warchief Mogu','Frost Revenant','Tide Oracle','Forge Colossus','Void Herald','Vault Wyrm'];
+const RELICS=[['Warren Idol','xp','+1% skill experience'],['Cellar Key','gold','+2.5% coins'],['Barrow Seal','hp','+2.5% max health'],["Miner's Lantern",'luck','+1% double and save chance'],['Silk Locket','dmg','+1.5% combat damage'],['Forbidden Tome','xp','+1% skill experience'],
+ ['Warchief Banner','dmg','+1.5% combat damage'],['Frost Shard','hp','+2.5% max health'],['Tide Idol','gold','+2.5% coins'],['Molten Heart','luck','+1% double and save chance'],['Void Eye','xp','+1% skill experience'],['Dragon Crown Jewel','dmg','+1.5% combat damage']];
+DUNG.forEach((d,k)=>{const rec=d[3],avg=(4+rec*5+rec*rec*0.08)*d[4]*0.7;
+ ACT.dung.push({id:'dg_'+d[0],n:d[1],i:'',lvl:d[2],rec,floors:d[4],t:d[5],xp:R(d[5]*d[6]),fd:R((3+rec*1.4+rec*rec*0.01)*1.4*0.55),coins:[R(avg*0.6),R(avg*1.4)],drops:d[8],relic:k,col:d[7],boss:BOSSN[k]});});
 'use strict';
 /* ===== Mossgate Idle: generated vector icons (replace every emoji so nothing renders as a blank box) ===== */
 function mix(h,t){const n=parseInt(h.slice(1),16);let r=n>>16,g=n>>8&255,b=n&255;const f=t>0?255:0,a=Math.abs(t);r=Math.round(r+(f-r)*a);g=Math.round(g+(f-g)*a);b=Math.round(b+(f-b)*a);return'#'+((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1);}
@@ -410,7 +473,7 @@ const HC=['#4aa44a','#5ac8b0','#f0c030','#7ac0f0','#e86a2a','#a78bdc','#c2402f']
 const HIC={cow:'#a8703a',wolf:'#7a6a5a',bear:'#5b3a22',drake:'#b02f2f'};
 const CLC={linen:'#d8cfb0',silk:'#8a6ad0',lunar:'#3a4ab0'};
 const CRC={potato:'#c9a15a',flax:'#7a9ad0',onion:'#d9b0c0',cabbage:'#8ccf7a',tomato:'#e0452f',sweetcorn:'#f0cf40',silkweed:'#b59ae0',strawberry:'#e0405a',watermelon:'#4aa860',moonthread:'#8aa0f0'};
-const RUC={air:'#b8c8d8',water:'#3b82d6',earth:'#8a6a3a',fire:'#e0572a'};
+const RUC={air:'#b8c8d8',water:'#3b82d6',earth:'#8a6a3a',fire:'#e0572a',mind:'#e08ac0',body:'#a06ad0',cosmic:'#e8c230',chaos:'#d89020',nature:'#3f9f45',law:'#4a6ad8',death:'#2a2a32',blood:'#c02030',soul:'#3ec8d8'};
 const P={
  log:c=>SV(`<rect x="3" y="10" width="24" height="13" rx="3" fill="${c}"/><ellipse cx="25" cy="16.5" rx="3.5" ry="6.5" fill="${mix(c,.35)}"/><ellipse cx="25" cy="16.5" rx="1.4" ry="3" fill="none" stroke="${mix(c,-.35)}"/><path d="M8 14h11M8 19h13" stroke="${mix(c,-.3)}" fill="none"/>`),
  fish:(c,cooked)=>SV(`<path d="M3 16c5-8 14-8 19 0-5 8-14 8-19 0z" fill="${c}"/><path d="M21 16l8-6v12z" fill="${mix(c,-.15)}"/><circle cx="8.5" cy="14" r="1.4" fill="#fff"/>${cooked?'<path d="M12 10v12M16 9.5v13M20 11v10" stroke="rgba(60,25,0,.55)" fill="none"/>':'<path d="M10 20c4 2 8 1 11-2" stroke="#fff6" fill="none"/>'}`),
@@ -437,7 +500,7 @@ const P={
  herb:c=>SV(`<path d="M16 30V12" stroke="#2f6e2f" stroke-width="2" fill="none"/><path d="M16 24C8 24 5 19 5 12c8 0 11 5 11 12zM16 18c7 0 11-5 11-12-8 0-11 5-11 12z" fill="${c}"/>`),
  potion:c=>SV(`<rect x="12" y="2" width="8" height="4" rx="1" fill="#a86a3a"/><path d="M13 6h6v6l7 13c1.5 3-.5 5-3.5 5h-13c-3 0-5-2-3.5-5l7-13z" fill="#d8ecf2" fill-opacity=".55"/><path d="M8.6 21h14.8l2.6 4.5c1.5 3-.5 4.5-3.5 4.5h-13c-3 0-5-1.500-3.500-4.500z" fill="${c}"/>`),
  vial:()=>SV('<rect x="12" y="2" width="8" height="4" rx="1" fill="#a86a3a"/><path d="M13 6h6v6l7 13c1.500 3-.500 5-3.500 5h-13c-3 0-5-2-3.500-5l7-13z" fill="#d8ecf2" fill-opacity=".55"/>'),
- rune:t=>{const c=RUC[t];const g={air:`<path d="M9 13h10c3 0 3-4 0-4M8 18h14c3 0 3 4 0 4M9 23h8" stroke="${c}" stroke-width="2.2" fill="none"/>`,water:`<path d="M16 8c4 6 7 9 7 13a7 7 0 0 1-14 0c0-4 3-7 7-13z" fill="${c}"/>`,earth:`<path d="M16 8l8 8-8 8-8-8z" fill="${c}"/>`,fire:`<path d="M16 7c1 5 7 7 7 14a7 7 0 0 1-14 0c0-3 2-4 3-6 1 2 2 2 2 0 0-3 1-5 2-8z" fill="${c}"/>`}[t];return SV(`<path d="M8 3h16l5 13-5 13H8L3 16z" fill="#cfc9bb"/>${g}`);},
+ rune:t=>{const c=RUC[t];const g={air:`<path d="M9 13h10c3 0 3-4 0-4M8 18h14c3 0 3 4 0 4M9 23h8" stroke="${c}" stroke-width="2.2" fill="none"/>`,water:`<path d="M16 8c4 6 7 9 7 13a7 7 0 0 1-14 0c0-4 3-7 7-13z" fill="${c}"/>`,earth:`<path d="M16 8l8 8-8 8-8-8z" fill="${c}"/>`,fire:`<path d="M16 7c1 5 7 7 7 14a7 7 0 0 1-14 0c0-3 2-4 3-6 1 2 2 2 2 0 0-3 1-5 2-8z" fill="${c}"/>`,mind:`<path d="M16 8c-5 0-8 4-6.500 8 .5 2 2.500 3 2.500 5h8c0-2 2-3 2.500-5C24 12 21 8 16 8z" fill="${c}"/><path d="M13 24h6" stroke="${c}" stroke-width="2"/>`,body:`<circle cx="16" cy="10.500" r="3.600" fill="${c}"/><path d="M8.500 25c0-6.500 3-9 7.500-9s7.500 2.500 7.500 9z" fill="${c}"/>`,cosmic:`<path d="M16 6l2.700 6.200 6.600.6-5 4.400 1.600 6.500-5.900-3.600-5.900 3.600 1.600-6.500-5-4.400 6.600-.6z" fill="${c}"/>`,chaos:`<path d="M9 10l13 4-13 4 13 4" stroke="${c}" stroke-width="3" fill="none"/>`,nature:`<path d="M8.500 23c-.5-9 6-14 15-14 .5 9-5 15-15 14z" fill="${c}"/><path d="M9 23l8-8" stroke="#fff9" stroke-width="1.400" fill="none"/>`,law:`<path d="M16 7.500l9.500 16h-19z" fill="none" stroke="${c}" stroke-width="3"/><circle cx="16" cy="18" r="2" fill="${c}"/>`,death:`<path d="M16 7a8 8 0 0 0-5 14v3h10v-3a8 8 0 0 0-5-14z" fill="${c}"/><circle cx="12.800" cy="15.500" r="2" fill="#cfc9bb"/><circle cx="19.200" cy="15.500" r="2" fill="#cfc9bb"/>`,blood:`<path d="M16 7c4.500 6 8 9 8 13.500a8 8 0 0 1-16 0C8 16 11.500 13 16 7z" fill="${c}"/><path d="M12 20c0 2 1 3.500 3 4" stroke="#fff8" stroke-width="1.600" fill="none"/>`,soul:`<path d="M16 7c6 4 5 9 1.500 11 3.500 1 4 4.500 1 6.500-3.500 2-9 0-10-4.500 0-3.500 3.500-4.500 3.500-7.500 0-2 2-3.500 4-5.500z" fill="${c}"/>`}[t];return SV(`<path d="M8 3h16l5 13-5 13H8L3 16z" fill="#cfc9bb"/>${g}`);},
  gem:c=>SV(`<path d="M8 4h16l6 8-14 17L2 12z" fill="${c}"/><path d="M2 12h28M11 4l-3 8 8 17M21 4l3 8-8 17" stroke="#fff9" fill="none"/>`),
  hide:c=>SV(`<path d="M4 7l7-4 5 3 5-3 7 4-3 9 3 9-7 4-5-3-5 3-7-4 3-9z" fill="${c}"/><path d="M12 12l4 4 4-4M12 22l4-4 4 4" stroke="${mix(c,-.35)}" fill="none"/>`),
  bones:()=>SV('<path d="M8 24L24 8" stroke="#eee8d2" stroke-width="5" stroke-linecap="round"/><circle cx="6.5" cy="25.5" r="3.2" fill="#eee8d2"/><circle cx="9" cy="27.5" r="2.4" fill="#eee8d2"/><circle cx="25.5" cy="6.5" r="3.2" fill="#eee8d2"/><circle cx="27.5" cy="9" r="2.4" fill="#eee8d2"/>'),
@@ -472,12 +535,14 @@ const P={
  leafy:()=>SV('<circle cx="16" cy="18" r="10" fill="#7ac35a"/><path d="M16 9c-1-5 2-7 7-7-1 5-3 6-7 7z" fill="#3a8a3a"/>'),
  runner:()=>SV('<circle cx="19" cy="6" r="3.500" fill="#e0b48c"/><path d="M18 11l-6 6 5 4-2 8M18 11l5 5 5-1M12 17l-5 2" stroke="#4a7ab8" stroke-width="3" fill="none"/>'),
  pouch:()=>SV('<path d="M12 4h8l-1.500 5h-5z" fill="#6b4e28"/><path d="M12.500 9C5 12 5 19 5 22c0 4 5 6 11 6s11-2 11-6c0-3 0-10-7.500-13z" fill="#7a6a4a"/><circle cx="16" cy="19" r="4" fill="#e4b33a"/>'),
- tome:()=>SV('<rect x="5" y="3" width="22" height="26" rx="2" fill="#6a4ab0"/><path d="M9 3v26" stroke="#fff5" fill="none"/><path d="M14 11h9M14 16h9M14 21h6" stroke="#f0d890" stroke-width="1.6" fill="none"/>'),
+ tome:c=>SV('<rect x="5" y="3" width="22" height="26" rx="2" fill="'+(c||'#6a4ab0')+'"/><path d="M9 3v26" stroke="#fff5" fill="none"/><path d="M14 11h9M14 16h9M14 21h6" stroke="#f0d890" stroke-width="1.6" fill="none"/>'),
  clover:()=>SV('<circle cx="11" cy="11" r="5" fill="#3fae5a"/><circle cx="21" cy="11" r="5" fill="#3fae5a"/><circle cx="11" cy="20" r="5" fill="#3fae5a"/><circle cx="21" cy="20" r="5" fill="#3fae5a"/><path d="M16 16l6 14" stroke="#2a7a3a" stroke-width="2.5" fill="none"/>'),
  wheel:()=>SV('<circle cx="16" cy="16" r="13" fill="#a855d6"/><path d="M16 3v26M3 16h26M7 7l18 18M25 7L7 25" stroke="#fff9" stroke-width="1.5" fill="none"/><circle cx="16" cy="16" r="4" fill="#f0c040"/>'),
  land:(c,s)=>SV(`<circle cx="16" cy="16" r="13" fill="${c}"/>${s}`)
 };
-function iconForSkill(id){return({wc:P.axe,fish:()=>P.fish('#5b9ad0'),mine:P.pick,fm:P.flame,cook:P.pot,smith:P.anvil,fletch:()=>P.bow('#a8642e'),craft:P.spool,thief:P.key,farm:P.sprout,herb:()=>P.potion('#58b85a'),rc:()=>P.rune('fire'),agi:P.runner,atk:()=>P.sword('#b9c6d4'),str:P.dumb,def:()=>P.shield('#4f74d6'),hp:P.heart,rng:()=>P.bow('#8a5a2b'),mag:P.orb})[id]();}
+P.gate=c=>SV(`<path d="M4 29V13a12 12 0 0 1 24 0v16z" fill="#5c616b"/><path d="M8 29V14a8 8 0 0 1 16 0v15z" fill="#17191e"/><path d="M12 29V13M16 29V11M20 29V13" stroke="#7a808a" stroke-width="1.400" fill="none"/><path d="M13 27h6" stroke="#7a808a" stroke-width="1.200"/><path d="M3.500 9c1-3 3-3 2.500-6 3 2 4 5 2 8z" fill="${c||'#f0a030'}"/><path d="M28.500 9c-1-3-3-3-2.500-6-3 2-4 5-2 8z" fill="${c||'#f0a030'}"/>`);
+P.relic=c=>SV(`<path d="M16 2l6 7-2.500 5 4.500 4-3.500 11h-9L8 18l4.500-4L10 9z" fill="${c}"/><path d="M16 2l6 7-2.500 5-3.500-2-3.500 2L10 9z" fill="#fff3"/><circle cx="16" cy="14" r="2.200" fill="#fff9"/>`);
+function iconForSkill(id){return({wc:P.axe,fish:()=>P.fish('#5b9ad0'),mine:P.pick,fm:P.flame,cook:P.pot,smith:P.anvil,fletch:()=>P.bow('#a8642e'),craft:P.spool,thief:P.key,farm:P.sprout,herb:()=>P.potion('#58b85a'),rc:()=>P.rune('fire'),agi:P.runner,dung:()=>P.gate('#f0a030'),atk:()=>P.sword('#b9c6d4'),str:P.dumb,def:()=>P.shield('#4f74d6'),hp:P.heart,rng:()=>P.bow('#8a5a2b'),mag:P.orb})[id]();}
 /* creatures: a coloured body, eyes and one signature feature */
 const CR={chicken:['#f2efe6','beak'],cow:['#e6e0d4','horns'],farmhand:['#d9a66a','hat'],goblin:['#6dae4a','ears'],hobgob:['#b8643a','ears'],chief:['#4c8a3a','crown'],wolf:['#7b7f88','ears'],bandit:['#5a4a6a','hood'],bear:['#7a4a2a','ears'],skel:['#e8e4d4','skull'],wight:['#7a8fb0','hood'],lich:['#6a4a9a','crown'],giant:['#c08a5a','tusks'],golem:['#8a8f98','spikes'],cyclops:['#a8b86a','eye'],imp:['#d8452a','horns'],drake:['#c83a2a','spikes'],brute:['#6a2a20','horns'],wyvern:['#3a8a8a','spikes'],gdragon:['#3a9a4a','spikes'],elder:['#7a2a3a','crown'],scarecrow:['#c9a15a','hat'],warlord:['#3f7a2a','crown'],alpha:['#4a4f5a','ears'],tyrant:['#d8d4c0','skull'],titan:['#8f857a','tusks'],wyrm:['#a8302a','spikes']};
 function creature(id){const [c,f]=CR[id];const eyes=f==='eye'?'<circle cx="16" cy="15" r="5" fill="#fff"/><circle cx="16" cy="15" r="2.500" fill="#222"/>':f==='skull'?'<ellipse cx="11.500" cy="15" rx="2.800" ry="3.200" fill="#222"/><ellipse cx="20.500" cy="15" rx="2.800" ry="3.200" fill="#222"/><path d="M13 24v3M16 24v3M19 24v3" stroke="#222"/>':'<circle cx="11.500" cy="15" r="2.400" fill="#fff"/><circle cx="20.500" cy="15" r="2.400" fill="#fff"/><circle cx="12" cy="15.500" r="1.100" fill="#111"/><circle cx="20" cy="15.500" r="1.100" fill="#111"/>';
@@ -506,7 +571,11 @@ const E2S={'🪙':P.coin(),'🏠':P.house(),'⚔️':P.swords(),'🎒':P.pack(),
   else if(id.startsWith('bow_'))s=P.bow(LC[BOWL[+id.slice(4)]]);
   else if(id.startsWith('staff_'))s=P.staff(LC[BOWL[+id.slice(6)]]);
   else if(id.startsWith('h_')){const c=HIC[id.split('_')[1]],sl=it.slot;s=P[sl](c);}
-  else if(id.startsWith('r_')){const c=CLC[id.split('_')[1]],sl=it.slot;s=sl==='helmet'?P.hat(c):sl==='body'?P.robetop(c):P.legs(c);}
+  else if(id.startsWith('r_')){const c=CLC[id.split('_')[1]],sl=it.slot;s=sl==='helmet'?P.hat(c):sl==='body'?P.robetop(c):sl==='legs'?P.legs(c):P[sl](c);}
+  else if(id.startsWith('tome_'))s=P.tome(it.col);
+  else if(id.startsWith('estaff_'))s=P.staff(it.col);
+  else if(id.startsWith('mring_'))s=P.ring(it.col);
+  else if(id.startsWith('mamu_'))s=P.amulet(it.col);
   else if(id.startsWith('ring_'))s=P.ring(GC[id.slice(5)]);
   else if(id.startsWith('amu_'))s=P.amulet(GC[id.slice(4)]);
   else if(id.startsWith('gem_'))s=P.gem(GC[id.slice(4)]);
@@ -523,7 +592,7 @@ const E2S={'🪙':P.coin(),'🏠':P.house(),'⚔️':P.swords(),'🎒':P.pack(),
  const PI={xp:P.tome(),luck:P.clover(),dmg:P.swords(),hp:P.heart(),eat:P.potion('#d94a4a'),gold:P.bag(),off:P.house(),slot:P.person()};PERKS.forEach(p=>{p.i=PI[p.id];});
  SKILLS.forEach(s=>s[2]=SKN[s[0]].i);COMBAT.forEach(s=>s[2]=SKN[s[0]].i);
  for(const sk in ACT)ACT[sk].forEach(a=>{
-  if(sk==='fm')a.i=P.flame();else if(sk==='thief')a.i=P.pouch();else if(sk==='agi')a.i=P.runner();
+  if(sk==='fm')a.i=P.flame();else if(sk==='thief')a.i=P.pouch();else if(sk==='agi')a.i=P.runner();else if(sk==='dung')a.i=P.gate(a.col);
   else if(a.out)a.i=ITEMS[Object.keys(a.out)[0]].i;});
  CROP.forEach(c=>{c.i=ITEMS[c.item].i;});
  AREAS.forEach(a=>{a.i=AREAI[a.id];a.mons.forEach(m=>{m.i=creature(m.id);});});
@@ -889,7 +958,7 @@ const SLOTS=['weapon','shield','helmet','body','legs','boots','gloves','ring','a
 
 function newState(){
  const s={v:1,name:'Adventurer',saved:Date.now(),clock:0,play:0,coins:100,bank:{},nb:0,bankBuys:0,xp:{},mast:{},upg:{},equip:{},acts:[null,null],perk:{},wheel:{last:0,win:null,spins:0},cb:null,buffs:{},
-  farm:{plots:[],auto:true,allot:3,herb:2},stats:{kills:0,deaths:0,actions:0,coins:0},bk:{},bpity:{},col:{},hp:100,theme:'auto'};
+  farm:{plots:[],auto:true,allot:3,herb:2},stats:{kills:0,deaths:0,actions:0,coins:0},bk:{},bpity:{},col:{},dg:{clears:{},relics:{},log:[]},hp:100,theme:'auto'};
  ALLSK.forEach(id=>s.xp[id]=0);s.xp.hp=XPT[9];s.hp=100;
  ensure(s);
  s.bank.food_shrimp=10;s.nb=1;s.equip={weapon:'g_bronze_sword',food:'food_shrimp'};
@@ -900,14 +969,15 @@ function ensure(s){
  const f=s.farm;while(f.plots.filter(p=>p.cat==='allot').length<f.allot)f.plots.push({cat:'allot',crop:null,ready:0,start:0});
  while(f.plots.filter(p=>p.cat==='herb').length<f.herb)f.plots.push({cat:'herb',crop:null,ready:0,start:0});
  s.nb=Object.keys(s.bank).length;
- if(!s.buffs)s.buffs={};if(!s.wheel)s.wheel={last:0,win:null,spins:0};if(!s.perk)s.perk={};if(s.perk.slot){s.coins+=30e6;delete s.perk.slot;}while(s.acts.length<2)s.acts.push(null);if(s.acts.length>2){const k=s.acts.slice(2).filter(Boolean);s.acts.length=2;if(!s.acts[0]&&k[0])s.acts[0]=k[0];}if(!s.cheat)s.cheat={speed:1,god:false};if(!s.bk)s.bk={};if(!s.bpity)s.bpity={};if(!s.col)s.col={};
+ if(!s.buffs)s.buffs={};if(!s.wheel)s.wheel={last:0,win:null,spins:0};if(!s.perk)s.perk={};if(s.perk.slot){s.coins+=30e6;delete s.perk.slot;}while(s.acts.length<2)s.acts.push(null);if(s.acts.length>2){const k=s.acts.slice(2).filter(Boolean);s.acts.length=2;if(!s.acts[0]&&k[0])s.acts[0]=k[0];}if(!s.cheat)s.cheat={speed:1,god:false};if(!s.bk)s.bk={};if(!s.bpity)s.bpity={};if(!s.col)s.col={};if(!s.dg)s.dg={clears:{},relics:{},log:[]};
  if(!s.acts){s.acts=[s.act||null,null];delete s.act;if(s.cb&&!s.acts[0])s.acts[0]={sk:'combat',id:s.cb.mon,t:0};}}
 function useState(s){S=s;ensure(S);refreshPS();if(S.hp>maxHp())S.hp=maxHp();}
 const lv=id=>lvlOf(S.xp[id]);
 const perk=id=>S.perk[id]||0;
+const rfx=id=>{if(!S||!S.dg)return 0;let n=0;RELICS.forEach((r,i)=>{if(S.dg.relics[i]&&r[1]===id)n++;});return n*0.5;},pk=id=>perk(id)+rfx(id);
 const slotCount=()=>2,newSlots=()=>Array(slotCount()).fill(null),offCap=()=>OFFLINE_CAP+6*3600*perk('off');
-const cg=()=>1+.05*perk('gold'),cxm=()=>1+buff('xpc')/100+.02*perk('xp');
-const maxHp=()=>Math.floor(lvlOf(S.xp.hp)*10*(1+.05*perk('hp')));
+const cg=()=>1+.05*pk('gold'),cxm=()=>1+buff('xpc')/100+.02*pk('xp');
+const maxHp=()=>Math.floor(lvlOf(S.xp.hp)*10*(1+.05*pk('hp')));
 const totalLevel=()=>ALLSK.reduce((a,id)=>a+lvlOf(S.xp[id]),0);
 function combatLevel(){const a=lv('atk'),s=lv('str'),d=lv('def'),h=lv('hp'),r=lv('rng'),m=lv('mag');return Math.floor(0.25*(d+h)+0.325*Math.max(a+s,1.5*r,1.5*m));}
 
@@ -937,7 +1007,7 @@ const CPS=[[.1,'+5% skill XP'],[.25,'+5% double/preserve chance'],[.5,'-5% actio
 const buff=t=>S.buffs[t]?S.buffs[t].v:0;
 function skMods(sk){const p=poolPct(sk),kind=SKKIND[sk],m={xp:0,dbl:0,pre:0,ivl:0};
  if(p>=.1)m.xp+=.05;if(p>=.25){if(kind==='art')m.pre+=.05;else m.dbl+=.05;}if(p>=.5)m.ivl+=.05;if(p>=.95)m.xp+=.1;
- m.ivl+=(S.upg[sk]||0)*.06+buff('speed')/100;m.xp+=buff('xp')/100;m.dbl+=buff('double')/100;m.pre+=buff('preserve')/100;m.xp+=.02*perk('xp');m.dbl+=.02*perk('luck');m.pre+=.02*perk('luck');
+ m.ivl+=(S.upg[sk]||0)*.06+buff('speed')/100;m.xp+=buff('xp')/100;m.dbl+=buff('double')/100;m.pre+=buff('preserve')/100;m.xp+=.02*pk('xp');m.dbl+=.02*pk('luck');m.pre+=.02*pk('luck');
  return m;}
 function interval(sk,a){if(sk==='farm')return a.t;return Math.max(0.6,a.t*(1-Math.min(.6,skMods(sk).ivl)));}
 const mxpOf=(sk,a)=>sk==='farm'?a.mx:Math.max(1,a.t*0.9*(1+a.lvl/50));
@@ -968,6 +1038,7 @@ function complete(sk,a,A){
  const kind=SKKIND[sk],mod=skMods(sk),ml=mLvl(sk,a.id);
  if(a.in){for(const k in a.in)if(cnt(k)<a.in[k]){if(!TRACK)toast('Out of materials: '+ITEMS[k].n,'warn');return false;}
   const pre=Math.min(.9,mod.pre+ml*.0025);if(!(Math.random()<pre))for(const k in a.in)take(k,a.in[k]);}
+ if(kind==='dungeon')return runDungeon(sk,a,A,mod,ml);
  let mult=1;
  if(kind==='gather'||kind==='thief'){if(Math.random()<Math.min(.95,mod.dbl+ml*.0025))mult=2;}
  let ok=true;
@@ -982,6 +1053,32 @@ function complete(sk,a,A){
   if(a.gem&&Math.random()<a.gem){const r=Math.random();add(r<.5?'gem_sapphire':r<.8?'gem_emerald':r<.95?'gem_ruby':'gem_diamond',1);}
  }
  gainXp(sk,a.xp*(1+mod.xp));gainM(sk,a,mxpOf(sk,a));S.stats.actions++;return true;}
+
+const dpow=()=>{const g=(PS&&PS.g)||{};return combatLevel()+Math.min(45,((g.atk||0)+(g.str||0)+(g.def||0)+Math.max(g.rngA||0,g.magA||0))/14);};
+function dlog(o){if(TRACK)return;const L=S.dg.log;L.unshift(o);if(L.length>6)L.pop();}
+function runDungeon(sk,a,A,mod,ml){
+ eatIfNeeded();
+ if(S.hp<maxHp()*0.4){A.t=-10;dlog({id:a.id,res:'rest'});return true;}
+ const ratio=Math.pow((a.rec+8)/(dpow()+8),1.25);let cleared=0,fled=false;
+ for(let f=1;f<=a.floors;f++){
+  const boss=f===a.floors,dm=Math.max(1,Math.round(a.fd*ratio*(boss?1.7:1)*(0.5+Math.random())));
+  if(hurt(dm))return true;
+  if(S.hp<maxHp()*0.2){fled=true;break;}
+  cleared++;}
+ const frac=cleared/a.floors,xp=a.xp*(1+mod.xp);
+ if(!fled){
+  addCoins(Math.round(rnd(a.coins[0],a.coins[1])*cg()));
+  const got=[];a.drops.forEach(d=>{if(Math.random()<d[1]){const q=rnd(d[2],d[3]);add(d[0],q);got.push([d[0],q]);}});
+  const nc=(S.dg.clears[a.id]||0)+1;S.dg.clears[a.id]=nc;
+  let relic=false;
+  if(!S.dg.relics[a.relic]&&(Math.random()<0.06||nc>=15)){S.dg.relics[a.relic]=1;relic=true;if(!TRACK)toast('Relic found: '+RELICS[a.relic][0]+'! ('+RELICS[a.relic][2]+')','boss');}
+  gainXp(sk,xp);gainM(sk,a,mxpOf(sk,a));
+  ['atk','str','def'].forEach(c=>gainXp(c,xp*0.05*cxm()));
+  dlog({id:a.id,res:'clear',floors:a.floors,xp:Math.round(xp),relic});
+ }else{
+  gainXp(sk,xp*frac*0.4);dlog({id:a.id,res:'flee',floors:a.floors,cleared});A.t=-4;
+ }
+ S.stats.actions++;return true;}
 function stepAct(A,dt){
  A.t+=dt;const a=actBy(A.sk,A.id);if(!a){clearSlot(S.acts.indexOf(A));return;}
  let iv=interval(A.sk,a),g=0;
@@ -1027,20 +1124,21 @@ function maxHitPlayer(spell){
  if(t==='melee')mh=Math.floor(10*(0.5+(lv('str')+8)*(g.str+64)/640));
  else if(t==='ranged')mh=Math.floor(10*(0.5+(lv('rng')+8)*(g.rngS+PS.ammoS+64)/640));
  else mh=Math.floor(spell.max*(1+g.magD/100)*(1+Math.max(0,lv('mag')-spell.lvl)*0.005));
- return Math.floor(mh*(1+buff('str')/100+.03*perk('dmg')));}
+ return Math.floor(mh*(1+buff('str')/100+.03*pk('dmg')));}
 const hitChance=(a,d)=>a>d?1-(d+2)/(2*(a+1)):a/(2*(d+1));
 function awardCombatXp(skills,x){const f=cxm();const list=skills.split('+');list.forEach(s=>gainXp(s,x/list.length*f));}
 function playerAttack(C,M){
  const t=PS.type;let spell=null;
  if(t==='ranged'){const am=S.equip.ammo;if(!am||cnt(am)<1){stopCombat('Out of arrows.');return false;}take(am,1);}
  if(t==='magic'){spell=SPELLS[C.spell]||SPELLS[0];if(lv('mag')<spell.lvl)spell=SPELLS[0];
-  for(const k in spell.cost)if(cnt(k)<spell.cost[k]){stopCombat('Out of runes for '+spell.n+'.');return false;}
-  for(const k in spell.cost)take(k,spell.cost[k]);}
+  const wi=(S.equip.weapon&&ITEMS[S.equip.weapon]&&ITEMS[S.equip.weapon].inf)||[];
+  for(const k in spell.cost)if(!wi.includes(k)&&cnt(k)<spell.cost[k]){stopCombat('Out of runes for '+spell.n+'.');return false;}
+  for(const k in spell.cost)if(!wi.includes(k))take(k,spell.cost[k]);}
  const pc=playerCombat(),mx=maxHitPlayer(spell);
  let dmg=0;if(Math.random()<hitChance(pc.atkRoll,M.defRoll))dmg=1+Math.floor(Math.random()*mx);
  const st=STANCES[t][Math.min(C.stance,STANCES[t].length-1)][1];
  if(spell)gainXp('mag',spell.xp*cxm());
- if(dmg>0){C.mhp-=dmg;C.last=dmg;awardCombatXp(st,dmg*(t==='magic'?0.3:0.4));gainXp('hp',dmg*0.133*cxm());}else C.last=0;
+ if(dmg>0){C.mhp-=dmg;C.last=dmg;if(spell&&spell.leech)S.hp=Math.min(maxHp(),S.hp+Math.ceil(dmg*spell.leech));awardCombatXp(st,dmg*(t==='magic'?0.3:0.4));gainXp('hp',dmg*0.133*cxm());}else C.last=0;
  if(C.mhp<=0)kill(C,M);
  return true;}
 function kill(C,M){
@@ -1146,7 +1244,7 @@ const CHEATS=[
  ['RICHES','Adds 1,000,000 coins'],['MAXALL','Sets every skill to level 99'],['LEVELUP','Adds one level to every skill'],
  ['STOCKUP','Gives 1,000 of every material, food, ammo and rune'],['FEAST','Gives 500 of every food and equips the best'],
  ['MYTHIC','Gives every Mythic boss weapon'],['HEAL','Restores full health'],['GROWNOW','Finishes growing every crop'],
- ['MAXSHOP','Maxes every tool upgrade and shop perk'],['SPIN','Resets the daily wheel timer'],['TURBO','Toggles 5x game speed'],['GODMODE','Toggles taking no damage'],['SLOTS','Adds 200 bank slots']];
+ ['MAXSHOP','Maxes every tool upgrade and shop perk'],['SPIN','Resets the daily wheel timer'],['RELICS','Finds every dungeon relic'],['TURBO','Toggles 5x game speed'],['GODMODE','Toggles taking no damage'],['SLOTS','Adds 200 bank slots']];
 function cheat(code){
  code=(code||'').trim().toUpperCase();const c=S.cheat;
  switch(code){
@@ -1162,6 +1260,7 @@ function cheat(code){
   case'GROWNOW':S.farm.plots.forEach(p=>{if(p.crop)p.ready=S.clock;});return'All crops are ready.';
   case'TURBO':c.speed=c.speed===5?1:5;return c.speed===5?'Turbo on: 5x speed.':'Turbo off.';
   case'GODMODE':c.god=!c.god;return c.god?'God mode on.':'God mode off.';
+  case'RELICS':RELICS.forEach((r,i)=>S.dg.relics[i]=1);return'Found all 12 dungeon relics.';
   case'SLOTS':S.bankBuys+=20;return'Added 200 bank slots.';
  }
  return'';}
@@ -1198,10 +1297,31 @@ const fmtT=s=>{s=Math.max(0,Math.round(s));const h=Math.floor(s/3600),m=Math.flo
 const pc=(a,b)=>Math.max(0,Math.min(100,b>0?a/b*100:0));
 const bar=(p,c)=>`<div class="bar ${c||''}"><i style="width:${p.toFixed(1)}%"></i></div>`;
 const rc=it=>it.rar!=null?` style="color:${RAR[it.rar][2]}"`:'';
-const ic=(id,q,need)=>{const it=ITEMS[id];if(!it)return'';const bad=need!=null&&cnt(id)<need;return`<span class="chip${bad?' bad':''}"${rc(it)}>${it.i} ${it.n} ${need!=null?fmt(cnt(id))+'/'+fmt(need):'×'+fmt(q)}</span>`;};
+const ic=(id,q,need)=>{const it=ITEMS[id];if(!it)return'';const bad=need!=null&&cnt(id)<need;return`<span class="chip${bad?' bad':''}" data-tip="${id}"${rc(it)}>${it.i} ${it.n} ${need!=null?fmt(cnt(id))+'/'+fmt(need):'×'+fmt(q)}</span>`;};
 const SLOTN={weapon:'Weapon',shield:'Shield',helmet:'Helmet',body:'Body',legs:'Legs',boots:'Boots',gloves:'Gloves',ring:'Ring',amulet:'Amulet',ammo:'Ammo',food:'Food'};
 const SLOTI={weapon:P.sword('#999'),shield:P.shield('#999'),helmet:P.helmet('#999'),body:P.body('#999'),legs:P.legs('#999'),boots:P.boots('#999'),gloves:P.gloves('#999'),ring:P.ring('#999'),amulet:P.amulet('#999'),ammo:P.arrow('#999'),food:P.fish('#999',true)};
 const STN={atk:'Attack',str:'Strength',def:'Defence',rng:'Ranged',mag:'Magic'};
+
+const STATN={atk:'Attack',str:'Strength',def:'Defence',rngA:'Ranged attack',rngS:'Ranged strength',magA:'Magic attack',magD:'Magic damage %'};
+const SLOTLBL={weapon:'Weapon',shield:'Shield',helmet:'Helmet',body:'Body armour',legs:'Leg armour',boots:'Boots',gloves:'Gloves',ring:'Ring',amulet:'Amulet',ammo:'Ammunition',food:'Food'};
+const statShort=it=>it&&it.st?Object.keys(it.st).map(k=>'+'+it.st[k]+' '+STATN[k]).join(' · '):'';
+function tipHtml(id){const it=ITEMS[id];if(!it)return'';
+ const col=it.rar!=null?RAR[it.rar][2]:'inherit';
+ let h=`<div class="tn" style="color:${col}">${it.i}<b>${it.n}</b></div>`;
+ const kind=it.rar!=null?RAR[it.rar][0]+' · '+(it.arm?'boss armour':'boss weapon'):(it.slot?SLOTLBL[it.slot]:(it.cat==='gear'?'Gear':it.cat[0].toUpperCase()+it.cat.slice(1)));
+ h+=`<div class="tk">${kind}${it.wt?' · '+it.wt+' · '+it.sp+'s':''}</div>`;
+ if(it.st){const cur=it.slot&&S.equip[it.slot]&&S.equip[it.slot]!==id?ITEMS[S.equip[it.slot]]:null;
+  const keys=Object.keys(it.st).concat(cur&&cur.st?Object.keys(cur.st).filter(k=>!(k in it.st)):[]);
+  h+='<div class="tr">'+keys.map(k=>{const v=it.st[k]||0,d=cur?v-((cur.st&&cur.st[k])||0):0;return`<div><span>${STATN[k]||k}</span><b>${v>0?'+':''}${v}${cur&&d?` <i class="${d>0?'up':'dn'}">${d>0?'▲':'▼'}${Math.abs(d)}</i>`:''}</b></div>`;}).join('')+'</div>';
+  if(cur)h+=`<div class="tk">Compared with your ${cur.n}</div>`;}
+ if(it.heal)h+=`<div class="tr"><div><span>Heals</span><b>${it.heal} HP</b></div></div>`;
+ if(it.pot)h+=`<div class="tk">+${it.pot.v}% ${PDESC[it.pot.t]} for ${Math.round(it.pot.d/60)} min</div>`;
+ const need=it.slot?lacks(it):'';
+ const reqs=[];if(it.req)reqs.push('Combat level '+it.req);if(it.lr)reqs.push(SKN[it.lr[0]].n+' level '+it.lr[1]);
+ if(reqs.length)h+=`<div class="tq${need?' bad':''}">Requires ${reqs.join(' and ')}</div>`;
+ if(it.inf)h+=`<div class="tq" style="color:var(--accent)">Unlimited ${it.inf.map(k=>ITEMS[k].n.replace(' Rune','')).join(', ')} runes for spells</div>`;
+ h+=`<div class="tk">Worth 🪙 ${fmt(it.v)}${cnt(id)?' · you own '+fmt(cnt(id)):''}${it.slot&&S.equip[it.slot]===id?' · equipped':''}</div>`;
+ return h;}
 function itemDesc(it){
  if(it.rar!=null){const s=Object.keys(it.st).map(k=>'+'+it.st[k]+' '+({atk:'Attack',str:'Strength',def:'Defence',rngA:'Ranged Att',rngS:'Ranged Str',magA:'Magic Att',magD:'Magic Dmg%'})[k]).join(', ');return RAR[it.rar][0]+(it.arm?' boss armour · '+s:' boss weapon · '+s+' · '+it.wt+' · '+it.sp+'s')+' · needs combat level '+it.req+(it.lr?' and '+SKN[it.lr[0]].n+' '+it.lr[1]:'');}
  if(it.heal)return'Heals '+it.heal+' HP when eaten automatically in combat.';
@@ -1254,20 +1374,36 @@ function actCard(sk,a){
  let io='';
  if(a.in)io+='<div class="io"><b>Uses</b>'+Object.keys(a.in).map(k=>ic(k,0,a.in[k])).join('')+'</div>';
  if(a.out)io+='<div class="io"><b>Makes</b>'+Object.keys(a.out).map(k=>ic(k,a.out[k])).join('')+'</div>';
+ const oid=a.out&&Object.keys(a.out)[0],oit=oid&&ITEMS[oid];
+ if(oit&&oit.st){io+=`<div class="io statln">${statShort(oit)}${oit.wt?' · '+oit.wt+' '+oit.sp+'s':''}${oit.lr?' · needs '+SKN[oit.lr[0]].n+' '+oit.lr[1]:''}</div>`;}
+ else if(oit&&oit.heal)io+=`<div class="io statln">Heals ${oit.heal} HP</div>`;
+ else if(oit&&oit.pot)io+=`<div class="io statln">+${oit.pot.v}% ${PDESC[oit.pot.t]}</div>`;
  if(kind==='thief'){io+=`<div class="io">Success ${Math.round(Math.min(.95,.5+(lv(sk)-a.lvl)*.012+ml*.004)*100)}% · 🪙 ${a.coins[0]}–${a.coins[1]} · hurts up to ${a.dmg}</div>`;}
+ else if(kind==='dungeon'){const r=dpow()/a.rec,rk=r>=1.2?['Easy','good']:r>=1?['Fair','']:r>=.85?['Risky','gold']:['Deadly','bad'],cl=S.dg.clears[a.id]||0,gt=S.dg.relics[a.relic];
+  io+=`<div class="io"><b>${a.floors}</b> floors · boss ${a.boss} · recommended combat <b>${a.rec}</b> · <span class="${rk[1]}">${rk[0]}</span></div><div class="io">🪙 ${fmt(a.coins[0])}–${fmt(a.coins[1])} · cleared <b>${cl}</b> · Relic: ${gt?'<span class="good">'+RELICS[a.relic][0]+'</span>':'<span class="sub">not found'+(cl?' ('+Math.max(0,15-cl)+' clears to guarantee)':'')+'</span>'}</div>`;}
  else if(a.coins)io+=`<div class="io"><b>Earns</b>🪙 ${a.coins[0]}–${a.coins[1]}</div>`;
  const m0=MXP(ml),m1=ml>=99?m0:MXP(ml+1);
  let pct=0;if(on)pct=pc(Math.max(0,A.t),iv);
  const dc=Math.round(Math.min(.95,(kind==='art'?mod.pre:mod.dbl)+ml*.0025)*100);
  return`<div class="card${locked?' locked':''}${on?' on':''}" role="button" tabindex="0" data-a="start" data-sk="${sk}" data-id="${a.id}">
- <div class="ch"><span class="ci">${a.i}</span><div><div class="cn">${a.n}</div><div class="cm">${locked?'<span class="bad">Requires level '+a.lvl+'</span>':'Level '+a.lvl}</div></div></div>
+ <div class="ch"${oit&&(oit.st||oit.heal||oit.pot)?` data-tip="${oid}"`:''}><span class="ci">${a.i}</span><div><div class="cn">${a.n}</div><div class="cm">${locked?'<span class="bad">Requires level '+a.lvl+'</span>':'Level '+a.lvl}</div></div></div>
  <div class="stats"><span><b>${(a.xp*(1+mod.xp)).toFixed(a.xp<20?1:0)}</b> XP</span><span><b>${iv.toFixed(1)}s</b></span>${kind==='gather'||kind==='thief'?`<span>double <b>${dc}%</b></span>`:kind==='art'?`<span>save <b>${dc}%</b></span>`:''}</div>${io}
  <div class="row" style="gap:6px"><span class="sub" style="color:var(--mast)">Mastery ${ml}</span><div class="sp">${bar(ml>=99?100:pc(mXp(sk,a.id)-m0,m1-m0),'mast thin')}</div></div>
  ${on?bar(pct,'big'):''}</div>`;}
 
+
+function dungPanel(){
+ const f=id=>RELICS.reduce((n,r,i)=>n+(S.dg.relics[i]&&r[1]===id?1:0),0);
+ const have=Object.keys(S.dg.relics).filter(k=>S.dg.relics[k]).length;
+ let h=`<div class="panel"><h2>Relics <span class="pill">${have}/${RELICS.length}</span></h2><div class="sub">Each dungeon hides one relic (6% per full clear, guaranteed by the 15th clear). Relics give permanent bonuses.</div><div class="grid sm" style="margin-top:8px">`;
+ RELICS.forEach((r,i)=>{const got=S.dg.relics[i],d=DUNG[i];h+=`<div class="card static${got?'':' locked'}"><div class="ch"><span class="ci">${P.relic(got?d[7]:'#666')}</span><div><div class="cn">${got?r[0]:'???'}</div><div class="cm">${got?r[2]:d[1]}</div></div></div></div>`;});
+ h+='</div></div>';
+ const L=S.dg.log;
+ h+=`<div class="panel"><h3>Recent runs</h3><div class="log">${L.length?L.map(l=>{const a=actBy('dung',l.id);if(!a)return'';return l.res==='clear'?`<div>✔ ${a.n} cleared · +${fmt(l.xp)} XP${l.relic?' · relic!':''}</div>`:l.res==='flee'?`<div>↩ Retreated from ${a.n} after ${l.cleared} of ${l.floors} floors</div>`:`<div>💤 Resting before ${a.n}…</div>`;}).join(''):'<div>No runs yet.</div>'}</div></div>`;
+ return h;}
 function skillPage(sk){
  if(sk==='farm')return farmPage();
- let h=skHead(sk)+'<div class="grid">';
+ let h=skHead(sk)+(sk==='dung'?dungPanel():'')+'<div class="grid">';
  ACT[sk].forEach(a=>{h+=actCard(sk,a);});
  return h+'</div>';}
 
@@ -1309,7 +1445,8 @@ function combatPage(){
  const stl=STANCES[t];const cur=S.cb?Math.min(S.cb.stance,stl.length-1):Math.min(UI.stance||0,stl.length-1);
  h+='<div class="row" style="margin-top:8px"><b>Stance</b><div class="chips">'+stl.map((s,i)=>`<button class="tag${cur===i?' on':''}" data-a="stance" data-i="${i}">${s[0]} · ${s[1].split('+').map(k=>STN[k]).join(' + ')} XP</button>`).join('')+'</div></div>';
  if(t==='magic'){const cs=S.cb?S.cb.spell:Math.min(UI.spell||0,SPELLS.length-1);
-  h+='<div class="row" style="margin-top:8px"><b>Spell</b><div class="chips">'+SPELLS.map((s,i)=>`<button class="tag${cs===i?' on':''}${lv('mag')<s.lvl?' off':''}" data-a="spell" data-i="${i}" title="Level ${s.lvl}">${s.n} · ${s.max}</button>`).join('')+'</div></div>';
+  h+='<div class="row" style="margin-top:8px"><b>Spell</b><div class="chips">'+SPELLS.map((s,i)=>[s,i]).sort((a,b)=>a[0].lvl-b[0].lvl).map(([s,i])=>`<button class="tag${cs===i?' on':''}${lv('mag')<s.lvl?' off':''}" data-a="spell" data-i="${i}" title="Level ${s.lvl}">${s.n} · ${s.max}</button>`).join('')+'</div></div>';
+  {const sp0=SPELLS[cs]||SPELLS[0],wi=(S.equip.weapon&&ITEMS[S.equip.weapon].inf)||[];h+=`<div class="sub" style="margin-top:6px"><b>${sp0.n}</b> (level ${sp0.lvl}) uses ${Object.keys(sp0.cost).map(k=>(wi.includes(k)?'<s>':'')+sp0.cost[k]+' '+ITEMS[k].n+(wi.includes(k)?'</s> free':'')).join(', ')}${sp0.leech?' · heals you for '+Math.round(sp0.leech*100)+'% of the damage':''}</div>`;}
   h+='<div class="sub" style="margin-top:4px">Cost: '+Object.keys(sp.cost).map(k=>ic(k,0,sp.cost[k])).join(' ')+'</div>';}
  if(t==='ranged')h+='<div class="sub" style="margin-top:6px">Arrows: '+(S.equip.ammo?ic(S.equip.ammo,cnt(S.equip.ammo)):'<span class="bad">none equipped</span>')+'</div>';
  const f=S.equip.food;h+='<div class="sub" style="margin-top:6px">Food: '+(f&&cnt(f)?ic(f,cnt(f))+' heals '+ITEMS[f].heal:'<span class="bad">no food equipped</span> (cook fish, then equip it from the Bank)')+'</div></div>';
@@ -1327,13 +1464,13 @@ function equipPage(){
  const g=PS.g;let h='<div class="panel"><h2>Equipment</h2><div class="slots">';
  ['helmet','amulet','ammo','weapon','body','shield','gloves','legs','ring','boots','food'].forEach(sl=>{
   const id=S.equip[sl],it=id?ITEMS[id]:null;
-  h+=`<div class="slot${UI.slot===sl?' on':''}" role="button" tabindex="0" data-a="eslot" data-ctx="slot" data-s="${sl}">${it?`<span class="si">${it.i}</span><span${rc(it)}>${it.n}</span>${(sl==='ammo'||sl==='food')?`<small>×${fmt(cnt(id))}</small>`:''}`:`<span class="si" style="opacity:.35">${SLOTI[sl]}</span><small>${SLOTN[sl]}</small>`}</div>`;});
+  h+=`<div class="slot${UI.slot===sl?' on':''}"${it?` data-tip="${id}"`:''} role="button" tabindex="0" data-a="eslot" data-ctx="slot" data-s="${sl}">${it?`<span class="si">${it.i}</span><span${rc(it)}>${it.n}</span>${(sl==='ammo'||sl==='food')?`<small>×${fmt(cnt(id))}</small>`:''}`:`<span class="si" style="opacity:.35">${SLOTI[sl]}</span><small>${SLOTN[sl]}</small>`}</div>`;});
  h+='</div></div>';
  h+=`<div class="panel"><h3>Bonuses</h3><div class="stats"><span>Attack <b>${g.atk}</b></span><span>Strength <b>${g.str}</b></span><span>Defence <b>${g.def}</b></span><span>Ranged att <b>${g.rngA}</b></span><span>Ranged str <b>${g.rngS+PS.ammoS}</b></span><span>Magic att <b>${g.magA}</b></span><span>Magic dmg <b>${g.magD}%</b></span></div></div>`;
  if(UI.slot){const sl=UI.slot,cur=S.equip[sl];
   const opts=Object.keys(S.bank).filter(id=>ITEMS[id].slot===sl);
   h+=`<div class="panel"><div class="row"><h3 style="margin:0">${SLOTN[sl]} slot</h3><div class="sp"></div>${cur?`<button class="btn sm" data-a="unequip" data-s="${sl}">Unequip ${ITEMS[cur].n}</button>`:''}</div><div class="grid" style="margin-top:8px">`;
-  h+=opts.map(id=>{const it=ITEMS[id];return`<div class="card${lacks(it)?' locked':''}" role="button" tabindex="0" data-a="equip" data-ctx="item" data-id="${id}"><div class="ch"><span class="ci">${it.i}</span><div><div class="cn"${rc(it)}>${it.n}</div><div class="cm">${itemDesc(it)}</div></div></div><div class="sub">In bank: ${fmt(cnt(id))}</div></div>`;}).join('')||'<div class="sub">Nothing in your bank fits this slot.</div>';
+  h+=opts.map(id=>{const it=ITEMS[id];return`<div class="card${lacks(it)?' locked':''}" role="button" tabindex="0" data-a="equip" data-ctx="item" data-id="${id}" data-tip="${id}"><div class="ch"><span class="ci">${it.i}</span><div><div class="cn"${rc(it)}>${it.n}</div><div class="cm">${itemDesc(it)}</div></div></div><div class="sub">In bank: ${fmt(cnt(id))}</div></div>`;}).join('')||'<div class="sub">Nothing in your bank fits this slot.</div>';
   h+='</div></div>';}
  else h+='<div class="sub">Tap a slot to change what you wear.</div>';
  h+=`<div class="panel"><h3>Armour tiers</h3><div class="tw"><table><tr><th>Tier</th><th>Needs</th><th>Made by</th></tr>${T.map((t,k)=>`<tr><td>${t.n}</td><td>Defence ${t.lv}</td><td>Smithing ${Math.min(99,t.lv+8)}+ (platebody)</td></tr>`).join('')}${HIDES.map((x,k)=>`<tr><td>${HNAME[k]}</td><td>Ranged ${x[2]}</td><td>Crafting</td></tr>`).join('')}${CLOTH.map((c,k)=>`<tr><td>${c[1]} robes</td><td>Magic ${c[2]}</td><td>Crafting</td></tr>`).join('')}<tr><td>Boss armour</td><td>Defence and combat level</td><td>Boss drops, 5 rarities</td></tr></table></div></div>`;
@@ -1351,7 +1488,7 @@ function bankPage(){
   <div class="row" style="margin-top:10px">${it.slot?`<button class="btn pri sm${lacks(it)?' off':''}" data-a="equip" data-id="${sid}">${it.slot==='food'||it.slot==='ammo'?'Set as '+SLOTN[it.slot]:'Equip'}</button>`:''}${it.pot?`<button class="btn pri sm" data-a="drink" data-id="${sid}">Drink</button>`:''}
   <button class="btn sm" data-a="sell" data-id="${sid}" data-q="1">Sell 1</button><button class="btn sm${n<10?' off':''}" data-a="sell" data-id="${sid}" data-q="10">Sell 10</button><button class="btn sm" data-a="sell" data-id="${sid}" data-q="${n}">Sell all (🪙 ${fmt(it.v*n)})</button></div></div>`;}
  if(!sid)h+='<div class="panel bdet"><div class="sub">Select an item to see details. Right-click (or press and hold on a phone) for quick actions, or double-click gear to equip it.</div></div>';
- h+='<div class="panel"><div class="bank">'+(ids.map(id=>`<button class="bi${sid===id?' on':''}" data-a="bsel" data-ctx="item" data-id="${id}" title="${ITEMS[id].n}"${ITEMS[id].rar!=null?` style="border-color:${RAR[ITEMS[id].rar][2]}"`:''}>${ITEMS[id].i}<span>${fmt(S.bank[id])}</span></button>`).join('')||'<div class="sub">Nothing here yet.</div>')+'</div></div>';
+ h+='<div class="panel"><div class="bank">'+(ids.map(id=>`<button class="bi${sid===id?' on':''}" data-a="bsel" data-ctx="item" data-id="${id}" data-tip="${id}" aria-label="${ITEMS[id].n}"${ITEMS[id].rar!=null?` style="border-color:${RAR[ITEMS[id].rar][2]}"`:''}>${ITEMS[id].i}<span>${fmt(S.bank[id])}</span></button>`).join('')||'<div class="sub">Nothing here yet.</div>')+'</div></div>';
  const bs=Object.keys(S.buffs);if(bs.length)h+='<div class="panel"><h3>Active potions</h3><div class="stats">'+bs.map(k=>`<span>🧪 +${S.buffs[k].v}% ${PDESC[k]} <b>${fmtT(S.buffs[k].left)}</b></span>`).join('')+'</div></div>';
  return h;}
 
@@ -1514,6 +1651,17 @@ document.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.tar
 document.addEventListener('input',e=>{if(e.target.id==='bsearch'){UI.bq=e.target.value;render();}if(e.target.id==='imp')UI.imp=e.target.value;if(e.target.id==='cheat')UI.cheat=e.target.value;if(e.target.id==='nm')UI.nm=e.target.value;if(e.target.id==='rn')UI.rn=e.target.value;});
 
 /* ---------- boot + loop ---------- */
+
+const TIP=document.createElement('div');TIP.id='tip';TIP.className='tip';TIP.hidden=true;document.body.appendChild(TIP);
+function tipMove(e){if(e.pointerType&&e.pointerType!=='mouse'){TIP.hidden=true;return;}
+ const el=e.target.closest?e.target.closest('[data-tip]'):null;if(!el||!S||UI.ctx){TIP.hidden=true;return;}
+ TIP.innerHTML=tipHtml(el.dataset.tip);TIP.hidden=false;
+ const w=TIP.offsetWidth,h=TIP.offsetHeight;let x=e.clientX+16,y=e.clientY+16;
+ if(x+w>innerWidth-8)x=Math.max(8,e.clientX-w-12);if(y+h>innerHeight-8)y=Math.max(8,e.clientY-h-12);
+ TIP.style.left=x+'px';TIP.style.top=y+'px';}
+document.addEventListener('pointermove',tipMove);
+['click','scroll','keydown','contextmenu'].forEach(ev=>document.addEventListener(ev,()=>{TIP.hidden=true;},{passive:true,capture:true}));
+document.documentElement.addEventListener('mouseleave',()=>{TIP.hidden=true;});
 function boot(){
  migrateLegacy();
  const mt=getMeta();let entered=false;
