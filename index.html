@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-yA2gYYV6zD0PFvqi8YOSSeV504HLHUnfmNlHh3rZPkA='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
 <title>Mossgate Idle</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -41,6 +41,8 @@ h1,h2,h3{font-family:var(--f-head);margin:0;text-wrap:balance}
 .sl .sn{color:var(--accent);font-family:var(--f-head)}
 .sl .at{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:55%}
 .sl .bar{flex:1;min-width:24px}
+.sl.cmb{flex-wrap:wrap;row-gap:3px}.sl.cmb .at{flex:1;max-width:none}.sl.cmb .hpw{order:5;flex-basis:100%}
+.sl .hpw{flex:1;min-width:0;position:relative;display:flex}.sl .hpw .bar{height:17px;width:100%}.sl .hpw em{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-style:normal;font-size:11px;font-weight:600;color:var(--fg,#fff);text-shadow:0 0 3px var(--bg,#000),0 0 3px var(--bg,#000);pointer-events:none;white-space:nowrap}
 .ic{width:1em;height:1em;vertical-align:-.17em;display:inline-block;flex:none}
 .act{flex:1;min-width:0;display:flex;align-items:center;gap:10px}
 .act .at{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:46%}
@@ -88,11 +90,29 @@ h1,h2,h3{font-family:var(--f-head);margin:0;text-wrap:balance}
 .fighter .big{font-size:38px;line-height:1}
 .hit{font-weight:700;color:var(--bad);min-height:20px}
 .log{font-size:12.5px;display:flex;flex-direction:column;gap:3px;color:var(--mute)}
-.slots{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;max-width:420px}
-.slot{background:var(--panel2);border:1px dashed var(--line);border-radius:9px;min-height:78px;padding:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;text-align:center;font-size:12px}
-.slot.on{border-style:solid;border-color:var(--accent)}
-.slot .si{font-size:24px}
-.slot small{color:var(--mute);font-size:10.5px;text-transform:uppercase;letter-spacing:.06em}
+.eqwrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px;align-items:start}
+.osrs{background:linear-gradient(180deg,#4a4235,#3a3328);border:2px solid #1a150e;box-shadow:inset 0 0 0 2px #6b5c42,inset 0 0 18px rgba(0,0,0,.45),0 2px 6px rgba(0,0,0,.25);border-radius:4px;padding:12px;color:#e7dcc0;text-shadow:1px 1px 0 #000}
+.osrs-h{color:#ff981f;font-family:var(--f-head);font-weight:700;font-size:15px;text-align:center;letter-spacing:.04em;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid #1a150e;box-shadow:0 1px 0 #6b5c42}
+.eq-doll{display:grid;grid-template-columns:repeat(3,64px);gap:8px;justify-content:center;max-width:100%}
+.eq-gap{width:64px;height:64px}
+.eq-slot{position:relative;width:64px;height:64px;background:radial-gradient(circle at 50% 35%,#4d4535,#2b2519);border:2px solid #14100a;border-radius:3px;box-shadow:inset 0 0 0 1px #6b5c42,inset 0 2px 6px rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;cursor:pointer;text-shadow:none}
+.eq-slot:hover{box-shadow:inset 0 0 0 1px #c9a44b,inset 0 2px 6px rgba(0,0,0,.6)}
+.eq-slot.on{border-color:#ffcb05;box-shadow:0 0 0 1px #ffcb05,inset 0 0 0 1px #ffcb05,0 0 10px rgba(255,203,5,.55)}
+.eq-slot.has{box-shadow:inset 0 0 0 1px var(--rc,#6b5c42),inset 0 2px 6px rgba(0,0,0,.6)}
+.eq-slot.has.on{box-shadow:0 0 0 1px #ffcb05,inset 0 0 0 1px #ffcb05,0 0 10px rgba(255,203,5,.55)}
+.eq-slot .si{font-size:28px;line-height:1;display:flex}
+.eq-slot .si .ic{width:40px;height:40px}
+.eq-slot .si.ghost{opacity:.28;filter:grayscale(1) sepia(.6);font-size:26px}
+.eq-slot em{position:absolute;left:0;right:0;bottom:-1px;font-style:normal;font-size:8.5px;text-transform:uppercase;letter-spacing:.06em;color:#a89a78;text-align:center;opacity:0;transition:opacity .12s}
+.eq-slot:hover em,.eq-slot:focus-visible em{opacity:1}
+.eq-slot .eq-n{position:absolute;left:3px;top:1px;color:#ffff00;font-size:11px;font-weight:700;text-shadow:1px 1px 0 #000}
+.eq-foot{text-align:center;color:#c9bd9c;font-size:12px;margin-top:10px}
+.eq-foot b{color:#ffff00}
+.eq-sec{color:#ff981f;font-weight:700;font-size:12.5px;margin:10px 0 3px;padding-top:6px;border-top:1px solid rgba(0,0,0,.45);box-shadow:0 -1px 0 rgba(255,255,255,.05)}
+.eq-sec:first-of-type{border-top:0;box-shadow:none;margin-top:0;padding-top:0}
+.eq-row{display:flex;justify-content:space-between;gap:10px;font-size:13px;padding:1px 2px}
+.eq-row b{color:#fff;font-variant-numeric:tabular-nums;text-transform:capitalize}
+.eq-row b.pos{color:#4ade4a}.eq-row b.neg{color:#ff5a4a}
 .bank{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:6px}
 .bi{position:relative;aspect-ratio:1;background:var(--panel2);border:1px solid var(--line);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:26px;cursor:pointer;padding:0}
 .bi:hover{border-color:var(--accent)}.bi.on{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent) inset}
@@ -157,10 +177,24 @@ table{border-collapse:collapse;width:100%;font-size:13px}td,th{padding:5px 8px;b
 .tip i{font-style:normal;font-size:11px}.tip i.up{color:var(--good)}.tip i.dn{color:var(--bad)}
 .tip .tq{color:var(--mute)}.tip .tq.bad{color:var(--bad)}
 .statln{color:var(--accent);font-weight:500;font-size:12.5px}
+
+.dgs{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));align-items:start}
+.dgc.on{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset}
+.dgw{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.dgw .chip{font-size:11.5px}.dgw .chip.on{outline:2px solid var(--accent)}.dgw small{color:var(--mute)}
+.dgr{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:8px;font-size:12.5px}
+.dgi{display:inline-flex;align-items:center;gap:4px;padding:2px 7px;border:1px solid var(--line);border-radius:7px;background:var(--panel2);font-size:12px}
+.dgi.got{border-color:var(--accent)}.dgi b{color:var(--accent)}
+.dglive{margin-top:10px;padding:8px;border-radius:8px;background:var(--panel2);display:flex;flex-direction:column;gap:5px}
+
+.bagl{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;max-height:220px;overflow:auto}
+.bagi{cursor:pointer;font:inherit;font-size:12px;color:inherit}
+.bagi:hover{border-color:var(--accent)}
 </style>
 <div class="app" id="app"><aside class="rail" id="rail"></aside><div class="main"><header class="top" id="top"></header><main class="page" id="page"></main></div></div>
 <div class="toasts" id="toasts" aria-live="polite"></div><div id="modal"></div><div id="ctx"></div>
 <script>
+(function(){
 'use strict';
 /* ===== Mossgate Idle: game data ===== */
 const XPT=[0];(function(){let p=0;for(let l=1;l<120;l++){p+=Math.floor(l+300*Math.pow(2,l/7));XPT[l]=Math.floor(p/4);}})();
@@ -182,8 +216,8 @@ const SKILLS=[
  ['smith','Smithing','🔨','Smelt bars and forge weapons, armour and arrowtips.'],
  ['fletch','Fletching','🪶','Make bows, staves and arrows.'],
  ['craft','Crafting','🧵','Craft hide armour, robes and jewellery.'],
- ['thief','Thieving','🗝️','Pick pockets for coins. Failure hurts and stuns you.'],
- ['farm','Farming','🌱','Grow crops and herbs in real time, even while you are away.'],
+ ['thief','Thieving','🗝️','Pick pockets for coins, seeds and loot. Failure hurts and stuns you.'],
+ ['farm','Farming','🌱','Grow crops, herbs and trees in real time, even while you are away.'],
  ['herb','Herblore','🧪','Brew potions that boost your skills and combat.'],
  ['rc','Runecrafting','🔮','Turn essence into runes for magic.'],
  ['agi','Agility','🏃','Run obstacle courses for coins and experience.'],
@@ -219,9 +253,9 @@ FISH.forEach((f,k)=>{mk('fish_'+f[0],'Raw '+f[1],'🐟',f[4],'fish');mk('food_'+
  ACT.cook.push({id:'cook_'+f[0],n:'Cook '+f[1],i:'🍖',lvl:f[2],xp:R(f[3]*0.9+1),t:3,in:{['fish_'+f[0]]:1,['log_'+LOGS[Math.min(LOGS.length-1,Math.floor(k*0.9))][0]]:1},out:{['food_'+f[0]]:1}});});
 
 /* mining */
-const ORES=[['copper','Copper Ore',1,7,2,3],['tin','Tin Ore',1,7,2,3],['iron','Iron Ore',15,16,5,3.4],['coal','Coal',30,30,9,3.8],['mithril','Mithril Ore',35,36,18,4],['adamant','Adamant Ore',50,56,34,4.5],['rune','Rune Ore',65,85,60,5],['dragon','Dragonite Ore',80,130,110,6],['ess','Rune Essence',1,5,2,2.5]];
-ORES.forEach(o=>{mk('ore_'+o[0],o[1],o[0]==='ess'?'✨':'🪨',o[4],'ore');
- ACT.mine.push({id:'mine_'+o[0],n:o[1],i:o[0]==='ess'?'✨':'⛏️',lvl:o[2],xp:o[3],t:o[5],out:{['ore_'+o[0]]:1},gem:o[0]!=='ess'?0.012:0});});
+const ORES=[['copper','Copper Ore',1,7,2,3],['tin','Tin Ore',1,7,2,3],['iron','Iron Ore',15,16,5,3.4],['coal','Coal',30,30,9,3.8],['mithril','Mithril Ore',35,36,18,4],['adamant','Adamant Ore',50,56,34,4.5],['rune','Rune Ore',65,85,60,5],['dragon','Dragonite Ore',80,130,110,6],['ess','Rune Essence',1,5,2,2.5],['pure','Pure Essence',30,14,5,2.8]];
+ORES.forEach(o=>{mk('ore_'+o[0],o[1],/^(ess|pure)$/.test(o[0])?'✨':'🪨',o[4],'ore');
+ ACT.mine.push({id:'mine_'+o[0],n:o[1],i:/^(ess|pure)$/.test(o[0])?'✨':'⛏️',lvl:o[2],xp:o[3],t:o[5],out:{['ore_'+o[0]]:1},gem:/^(ess|pure)$/.test(o[0])?0:0.012});});
 
 /* smithing */
 const BARIN=[{ore_copper:1,ore_tin:1},{ore_iron:1},{ore_iron:1,ore_coal:2},{ore_mithril:1,ore_coal:3},{ore_adamant:1,ore_coal:4},{ore_rune:1,ore_coal:5},{ore_dragon:1,ore_coal:6}];
@@ -275,7 +309,7 @@ JW.forEach((j,k)=>{
 const RUNES=[['air','Air Rune','💨',1,4,2,6],['water','Water Rune','💧',5,8,2,6],['earth','Earth Rune','🪨',9,12,2,6],['fire','Fire Rune','🔥',14,17,2,6],
  ['mind','Mind Rune','🧠',3,6,3,6],['body','Body Rune','💪',20,22,4,6],['cosmic','Cosmic Rune','✨',27,30,9,5],['chaos','Chaos Rune','🌀',35,42,14,5],['nature','Nature Rune','🍃',44,54,22,4],['law','Law Rune','⚖️',54,68,34,4],['death','Death Rune','💀',65,85,50,3],['blood','Blood Rune','🩸',77,108,80,3],['soul','Soul Rune','👻',90,135,120,2]];
 RUNES.forEach(r=>{mk('rune_'+r[0],r[1],r[2],r[5],'rune');
- ACT.rc.push({id:'rc_'+r[0],n:r[1]+'s',i:r[2],lvl:r[3],xp:r[4],t:2.5,in:{ore_ess:1},out:{['rune_'+r[0]]:r[6]}});});
+ ACT.rc.push({id:'rc_'+r[0],n:r[1]+'s',i:r[2],lvl:r[3],xp:r[4],t:2.5,in:{[r[3]>=27?'ore_pure':'ore_ess']:1},out:{['rune_'+r[0]]:r[6]}});});
 const SPELLS=[
  {id:'gust',n:'Gust',lvl:1,max:25,xp:6,cost:{rune_air:2}},
  {id:'wave',n:'Splash Wave',lvl:10,max:40,xp:11,cost:{rune_water:2,rune_air:2}},
@@ -296,13 +330,22 @@ const SPELLS=[
  {id:'soulstorm',n:'Soul Storm',lvl:95,max:430,xp:195,cost:{rune_soul:2,rune_blood:2,rune_death:2},leech:0.35}];
 
 /* thieving */
-const THIEF=[['man','Townsperson','🧍',1,8,[1,10],25,[]],['farmer','Farmer','🧑‍🌾',10,16,[4,28],40,[['seed_potato',0.1,1,3]]],['warrior','Guard','💂',20,26,[20,70],70,[['bar_iron',0.05,1,1]]],
- ['merchant','Merchant','🧔',30,38,[60,150],110,[['ore_coal',0.1,2,6]]],['noble','Noble','🤴',45,56,[120,320],170,[['gem_sapphire',0.03,1,1]]],['wizard','Wizard','🧙',60,80,[220,540],260,[['rune_fire',0.25,6,18],['rune_water',0.25,6,18]]],
- ['guild','Guildmaster','🕵️',75,115,[420,980],380,[['gem_ruby',0.03,1,1],['gem_emerald',0.05,1,1]]],['hoard','Dragon Hoarder','🐉',90,170,[900,2100],600,[['gem_diamond',0.03,1,1],['bar_dragon',0.04,1,1]]]];
+const THIEF=[
+ ['man','Townsperson','🧍',1,8,[1,10],25,[['seed_potato',0.08,1,2],['seed_flax',0.05,1,2],['food_shrimp',0.06,1,2],['vial',0.05,1,1],['ore_copper',0.06,1,2],['ore_tin',0.06,1,2]]],
+ ['farmer','Farmer','🧑‍🌾',10,16,[4,28],40,[['seed_potato',0.1,1,3],['seed_flax',0.08,1,3],['seed_onion',0.08,1,3],['seed_green',0.05,1,2],['seed_tree_oak',0.06,1,1],['seed_tree_willow',0.02,1,1],['food_sardine',0.08,1,2],['feather',0.15,2,6]]],
+ ['warrior','Guard','💂',20,26,[20,70],70,[['bar_iron',0.08,1,2],['bar_steel',0.03,1,1],['ore_iron',0.1,1,3],['food_trout',0.08,1,2],['arrow_iron',0.1,5,15],['seed_cabbage',0.05,1,2],['seed_tomato',0.03,1,2]]],
+ ['merchant','Merchant','🧔',30,38,[60,150],110,[['ore_coal',0.15,2,6],['bar_steel',0.06,1,2],['seed_tomato',0.08,1,3],['seed_sweetcorn',0.04,1,2],['seed_sun',0.05,1,2],['vial',0.08,1,3],['food_salmon',0.08,1,2],['gem_sapphire',0.02,1,1]]],
+ ['mfarmer','Master Farmer','👨‍🌾',38,48,[90,220],140,[['seed_tree_teak',0.05,1,1],['seed_tree_maple',0.04,1,1],['seed_tree_mahog',0.03,1,1],['seed_tree_yew',0.02,1,1],['seed_tree_magic',0.01,1,1],['seed_watermelon',0.12,1,3],['seed_sweetcorn',0.15,1,3],['seed_strawberry',0.1,1,3],['seed_silkweed',0.1,1,3],['seed_sun',0.08,1,2],['seed_frost',0.05,1,2]]],
+ ['noble','Noble','🤴',45,56,[120,320],170,[['gem_sapphire',0.05,1,1],['gem_emerald',0.02,1,1],['bar_mithril',0.05,1,2],['seed_strawberry',0.06,1,2],['food_lobster',0.08,1,2],['rune_cosmic',0.1,3,8]]],
+ ['wizard','Wizard','🧙',60,80,[220,540],260,[['rune_fire',0.25,6,18],['rune_water',0.25,6,18],['rune_nature',0.15,4,10],['rune_law',0.08,2,6],['rune_death',0.04,1,4],['ore_pure',0.2,5,15],['seed_ember',0.05,1,2],['seed_moon',0.03,1,2]]],
+ ['guild','Guildmaster','🕵️',75,115,[420,980],380,[['gem_ruby',0.05,1,1],['gem_emerald',0.06,1,1],['bar_adamant',0.08,1,2],['seed_watermelon',0.06,1,2],['seed_moonthread',0.04,1,2],['seed_tree_magic',0.02,1,1],['food_shark',0.08,1,2],['rune_blood',0.04,1,3]]],
+ ['hoard','Dragon Hoarder','🐉',90,170,[900,2100],600,[['gem_diamond',0.05,1,1],['bar_dragon',0.05,1,1],['dragon_scale',0.03,1,1],['ore_dragon',0.1,1,2],['seed_thistle',0.06,1,2],['seed_tree_redwood',0.03,1,1],['seed_tree_magic',0.04,1,1],['rune_soul',0.05,2,5]]]];
 THIEF.forEach((t,k)=>ACT.thief.push({id:'thief_'+t[0],n:t[1],i:t[2],lvl:t[3],xp:t[4],t:3,coins:t[5],dmg:t[6],drops:t[7]}));
 
 /* agility */
 const AGI=[['log','Log Balance',1,8,3,[2,6]],['rope','Rope Swing',10,15,3.4,[6,16]],['wall','Wall Climb',20,24,3.8,[14,36]],['ledge','Narrow Ledge',30,36,4.2,[28,70]],['net','Net Crawl',40,52,4.6,[55,130]],['pipe','Pipe Squeeze',50,72,5,[100,230]],['tight','Tightrope',60,98,5.4,[170,380]],['spike','Spike Pits',70,128,5.8,[260,560]],['sky','Sky Bridge',80,165,6.2,[400,820]],['scale','Scale Wall',90,215,6.6,[600,1250]]];
+/* agility level buffs: [level, label, key, value] (permanent, cumulative) */
+const AGB=[[5,'+2% skill speed','spd',.02],[10,'+10% hitpoint regeneration','reg',.10],[20,'+3% skill XP','xp',.03],[30,'+4% chance to double gathering','dbl',.04],[40,'+4% combat accuracy','acc',.04],[50,'+3% skill speed','spd',.03],[60,'+20% hitpoint regeneration','reg',.20],[70,'+5% defence rating','def',.05],[80,'+4% chance to save materials','pre',.04],[90,'+3% skill XP','xp',.03],[99,'+5% skill speed and +5% combat accuracy','spd',.05,'acc',.05]];
 AGI.forEach(a=>ACT.agi.push({id:'agi_'+a[0],n:a[1],i:'🏃',lvl:a[2],xp:a[3],t:a[4],coins:a[5]}));
 
 /* herblore */
@@ -324,10 +367,14 @@ const CROPS=[
  ['silkweed','Silkweed','allot',45,520,1200,110,24,[6,10]],['strawberry','Strawberry','allot',50,700,1500,150,42,[5,9]],['watermelon','Watermelon','allot',60,1000,1800,220,70,[4,8]],
  ['moonthread','Moonthread','allot',70,1400,2400,320,40,[6,10]]];
 HERBS.forEach((h,k)=>CROPS.push([h[0],h[1],'herb',h[2],[120,220,420,700,1100,1800,3000][k],[900,1200,1800,2400,3000,3600,5400][k],[40,70,120,200,320,520,900][k],0,[3,6]]));
-const CROP=CROPS.map(c=>{const isH=c[2]==='herb';
- const o={id:'c_'+c[0],n:c[1],cat:c[2],lvl:c[3],xp:c[4],t:c[5],seedCost:c[6],q:c[8],item:isH?'herb_'+c[0]:'crop_'+c[0],seed:'seed_'+c[0],i:isH?'🌿':'🥬'};
- mk(o.seed,c[1]+' Seed','🌱',Math.max(1,R(c[6]/3)),'seed');
- if(!isH)mk(o.item,c[1],'🥬',c[7],'crop');
+/* trees: seeds only drop from monsters and thieving */
+const TREES=[['oak','Oak',10,150,600,40,[10,16]],['willow','Willow',20,260,900,70,[10,16]],['teak','Teak',30,420,1200,110,[9,15]],['maple','Maple',40,650,1800,180,[9,15]],
+ ['mahog','Mahogany',50,1000,2400,300,[8,14]],['yew','Yew',60,1600,3600,500,[8,14]],['magic','Magic',75,2800,5400,900,[7,12]],['redwood','Redwood',90,4800,7200,1600,[6,10]]];
+TREES.forEach(t=>CROPS.push(['tree_'+t[0],t[1]+' Tree','tree',t[2],t[3],t[4],t[5],0,t[6]]));
+const CROP=CROPS.map(c=>{const isH=c[2]==='herb',isT=c[2]==='tree';
+ const o={id:'c_'+c[0],n:c[1],cat:c[2],lvl:c[3],xp:c[4],t:c[5],seedCost:c[6],q:c[8],item:isT?'log_'+c[0].slice(5):isH?'herb_'+c[0]:'crop_'+c[0],seed:'seed_'+c[0],i:isH?'🌿':isT?'🌳':'🥬',noBuy:isT};
+ mk(o.seed,isT?c[1]+' Seed':c[1]+' Seed',isT?'🌰':'🌱',Math.max(1,R(c[6]/3)),'seed');
+ if(!isH&&!isT)mk(o.item,c[1],'🥬',c[7],'crop');
  return o;});
 const CROPBY={};CROP.forEach(c=>CROPBY[c.id]=c);
 CROP.forEach(c=>c.mx=Math.max(8,c.t/12));
@@ -338,31 +385,31 @@ const AREAS=[
  {id:'farm',n:'Greenfield Farm',i:'🌾',mons:[
   ['chicken','Chicken','🐔',1,[['bones',1,1,1],['feather',0.8,3,8],['seed_potato',0.1,1,2]]],
   ['cow','Cow','🐄',5,[['bones',1,1,1],['hide_cow',1,1,1],['seed_flax',0.08,1,2]]],
-  ['farmhand','Rogue Farmhand','🧑‍🌾',9,[['bones',1,1,1],['seed_onion',0.1,1,3],['ore_copper',0.15,1,3],['vial',0.1,1,2]]]]},
+  ['farmhand','Rogue Farmhand','🧑‍🌾',9,[['bones',1,1,1],['seed_onion',0.1,1,3],['seed_tree_oak',0.05,1,1],['ore_copper',0.15,1,3],['vial',0.1,1,2]]]]},
  {id:'camp',n:'Goblin Camp',i:'⛺',mons:[
   ['goblin','Goblin','👺',13,[['bones',1,1,1],['ore_tin',0.2,1,3],['bar_bronze',0.06,1,1]]],
   ['hobgob','Hobgoblin','👹',19,[['bones',1,1,1],['ore_iron',0.15,1,3],['bar_bronze',0.1,1,2],['gem_sapphire',0.015,1,1]]],
-  ['chief','Goblin Chief','👑',26,[['bones',1,1,1],['bar_iron',0.15,1,2],['gem_sapphire',0.03,1,1],['seed_cabbage',0.08,1,2]]]]},
+  ['chief','Goblin Chief','👑',26,[['bones',1,1,1],['bar_iron',0.15,1,2],['gem_sapphire',0.03,1,1],['seed_cabbage',0.08,1,2],['seed_tree_willow',0.04,1,1]]]]},
  {id:'wood',n:'Darkwood',i:'🌲',mons:[
   ['wolf','Dire Wolf','🐺',30,[['bones',1,1,1],['hide_wolf',1,1,1],['herb_green',0.1,1,2]]],
-  ['bandit','Highway Bandit','🥷',36,[['bones',1,1,1],['gem_emerald',0.03,1,1],['bar_steel',0.1,1,2],['seed_tomato',0.08,1,2]]],
-  ['bear','Cave Bear','🐻',43,[['bones',1,1,1],['hide_bear',1,1,1],['herb_mint',0.1,1,2]]]]},
+  ['bandit','Highway Bandit','🥷',36,[['bones',1,1,1],['gem_emerald',0.03,1,1],['bar_steel',0.1,1,2],['seed_tomato',0.08,1,2],['seed_tree_teak',0.04,1,1]]],
+  ['bear','Cave Bear','🐻',43,[['bones',1,1,1],['hide_bear',1,1,1],['herb_mint',0.1,1,2],['seed_tree_maple',0.035,1,1]]]]},
  {id:'crypt',n:'Sunken Crypt',i:'⚰️',mons:[
   ['skel','Skeleton Warrior','💀',46,[['bones',1,1,1],['bar_steel',0.12,1,2],['rune_earth',0.3,5,14]]],
-  ['wight','Barrow Wight','👻',52,[['bones',1,1,1],['rune_water',0.35,6,18],['herb_sun',0.12,1,2],['gem_ruby',0.02,1,1]]],
+  ['wight','Barrow Wight','👻',52,[['bones',1,1,1],['rune_water',0.35,6,18],['herb_sun',0.12,1,2],['gem_ruby',0.02,1,1],['seed_tree_mahog',0.03,1,1]]],
   ['lich','Crypt Lich','🧙',58,[['bones',1,1,1],['rune_air',0.4,8,22],['gem_ruby',0.04,1,1],['seed_sweetcorn',0.08,1,2]]]]},
  {id:'crag',n:'Giant Crag',i:'⛰️',mons:[
-  ['giant','Hill Giant','🧌',62,[['bones',1,1,1],['ore_coal',0.4,3,8],['herb_frost',0.1,1,2]]],
+  ['giant','Hill Giant','🧌',62,[['bones',1,1,1],['ore_coal',0.4,3,8],['herb_frost',0.1,1,2],['seed_tree_yew',0.03,1,1]]],
   ['golem','Stone Golem','🗿',68,[['ore_mithril',0.3,1,3],['ore_coal',0.4,3,9],['gem_emerald',0.04,1,1]]],
   ['cyclops','Cyclops','👁️',74,[['bones',1,1,1],['ore_adamant',0.2,1,3],['gem_ruby',0.05,1,1],['seed_watermelon',0.07,1,2]]]]},
  {id:'ember',n:'Ember Peaks',i:'🌋',mons:[
   ['imp','Fire Imp','😈',76,[['rune_fire',0.5,8,24],['herb_ember',0.1,1,2]]],
-  ['drake','Ember Drake','🐉',82,[['bones',1,1,1],['hide_drake',1,1,1],['gem_diamond',0.01,1,1]]],
+  ['drake','Ember Drake','🐉',82,[['bones',1,1,1],['hide_drake',1,1,1],['gem_diamond',0.01,1,1],['seed_tree_magic',0.025,1,1]]],
   ['brute','Magma Brute','🔥',88,[['bones',1,1,1],['ore_rune',0.2,1,3],['bar_adamant',0.12,1,2],['herb_moon',0.08,1,2]]]]},
  {id:'isle',n:'Dragon Isle',i:'🏝️',mons:[
   ['wyvern','Wyvern','🦎',92,[['dragon_bone',1,1,1],['hide_drake',0.5,1,2],['gem_diamond',0.02,1,1]]],
-  ['gdragon','Green Dragon','🐲',100,[['dragon_bone',1,1,1],['hide_drake',0.7,1,2],['bar_rune',0.1,1,2],['herb_thistle',0.1,1,2],['gem_diamond',0.03,1,1]]],
-  ['elder','Elder Dragon','🐲',115,[['dragon_bone',1,1,2],['dragon_scale',0.2,1,1],['ore_dragon',0.25,1,3],['bar_dragon',0.1,1,2],['gem_diamond',0.08,1,1]],true]]}];
+  ['gdragon','Green Dragon','🐲',100,[['dragon_bone',1,1,1],['hide_drake',0.7,1,2],['bar_rune',0.1,1,2],['herb_thistle',0.1,1,2],['gem_diamond',0.03,1,1],['seed_tree_redwood',0.02,1,1]]],
+  ['elder','Elder Dragon','🐲',115,[['dragon_bone',1,1,2],['dragon_scale',0.2,1,1],['ore_dragon',0.25,1,3],['bar_dragon',0.1,1,2],['gem_diamond',0.08,1,1],['seed_tree_redwood',0.1,1,1],['seed_tree_magic',0.1,1,1]],true]]}];
 const MONS={};
 AREAS.forEach(a=>{a.mons=a.mons.map(m=>{const cb=m[3],boss=!!m[5];
  const o={id:m[0],n:m[1],i:m[2],cb,area:a.id,boss,hp:R((15+cb*8+cb*cb*0.05)*(boss?1.3:1)),
@@ -374,8 +421,8 @@ AREAS.forEach(a=>{a.mons=a.mons.map(m=>{const cb=m[3],boss=!!m[5];
 const UPG_COST=[400,3500,22000,140000,900000,5e6,3e7,1.5e8],UPG_LV=[5,20,40,60,80,90,95,99],UPG_N=['Iron','Steel','Mithril','Adamant','Rune','Dragon','Celestial','Mythic'],UPG_MAX=8;
 const TOOLS={farm:'Watering Can',wc:'Axe',fish:'Fishing Rod',mine:'Pickaxe',fm:'Tinderbox',cook:'Cooking Pot',smith:'Hammer',fletch:'Carving Knife',craft:'Needle Set',thief:'Lockpicks',herb:'Mortar',rc:'Talisman',dung:'Delver Kit',agi:'Climbing Gear'};
 const BANK_BASE=60,BANK_STEP=10,bankCost=n=>Math.round(1500*Math.pow(1.45,n)),BANK_MAXBUY=20;
-const plotCost=(cat,owned)=>cat==='allot'?Math.round(1500*Math.pow(2.3,owned-3)):Math.round(3500*Math.pow(2.6,owned-2));
-const PLOT_MAX={allot:8,herb:5};
+const plotCost=(cat,owned)=>cat==='tree'?Math.round(8000*Math.pow(3,owned-1)):cat==='allot'?Math.round(1500*Math.pow(2.3,owned-3)):Math.round(3500*Math.pow(2.6,owned-2));
+const PLOT_MAX={allot:8,herb:5,tree:5};
 const OFFLINE_CAP=12*3600;
 const PERKS=[
  {id:'xp',n:"Scholar's Tome",d:'+2% experience in every skill',max:5,cost:[50000,250000,1e6,4e6,15e6]},
@@ -385,7 +432,7 @@ const PERKS=[
  {id:'eat',n:'Field Medic',d:'Eat food at a higher health level (+5% per tier, from 50%)',max:5,cost:[40000,180000,700000,2.5e6,9e6]},
  {id:'gold',n:"Merchant's Ledger",d:'+5% coins from monsters, thieving and agility',max:5,cost:[90000,450000,1.8e6,7e6,22e6]},
  {id:'off',n:'Camp Bed',d:'+6 hours of offline progress',max:5,cost:[100000,500000,2e6,8e6,25e6]}];
-const SUPPLY={rune_mind:6,rune_body:6,rune_cosmic:14,rune_chaos:26,rune_nature:40,log_willow:36,log_teak:55,vial:25,food_shrimp:20,food_trout:55,food_salmon:85,food_lobster:150,arrow_bronze:6,arrow_iron:14,arrow_steel:28,arrow_mithril:60,rune_air:6,rune_water:6,rune_earth:6,rune_fire:6,ore_ess:8,log_normal:8,log_oak:20,ore_copper:10,ore_tin:10,ore_coal:30,bones:6};
+const SUPPLY={rune_mind:6,rune_body:6,rune_cosmic:14,rune_chaos:26,rune_nature:40,log_willow:36,log_teak:55,vial:25,food_shrimp:20,food_trout:55,food_salmon:85,food_lobster:150,arrow_bronze:6,arrow_iron:14,arrow_steel:28,arrow_mithril:60,rune_air:6,rune_water:6,rune_earth:6,rune_fire:6,ore_ess:8,ore_pure:16,log_normal:8,log_oak:20,ore_copper:10,ore_tin:10,ore_coal:30,bones:6};
 
 /* ===== bosses and rarity weapons ===== */
 const RAR=[['Common','Rough','#9aa0a6'],['Uncommon','Fine','#4caf6a'],['Rare','Superior','#4a8be0'],['Epic','Exalted','#a855d6'],['Legendary','Mythic','#f0a030']];
@@ -460,6 +507,57 @@ const RELICS=[['Warren Idol','xp','+1% skill experience'],['Cellar Key','gold','
  ['Warchief Banner','dmg','+1.5% combat damage'],['Frost Shard','hp','+2.5% max health'],['Tide Idol','gold','+2.5% coins'],['Molten Heart','luck','+1% double and save chance'],['Void Eye','xp','+1% skill experience'],['Dragon Crown Jewel','dmg','+1.5% combat damage']];
 DUNG.forEach((d,k)=>{const rec=d[3],avg=(4+rec*5+rec*rec*0.08)*d[4]*0.7;
  ACT.dung.push({id:'dg_'+d[0],n:d[1],i:'',lvl:d[2],rec,floors:d[4],t:d[5],xp:R(d[5]*d[6]),fd:R((3+rec*1.4+rec*rec*0.01)*1.4*0.55),coins:[R(avg*0.6),R(avg*1.4)],drops:d[8],relic:k,col:d[7],boss:BOSSN[k]});});
+
+/* ===== Combat dungeons: waves of enemies, then a boss, for unique rare loot ===== */
+const DUNGEONS=[
+ {id:'barrow',idp:'bar',n:'Hollow Barrow',i:'⚰️',req:30,mag:1,desc:'Restless dead stir beneath an old burial mound. Four waves, then the Barrow Warden.',
+  waves:[['Restless Skeleton','💀',30,'skel'],['Grave Wight','👻',32,'wight'],['Bone Archer','🏹',34,'skel'],['Crypt Lich','🧙',36,'lich']],
+  boss:{n:'Barrow Warden',i:'👻',cb:44,pt:'tyrant'},hm:1.7,dm:1.25,zh:2.6,zd:1.3,acc:1.1,bonus:15000,
+  cape:{id:'cape_barrow',n:'Barrow Shroud',col:'#5a6a7a',req:30,st:{atk:6,str:6,def:8,rngA:6,magA:6}},
+  rares:[{id:'dr_barrow_ring',n:"Warden's Signet",slot:'ring',col:'#7a8a9a',req:34,st:{def:10,str:8,atk:6}},{id:'dr_barrow_amu',n:'Gravechill Amulet',slot:'amulet',col:'#8aa0c0',req:34,st:{magA:14,magD:6,def:4}}],
+  loot:[['bar_steel',.5,2,5],['gem_ruby',.15,1,2],['rune_soul',.3,3,8]]},
+ {id:'troll',idp:'trl',n:'Troll Stronghold',i:'🧌',req:50,mag:1,desc:'A fortified cave of trolls. Five brutes of growing size, then Grash the Troll King.',
+  waves:[['Hill Troll','🧌',52,'giant'],['Troll Berserker','👹',54,'giant'],['Troll Shaman','🧙',57,'cyclops'],['Rock Troll','🗿',60,'golem'],['Troll Chieftain','👑',63,'titan']],
+  boss:{n:'Grash, the Troll King',i:'👑',cb:70,pt:'titan'},hm:1.9,dm:1.4,zh:3,zd:1.5,acc:1.15,bonus:40000,
+  cape:{id:'cape_troll',n:'Trollhide Cloak',col:'#6a8a4a',req:50,st:{atk:10,str:14,def:14,rngA:8,magA:8}},
+  rares:[{id:'dr_troll_gloves',n:"Grash's Knuckles",slot:'gloves',col:'#8a6a3a',req:54,st:{str:18,atk:10,def:6}},{id:'dr_troll_shield',n:'Trollhide Bulwark',slot:'shield',col:'#6a8a4a',req:54,st:{def:46,str:4}}],
+  loot:[['bar_adamant',.4,2,4],['ore_adamant',.4,2,5],['gem_diamond',.05,1,1]]},
+ {id:'frost',idp:'frs',n:'Frostfang Lair',i:'❄️',req:65,mag:1,desc:'An ice-bound den of wolves and wraiths. Six waves, then Frostfang the Elder.',
+  waves:[['Frost Wolf','🐺',66,'wolf'],['Ice Wraith','👻',68,'wight'],['Rime Bear','🐻',71,'bear'],['Frozen Revenant','💀',74,'skel'],['Glacier Golem','🗿',77,'golem'],['Frostfang Whelp','🐲',80,'drake']],
+  boss:{n:'Frostfang the Elder',i:'🐺',cb:90,pt:'alpha'},hm:2.1,dm:1.6,zh:3.6,zd:1.8,acc:1.15,bonus:90000,
+  cape:{id:'cape_frost',n:'Frostfang Mantle',col:'#7ac2ff',req:65,st:{atk:16,str:16,def:20,rngA:16,rngS:10,magA:16,magD:8}},
+  rares:[{id:'dr_frost_amu',n:'Frostfang Torc',slot:'amulet',col:'#7ac2ff',req:70,st:{atk:20,str:20,def:8}},{id:'dr_frost_ring',n:'Rimeheart Ring',slot:'ring',col:'#aee0ff',req:70,st:{def:20,rngA:16,rngS:10}}],
+  loot:[['bar_rune',.15,1,2],['gem_diamond',.08,1,1],['herb_frost',.4,2,5]]},
+ {id:'temple',idp:'tmp',n:'Sunken Temple of Zhar',i:'🌊',req:78,mag:1,desc:'A drowned shrine of tide priests. Seven waves, then Zhar, the Tide Priest.',
+  waves:[['Tide Acolyte','🧎',80,'bandit'],['Coral Guardian','🪸',83,'golem'],['Drowned Knight','⚔️',86,'tyrant'],['Reef Serpent','🐍',89,'wyrm'],['Storm Priest','🧙',92,'lich'],['Kraken Spawn','🐙',95,'wyvern'],['Deep Titan','🗿',98,'titan']],
+  boss:{n:'Zhar, the Tide Priest',i:'🧜',cb:108,pt:'gdragon'},hm:2.2,dm:1.7,zh:4,zd:1.9,acc:1.2,bonus:160000,
+  cape:{id:'cape_temple',n:"Tidecaller's Cloak",col:'#2fb5a0',req:80,st:{atk:24,str:24,def:27,rngA:24,rngS:16,magA:26,magD:13}},
+  rares:[{id:'dr_temple_helm',n:"Zhar's Diadem",slot:'helmet',col:'#2fb5a0',req:84,st:{magA:30,magD:14,def:24}},{id:'dr_temple_ring',n:'Coral Scale Ring',slot:'ring',col:'#ff8a7a',req:84,st:{rngA:26,rngS:14,def:14}}],
+  loot:[['bar_rune',.25,1,3],['gem_diamond',.12,1,2],['dragon_bone',.4,1,3]]},
+ {id:'inferno',idp:'inf',n:'The Inferno',i:'🔥',req:90,mag:.45,desc:'Eight waves of fire creatures with no rest in between, then Zook, the Ember Tyrant, who grows frantic below half health. Fire creatures resist magic.',
+  waves:[['Cinder Imp','😈',84,'imp'],['Ash Hound','🐺',88,'wolf'],['Magma Bat','🦇',92,'wyvern'],['Obsidian Brute','👹',96,'brute'],['Flame Shaman','🧙',100,'lich'],['Lava Serpent','🐍',104,'wyrm'],['Molten Golem','🗿',108,'golem'],['Inferno Knight','⚔️',112,'tyrant']],
+  boss:{id:'inf_zook',n:'Zook, the Ember Tyrant',i:'🔥',cb:135,pt:'elder',enr:1,drops:[['dragon_bone',1,3,5],['gem_diamond',0.5,1,3]]},hm:2.4,dm:1.9,zh:4.5,zd:2.1,acc:1.25,bonus:250000,
+  cape:{id:'cape_inferno',n:'Infernal Cape',col:'#c2410c',req:100,st:{atk:34,str:34,def:34,rngA:34,rngS:22,magA:34,magD:18}},
+  rares:[{id:'dr_inf_ring',n:'Ember Signet',slot:'ring',col:'#ff7a1a',req:96,st:{atk:30,str:30,def:22,rngA:24,rngS:16,magA:24,magD:12}},{id:'dr_inf_amu',n:'Magma Heart',slot:'amulet',col:'#ff4a1a',req:96,st:{atk:26,str:26,def:26,rngA:26,rngS:18,magA:30,magD:15}}],
+  loot:[['bar_dragon',.2,1,2],['gem_diamond',.25,1,3],['ore_dragon',.3,1,3]]}];
+const DGHP=1.4,DGDM=1.12;
+const DGB={};DUNGEONS.forEach(d=>DGB[d.id]=d);
+function dgBuild(){DUNGEONS.forEach(d=>{
+ d.mid=d.waves.map((w,k)=>d.idp+'_'+(k+1));d.bid=d.boss.id||d.idp+'_boss';
+ d.waves.forEach((w,k)=>{const cb=w[2],id=d.mid[k],o=MONS[id]||{};MONS[id]=Object.assign(o,{id,n:w[0],i:o.i||w[1],cb,area:'dungeon',boss:false,dg:d.id,dgw:k+1,pt:w[3],hp:R((15+cb*8+cb*cb*0.05)*d.hm*DGHP),
+  maxHit:R((3+cb*1.4+cb*cb*0.01)*d.dm*DGDM),sp:2.4,atkRoll:(cb+8)*(64+cb*1.2)*d.acc,defRoll:(cb+8)*(64+cb*0.6),coins:[R(cb*30),R(cb*60)],drops:[]});});
+ const b=d.boss,cb=b.cb,o=MONS[d.bid]||{};
+ MONS[d.bid]=Object.assign(o,{id:d.bid,n:b.n,i:o.i||b.i,cb,area:'dungeon',boss:true,dg:d.id,dgw:d.waves.length+1,pt:b.pt,hp:R((15+cb*8+cb*cb*0.05)*d.zh*DGHP),maxHit:R((3+cb*1.4+cb*cb*0.01)*d.zd*DGDM),sp:3,enr:b.enr||0,
+  atkRoll:(cb+8)*(64+cb*1.2)*d.acc,defRoll:(cb+8)*(64+cb*0.6),coins:[R(cb*300),R(cb*450)],drops:b.drops||[['bones',1,1,1]]});});}
+dgBuild();
+DUNGEONS.forEach(d=>{const c=d.cape;mk(c.id,c.n,'🧣',R(c.req*c.req*60),'gear',{slot:'cape',st:c.st,tier:9,rar:4,req:c.req,col:c.col,uniq:1});
+ d.rares.forEach(r=>mk(r.id,r.n,'💍',R(r.req*r.req*30),'gear',{slot:r.slot,st:r.st,tier:9,rar:3,req:r.req,col:r.col,uniq:1}));});
+
+/* loot bag */
+const BAG_CAP=[1000,2000,4000,8000,15000,30000,60000],BAG_COST=[0,20000,100000,500000,2500000,12000000,60000000];
+
+/* player combat tuning: accuracy buff, damage floor (fraction of max hit), max-hit multiplier by style */
+const GEARW=1.5,ACC_BUFF=1.4,DMG_MIN=0.25,HIT_MULT={melee:1.35,ranged:1.35,magic:1.12};
 'use strict';
 /* ===== Mossgate Idle: generated vector icons (replace every emoji so nothing renders as a blank box) ===== */
 function mix(h,t){const n=parseInt(h.slice(1),16);let r=n>>16,g=n>>8&255,b=n&255;const f=t>0?255:0,a=Math.abs(t);r=Math.round(r+(f-r)*a);g=Math.round(g+(f-g)*a);b=Math.round(b+(f-b)*a);return'#'+((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1);}
@@ -478,7 +576,8 @@ const P={
  log:c=>SV(`<rect x="3" y="10" width="24" height="13" rx="3" fill="${c}"/><ellipse cx="25" cy="16.5" rx="3.5" ry="6.5" fill="${mix(c,.35)}"/><ellipse cx="25" cy="16.5" rx="1.4" ry="3" fill="none" stroke="${mix(c,-.35)}"/><path d="M8 14h11M8 19h13" stroke="${mix(c,-.3)}" fill="none"/>`),
  fish:(c,cooked)=>SV(`<path d="M3 16c5-8 14-8 19 0-5 8-14 8-19 0z" fill="${c}"/><path d="M21 16l8-6v12z" fill="${mix(c,-.15)}"/><circle cx="8.5" cy="14" r="1.4" fill="#fff"/>${cooked?'<path d="M12 10v12M16 9.5v13M20 11v10" stroke="rgba(60,25,0,.55)" fill="none"/>':'<path d="M10 20c4 2 8 1 11-2" stroke="#fff6" fill="none"/>'}`),
  ore:(c)=>SV(`<path d="M4 24l3-10 7-6 9 3 5 8-4 7z" fill="${c}"/><path d="M7 14l7-6 9 3M14 8l-1 9 8 2" stroke="${mix(c,.45)}" fill="none"/>`),
- ess:()=>SV('<path d="M16 2l5 10 9 4-9 4-5 10-5-10-9-4 9-4z" fill="#e6dcff"/><path d="M16 8l2 6 6 2-6 2-2 6-2-6-6-2 6-2z" fill="#b69cf0"/>'),
+ ess:()=>SV('<circle cx="16" cy="16" r="13" fill="#7d8087"/><circle cx="16" cy="16" r="13" fill="none" stroke="#4a4d54" stroke-width="1.600"/><circle cx="16" cy="16" r="9.500" fill="#92959c"/><path d="M12 8v16M12 9h6l3 3.500-3 3.500h-6M14 16l7 8" stroke="#3b3e45" stroke-width="2" fill="none"/><path d="M8 11a9 9 0 0 1 5-5" stroke="#c3c6cc" stroke-width="1.400" fill="none"/>'),
+ pure:()=>SV('<circle cx="16" cy="16" r="13" fill="#c9ccd2"/><circle cx="16" cy="16" r="13" fill="none" stroke="#7d818a" stroke-width="1.600"/><circle cx="16" cy="16" r="9.500" fill="#e4e6ea"/><path d="M12 8v16M12 9h6l3 3.500-3 3.500h-6M14 16l7 8" stroke="#6a6e77" stroke-width="2" fill="none"/><path d="M8 11a9 9 0 0 1 5-5" stroke="#fff" stroke-width="1.600" fill="none"/><path d="M24.500 6.500l.7 1.800 1.800.7-1.800.7-.7 1.800-.7-1.800-1.800-.7 1.800-.7z" fill="#fff" stroke="none"/>'),
  bar:c=>SV(`<path d="M3 21l5-9h16l5 9z" fill="${mix(c,.3)}"/><path d="M3 21h26v5H3z" fill="${c}"/><path d="M9 14h12" stroke="#fff8" fill="none"/>`),
  sword:c=>SV(`<path d="M26 3l3 3-15 16-4-4z" fill="${c}"/><path d="M26 3l3 3" stroke="#fff8"/><path d="M8 16l8 8-3 3-8-8z" fill="#7a4e2a"/><circle cx="5" cy="28" r="2.3" fill="#444"/>`),
  shield:c=>SV(`<path d="M16 2l12 4v9c0 7-5 12-12 15C9 27 4 22 4 15V6z" fill="${c}"/><path d="M16 6v20M8 13h16" stroke="${mix(c,.5)}" stroke-width="2" fill="none"/>`),
@@ -540,6 +639,7 @@ const P={
  wheel:()=>SV('<circle cx="16" cy="16" r="13" fill="#a855d6"/><path d="M16 3v26M3 16h26M7 7l18 18M25 7L7 25" stroke="#fff9" stroke-width="1.5" fill="none"/><circle cx="16" cy="16" r="4" fill="#f0c040"/>'),
  land:(c,s)=>SV(`<circle cx="16" cy="16" r="13" fill="${c}"/>${s}`)
 };
+P.cape=c=>SV(`<path d="M10 4h12l3 6-2 18-7-3-7 3-2-18z" fill="${c}"/><path d="M10 4h12l-6 5z" fill="#1a0d08"/><path d="M16 9v15" stroke="#ffd27a" stroke-width="1.400" fill="none"/><path d="M10 14l6 3 6-3M11 20l5 2 5-2" stroke="#ff7a1a" stroke-width="1.200" fill="none"/>`);
 P.gate=c=>SV(`<path d="M4 29V13a12 12 0 0 1 24 0v16z" fill="#5c616b"/><path d="M8 29V14a8 8 0 0 1 16 0v15z" fill="#17191e"/><path d="M12 29V13M16 29V11M20 29V13" stroke="#7a808a" stroke-width="1.400" fill="none"/><path d="M13 27h6" stroke="#7a808a" stroke-width="1.200"/><path d="M3.500 9c1-3 3-3 2.500-6 3 2 4 5 2 8z" fill="${c||'#f0a030'}"/><path d="M28.500 9c-1-3-3-3-2.500-6-3 2-4 5-2 8z" fill="${c||'#f0a030'}"/>`);
 P.relic=c=>SV(`<path d="M16 2l6 7-2.500 5 4.500 4-3.500 11h-9L8 18l4.500-4L10 9z" fill="${c}"/><path d="M16 2l6 7-2.500 5-3.500-2-3.500 2L10 9z" fill="#fff3"/><circle cx="16" cy="14" r="2.200" fill="#fff9"/>`);
 function iconForSkill(id){return({wc:P.axe,fish:()=>P.fish('#5b9ad0'),mine:P.pick,fm:P.flame,cook:P.pot,smith:P.anvil,fletch:()=>P.bow('#a8642e'),craft:P.spool,thief:P.key,farm:P.sprout,herb:()=>P.potion('#58b85a'),rc:()=>P.rune('fire'),agi:P.runner,dung:()=>P.gate('#f0a030'),atk:()=>P.sword('#b9c6d4'),str:P.dumb,def:()=>P.shield('#4f74d6'),hp:P.heart,rng:()=>P.bow('#8a5a2b'),mag:P.orb})[id]();}
@@ -559,6 +659,7 @@ const E2S={'🪙':P.coin(),'🏠':P.house(),'⚔️':P.swords(),'🎒':P.pack(),
   else if(id.startsWith('fish_')){s=P.fish(FC[FISH.findIndex(f=>'fish_'+f[0]===id)],false);}
   else if(id.startsWith('food_')){s=P.fish(mix(FC[FISH.findIndex(f=>'food_'+f[0]===id)],-.2),true);}
   else if(id==='ore_ess')s=P.ess();
+  else if(id==='ore_pure')s=P.pure();
   else if(id.startsWith('ore_'))s=P.ore(OC[id.slice(4)]);
   else if(id.startsWith('bar_'))s=P.bar(TC[T.findIndex(t=>'bar_'+t.id===id)]);
   else if(id.startsWith('tip_'))s=P.tip(TC[T.findIndex(t=>'tip_'+t.id===id)]);
@@ -572,6 +673,8 @@ const E2S={'🪙':P.coin(),'🏠':P.house(),'⚔️':P.swords(),'🎒':P.pack(),
   else if(id.startsWith('staff_'))s=P.staff(LC[BOWL[+id.slice(6)]]);
   else if(id.startsWith('h_')){const c=HIC[id.split('_')[1]],sl=it.slot;s=P[sl](c);}
   else if(id.startsWith('r_')){const c=CLC[id.split('_')[1]],sl=it.slot;s=sl==='helmet'?P.hat(c):sl==='body'?P.robetop(c):sl==='legs'?P.legs(c):P[sl](c);}
+  else if(id.startsWith('cape_'))s=P.cape(it.col||'#c2410c');
+  else if(id.startsWith('dr_'))s=P[it.slot](it.col);
   else if(id.startsWith('tome_'))s=P.tome(it.col);
   else if(id.startsWith('estaff_'))s=P.staff(it.col);
   else if(id.startsWith('mring_'))s=P.ring(it.col);
@@ -596,7 +699,7 @@ const E2S={'🪙':P.coin(),'🏠':P.house(),'⚔️':P.swords(),'🎒':P.pack(),
   else if(a.out)a.i=ITEMS[Object.keys(a.out)[0]].i;});
  CROP.forEach(c=>{c.i=ITEMS[c.item].i;});
  AREAS.forEach(a=>{a.i=AREAI[a.id];a.mons.forEach(m=>{m.i=creature(m.id);});});
- for(const id in MONS)MONS[id].i=creature(id);
+ for(const id in MONS)MONS[id].i=creature(CR[id]?id:MONS[id].pt);
 })();
 /* ===== Mossgate Idle: shaded portrait art for monsters and the player ===== */
 const PTX=(()=>{
@@ -943,7 +1046,7 @@ return{D,player};})();
 
 /* apply to the game */
 (function(){
- for(const id in MONS){const f=PTX.D[id];if(f)MONS[id].i=f(id);}
+ for(const id in MONS){const m=MONS[id],k=PTX.D[id]?id:m.pt,f=k&&PTX.D[k];if(f)m.i=f(k);}
 })();
 const playerPortrait=()=>PTX.player();
 'use strict';
@@ -954,11 +1057,11 @@ const rnd=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
 function toast(t,k){EV.push({t,k:k||'info',at:Date.now(),id:Math.random()});if(EV.length>30)EV.shift();dirty.v=1;}
 const actsOf=sk=>sk==='farm'?CROP:ACT[sk];
 const actBy=(sk,id)=>actsOf(sk).find(a=>a.id===id);
-const SLOTS=['weapon','shield','helmet','body','legs','boots','gloves','ring','amulet','ammo','food'];
+const SLOTS=['weapon','shield','helmet','body','legs','boots','gloves','ring','amulet','cape','ammo','food'];
 
 function newState(){
  const s={v:1,name:'Adventurer',saved:Date.now(),clock:0,play:0,coins:100,bank:{},nb:0,bankBuys:0,xp:{},mast:{},upg:{},equip:{},acts:[null,null],perk:{},wheel:{last:0,win:null,spins:0},cb:null,buffs:{},
-  farm:{plots:[],auto:true,allot:3,herb:2},stats:{kills:0,deaths:0,actions:0,coins:0},bk:{},bpity:{},col:{},dg:{clears:{},relics:{},log:[]},hp:100,theme:'auto'};
+  farm:{plots:[],auto:true,allot:3,herb:2,tree:1},stats:{kills:0,deaths:0,actions:0,coins:0},bk:{},bpity:{},col:{},dg:{clears:{},relics:{},log:[]},hp:100,dgn:{},bag:{items:{},n:0,up:0,mode:'bank'},theme:'auto'};
  ALLSK.forEach(id=>s.xp[id]=0);s.xp.hp=XPT[9];s.hp=100;
  ensure(s);
  s.bank.food_shrimp=10;s.nb=1;s.equip={weapon:'g_bronze_sword',food:'food_shrimp'};
@@ -968,6 +1071,8 @@ function ensure(s){
  SKILLS.forEach(k=>{const id=k[0];if(!s.mast[id])s.mast[id]={pool:0,a:{}};});
  const f=s.farm;while(f.plots.filter(p=>p.cat==='allot').length<f.allot)f.plots.push({cat:'allot',crop:null,ready:0,start:0});
  while(f.plots.filter(p=>p.cat==='herb').length<f.herb)f.plots.push({cat:'herb',crop:null,ready:0,start:0});
+ if(f.tree==null)f.tree=1;while(f.plots.filter(p=>p.cat==='tree').length<f.tree)f.plots.push({cat:'tree',crop:null,ready:0,start:0});
+ if(!s.bag)s.bag={items:{},n:0,up:0,mode:'bank'};if(!s.dgn)s.dgn={};if(s.inf){if(!s.dgn.inferno)s.dgn.inferno=s.inf;delete s.inf;}
  s.nb=Object.keys(s.bank).length;
  if(!s.buffs)s.buffs={};if(!s.wheel)s.wheel={last:0,win:null,spins:0};if(!s.perk)s.perk={};if(s.perk.slot){s.coins+=30e6;delete s.perk.slot;}while(s.acts.length<2)s.acts.push(null);if(s.acts.length>2){const k=s.acts.slice(2).filter(Boolean);s.acts.length=2;if(!s.acts[0]&&k[0])s.acts[0]=k[0];}if(!s.cheat)s.cheat={speed:1,god:false};if(!s.bk)s.bk={};if(!s.bpity)s.bpity={};if(!s.col)s.col={};if(!s.dg)s.dg={clears:{},relics:{},log:[]};
  if(!s.acts){s.acts=[s.act||null,null];delete s.act;if(s.cb&&!s.acts[0])s.acts[0]={sk:'combat',id:s.cb.mon,t:0};}}
@@ -992,6 +1097,17 @@ function add(id,q){
  else{const g=ITEMS[id].v*q;S.coins+=g;S.stats.coins+=g;if(TRACK)TRACK.coins+=g;if(TRACK)addGain('sold',id,q);dirty.v=1;return;}
  addGain('items',id,q);dirty.v=1;}
 function take(id,q){const h=S.bank[id]||0;if(h<q)return false;if(h===q){delete S.bank[id];S.nb--;}else S.bank[id]=h-q;dirty.v=1;return true;}
+const bagCap=()=>BAG_CAP[Math.min(S.bag.up||0,BAG_CAP.length-1)];
+function lootAdd(id,q){if(q<=0)return;const B=S.bag,free=Math.max(0,bagCap()-B.n),st=Math.min(q,free);
+ if(st>0){B.items[id]=(B.items[id]||0)+st;B.n+=st;addGain('items',id,st);}
+ if(q>st)add(id,q-st);dirty.v=1;}
+const bagFits=id=>!!S.bank[id]||S.nb<bankSlots();
+function bagTake(id){const B=S.bag,q=B.items[id]||0;if(!q||!bagFits(id))return 0;add(id,q);delete B.items[id];B.n-=q;dirty.v=1;return q;}
+function bagCollect(){let moved=0,left=0;for(const id of Object.keys(S.bag.items)){if(bagTake(id))moved++;else left++;}
+ toast(left?'Moved '+moved+' item types to the bank. '+left+' stayed in the bag (bank full).':moved?'Moved everything to the bank.':'The bag is empty.',left?'warn':'info');}
+function bagSellAll(){let g=0;for(const id in S.bag.items)g+=ITEMS[id].v*S.bag.items[id];if(!g){toast('The bag is empty.','warn');return;}
+ S.bag.items={};S.bag.n=0;addCoins(g);toast('Sold the bag contents for '+fmt(g)+' coins.','info');dirty.v=1;}
+function buyBag(){const n=S.bag.up||0;if(n>=BAG_CAP.length-1)return;const c=BAG_COST[n+1];if(S.coins<c){toast('Not enough coins','warn');return;}S.coins-=c;S.bag.up=n+1;toast('Loot bag upgraded to '+fmt(BAG_CAP[n+1])+' items','info');dirty.v=1;}
 function addCoins(n){S.coins+=n;S.stats.coins+=n;if(TRACK)TRACK.coins+=n;}
 function sell(id,q){const h=cnt(id);q=Math.min(q,h);if(q<=0)return;
  for(const sl in S.equip){if((sl==='food'||sl==='ammo')&&S.equip[sl]===id&&h-q<=0){S.equip[sl]=null;}}
@@ -1005,9 +1121,10 @@ const poolMax=sk=>sk==='farm'?CROP.length*400:ACT[sk].length*3000;
 const poolPct=sk=>Math.min(1,S.mast[sk].pool/poolMax(sk));
 const CPS=[[.1,'+5% skill XP'],[.25,'+5% double/preserve chance'],[.5,'-5% action time'],[.95,'+10% skill XP']];
 const buff=t=>S.buffs[t]?S.buffs[t].v:0;
+const agiB=k=>{if(!S)return 0;const L=lvlOf(S.xp.agi);let v=0;for(const b of AGB){if(L<b[0])break;for(let j=2;j<b.length;j+=2)if(b[j]===k)v+=b[j+1];}return v;};
 function skMods(sk){const p=poolPct(sk),kind=SKKIND[sk],m={xp:0,dbl:0,pre:0,ivl:0};
  if(p>=.1)m.xp+=.05;if(p>=.25){if(kind==='art')m.pre+=.05;else m.dbl+=.05;}if(p>=.5)m.ivl+=.05;if(p>=.95)m.xp+=.1;
- m.ivl+=(S.upg[sk]||0)*.06+buff('speed')/100;m.xp+=buff('xp')/100;m.dbl+=buff('double')/100;m.pre+=buff('preserve')/100;m.xp+=.02*pk('xp');m.dbl+=.02*pk('luck');m.pre+=.02*pk('luck');
+ m.ivl+=(S.upg[sk]||0)*.06+buff('speed')/100+agiB('spd');m.xp+=agiB('xp');m.dbl+=agiB('dbl');m.pre+=agiB('pre');m.xp+=buff('xp')/100;m.dbl+=buff('double')/100;m.pre+=buff('preserve')/100;m.xp+=.02*pk('xp');m.dbl+=.02*pk('luck');m.pre+=.02*pk('luck');
  return m;}
 function interval(sk,a){if(sk==='farm')return a.t;return Math.max(0.6,a.t*(1-Math.min(.6,skMods(sk).ivl)));}
 const mxpOf=(sk,a)=>sk==='farm'?a.mx:Math.max(1,a.t*0.9*(1+a.lvl/50));
@@ -1031,7 +1148,7 @@ function startAction(sk,id,slot){
 function eatIfNeeded(){
  if(S.hp>=maxHp()*(0.5+.05*perk('eat')))return;const f=S.equip.food;if(!f||cnt(f)<1)return;
  const h=ITEMS[f].heal;take(f,1);S.hp=Math.min(maxHp(),S.hp+h);if(!cnt(f)&&TRACK==null)toast('Out of '+ITEMS[f].n,'warn');}
-function die(){S.stats.deaths++;if(TRACK)TRACK.deaths++;S.acts=newSlots();S.cb=null;S.hp=Math.ceil(maxHp()*0.1);if(!TRACK)toast('You were knocked out and had to rest.','bad');dirty.v=1;}
+function die(){if(S.cb&&S.cb.dg){const d=DGB[S.cb.dg];dgs(d.id).best=Math.max(dgs(d.id).best,S.cb.wave);if(!TRACK)toast(d.n+' claims you on wave '+S.cb.wave+'.','bad');}S.stats.deaths++;if(TRACK)TRACK.deaths++;S.acts=newSlots();S.cb=null;S.hp=Math.ceil(maxHp()*0.1);if(!TRACK)toast('You were knocked out and had to rest.','bad');dirty.v=1;}
 function hurt(d){if(S.cheat&&S.cheat.god)return false;S.hp-=d;eatIfNeeded();if(S.hp<=0){die();return true;}return false;}
 
 function complete(sk,a,A){
@@ -1058,7 +1175,6 @@ const dpow=()=>{const g=(PS&&PS.g)||{};return combatLevel()+Math.min(45,((g.atk|
 function dlog(o){if(TRACK)return;const L=S.dg.log;L.unshift(o);if(L.length>6)L.pop();}
 function runDungeon(sk,a,A,mod,ml){
  eatIfNeeded();
- if(S.hp<maxHp()*0.4){A.t=-10;dlog({id:a.id,res:'rest'});return true;}
  const ratio=Math.pow((a.rec+8)/(dpow()+8),1.25);let cleared=0,fled=false;
  for(let f=1;f<=a.floors;f++){
   const boss=f===a.floors,dm=Math.max(1,Math.round(a.fd*ratio*(boss?1.7:1)*(0.5+Math.random())));
@@ -1115,16 +1231,41 @@ function startCombat(area,mon,slot){
  const old=S.cb||{};let i=S.acts.findIndex(a=>a&&a.sk==='combat');if(i<0){i=freeSlot(slot);clearSlot(i);}
  S.acts[i]={sk:'combat',id:mon,t:0};
  S.cb={area,mon,mhp:m.hp,pt:0,mt:0,rs:0,stance:old.stance||0,spell:old.spell||0,log:[],kills:0};dirty.v=1;}
+const dgs=id=>S.dgn[id]||(S.dgn[id]={best:0,clears:0,tries:0,fast:0,pity:0});
+function startDungeon(id){
+ const d=DGB[id];if(!d)return;
+ if(S.cb&&S.cb.dg===id){stopCombat();return;}
+ if(combatLevel()<d.req){toast(d.n+' requires combat level '+d.req,'warn');return;}
+ const m=MONS[d.mid[0]];let i=S.acts.findIndex(a=>a&&a.sk==='combat');if(i<0){i=freeSlot(UI.tgt);}clearSlot(i);
+ S.acts[i]={sk:'combat',id:m.id,t:0};const old=S.cb||{};
+ S.cb={area:'dungeon',mon:m.id,dg:id,wave:1,t0:S.clock,mhp:m.hp,pt:0,mt:0,rs:2,stance:old.stance||0,spell:old.spell||0,log:[],kills:0};dgs(id).tries++;dirty.v=1;}
+function dungeonNext(C,M){
+ const d=DGB[M.dg],r=dgs(d.id);
+ if(M.dgw>d.waves.length){
+  r.clears++;r.best=d.waves.length+1;const tm=S.clock-C.t0;if(!r.fast||tm<r.fast)r.fast=tm;
+  const bonus=Math.round(d.bonus*cg());addCoins(bonus);const got=[];
+  d.loot.forEach(l=>{if(Math.random()<l[1]){const q=rnd(l[2],l[3]);add(l[0],q);got.push([l[0],q]);}});
+  const owns=id=>cnt(id)>0||Object.values(S.equip).includes(id);
+  if(!owns(d.cape.id)&&!S.col[d.cape.id]){add(d.cape.id,1);S.col[d.cape.id]=1;got.push([d.cape.id,1]);if(!TRACK)toast('You conquered '+d.n+' and earned the '+d.cape.n+'!','boss');}
+  r.pity=(r.pity||0)+1;const open=d.rares.filter(x=>!owns(x.id)&&!S.col[x.id]);let drop=null;
+  open.forEach(x=>{if(!drop&&Math.random()<0.08)drop=x;});if(!drop&&open.length&&r.pity>=10)drop=open[rnd(0,open.length-1)];
+  if(drop){add(drop.id,1);S.col[drop.id]=1;r.pity=0;got.push([drop.id,1]);if(!TRACK)toast('Rare drop: '+drop.n+'!','boss');}
+  if(!got.some(g=>g[0]===d.cape.id)&&!TRACK)toast(d.n+' cleared: +'+fmt(bonus)+' coins','boss');
+  C.log.unshift({c:bonus,got});if(C.log.length>6)C.log.pop();
+  stopCombat();return;}
+ C.wave=M.dgw+1;r.best=Math.max(r.best,M.dgw);
+ const nid=M.dgw<d.waves.length?d.mid[M.dgw]:d.bid,nm=MONS[nid];C.mon=nid;C.mhp=nm.hp;C.pt=0;C.mt=0;C.rs=2;
+ const i=S.acts.findIndex(a=>a&&a.sk==='combat');if(i>=0)S.acts[i].id=nid;}
 function playerCombat(){
  const g=PS.g,t=PS.type;let lvl,atkB,defL=lv('def');
  if(t==='ranged'){lvl=lv('rng');atkB=g.rngA;}else if(t==='magic'){lvl=lv('mag');atkB=g.magA;}else{lvl=lv('atk');atkB=g.atk;}
- return{lvl,atkB,defRoll:(defL+8)*(g.def+64)*(1+buff('def')/100),atkRoll:(lvl+8)*(atkB+64)*(1+buff('acc')/100)};}
+ return{lvl,atkB,defRoll:(defL+8)*(g.def+64)*(1+buff('def')/100+agiB('def')),atkRoll:(lvl+8)*(atkB*GEARW+64)*(1+buff('acc')/100+agiB('acc'))*ACC_BUFF};}
 function maxHitPlayer(spell){
  const t=PS.type,g=PS.g;let mh;
- if(t==='melee')mh=Math.floor(10*(0.5+(lv('str')+8)*(g.str+64)/640));
- else if(t==='ranged')mh=Math.floor(10*(0.5+(lv('rng')+8)*(g.rngS+PS.ammoS+64)/640));
+ if(t==='melee')mh=Math.floor(10*(0.5+(lv('str')+8)*(g.str*GEARW+64)/640));
+ else if(t==='ranged')mh=Math.floor(10*(0.5+(lv('rng')+8)*((g.rngS+PS.ammoS)*GEARW+64)/640));
  else mh=Math.floor(spell.max*(1+g.magD/100)*(1+Math.max(0,lv('mag')-spell.lvl)*0.005));
- return Math.floor(mh*(1+buff('str')/100+.03*pk('dmg')));}
+ return Math.floor(mh*(1+buff('str')/100+.03*pk('dmg'))*HIT_MULT[t]);}
 const hitChance=(a,d)=>a>d?1-(d+2)/(2*(a+1)):a/(2*(d+1));
 function awardCombatXp(skills,x){const f=cxm();const list=skills.split('+');list.forEach(s=>gainXp(s,x/list.length*f));}
 function playerAttack(C,M){
@@ -1135,23 +1276,26 @@ function playerAttack(C,M){
   for(const k in spell.cost)if(!wi.includes(k)&&cnt(k)<spell.cost[k]){stopCombat('Out of runes for '+spell.n+'.');return false;}
   for(const k in spell.cost)if(!wi.includes(k))take(k,spell.cost[k]);}
  const pc=playerCombat(),mx=maxHitPlayer(spell);
- let dmg=0;if(Math.random()<hitChance(pc.atkRoll,M.defRoll))dmg=1+Math.floor(Math.random()*mx);
+ let dmg=0;if(Math.random()<hitChance(pc.atkRoll,M.defRoll)){const lo=Math.max(1,Math.ceil(mx*DMG_MIN));dmg=lo+Math.floor(Math.random()*(mx-lo+1));}
  const st=STANCES[t][Math.min(C.stance,STANCES[t].length-1)][1];
  if(spell)gainXp('mag',spell.xp*cxm());
+ if(dmg>0&&spell&&C.dg)dmg=Math.max(1,Math.ceil(dmg*DGB[C.dg].mag));
  if(dmg>0){C.mhp-=dmg;C.last=dmg;if(spell&&spell.leech)S.hp=Math.min(maxHp(),S.hp+Math.ceil(dmg*spell.leech));awardCombatXp(st,dmg*(t==='magic'?0.3:0.4));gainXp('hp',dmg*0.133*cxm());}else C.last=0;
  if(C.mhp<=0)kill(C,M);
  return true;}
 function kill(C,M){
  S.stats.kills++;C.kills++;if(TRACK)TRACK.kills++;
  const c=Math.round(rnd(M.coins[0],M.coins[1])*cg());addCoins(c);const got=[];
- M.drops.forEach(d=>{if(Math.random()<d[1]){const q=rnd(d[2],d[3]);add(d[0],q);got.push([d[0],q]);}});
- if(M.boss){S.bk[M.id]=(S.bk[M.id]||0)+1;S.bpity[M.id]=(S.bpity[M.id]||0)+1;
-  if(Math.random()<M.wch||S.bpity[M.id]>=8){S.bpity[M.id]=0;const r=pickRarity(),id='bw_'+M.id+'_'+rnd(0,2)+'_'+r;add(id,1);S.col[id]=1;got.push([id,1]);
+ M.drops.forEach(d=>{if(Math.random()<d[1]){const q=rnd(d[2],d[3]);lootAdd(d[0],q);got.push([d[0],q]);}});
+ if(M.boss&&!M.dg){S.bk[M.id]=(S.bk[M.id]||0)+1;S.bpity[M.id]=(S.bpity[M.id]||0)+1;
+  if(Math.random()<M.wch||S.bpity[M.id]>=8){S.bpity[M.id]=0;const r=pickRarity(),id='bw_'+M.id+'_'+rnd(0,2)+'_'+r;lootAdd(id,1);S.col[id]=1;got.push([id,1]);
    if(!TRACK&&r>=2)toast('Boss drop: '+ITEMS[id].n+' ('+RAR[r][0]+')','boss');}
   S.bpity[M.id+'_a']=(S.bpity[M.id+'_a']||0)+1;
-  if(Math.random()<0.25||S.bpity[M.id+'_a']>=10){S.bpity[M.id+'_a']=0;const r=pickRarity(),id='ba_'+M.id+'_'+rnd(0,5)+'_'+r;add(id,1);S.col[id]=1;got.push([id,1]);
+  if(Math.random()<0.25||S.bpity[M.id+'_a']>=10){S.bpity[M.id+'_a']=0;const r=pickRarity(),id='ba_'+M.id+'_'+rnd(0,5)+'_'+r;lootAdd(id,1);S.col[id]=1;got.push([id,1]);
    if(!TRACK&&r>=2)toast('Armour drop: '+ITEMS[id].n+' ('+RAR[r][0]+')','boss');}}
- C.log.unshift({c,got});if(C.log.length>6)C.log.pop();C.rs=M.boss?6:3;C.mhp=0;}
+ C.log.unshift({c,got});if(C.log.length>6)C.log.pop();C.rs=M.boss?6:3;C.mhp=0;
+ if(!C.dg&&S.bag.mode==='stop'&&S.bag.n>=bagCap()){stopCombat('Your loot bag is full.');return;}
+ if(C.dg)dungeonNext(C,M);}
 function monsterAttack(C,M){
  const pc=playerCombat();let dmg=0;
  if(Math.random()<hitChance(M.atkRoll,pc.defRoll))dmg=1+Math.floor(Math.random()*M.maxHit);
@@ -1162,7 +1306,8 @@ function stepCombat(dt){
  C.pt+=dt;C.mt+=dt;
  while(S.cb===C&&C.pt>=PS.sp&&C.rs<=0){C.pt-=PS.sp;if(!playerAttack(C,M))return;}
  if(S.cb!==C||C.rs>0)return;
- while(S.cb===C&&C.mt>=M.sp){C.mt-=M.sp;monsterAttack(C,M);}
+ const msp=M.enr&&C.mhp<M.hp*.5?M.sp*.7:M.sp;
+ while(S.cb===C&&C.mt>=msp){C.mt-=msp;monsterAttack(C,M);}
 }
 
 /* ---------- potions ---------- */
@@ -1174,14 +1319,14 @@ const plotsOf=cat=>S.farm.plots.map((p,i)=>[p,i]).filter(x=>x[0].cat===cat);
 function plant(i,cropId,free){
  const p=S.farm.plots[i],c=CROPBY[cropId];if(!p||!c||p.crop||c.cat!==p.cat)return false;
  if(lv('farm')<c.lvl){toast('Requires Farming level '+c.lvl,'warn');return false;}
- if(cnt(c.seed)>=1)take(c.seed,1);else if(S.coins>=c.seedCost){S.coins-=c.seedCost;}else{toast('No seeds and not enough coins','warn');return false;}
+ if(cnt(c.seed)>=1)take(c.seed,1);else if(c.noBuy){toast('Tree seeds only drop from monsters and thieving','warn');return false;}else if(S.coins>=c.seedCost){S.coins-=c.seedCost;}else{toast('No seeds and not enough coins','warn');return false;}
  p.crop=cropId;p.start=S.clock;p.ready=S.clock+c.t*(1-Math.min(.5,(S.upg.farm||0)*.06));dirty.v=1;return true;}
 function harvest(i){
  const p=S.farm.plots[i];if(!p||!p.crop||S.clock<p.ready)return false;
  const c=CROPBY[p.crop],ml=mLvl('farm',c.id),mod=skMods('farm');
  let q=rnd(c.q[0],c.q[1]);if(Math.random()<Math.min(.95,mod.dbl+ml*.0025))q*=2;
  add(c.item,q);gainXp('farm',c.xp*(1+mod.xp));gainM('farm',c,c.mx);S.stats.actions++;
- const again=S.farm.auto&&(cnt(c.seed)>=1||S.coins>=c.seedCost*3);
+ const again=S.farm.auto&&(cnt(c.seed)>=1||(!c.noBuy&&S.coins>=c.seedCost*3));
  p.crop=null;p.ready=0;if(again&&lv('farm')>=c.lvl)plant(i,c.id);dirty.v=1;return true;}
 function harvestAll(){let n=0;S.farm.plots.forEach((p,i)=>{if(p.crop&&S.clock>=p.ready&&harvest(i))n++;});return n;}
 
@@ -1192,14 +1337,14 @@ function buyUpg(sk){const n=S.upg[sk]||0;if(n>=UPG_MAX)return;if(lv(sk)<UPG_LV[n
 function buyBank(){if(S.bankBuys>=BANK_MAXBUY)return;const c=bankCost(S.bankBuys);if(S.coins<c){toast('Not enough coins','warn');return;}S.coins-=c;S.bankBuys++;dirty.v=1;}
 function buyPlot(cat){const own=S.farm[cat];if(own>=PLOT_MAX[cat])return;const c=plotCost(cat,own);if(S.coins<c){toast('Not enough coins','warn');return;}
  S.coins-=c;S.farm[cat]++;ensure(S);dirty.v=1;}
-function buyItem(id,q){let cost;if(SUPPLY[id])cost=SUPPLY[id];else{const c=CROP.find(x=>x.seed===id);if(!c)return;cost=c.seedCost;if(lv('farm')<c.lvl){toast('Requires Farming level '+c.lvl,'warn');return;}}
+function buyItem(id,q){let cost;if(SUPPLY[id])cost=SUPPLY[id];else{const c=CROP.find(x=>x.seed===id);if(!c||c.noBuy)return;cost=c.seedCost;if(lv('farm')<c.lvl){toast('Requires Farming level '+c.lvl,'warn');return;}}
  const tot=cost*q;if(S.coins<tot){toast('Not enough coins','warn');return;}S.coins-=tot;add(id,q);dirty.v=1;}
 
 /* ---------- main step ---------- */
 function step(dt){
  S.clock+=dt;S.play+=dt;
  for(const k in S.buffs){const b=S.buffs[k];b.left-=dt;if(b.left<=0)delete S.buffs[k];}
- const mh=maxHp();if(S.hp<mh)S.hp=Math.min(mh,S.hp+mh*0.0025*dt);
+ const mh=maxHp();if(S.hp<mh)S.hp=Math.min(mh,S.hp+mh*0.0025*(1+agiB('reg'))*dt);
  for(const A of S.acts.slice()){if(!A||!S.acts.includes(A))continue;if(A.sk==='combat'){if(S.cb)stepCombat(dt);}else stepAct(A,dt);}}
 function advance(sec,fine){let left=sec;const d=fine?0.1:0.5;while(left>0){const x=Math.min(d,left);step(x);left-=x;}}
 function simulateOffline(sec){
@@ -1211,16 +1356,41 @@ function simulateOffline(sec){
 const NSAVE=3,META='mossgate-idle-meta',LEGACY='mossgate-idle-v1',TABID=(()=>{try{let t=sessionStorage.getItem('mossgate-tab');if(!t){t=Math.random().toString(36).slice(2);sessionStorage.setItem('mossgate-tab',t);}return t;}catch(e){return Math.random().toString(36).slice(2);}})();
 const SK=n=>'mossgate-idle-slot-'+n;
 let SLOT=0;const SAVESTAT={ok:true,at:0,err:'',bak:0};
+
+/* ---------- save integrity: signed, tamper-evident saves ---------- */
+const BUILD_TS=1794713502000;
+const SIGKEY=['mg','8f2c','-gate','Q7x','r0ot','5e1d','|idle','b9'].join('');
+const SHA_K=(()=>{const k=[];for(let n=2;k.length<64;n++){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)k.push(Math.floor((Math.cbrt(n)%1)*4294967296));}return k;})();
+const SHA_H=(()=>{const h=[];for(let n=2;h.length<8;n++){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)h.push(Math.floor((Math.sqrt(n)%1)*4294967296));}return h;})();
+function sha256(msg){
+ const h=SHA_H.slice(),l=msg.length,n=((l+9+63)>>6)<<6,b=new Uint8Array(n);b.set(msg);b[l]=0x80;
+ const dv=new DataView(b.buffer);dv.setUint32(n-4,(l*8)>>>0);dv.setUint32(n-8,Math.floor(l*8/4294967296));
+ const w=new Uint32Array(64),R=(x,k)=>(x>>>k)|(x<<(32-k));
+ for(let o=0;o<n;o+=64){
+  for(let i=0;i<16;i++)w[i]=dv.getUint32(o+i*4);
+  for(let i=16;i<64;i++){const a=w[i-15],c=w[i-2];w[i]=(w[i-16]+(R(a,7)^R(a,18)^(a>>>3))+w[i-7]+(R(c,17)^R(c,19)^(c>>>10)))|0;}
+  let a=h[0],b2=h[1],c=h[2],d=h[3],e=h[4],f=h[5],g=h[6],hh=h[7];
+  for(let i=0;i<64;i++){const t1=(hh+(R(e,6)^R(e,11)^R(e,25))+((e&f)^(~e&g))+SHA_K[i]+w[i])|0,t2=((R(a,2)^R(a,13)^R(a,22))+((a&b2)^(a&c)^(b2&c)))|0;hh=g;g=f;f=e;e=(d+t1)|0;d=c;c=b2;b2=a;a=(t1+t2)|0;}
+  h[0]=(h[0]+a)|0;h[1]=(h[1]+b2)|0;h[2]=(h[2]+c)|0;h[3]=(h[3]+d)|0;h[4]=(h[4]+e)|0;h[5]=(h[5]+f)|0;h[6]=(h[6]+g)|0;h[7]=(h[7]+hh)|0;}
+ const out=new Uint8Array(32),ov=new DataView(out.buffer);h.forEach((x,i)=>ov.setUint32(i*4,x>>>0));return out;}
+function hmacHex(key,text){
+ const enc=new TextEncoder(),kb=enc.encode(key),m=enc.encode(text),ip=new Uint8Array(64+m.length),op=new Uint8Array(96);
+ for(let i=0;i<64;i++){const k=i<kb.length?kb[i]:0;ip[i]=k^0x36;op[i]=k^0x5c;}
+ ip.set(m,64);op.set(sha256(ip),64);
+ return Array.from(sha256(op),x=>x.toString(16).padStart(2,'0')).join('');}
 function lsGet(k){try{return localStorage.getItem(k);}catch(e){return null;}}
 function lsSet(k,v){try{localStorage.setItem(k,v);return true;}catch(e){return false;}}
 function lsDel(k){try{localStorage.removeItem(k);}catch(e){}}
 function getMeta(){try{return Object.assign({auto:false,last:0},JSON.parse(lsGet(META)||'{}'));}catch(e){return{auto:false,last:0};}}
 function setMeta(m){lsSet(META,JSON.stringify(m));}
-function serialize(){S.saved=Date.now();return JSON.stringify(S);}
-function parseSave(txt){const o=JSON.parse(txt);if(!o||typeof o!=='object'||!o.xp||!o.bank)throw new Error('bad save');return Object.assign(newState(),o);}
-function readSlot(n){for(const k of[SK(n),SK(n)+'-bak']){const t=lsGet(k);if(t){try{return{s:parseSave(t),bak:k.slice(-4)==='-bak'};}catch(e){}}}return null;}
+function serialize(){S.saved=Date.now();const d=JSON.stringify(S);return JSON.stringify({v:2,d,g:hmacHex(SIGKEY,d)});}
+function parseSave(txt){let o=JSON.parse(txt);
+ if(o&&o.v===2&&typeof o.d==='string'){if(o.g!==hmacHex(SIGKEY,o.d))throw new Error('save failed verification');o=JSON.parse(o.d);}
+ else if(!o||typeof o!=='object'||!(o.saved<BUILD_TS))throw new Error('unsigned save');
+ if(!o||typeof o!=='object'||!o.xp||!o.bank)throw new Error('bad save');return Object.assign(newState(),o);}
+function readSlot(n){let seen=false;for(const k of[SK(n),SK(n)+'-bak']){const t=lsGet(k);if(t){seen=true;try{return{s:parseSave(t),bak:k.slice(-4)==='-bak'};}catch(e){}}}return seen?{bad:true}:null;}
 function summarize(s){const o=S;S=s;try{return{name:s.name||'Adventurer',tl:totalLevel(),cl:combatLevel(),play:s.play||0,coins:s.coins||0,saved:s.saved||0};}finally{S=o;}}
-function slotInfo(n){const r=readSlot(n);if(!r)return null;const i=summarize(r.s);i.bak=r.bak;return i;}
+function slotInfo(n){const r=readSlot(n);if(!r)return null;if(r.bad)return{bad:true,name:'Unreadable'};const i=summarize(r.s);i.bak=r.bak;return i;}
 function ownerOf(n){try{return JSON.parse(lsGet(SK(n)+'-own'));}catch(e){return null;}}
 function lockedElsewhere(n){const o=ownerOf(n);return!!(o&&o.id!==TABID&&Date.now()-o.ts<120000);}
 function claim(n){lsSet(SK(n)+'-own',JSON.stringify({id:TABID,ts:Date.now()}));}
@@ -1233,7 +1403,7 @@ function saveLocal(){
  const ok=lsSet(k,txt);if(ok)claim(SLOT);
  if(!ok&&SAVESTAT.ok)toast('Could not save: browser storage is full or blocked. Use Show backup text.','warn');
  SAVESTAT.ok=ok;SAVESTAT.err=ok?'':'Storage full or blocked';if(ok)SAVESTAT.at=Date.now();return ok;}
-function migrateLegacy(){const t=lsGet(LEGACY);if(!t||lsGet(SK(1)))return;try{const s=parseSave(t);if(!s.name)s.name='Adventurer';if(lsSet(SK(1),JSON.stringify(s))){lsSet(LEGACY+'-migrated',t);lsDel(LEGACY);}}catch(e){}}
+function migrateLegacy(){const t=lsGet(LEGACY);if(!t||lsGet(SK(1)))return;try{const s=parseSave(t);if(!s.name)s.name='Adventurer';const o_=S;S=s;let sg;try{sg=serialize();}finally{S=o_;}if(lsSet(SK(1),sg)){lsSet(LEGACY+'-migrated',t);lsDel(LEGACY);}}catch(e){}}
 function deleteSlot(n){[SK(n),SK(n)+'-bak',SK(n)+'-own'].forEach(lsDel);const m=getMeta();if(m.last===n){m.last=0;setMeta(m);}}
 const cleanName=t=>String(t||'').replace(/[<>&"'`]/g,'').trim().slice(0,20);
 function exportSave(){return btoa(unescape(encodeURIComponent(serialize())));}
@@ -1298,8 +1468,8 @@ const pc=(a,b)=>Math.max(0,Math.min(100,b>0?a/b*100:0));
 const bar=(p,c)=>`<div class="bar ${c||''}"><i style="width:${p.toFixed(1)}%"></i></div>`;
 const rc=it=>it.rar!=null?` style="color:${RAR[it.rar][2]}"`:'';
 const ic=(id,q,need)=>{const it=ITEMS[id];if(!it)return'';const bad=need!=null&&cnt(id)<need;return`<span class="chip${bad?' bad':''}" data-tip="${id}"${rc(it)}>${it.i} ${it.n} ${need!=null?fmt(cnt(id))+'/'+fmt(need):'×'+fmt(q)}</span>`;};
-const SLOTN={weapon:'Weapon',shield:'Shield',helmet:'Helmet',body:'Body',legs:'Legs',boots:'Boots',gloves:'Gloves',ring:'Ring',amulet:'Amulet',ammo:'Ammo',food:'Food'};
-const SLOTI={weapon:P.sword('#999'),shield:P.shield('#999'),helmet:P.helmet('#999'),body:P.body('#999'),legs:P.legs('#999'),boots:P.boots('#999'),gloves:P.gloves('#999'),ring:P.ring('#999'),amulet:P.amulet('#999'),ammo:P.arrow('#999'),food:P.fish('#999',true)};
+const SLOTN={weapon:'Weapon',shield:'Shield',helmet:'Helmet',body:'Body',legs:'Legs',boots:'Boots',gloves:'Gloves',ring:'Ring',amulet:'Amulet',cape:'Cape',ammo:'Ammo',food:'Food'};
+const SLOTI={weapon:P.sword('#999'),shield:P.shield('#999'),helmet:P.helmet('#999'),body:P.body('#999'),legs:P.legs('#999'),boots:P.boots('#999'),gloves:P.gloves('#999'),ring:P.ring('#999'),amulet:P.amulet('#999'),cape:P.cape('#999'),ammo:P.arrow('#999'),food:P.fish('#999',true)};
 const STN={atk:'Attack',str:'Strength',def:'Defence',rng:'Ranged',mag:'Magic'};
 
 const STATN={atk:'Attack',str:'Strength',def:'Defence',rngA:'Ranged attack',rngS:'Ranged strength',magA:'Magic attack',magD:'Magic damage %'};
@@ -1346,7 +1516,7 @@ function paint(el,html){html=html.replace(E2RE,m=>E2S[m]);const t=document.creat
 function navHtml(){
  const it=(p,i,n,r,run)=>`<button class="ni${UI.page===p?' on':''}" data-a="nav" data-p="${p}"><span>${i}</span><span>${n}</span>${run?'<span class="run"></span>':''}<span class="nl">${r||''}</span></button>`;
  let h=`<div class="brand"><span>🏰</span><div>Mossgate Idle<small>Total level ${totalLevel()}</small></div></div>`;
- h+=it('home','🏠','Overview');h+=it('combat','⚔️','Combat','Lv '+combatLevel(),!!S.cb);h+=it('equip','🎒','Equipment');h+=it('bank','🏦','Bank',S.nb+'/'+bankSlots());h+=it('shop','🛒','Shop');h+=it('wheel',P.wheel(),'Daily Wheel',wheelLeft()===0?'<b class="gold">Ready</b>':'');
+ h+=it('home','🏠','Overview');h+=it('combat','⚔️','Combat','Lv '+combatLevel(),!!S.cb&&!S.cb.dg);h+=it('dungeons',P.gate('#6b7480'),'Dungeons',null,!!(S.cb&&S.cb.dg));h+=it('equip','🎒','Equipment');h+=it('bank','🏦','Bank',S.nb+'/'+bankSlots());h+=it('shop','🛒','Shop');h+=it('wheel',P.wheel(),'Daily Wheel',wheelLeft()===0?'<b class="gold">Ready</b>':'');
  h+='<div class="navh">Skills</div>';
  SKILLS.forEach(s=>{h+=it(s[0],s[2],s[1],lv(s[0]),S.acts.some(a=>a&&a.sk===s[0]));});
  h+='<div class="navh">Game</div>'+it('set','⚙️','Settings');return h;}
@@ -1354,9 +1524,9 @@ function navHtml(){
 /* ---------- pages ---------- */
 function slotHtml(i){const A=S.acts[i];let inner;
  if(!A)inner='<span class="mute">Empty. Pick an action.</span>';
- else if(A.sk==='combat'){const M=MONS[A.id];inner=`<span class="at">${M.i} ${M.n}</span>${bar(pc(S.hp,maxHp()),'hp')}`;}
+ else if(A.sk==='combat'){const M=MONS[A.id];inner=`<span class="at">${M.i} ${M.n}</span><span class="hpw">${bar(pc(S.hp,maxHp()),'hp')}<em>${Math.ceil(S.hp)}/${maxHp()}</em></span>`;}
  else{const x=actBy(A.sk,A.id);inner=`<span class="at">${SKN[A.sk].i} ${x.n}</span>${bar(pc(Math.max(0,A.t),interval(A.sk,x)))}`;}
- return`<div class="sl${UI.tgt===i?' tgt':''}" role="button" tabindex="0" data-a="slot" data-i="${i}" title="New actions start in the highlighted slot"><b class="sn">${'ABC'[i]}</b>${inner}${A?`<button class="btn sm" data-a="stopslot" data-i="${i}" aria-label="Stop">✕</button>`:''}</div>`;}
+ return`<div class="sl${UI.tgt===i?' tgt':''}${A&&A.sk==='combat'?' cmb':''}" role="button" tabindex="0" data-a="slot" data-i="${i}" title="New actions start in the highlighted slot"><b class="sn">${'ABC'[i]}</b>${inner}${A?`<button class="btn sm" data-a="stopslot" data-i="${i}" aria-label="Stop">✕</button>`:''}</div>`;}
 function topHtml(){return`<button class="burger" data-a="navtoggle" aria-label="Menu">☰</button><div class="tslots">${S.acts.map((a,i)=>slotHtml(i)).join('')}</div><div class="coins">🪙 ${fmt(S.coins)}</div>`;}
 
 function skHead(sk){
@@ -1366,6 +1536,7 @@ function skHead(sk){
  if(SKN[sk]&&S.mast[sk]){const p=poolPct(sk);
   h+=`<div class="row" style="margin-top:10px"><b style="color:var(--mast)">Mastery pool</b><span class="sub">${fmt(S.mast[sk].pool)} / ${fmt(poolMax(sk))} (${(p*100).toFixed(1)}%)</span></div><div style="position:relative">${bar(p*100,'mast big')}</div>`;
   h+='<div class="cps">'+CPS.map(c=>`<span class="${p>=c[0]?'got':''}">${p>=c[0]?'✔':'○'} ${Math.round(c[0]*100)}%: ${c[1]}</span>`).join('')+'</div>';
+  if(sk==='agi'){const L=lvlOf(S.xp.agi);h+='<div class="row" style="margin-top:10px"><b>Agility level buffs</b><span class="sub">permanent, apply everywhere</span></div><div class="cps">'+AGB.map(b=>`<span class="${L>=b[0]?'got':''}">${L>=b[0]?'✔':'○'} Lv ${b[0]}: ${b[1]}</span>`).join('')+'</div>';}
   const u=S.upg[sk]||0;if(TOOLS[sk]&&u)h+=`<div class="sub" style="margin-top:6px">Tool: ${UPG_N[u-1]} ${TOOLS[sk]} (−${u*6}% action time)</div>`;}
  return h+'</div>';}
 
@@ -1378,7 +1549,7 @@ function actCard(sk,a){
  if(oit&&oit.st){io+=`<div class="io statln">${statShort(oit)}${oit.wt?' · '+oit.wt+' '+oit.sp+'s':''}${oit.lr?' · needs '+SKN[oit.lr[0]].n+' '+oit.lr[1]:''}</div>`;}
  else if(oit&&oit.heal)io+=`<div class="io statln">Heals ${oit.heal} HP</div>`;
  else if(oit&&oit.pot)io+=`<div class="io statln">+${oit.pot.v}% ${PDESC[oit.pot.t]}</div>`;
- if(kind==='thief'){io+=`<div class="io">Success ${Math.round(Math.min(.95,.5+(lv(sk)-a.lvl)*.012+ml*.004)*100)}% · 🪙 ${a.coins[0]}–${a.coins[1]} · hurts up to ${a.dmg}</div>`;}
+ if(kind==='thief'){io+=`<div class="io"><b>Loot</b>${a.drops.map(d=>`<span class="dgi" data-tip="${d[0]}" title="${Math.round(d[1]*100)}% chance">${ITEMS[d[0]].i}<span>${ITEMS[d[0]].n}</span></span>`).join('')}</div><div class="io">Success ${Math.round(Math.min(.95,.5+(lv(sk)-a.lvl)*.012+ml*.004)*100)}% · 🪙 ${a.coins[0]}–${a.coins[1]} · hurts up to ${a.dmg}</div>`;}
  else if(kind==='dungeon'){const r=dpow()/a.rec,rk=r>=1.2?['Easy','good']:r>=1?['Fair','']:r>=.85?['Risky','gold']:['Deadly','bad'],cl=S.dg.clears[a.id]||0,gt=S.dg.relics[a.relic];
   io+=`<div class="io"><b>${a.floors}</b> floors · boss ${a.boss} · recommended combat <b>${a.rec}</b> · <span class="${rk[1]}">${rk[0]}</span></div><div class="io">🪙 ${fmt(a.coins[0])}–${fmt(a.coins[1])} · cleared <b>${cl}</b> · Relic: ${gt?'<span class="good">'+RELICS[a.relic][0]+'</span>':'<span class="sub">not found'+(cl?' ('+Math.max(0,15-cl)+' clears to guarantee)':'')+'</span>'}</div>`;}
  else if(a.coins)io+=`<div class="io"><b>Earns</b>🪙 ${a.coins[0]}–${a.coins[1]}</div>`;
@@ -1409,19 +1580,19 @@ function skillPage(sk){
 
 function farmPage(){
  let h=skHead('farm');
- h+=`<div class="panel"><div class="row"><button class="btn pri" data-a="harvestall">Harvest all ready</button><button class="btn${S.farm.auto?' pri':''}" data-a="autoplant">Auto-replant: ${S.farm.auto?'On':'Off'}</button><span class="sub">Crops grow in real time, even while you are away. Seeds are used from your bank, or bought on the spot.</span></div></div>`;
- ['allot','herb'].forEach(cat=>{
-  h+=`<div class="panel"><h2>${cat==='allot'?'Allotments':'Herb patches'} <span class="pill">${S.farm[cat]}/${PLOT_MAX[cat]}</span></h2><div class="grid sm">`;
+ h+=`<div class="panel"><div class="row"><button class="btn pri" data-a="harvestall">Harvest all ready</button><button class="btn${S.farm.auto?' pri':''}" data-a="autoplant">Auto-replant: ${S.farm.auto?'On':'Off'}</button><span class="sub">Crops grow in real time, even while you are away. Seeds are used from your bank, or bought on the spot. Tree seeds cannot be bought: they drop from monsters and from thieving Farmers and Master Farmers.</span></div></div>`;
+ ['allot','herb','tree'].forEach(cat=>{
+  h+=`<div class="panel"><h2>${cat==='allot'?'Allotments':cat==='herb'?'Herb patches':'Tree patches'} <span class="pill">${S.farm[cat]}/${PLOT_MAX[cat]}</span></h2><div class="grid sm">`;
   plotsOf(cat).forEach(([p,i])=>{
-   if(!p.crop)h+=`<div class="card" role="button" tabindex="0" data-a="pick" data-i="${i}"><div class="ch"><span class="ci">🟫</span><div><div class="cn">Empty plot</div><div class="cm">Tap to plant</div></div></div></div>`;
+   if(!p.crop)h+=`<div class="card" role="button" tabindex="0" data-a="pick" data-i="${i}"><div class="ch"><span class="ci">🟫</span><div><div class="cn">Empty plot</div><div class="cm">${cat==='tree'?'Tap to plant a tree seed':'Tap to plant'}</div></div></div></div>`;
    else{const c=CROPBY[p.crop],ready=S.clock>=p.ready;
-    h+=`<div class="card${ready?' on':''}" role="button" tabindex="0" data-a="${ready?'harvest':'noop'}" data-i="${i}"><div class="ch"><span class="ci">${ready?'🧺':'🌱'}</span><div><div class="cn">${c.n}</div><div class="cm">${ready?'<b class="good">Ready to harvest</b>':fmtT(p.ready-S.clock)+' left'}</div></div></div>${bar(ready?100:pc(S.clock-p.start,p.ready-p.start))}</div>`;}});
+    h+=`<div class="card${ready?' on':''}" role="button" tabindex="0" data-a="${ready?'harvest':'noop'}" data-i="${i}"><div class="ch"><span class="ci">${ready?'🧺':cat==='tree'?'🌳':'🌱'}</span><div><div class="cn">${c.n}</div><div class="cm">${ready?'<b class="good">Ready to harvest</b>':fmtT(p.ready-S.clock)+' left'}</div></div></div>${bar(ready?100:pc(S.clock-p.start,p.ready-p.start))}</div>`;}});
   h+='</div></div>';});
  if(UI.pick!=null&&S.farm.plots[UI.pick]&&!S.farm.plots[UI.pick].crop){
   const cat=S.farm.plots[UI.pick].cat;
   h+=`<div class="panel"><div class="row"><h2 style="margin:0">Choose a crop</h2><div class="sp"></div><button class="btn sm" data-a="pickclose">Cancel</button></div><div class="tw"><table><tr><th>Crop</th><th>Level</th><th>XP</th><th>Grows</th><th>Yield</th><th>Seeds</th><th></th></tr>`;
   CROP.filter(c=>c.cat===cat).forEach(c=>{const lock=lv('farm')<c.lvl,have=cnt(c.seed);
-   h+=`<tr><td>${c.i} ${c.n}</td><td class="${lock?'bad':''}">${c.lvl}</td><td>${c.xp}</td><td>${fmtT(c.t)}</td><td>${c.q[0]}–${c.q[1]}</td><td>${have?have+' owned':'🪙 '+c.seedCost}</td><td><button class="btn sm pri${lock?' off':''}" data-a="plant" data-crop="${c.id}">Plant</button></td></tr>`;});
+   h+=`<tr><td>${c.i} ${c.n}</td><td class="${lock?'bad':''}">${c.lvl}</td><td>${c.xp}</td><td>${fmtT(c.t)}</td><td>${c.q[0]}–${c.q[1]}</td><td>${have?have+' owned':c.noBuy?'<span class="sub">drops only</span>':'🪙 '+c.seedCost}</td><td><button class="btn sm pri${lock||(c.noBuy&&!have)?' off':''}" data-a="plant" data-crop="${c.id}">Plant</button></td></tr>`;});
   h+='</table></div></div>';}
  return h;}
 
@@ -1433,6 +1604,30 @@ function monCard(M){
  <div class="stats"><span>HP <b>${M.hp}</b></span><span>Max hit <b>${M.maxHit}</b></span><span>🪙 <b>${M.coins[0]}–${M.coins[1]}</b></span></div>${bw}<div class="io"><b>Drops</b> ${dr||'—'}</div>
  <button class="btn ${on?'dng':'pri'} sm" style="align-self:flex-start">${on?'Stop fighting':'Fight'}</button></div>`;}
 
+function dungeonsPage(){
+ const own=id=>cnt(id)>0||Object.values(S.equip).includes(id)||!!S.col[id];
+ let h=`<div class="panel"><div class="row"><h2 style="margin:0">Dungeons</h2><span class="pill">Combat level ${combatLevel()}</span></div><div class="sub" style="margin-top:6px">Fight through waves of enemies with no rest in between, then face the boss. Fall and you start again from wave 1. Clear a dungeon for its signature <b>cape</b> on the first win, plus a chance at rare gear on every clear. Bring food and your best gear. (Looking for the Dungeoneering skill? It is under Skills.)</div></div><div class="grid dgs">`;
+ DUNGEONS.forEach(d=>{
+  const r=dgs(d.id),ok=combatLevel()>=d.req,on=S.cb&&S.cb.dg===d.id,total=d.waves.length+1;
+  const item=id=>{const it=ITEMS[id],o=own(id);return`<span class="dgi${o?' got':''}" data-tip="${id}" title="${it.n}">${it.i}<span>${it.n}</span>${o?'<b>✔</b>':''}</span>`;};
+  const mons=d.mid.map(id=>MONS[id]).concat([MONS[d.bid]]);
+  let live='';if(on){const C=S.cb,M=MONS[C.mon];live=`<div class="dglive"><b>Wave ${C.wave<total?C.wave+'/'+d.waves.length:'Boss'}</b> · ${M.n}${bar(pc(Math.max(0,C.mhp),M.hp),'hp')}<span class="sub">You: ${Math.ceil(S.hp)} / ${maxHp()} HP</span></div>`;}
+  h+=`<div class="panel dgc${on?' on':''}"><div class="row"><h3 style="margin:0">${d.i} ${d.n}</h3><div class="sp"></div><span class="pill${ok?'':' bad'}">Combat ${d.req}+</span></div>
+  <div class="sub" style="margin-top:4px">${d.desc}</div>
+  <div class="stats" style="margin-top:8px"><span>Best <b>${r.best>=total?'Cleared':r.best?'Wave '+r.best:'-'}</b></span><span>Attempts <b>${r.tries}</b></span><span>Clears <b>${r.clears}</b></span>${r.fast?`<span>Fastest <b>${fmtT(r.fast)}</b></span>`:''}<span>Clear bonus <b>🪙 ${fmt(d.bonus)}</b></span></div>
+  <div class="dgw">${mons.map((m,k)=>`<span class="chip${on&&S.cb.wave===k+1?' on':''}" title="HP ${fmt(m.hp)} · max hit ${m.maxHit}">${k<d.waves.length?k+1:'Boss'} · ${m.n} <small>${m.cb}</small></span>`).join('')}</div>
+  <div class="dgr"><b>First clear</b>${item(d.cape.id)}</div><div class="dgr"><b>Rare drops</b><span class="sub">8% each per clear, guaranteed within 10 clears</span>${d.rares.map(x=>item(x.id)).join('')}</div>
+  <div class="dgr"><b>Also drops</b>${d.loot.map(l=>`<span class="dgi">${ITEMS[l[0]].i}<span>${ITEMS[l[0]].n}</span></span>`).join('')}</div>
+  ${live}<div class="row" style="margin-top:10px"><button class="btn ${on?'dng':'pri'}${ok||on?'':' off'}" data-a="dgn" data-id="${d.id}">${on?'Leave '+d.n:ok?'Enter '+d.n:'Requires combat level '+d.req}</button></div></div>`;});
+ return h+'</div>';}
+function bagPanel(){
+ const B=S.bag,cap=bagCap(),ids=Object.keys(B.items).sort((a,b)=>ITEMS[b].v*B.items[b]-ITEMS[a].v*B.items[a]);
+ let val=0;ids.forEach(id=>{val+=ITEMS[id].v*B.items[id];});
+ let h=`<div class="panel"><div class="row"><h3 style="margin:0">🎒 Loot bag</h3><span class="pill${B.n>=cap?' bad':''}">${fmt(B.n)} / ${fmt(cap)}</span><div class="sp"></div><span class="sub">Worth 🪙 ${fmt(val)}</span></div>${bar(pc(B.n,cap),B.n>=cap?'hp':'')}
+ <div class="row" style="margin-top:8px"><button class="btn pri sm${ids.length?'':' off'}" data-a="bagall">Move all to bank</button><button class="btn sm${ids.length?'':' off'}" data-a="bagsell">Sell all</button><button class="tag${B.mode==='stop'?' on':''}" data-a="bagmode">When full: ${B.mode==='stop'?'stop fighting':'send to bank'}</button></div>
+ <div class="sub" style="margin-top:6px">Everything enemies drop lands here. Tap an item to send that stack to the bank. Upgrade the bag in the Shop.</div>
+ <div class="bagl">${ids.length?ids.map(id=>{const it=ITEMS[id];return`<button class="chip bagi" data-a="bagtake" data-id="${id}" data-tip="${id}"${rc(it)}>${it.i} ${it.n} ×${fmt(B.items[id])}</button>`;}).join(''):'<span class="sub">Empty. Kill something.</span>'}</div></div>`;
+ return h;}
 function combatPage(){
  let h=`<div class="panel"><div class="row"><h2 style="margin:0">Combat</h2><span class="pill">Combat level ${combatLevel()}</span><div class="sp"></div><span class="sub">Each area ends with a boss that can drop unique weapons and armour sets in five rarities. Fights are automatic. You eat food from your food slot below 50% HP.</span></div><div class="tiles" style="margin-top:10px">`;
  COMBAT.forEach(c=>{const L=lv(c[0]),x=S.xp[c[0]],cur=XPT[L-1],nx=L>=MAXL?cur:XPT[L];h+=`<div class="tile" style="cursor:default"><div class="tl"><span>${c[2]} ${c[1]}</span><span>${L}</span></div>${bar(L>=MAXL?100:pc(x-cur,nx-cur),'xp thin')}</div>`;});
@@ -1450,10 +1645,11 @@ function combatPage(){
   h+='<div class="sub" style="margin-top:4px">Cost: '+Object.keys(sp.cost).map(k=>ic(k,0,sp.cost[k])).join(' ')+'</div>';}
  if(t==='ranged')h+='<div class="sub" style="margin-top:6px">Arrows: '+(S.equip.ammo?ic(S.equip.ammo,cnt(S.equip.ammo)):'<span class="bad">none equipped</span>')+'</div>';
  const f=S.equip.food;h+='<div class="sub" style="margin-top:6px">Food: '+(f&&cnt(f)?ic(f,cnt(f))+' heals '+ITEMS[f].heal:'<span class="bad">no food equipped</span> (cook fish, then equip it from the Bank)')+'</div></div>';
+ h+=bagPanel();
  /* fight */
  if(S.cb){const C=S.cb;
   h+=`<div class="panel"><div class="fight"><div class="fighter"><div class="big">${playerPortrait()}</div><b>${S.name||'You'}</b>${bar(pc(S.hp,maxHp()),'hp big')}<div class="sub">${Math.ceil(S.hp)} / ${maxHp()} HP</div>${bar(pc(C.pt,PS.sp),'thin')}<div class="hit">${C.mlast!=null&&C.mlast>0?'−'+C.mlast:C.mlast===0?'dodged':''}</div></div>
-  <div class="fighter"><div class="big">${M.i}</div><b>${M.n}</b>${bar(pc(Math.max(0,C.mhp),M.hp),'hp big')}<div class="sub">${C.rs>0?'Respawning…':Math.max(0,Math.ceil(C.mhp))+' / '+M.hp+' HP'}</div>${bar(pc(C.mt,M.sp),'thin')}<div class="hit">${C.last!=null&&C.last>0?'−'+C.last:C.last===0?'miss':''}</div></div></div>
+  <div class="fighter"><div class="big">${M.i}</div><b>${C.dg?(C.wave<=DGB[C.dg].waves.length?'Wave '+C.wave+'/'+DGB[C.dg].waves.length+' · ':'Boss · ')+M.n:M.n}</b>${bar(pc(Math.max(0,C.mhp),M.hp),'hp big')}<div class="sub">${C.rs>0?'Respawning…':Math.max(0,Math.ceil(C.mhp))+' / '+M.hp+' HP'}</div>${bar(pc(C.mt,M.sp),'thin')}<div class="hit">${C.last!=null&&C.last>0?'−'+C.last:C.last===0?'miss':''}</div></div></div>
   <div class="row" style="margin-top:10px"><span class="sub">Kills this fight: <b>${C.kills}</b></span><div class="sp"></div><button class="btn dng sm" data-a="stop">Stop</button></div>
   <div class="log" style="margin-top:6px">${C.log.map(l=>`<div>🪙 ${l.c}${l.got.map(g=>' · '+ITEMS[g[0]].i+(g[1]>1?'×'+g[1]:'')).join('')}</div>`).join('')||'<div>No kills yet.</div>'}</div></div>`;}
  h+='<div class="chips">'+AREAS.map(a=>`<button class="tag${UI.area===a.id?' on':''}" data-a="area" data-id="${a.id}">${a.i} ${a.n}</button>`).join('')+'</div>';
@@ -1461,12 +1657,19 @@ function combatPage(){
  return h;}
 
 function equipPage(){
- const g=PS.g;let h='<div class="panel"><h2>Equipment</h2><div class="slots">';
- ['helmet','amulet','ammo','weapon','body','shield','gloves','legs','ring','boots','food'].forEach(sl=>{
-  const id=S.equip[sl],it=id?ITEMS[id]:null;
-  h+=`<div class="slot${UI.slot===sl?' on':''}"${it?` data-tip="${id}"`:''} role="button" tabindex="0" data-a="eslot" data-ctx="slot" data-s="${sl}">${it?`<span class="si">${it.i}</span><span${rc(it)}>${it.n}</span>${(sl==='ammo'||sl==='food')?`<small>×${fmt(cnt(id))}</small>`:''}`:`<span class="si" style="opacity:.35">${SLOTI[sl]}</span><small>${SLOTN[sl]}</small>`}</div>`;});
- h+='</div></div>';
- h+=`<div class="panel"><h3>Bonuses</h3><div class="stats"><span>Attack <b>${g.atk}</b></span><span>Strength <b>${g.str}</b></span><span>Defence <b>${g.def}</b></span><span>Ranged att <b>${g.rngA}</b></span><span>Ranged str <b>${g.rngS+PS.ammoS}</b></span><span>Magic att <b>${g.magA}</b></span><span>Magic dmg <b>${g.magD}%</b></span></div></div>`;
+ const g=PS.g;
+ const tile=sl=>{if(!sl)return'<div class="eq-gap"></div>';const id=S.equip[sl],it=id?ITEMS[id]:null;
+  const cnt_=it&&(sl==='ammo'||sl==='food')?`<small class="eq-n">${fmt(cnt(id))}</small>`:'';
+  const rar=it&&it.rar!=null&&RAR[it.rar]?` style="--rc:${RAR[it.rar][2]}"`:'';
+  return`<div class="eq-slot${UI.slot===sl?' on':''}${it?' has':''}"${rar}${it?` data-tip="${id}"`:''} role="button" tabindex="0" aria-label="${SLOTN[sl]}${it?': '+it.n:' (empty)'}" data-a="eslot" data-ctx="slot" data-s="${sl}">${it?`<span class="si">${it.i}</span>${cnt_}`:`<span class="si ghost">${SLOTI[sl]}</span>`}<em>${SLOTN[sl]}</em></div>`;};
+ const rows=[[0,'helmet',0],['cape','amulet','ammo'],['weapon','body','shield'],[0,'legs',0],['gloves','boots','ring'],[0,'food',0]];
+ const row=(l,v)=>`<div class="eq-row"><span>${l}</span><b class="${v>0?'pos':v<0?'neg':''}">${v>0?'+':''}${v}</b></div>`;
+ let h=`<div class="eqwrap"><div class="osrs"><div class="osrs-h">Worn equipment</div><div class="eq-doll">${rows.map(r=>r.map(tile).join('')).join('')}</div><div class="eq-foot">${UI.slot?'Selected: <b>'+SLOTN[UI.slot]+'</b>':'Tap a slot to change what you wear'}</div></div>
+ <div class="osrs"><div class="osrs-h">Equipment bonuses</div>
+  <div class="eq-sec">Attack bonuses</div>${row('Melee attack',g.atk)}${row('Ranged attack',g.rngA)}${row('Magic attack',g.magA)}
+  <div class="eq-sec">Strength bonuses</div>${row('Melee strength',g.str)}${row('Ranged strength',g.rngS+PS.ammoS)}${row('Magic damage %',g.magD)}
+  <div class="eq-sec">Defence bonuses</div>${row('Defence',g.def)}
+  <div class="eq-sec">Combat</div><div class="eq-row"><span>Style</span><b>${PS.type}</b></div><div class="eq-row"><span>Attack speed</span><b>${PS.sp}s</b></div><div class="eq-row"><span>Combat level</span><b>${combatLevel()}</b></div></div></div>`;
  if(UI.slot){const sl=UI.slot,cur=S.equip[sl];
   const opts=Object.keys(S.bank).filter(id=>ITEMS[id].slot===sl);
   h+=`<div class="panel"><div class="row"><h3 style="margin:0">${SLOTN[sl]} slot</h3><div class="sp"></div>${cur?`<button class="btn sm" data-a="unequip" data-s="${sl}">Unequip ${ITEMS[cur].n}</button>`:''}</div><div class="grid" style="margin-top:8px">`;
@@ -1503,12 +1706,13 @@ function shopPage(){
  h+='</div><div class="grid">';
  const bc=S.bankBuys>=BANK_MAXBUY?null:bankCost(S.bankBuys);
  h+=`<div class="card static"><div class="ch"><span class="ci">🏦</span><div><div class="cn">Bank space</div><div class="cm">${bankSlots()} slots · +${BANK_STEP} per purchase</div></div></div>${bc==null?'<div class="good">Maximum</div>':`<button class="btn pri sm${S.coins<bc?' off':''}" data-a="buybank" style="align-self:flex-start">Buy · 🪙 ${fmt(bc)}</button>`}</div>`;
- ['allot','herb'].forEach(cat=>{const own=S.farm[cat],c=own>=PLOT_MAX[cat]?null:plotCost(cat,own);
-  h+=`<div class="card static"><div class="ch"><span class="ci">🟫</span><div><div class="cn">${cat==='allot'?'Allotment plot':'Herb patch'}</div><div class="cm">${own}/${PLOT_MAX[cat]} owned</div></div></div>${c==null?'<div class="good">Maximum</div>':`<button class="btn pri sm${S.coins<c?' off':''}" data-a="buyplot" data-c="${cat}" style="align-self:flex-start">Buy · 🪙 ${fmt(c)}</button>`}</div>`;});
+ {const n=S.bag.up||0,last=n>=BAG_CAP.length-1,c=last?null:BAG_COST[n+1];h+=`<div class="card static"><div class="ch"><span class="ci">🎒</span><div><div class="cn">Loot bag</div><div class="cm">Holds ${fmt(BAG_CAP[n])} items${last?'':' · next: '+fmt(BAG_CAP[n+1])}</div></div></div>${c==null?'<div class="good">Maximum</div>':`<button class="btn pri sm${S.coins<c?' off':''}" data-a="buybag" style="align-self:flex-start">Upgrade · 🪙 ${fmt(c)}</button>`}</div>`;}
+ ['allot','herb','tree'].forEach(cat=>{const own=S.farm[cat],c=own>=PLOT_MAX[cat]?null:plotCost(cat,own);
+  h+=`<div class="card static"><div class="ch"><span class="ci">🟫</span><div><div class="cn">${cat==='allot'?'Allotment plot':cat==='herb'?'Herb patch':'Tree patch'}</div><div class="cm">${own}/${PLOT_MAX[cat]} owned</div></div></div>${c==null?'<div class="good">Maximum</div>':`<button class="btn pri sm${S.coins<c?' off':''}" data-a="buyplot" data-c="${cat}" style="align-self:flex-start">Buy · 🪙 ${fmt(c)}</button>`}</div>`;});
  h+='</div><div class="panel"><h2>Supplies and seeds</h2><div class="tw"><table><tr><th>Item</th><th>Price</th><th>Owned</th><th></th></tr>';
  const row=(id,n,i,cost,lock)=>`<tr><td>${i} ${n}</td><td>🪙 ${fmt(cost)}</td><td>${fmt(cnt(id))}</td><td><button class="btn sm${lock||S.coins<cost?' off':''}" data-a="buyi" data-id="${id}" data-q="1">Buy 1</button> <button class="btn sm${lock||S.coins<cost*10?' off':''}" data-a="buyi" data-id="${id}" data-q="10">Buy 10</button></td></tr>`;
  Object.keys(SUPPLY).forEach(id=>{h+=row(id,ITEMS[id].n,ITEMS[id].i,SUPPLY[id],false);});
- CROP.forEach(c=>{h+=row(c.seed,c.n+' Seed','🌱',c.seedCost,lv('farm')<c.lvl);});
+ CROP.filter(c=>!c.noBuy).forEach(c=>{h+=row(c.seed,c.n+' Seed','🌱',c.seedCost,lv('farm')<c.lvl);});
  return h+'</table></div></div>';}
 
 function settingsPage(){
@@ -1533,7 +1737,7 @@ function homePage(){
 
 function pageHtml(){
  const p=UI.page;
- if(p==='home')return homePage();if(p==='combat')return combatPage();if(p==='equip')return equipPage();if(p==='bank')return bankPage();if(p==='shop')return shopPage();if(p==='wheel')return wheelPage();if(p==='set')return settingsPage();
+ if(p==='home')return homePage();if(p==='combat')return combatPage();if(p==='dungeons')return dungeonsPage();if(p==='equip')return equipPage();if(p==='bank')return bankPage();if(p==='shop')return shopPage();if(p==='wheel')return wheelPage();if(p==='set')return settingsPage();
  return skillPage(p);}
 function ctxHtml(){const c=UI.ctx;if(!c)return'';let b='',t='';
  if(c.t==='item'){const it=ITEMS[c.id],n=cnt(c.id);if(!it||!n)return'';t=`<span${rc(it)}>${it.n}</span> ×${fmt(n)}`;
@@ -1565,6 +1769,7 @@ function slotsModal(m){
  for(let n=1;n<=NSAVE;n++){const i=slotInfo(n),cur=!!S&&SLOT===n;let b;
   if(m.newN===n)b=`<div class="row"><input type="text" id="nm" maxlength="20" placeholder="Name your adventurer" value="${UI.nm}" autocomplete="off" aria-label="Adventurer name"><button class="btn pri" data-a="slotnew" data-n="${n}">Start</button><button class="btn" data-a="slotcancel">Cancel</button></div>`;
   else if(m.warn===n)b=`<div class="gold">This save looks open in another tab. Playing it in two tabs can overwrite progress.</div><div class="row"><button class="btn dng" data-a="slotforce" data-n="${n}">Play anyway</button><button class="btn" data-a="slotcancel">Cancel</button></div>`;
+  else if(i&&i.bad)b=`<div class="gold">This save could not be verified. It was damaged or edited outside the game, so it cannot be loaded.</div><div class="row">${m.delN===n?`<button class="btn dng" data-a="slotdel" data-n="${n}">Yes, delete it</button><button class="btn" data-a="slotcancel">Keep</button>`:`<button class="btn" data-a="slotdelask" data-n="${n}">Delete</button>`}</div>`;
   else if(!i)b=`<div class="sub">Empty slot</div><div class="row"><button class="btn pri" data-a="slotnewask" data-n="${n}">New game</button></div>`;
   else b=`<div class="stats"><span>Total level <b>${i.tl}</b></span><span>Combat <b>${i.cl}</b></span><span>🪙 <b>${fmt(i.coins)}</b></span><span>Played <b>${fmtT(i.play)}</b></span><span>Saved <b>${ago(i.saved)}</b></span></div>
    ${i.bak?'<div class="gold">The main save could not be read. This is the automatic backup.</div>':''}
@@ -1579,7 +1784,7 @@ function enterSlot(n,s){
  if(away>=30){const r=simulateOffline(away);if(away>=120&&(r.coins>0||Object.keys(r.xp).length||Object.keys(r.items).length))UI.modal={type:'offline',r,away};}
  const h=location.hash.replace('#','');if(h&&(['home','combat','equip','bank','shop','wheel','set'].includes(h)||SKILLS.some(x=>x[0]===h)))UI.page=h;
  saveLocal();}
-function playSlot(n,force){const r=readSlot(n);if(!r)return;if(!force&&lockedElsewhere(n)){UI.modal.warn=n;UI.modal.newN=null;UI.modal.delN=null;return;}enterSlot(n,r.s);if(r.bak)toast('Loaded the automatic backup for this slot.','warn');}
+function playSlot(n,force){const r=readSlot(n);if(!r||r.bad)return;if(!force&&lockedElsewhere(n)){UI.modal.warn=n;UI.modal.newN=null;UI.modal.delN=null;return;}enterSlot(n,r.s);if(r.bak)toast('Loaded the automatic backup for this slot.','warn');}
 function leaveSlot(){if(S){saveLocal();release();}S=null;SLOT=0;UI.modal={type:'slots',boot:true,newN:null,delN:null,warn:null};}
 function modalHtml(){const m=UI.modal;if(!m)return'';
  if(m.type==='slots')return slotsModal(m);
@@ -1590,6 +1795,11 @@ function modalHtml(){const m=UI.modal;if(!m)return'';
   ${r.stopped?'<div class="gold">Your activity stopped before you returned (out of materials, supplies or health).</div>':''}
   <div class="stats"><span>🪙 <b>+${fmt(r.coins)}</b></span>${r.kills?`<span>Kills <b>${fmt(r.kills)}</b></span>`:''}${r.deaths?`<span>Knocked out <b>${r.deaths}</b></span>`:''}</div>
   ${xp?`<table>${xp}</table>`:''}${it?`<div class="io">${it}</div>`:''}<button class="btn pri" data-a="closemodal">Continue</button></div></div>`;}
+ if(m.type==='pick'){const sl='ABC'[m.slot];
+  const run=sk=>S.acts.findIndex((a,i)=>a&&a.sk===sk&&i!==m.slot);
+  const b=(p,ic,n,sk)=>{const r=run(sk);return`<button class="tile" data-a="pickgo" data-p="${p}"><div class="tl"><span>${ic} ${n}</span><span>${r>=0?'in '+'ABC'[r]:lv(sk)}</span></div></button>`;};
+  let g=b('combat','⚔️','Combat','combat');SKILLS.forEach(s=>{g+=b(s[0],s[2],s[1],s[0]);});
+  return`<div class="modal"><div class="mbox"><h2>Start in slot ${sl}</h2><div class="sub">Pick a skill, then choose an action on its page. It will start in slot ${sl}. A skill already running in the other slot shows its letter.</div><div class="grid sm">${g}</div><button class="btn" data-a="closemodal">Cancel</button></div></div>`;}
  if(m.type==='export')return`<div class="modal"><div class="mbox"><h2>Backup text</h2><div class="sub">Select all and copy this text, then store it somewhere safe.</div><textarea id="exp" readonly>${m.txt}</textarea><div class="row"><button class="btn pri" data-a="copyexp">Copy</button><button class="btn" data-a="closemodal">Close</button></div></div></div>`;
  return'';}
 
@@ -1606,7 +1816,7 @@ function nextSlot(){if(S.acts[UI.tgt]){const o=S.acts.findIndex((a,i)=>!a&&i!==U
 function handle(d){
  switch(d.a){
   case'nav':go(d.p);break;case'navtoggle':UI.navOpen=!UI.navOpen;break;
-  case'start':startAction(d.sk,d.id,UI.tgt);nextSlot();break;case'stop':stopAll();break;case'slot':UI.tgt=+d.i;break;case'stopslot':clearSlot(+d.i);UI.tgt=+d.i;break;
+  case'start':startAction(d.sk,d.id,UI.tgt);nextSlot();break;case'stop':stopAll();break;case'dgn':startDungeon(d.id);if(S.cb&&S.cb.dg===d.id)go('combat');break;case'bagall':bagCollect();break;case'bagsell':bagSellAll();break;case'bagmode':S.bag.mode=S.bag.mode==='stop'?'bank':'stop';break;case'bagtake':if(!bagTake(d.id))toast('Your bank has no room for that.','warn');break;case'buybag':buyBag();break;case'slot':{UI.tgt=+d.i;const A=S.acts[UI.tgt];if(!A)UI.modal={type:'pick',slot:UI.tgt};else go(A.sk==='combat'?'combat':A.sk);}break;case'pickgo':UI.modal=null;go(d.p);break;case'stopslot':clearSlot(+d.i);UI.tgt=+d.i;break;
   case'mon':startCombat(UI.area,d.id,UI.tgt);nextSlot();if(S.cb){S.cb.stance=UI.stance||0;S.cb.spell=UI.spell||0;}break;case'area':UI.area=d.id;break;
   case'stance':if(S.cb)S.cb.stance=+d.i;UI.stance=+d.i;break;
   case'spell':if(lv('mag')>=SPELLS[+d.i].lvl){if(S.cb)S.cb.spell=+d.i;UI.spell=+d.i;}break;
@@ -1620,7 +1830,7 @@ function handle(d){
   case'theme':S.theme=d.t;break;
   case'export':UI.modal={type:'export',txt:exportSave()};break;
   case'copyexp':{const t=$('#exp');if(t){t.select();try{navigator.clipboard.writeText(t.value).then(()=>toast('Copied','info'),()=>{});}catch(e){}}}break;
-  case'import':try{const s=importSave($('#imp').value);s.name=s.name||S.name;SAVESTAT.bak=0;saveLocal();useState(s);saveLocal();UI.msg='Backup loaded.';UI.imp='';}catch(e){UI.msg='That backup text could not be read.';}break;
+  case'import':try{const s=importSave($('#imp').value);s.name=s.name||S.name;SAVESTAT.bak=0;saveLocal();useState(s);saveLocal();UI.msg='Backup loaded.';UI.imp='';}catch(e){UI.msg='That backup text could not be read or failed verification.';}break;
   case'resetask':UI.confirm=true;break;case'resetno':UI.confirm=false;break;
   case'reset':{const nm=S.name;SAVESTAT.bak=0;saveLocal();const f=newState();f.name=nm;useState(f);saveLocal();}UI.confirm=false;UI.page='home';UI.bsel=null;break;
   case'slotnewask':UI.modal.newN=+d.n;UI.modal.delN=null;UI.modal.warn=null;UI.nm='';break;
@@ -1665,7 +1875,7 @@ document.documentElement.addEventListener('mouseleave',()=>{TIP.hidden=true;});
 function boot(){
  migrateLegacy();
  const mt=getMeta();let entered=false;
- if(mt.auto&&mt.last&&!lockedElsewhere(mt.last)){const r=readSlot(mt.last);if(r){enterSlot(mt.last,r.s);entered=true;}}
+ if(mt.auto&&mt.last&&!lockedElsewhere(mt.last)){const r=readSlot(mt.last);if(r&&!r.bad){enterSlot(mt.last,r.s);entered=true;}}
  if(!entered)UI.modal={type:'slots',boot:true,newN:null,delN:null,warn:null};
  render();
  let last=performance.now(),acc=0;
@@ -1677,5 +1887,8 @@ function boot(){
  document.addEventListener('visibilitychange',()=>{if(document.hidden)saveLocal();});
  window.addEventListener('pagehide',()=>{saveLocal();release();});}
 boot();
+function __df(o){if(o&&typeof o==="object"&&!Object.isFrozen(o)){Object.freeze(o);Object.getOwnPropertyNames(o).forEach(function(k){try{__df(o[k]);}catch(e){}});}}
+try{[ITEMS,MONS,SPELLS,DUNGEONS,CROP,ACT,RELICS,SUPPLY,THIEF].forEach(__df);}catch(e){}
+})();
 </script>
 </body></html>
