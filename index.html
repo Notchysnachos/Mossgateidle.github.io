@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-VlL+icbEjqxsB0vZifpV21vwSxpPoODtrjwTAeYvr9E=' 'sha256-3kUJRw3imQB4sILA6qP0rs8BsofKxtKoO8GylmTEh5U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; worker-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="icons/icon-192.png"><meta name="theme-color" content="#e9eee8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121815" media="(prefers-color-scheme: dark)"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Mossgate"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-ASN9BY8WhnjZBZwdUM9Zp6OArv2AyzcllwpRoMJTnN0=' 'sha256-3kUJRw3imQB4sILA6qP0rs8BsofKxtKoO8GylmTEh5U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; worker-src 'self'; connect-src https://fogoltmnmdabjimxsjnm.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="icons/icon-192.png"><meta name="theme-color" content="#e9eee8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121815" media="(prefers-color-scheme: dark)"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Mossgate"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
 <title>Mossgate Idle</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -79,6 +79,7 @@ h1,h2,h3{font-family:var(--f-head);margin:0;text-wrap:balance}
 .cn{font-weight:600;line-height:1.2}.cm{font-size:12px;color:var(--mute)}
 .io{font-size:12.5px;display:flex;gap:5px;flex-wrap:wrap;align-items:center}
 .io b{color:var(--mute);font-weight:500;margin-right:2px}
+.hsl{display:flex;flex-direction:column}.hsr{display:flex;align-items:center;gap:10px;padding:6px 4px;border-bottom:1px solid var(--line)}.hsr:last-child{border-bottom:0}.hsr.me{background:var(--panel2);border-radius:6px;outline:1px solid var(--accent)}.hsk{width:2.2em;color:var(--mute);text-align:right;font-variant-numeric:tabular-nums}.hsr small{color:var(--mute)}
 .prl{display:flex;flex-direction:column}.prr{display:flex;align-items:center;gap:10px;padding:8px 2px;border-bottom:1px solid var(--line)}.prr:last-child{border-bottom:0}.prn{min-width:0}
 .chip{background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:1px 6px;white-space:nowrap}
 .chip.bad{color:var(--bad);border-color:var(--bad)}
@@ -200,6 +201,7 @@ table{border-collapse:collapse;width:100%;font-size:13px}td,th{padding:5px 8px;b
 /* ===== Mossgate Idle: game data ===== */
 const XPT=[0];(function(){let p=0;for(let l=1;l<120;l++){p+=Math.floor(l+300*Math.pow(2,l/7));XPT[l]=Math.floor(p/4);}})();
 const MAXL=99;
+const HS={url:'https://fogoltmnmdabjimxsjnm.supabase.co',key:'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZvZ29sdG1ubWRhYmppbXhzam5tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ3MTQzODAsImV4cCI6MjExMDI5MDM4MH0.TMGxsHJK6GT768oZifZKPKhcHssBDe_5XfKfT3V_D2c'}; /* online hiscores backend, filled in by build.sh from hs.conf */
 const PRES_MAX=10,PRES_B=0.10; /* prestige: reset a level-99 skill, +10% XP in it per prestige (max 10) */
 function lvlOf(xp){let lo=1,hi=MAXL;while(lo<hi){const m=(lo+hi+1)>>1;if(XPT[m-1]<=xp)lo=m;else hi=m-1;}return lo;}
 const MXP=L=>Math.round(XPT[L-1]*0.06); // mastery xp needed for level L
@@ -1062,14 +1064,14 @@ const actBy=(sk,id)=>actsOf(sk).find(a=>a.id===id);
 const SLOTS=['weapon','shield','helmet','body','legs','boots','gloves','ring','amulet','cape','ammo','food'];
 
 function newState(){
- const s={v:1,name:'Adventurer',saved:Date.now(),clock:0,play:0,coins:100,bank:{},nb:0,bankBuys:0,xp:{},pres:{},mast:{},upg:{},equip:{},acts:[null,null],perk:{},wheel:{last:0,win:null,spins:0},cb:null,buffs:{},
+ const s={v:1,name:'Adventurer',saved:Date.now(),clock:0,play:0,coins:100,bank:{},nb:0,bankBuys:0,xp:{},pres:{},hs:null,mast:{},upg:{},equip:{},acts:[null,null],perk:{},wheel:{last:0,win:null,spins:0},cb:null,buffs:{},
   farm:{plots:[],auto:true,allot:3,herb:2,tree:1},stats:{kills:0,deaths:0,actions:0,coins:0},bk:{},bpity:{},col:{},dg:{clears:{},relics:{},log:[]},hp:100,dgn:{},bag:{items:{},n:0,up:0,mode:'bank'},theme:'auto'};
  ALLSK.forEach(id=>s.xp[id]=0);s.xp.hp=XPT[9];s.hp=100;
  ensure(s);
  s.bank.food_shrimp=10;s.nb=1;s.equip={weapon:'g_bronze_sword',food:'food_shrimp'};
  return s;}
 function ensure(s){
- ALLSK.forEach(id=>{if(s.xp[id]==null)s.xp[id]=0;});if(!s.pres)s.pres={};
+ ALLSK.forEach(id=>{if(s.xp[id]==null)s.xp[id]=0;});if(!s.pres)s.pres={};if(!s.hs)s.hs={id:hsUuid(),secret:hsRand(16),on:false,name:'',last:0};
  SKILLS.forEach(k=>{const id=k[0];if(!s.mast[id])s.mast[id]={pool:0,a:{}};});
  const f=s.farm;while(f.plots.filter(p=>p.cat==='allot').length<f.allot)f.plots.push({cat:'allot',crop:null,ready:0,start:0});
  while(f.plots.filter(p=>p.cat==='herb').length<f.herb)f.plots.push({cat:'herb',crop:null,ready:0,start:0});
@@ -1130,8 +1132,14 @@ function skMods(sk){const p=poolPct(sk),kind=SKKIND[sk],m={xp:0,dbl:0,pre:0,ivl:
  return m;}
 function interval(sk,a){if(sk==='farm')return a.t;return Math.max(0.6,a.t*(1-Math.min(.6,skMods(sk).ivl)));}
 const mxpOf=(sk,a)=>sk==='farm'?a.mx:Math.max(1,a.t*0.9*(1+a.lvl/50));
+/* ---------- hiscores helpers ---------- */
+function hsRand(n){const a=new Uint8Array(n);globalThis.crypto.getRandomValues(a);return Array.from(a,b=>b.toString(16).padStart(2,'0')).join('');}
+function hsUuid(){const h=hsRand(16).split('');h[12]='4';h[16]='89ab'[parseInt(h[16],16)&3];const s=h.join('');return s.slice(0,8)+'-'+s.slice(8,12)+'-'+s.slice(12,16)+'-'+s.slice(16,20)+'-'+s.slice(20);}
+const hsReady=()=>HS.url.indexOf('__')!==0&&HS.url.length>8&&HS.key.indexOf('__')!==0&&HS.key.length>8;
+function hsPayload(){const sk={};let tx=0;ALLSK.forEach(k=>{sk[k]=Math.floor(S.xp[k]);tx+=sk[k];});return{p_id:S.hs.id,p_secret:S.hs.secret,p_name:S.hs.name,p_total_level:totalLevel(),p_total_xp:tx,p_combat:combatLevel(),p_prestige:totalPres(),p_play:Math.floor(S.play),p_skills:sk};}
 const prN=sk=>(S.pres&&S.pres[sk])||0,prB=sk=>1+PRES_B*prN(sk);
 function canPrestige(sk){return lv(sk)>=MAXL&&prN(sk)<PRES_MAX;}
+const totalPres=()=>ALLSK.reduce((a,k)=>a+prN(k),0);
 function prestige(sk){if(!canPrestige(sk))return false;
  S.xp[sk]=sk==='hp'?XPT[9]:0;S.pres[sk]=prN(sk)+1;
  for(let i=0;i<S.acts.length;i++){const a=S.acts[i];if(a&&a.sk===sk)S.acts[i]=null;}
@@ -1367,7 +1375,7 @@ const SK=n=>'mossgate-idle-slot-'+n;
 let SLOT=0;const SAVESTAT={ok:true,at:0,err:'',bak:0};
 
 /* ---------- save integrity: signed, tamper-evident saves ---------- */
-const BUILD_TS=1794716475000;
+const BUILD_TS=1794717339000;
 const SIGKEY=['mg','8f2c','-gate','Q7x','r0ot','5e1d','|idle','b9'].join('');
 const SHA_K=(()=>{const k=[];for(let n=2;k.length<64;n++){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)k.push(Math.floor((Math.cbrt(n)%1)*4294967296));}return k;})();
 const SHA_H=(()=>{const h=[];for(let n=2;h.length<8;n++){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)h.push(Math.floor((Math.sqrt(n)%1)*4294967296));}return h;})();
@@ -1528,10 +1536,47 @@ function navHtml(){
  h+=it('home','🏠','Overview');h+=it('combat','⚔️','Combat','Lv '+combatLevel(),!!S.cb&&!S.cb.dg);h+=it('dungeons',P.gate('#6b7480'),'Dungeons',null,!!(S.cb&&S.cb.dg));h+=it('equip','🎒','Equipment');h+=it('bank','🏦','Bank',S.nb+'/'+bankSlots());h+=it('shop','🛒','Shop');h+=it('wheel',P.wheel(),'Daily Wheel',wheelLeft()===0?'<b class="gold">Ready</b>':'');
  h+='<div class="navh">Skills</div>';
  SKILLS.forEach(s=>{h+=it(s[0],s[2],s[1],lv(s[0])+(prN(s[0])?' ★'+prN(s[0]):''),S.acts.some(a=>a&&a.sk===s[0]));});
- h+='<div class="navh">Game</div>'+it('prestige','🌟','Prestige',totalPres()?'★'+totalPres():'')+it('set','⚙️','Settings');return h;}
+ h+='<div class="navh">Game</div>'+it('hiscores','🏆','Hiscores')+it('prestige','🌟','Prestige',totalPres()?'★'+totalPres():'')+it('set','⚙️','Settings');return h;}
+
+/* ---------- hiscores (online leaderboard) ---------- */
+const hsEsc=t=>String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const HS_TABS=[['total','Total level'],['xp','Total XP'],['combat','Combat'],['prestige','Prestiges']].concat(ALLSK.map(k=>[k,SKN[k].n]));
+const HS_ERR={bad_name:'That name is not allowed. Use 3 to 16 letters, numbers, spaces, - or _.',name_taken:'Someone already has that name. Try another.',denied:'This name belongs to a different save.',slow:'Sent too recently. Try again in a minute.',bad:'The server did not accept those numbers.',implausible:'Those numbers look impossible, so they were not accepted.'};
+async function hsCall(fn,body){const r=await fetch(HS.url.replace(/\/+$/,'')+'/rest/v1/rpc/'+fn,{method:'POST',headers:{'apikey':HS.key,'Content-Type':'application/json'},body:JSON.stringify(body)});if(!r.ok)throw new Error('http '+r.status);return r.json();}
+async function hsSubmit(){
+ if(!hsReady()||!S||!S.hs||!S.hs.on||S.cheated||UI.hsBusy)return'';
+ UI.hsBusy=1;let res='';
+ try{res=await hsCall('submit_score',hsPayload());if(res==='ok'){S.hs.last=Date.now();UI.hsMsg='Sent '+new Date().toLocaleTimeString()+'.';UI.hsb={};}else UI.hsMsg=HS_ERR[res]||'Could not send ('+res+').';}
+ catch(e){UI.hsMsg='Could not reach the hiscores. Check your connection and try again.';res='net';}
+ UI.hsBusy=0;return res;}
+async function hsLeave(){const h=S&&S.hs;if(!h)return;h.on=false;UI.hsMsg='You left the hiscores and your entry was removed.';UI.hsb={};try{if(hsReady())await hsCall('delete_score',{p_id:h.id,p_secret:h.secret});}catch(e){UI.hsMsg='You left, but the server could not be reached to remove your entry. It will be removed next time you join and leave while online.';}}
+function hsLoad(sort){const B=UI.hsb||(UI.hsb={}),e=B[sort];if(!hsReady()||(e&&(e.loading||Date.now()-e.t<(e.err?15000:60000))))return;
+ const n=B[sort]={t:Date.now(),loading:true,rows:e?e.rows:null,err:false};
+ hsCall('get_hiscores',{p_sort:sort,p_limit:100,p_id:S&&S.hs?S.hs.id:null}).then(r=>{B[sort]={t:Date.now(),rows:Array.isArray(r)?r:[],err:false};}).catch(()=>{B[sort]={t:Date.now(),rows:n.rows,err:true};});}
+function hiscoresPage(){
+ const hs=S.hs,sort=UI.hsSort||'total',B=UI.hsb||{},e=B[sort];
+ let h=`<div class="panel"><h2>🏆 Hiscores</h2><div class="sub">See how you rank against other players. If you join, only your chosen name, your skill levels and XP and your play time are shared. Nothing else leaves your device. You can leave at any time and your entry is deleted.</div>`;
+ if(!hsReady())h+='<div class="sub" style="margin-top:8px"><b>The hiscores are not switched on in this version yet.</b></div>';
+ else if(S.cheated)h+='<div class="sub" style="margin-top:8px"><b>This save used cheat codes, so it can not join the hiscores.</b> Start a new save slot to compete.</div>';
+ else if(!hs.on)h+=`<div class="row" style="margin-top:10px"><input type="text" id="hsn" maxlength="16" placeholder="Pick a name (3-16 characters)" value="${hsEsc(UI.hsn!=null?UI.hsn:(hs.name||''))}"><button class="btn pri" data-a="hsjoin">Join hiscores</button></div>`;
+ else h+=`<div class="row" style="margin-top:10px"><span>Playing as <b>${hsEsc(hs.name)}</b></span><span class="sub">last sent ${ago(hs.last)}, updates about every 10 minutes while the game is open</span><div class="sp"></div><button class="btn sm" data-a="hssend">Send now</button><button class="btn sm" data-a="hsleave">Leave</button></div>`;
+ if(UI.hsMsg)h+=`<div class="sub" style="margin-top:6px">${hsEsc(UI.hsMsg)}</div>`;
+ h+='</div>';
+ if(!hsReady())return h;
+ hsLoad(sort);
+ h+='<div class="panel"><div class="row" style="gap:6px">'+HS_TABS.map(t=>`<button class="tag${sort===t[0]?' on':''}" data-a="hssort" data-s="${t[0]}">${t[1]}</button>`).join('')+'</div>';
+ const lab=sort==='total'?'Total level':sort==='xp'?'Total XP':sort==='combat'?'Combat level':sort==='prestige'?'Prestiges':SKN[sort].n;
+ h+=`<h3 style="margin-top:12px">${lab}</h3>`;
+ if(!e||!e.rows){h+=`<div class="sub">${e&&e.err?'Could not load the hiscores right now.':'Loading...'}</div>`;}
+ else{
+  if(e.err)h+='<div class="sub">Could not refresh. Showing the last list.</div>';
+  if(!e.rows.length)h+='<div class="sub">Nobody is on this list yet. Be the first!</div>';
+  else{h+='<div class="hsl">'+e.rows.map(r=>{const v=sort==='xp'?fmt(r.value)+' XP':ALLSK.includes(sort)?'Lv '+lvlOf(r.value)+' · '+fmt(r.value)+' XP':sort==='total'?fmt(r.value)+'<small> · '+fmt(r.total_xp)+' XP</small>':fmt(r.value);
+   return`<div class="hsr${r.mine?' me':''}"><span class="hsk">${r.rank}</span><b>${hsEsc(r.name)}</b><div class="sp"></div><span>${v}</span></div>`;}).join('')+'</div>';}
+ }
+ return h+'</div>';}
 
 /* ---------- pages ---------- */
-const totalPres=()=>ALLSK.reduce((a,k)=>a+prN(k),0);
 function prestigePage(){
  let h=`<div class="panel"><h2>🌟 Prestige</h2><div class="sub">Reach level ${MAXL} in a skill, then prestige it to start that skill over from level ${'1'} with <b>+${Math.round(PRES_B*100)}% XP</b> in it for each prestige (up to ${PRES_MAX} times, +${Math.round(PRES_B*PRES_MAX*100)}%). You keep your items, coins, gear and mastery. Only the skill's level and XP reset, and any action running in that skill stops.</div><div class="sub" style="margin-top:6px">Total prestiges: <b>${totalPres()}</b></div></div>`;
  h+='<div class="panel"><div class="prl">';
@@ -1753,7 +1798,7 @@ function homePage(){
 
 function pageHtml(){
  const p=UI.page;
- if(p==='home')return homePage();if(p==='combat')return combatPage();if(p==='dungeons')return dungeonsPage();if(p==='equip')return equipPage();if(p==='bank')return bankPage();if(p==='shop')return shopPage();if(p==='wheel')return wheelPage();if(p==='set')return settingsPage();if(p==='prestige')return prestigePage();
+ if(p==='home')return homePage();if(p==='combat')return combatPage();if(p==='dungeons')return dungeonsPage();if(p==='equip')return equipPage();if(p==='bank')return bankPage();if(p==='shop')return shopPage();if(p==='wheel')return wheelPage();if(p==='set')return settingsPage();if(p==='prestige')return prestigePage();if(p==='hiscores')return hiscoresPage();
  return skillPage(p);}
 function ctxHtml(){const c=UI.ctx;if(!c)return'';let b='',t='';
  if(c.t==='item'){const it=ITEMS[c.id],n=cnt(c.id);if(!it||!n)return'';t=`<span${rc(it)}>${it.n}</span> ×${fmt(n)}`;
@@ -1861,11 +1906,13 @@ function handle(d){
   case'savenow':saveLocal();break;
   case'rename':{const n=cleanName(UI.rn);if(n){S.name=n;UI.rn='';saveLocal();}}break;
   case'switchslot':leaveSlot();break;
+  case'hsjoin':{const el=$('#hsn'),v=(el?el.value:'').trim().replace(/\s+/g,' ');UI.hsn=v;if(!/^[A-Za-z0-9_ -]{3,16}$/.test(v)){UI.hsMsg=HS_ERR.bad_name;break;}S.hs.name=v;S.hs.on=true;UI.hsMsg='Joining...';hsSubmit().then(r=>{if(r!=='ok'){S.hs.on=false;}saveLocal();});break;}
+  case'hssend':hsSubmit();break;case'hsleave':hsLeave().then(()=>saveLocal());break;case'hssort':UI.hsSort=d.s;break;
   case'presask':if(canPrestige(d.sk))UI.modal={type:'prestige',sk:d.sk};break;case'presgo':prestige(d.sk);UI.modal=null;break;
   case'closemodal':UI.modal=null;break;
   case'ctxsel':UI.bsel=d.id;UI.page='bank';break;
   case'spin':case'spinpaid':{if(UI.wspin&&Date.now()<UI.wspin)break;const r=spinWheel(d.a==='spinpaid');if(r){const seg=360/WHEEL.length,cur=UI.wrot||0;UI.wrot=Math.ceil(cur/360)*360+360*6+(360-(r.idx+.5)*seg)+(Math.random()-.5)*seg*.6;UI.wspin=Date.now()+4400;setTimeout(render,4500);if(r.idx>=6)setTimeout(()=>toast('Wheel prize: '+WHEEL[r.idx].n+'!','boss'),4400);}}break;
-  case'cheat':{const el=$('#cheat'),r=cheat(el?el.value:'');UI.msg2=r||'That code is not recognised.';if(r&&el){el.value='';UI.cheat='';}saveLocal();}break;}
+  case'cheat':{const el=$('#cheat'),r=cheat(el?el.value:'');if(r){S.cheated=1;if(S.hs&&S.hs.on)hsLeave();}UI.msg2=r||'That code is not recognised.';if(r&&el){el.value='';UI.cheat='';}saveLocal();}break;}
  render();}
 document.addEventListener('click',e=>{if(UI.noclick>Date.now()){e.preventDefault();return;}const had=!!UI.ctx;UI.ctx=null;const el=e.target.closest('[data-a]');if(!el||el.dataset.a==='noop'){if(had)render();return;}e.preventDefault();handle(el.dataset);});
 document.addEventListener('contextmenu',e=>{const el=e.target.closest('[data-ctx]');if(!el)return;e.preventDefault();const d=el.dataset;UI.ctx={t:d.ctx,id:d.id,s:d.s,x:e.clientX,y:e.clientY};if(d.ctx==='item')UI.bsel=d.id;render();});
@@ -1876,7 +1923,7 @@ let lpT=null;
 document.addEventListener('touchstart',e=>{const el=e.target.closest('[data-ctx]');if(!el)return;const t=e.touches[0],d=el.dataset;lpT=setTimeout(()=>{lpT=null;UI.ctx={t:d.ctx,id:d.id,s:d.s,x:t.clientX,y:t.clientY};if(d.ctx==='item')UI.bsel=d.id;UI.noclick=Date.now()+700;render();},500);},{passive:true});
 ['touchend','touchmove','touchcancel'].forEach(ev=>document.addEventListener(ev,()=>{if(lpT){clearTimeout(lpT);lpT=null;}},{passive:true}));
 document.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches&&e.target.matches('[role=button][data-a]')){e.preventDefault();handle(e.target.dataset);}});
-document.addEventListener('input',e=>{if(e.target.id==='bsearch'){UI.bq=e.target.value;render();}if(e.target.id==='imp')UI.imp=e.target.value;if(e.target.id==='cheat')UI.cheat=e.target.value;if(e.target.id==='nm')UI.nm=e.target.value;if(e.target.id==='rn')UI.rn=e.target.value;});
+document.addEventListener('input',e=>{if(e.target.id==='bsearch'){UI.bq=e.target.value;render();}if(e.target.id==='imp')UI.imp=e.target.value;if(e.target.id==='cheat')UI.cheat=e.target.value;if(e.target.id==='hsn')UI.hsn=e.target.value;if(e.target.id==='nm')UI.nm=e.target.value;if(e.target.id==='rn')UI.rn=e.target.value;});
 
 /* ---------- boot + loop ---------- */
 
@@ -1902,6 +1949,7 @@ function boot(){
   else{acc+=d*(S.cheat.speed||1);let n=0;while(acc>=0.1&&n++<400){step(0.1);acc-=0.1;}}},100);
  setInterval(()=>{if(!document.hidden)render();},200);
  setInterval(saveLocal,10000);
+ setInterval(()=>{if(S&&S.hs&&S.hs.on&&!document.hidden&&Date.now()-S.hs.last>600000)hsSubmit();},60000);
  document.addEventListener('visibilitychange',()=>{if(document.hidden)saveLocal();});
  window.addEventListener('pagehide',()=>{saveLocal();release();});}
 boot();
