@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-7GZijiKICEKzJxFVy7/3Rj0BMCv5PpkK070Ql6dE43I=' 'sha256-3kUJRw3imQB4sILA6qP0rs8BsofKxtKoO8GylmTEh5U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; worker-src 'self'; connect-src https://fogoltmnmdabjimxsjnm.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="icons/icon-192.png"><meta name="theme-color" content="#e9eee8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121815" media="(prefers-color-scheme: dark)"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Mossgate"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-bbUo6QLdWrakI1iGpy2DRficb2e0J+6UXajJmgNvJwU=' 'sha256-3kUJRw3imQB4sILA6qP0rs8BsofKxtKoO8GylmTEh5U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; worker-src 'self'; connect-src https://fogoltmnmdabjimxsjnm.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="icons/icon-192.png"><meta name="theme-color" content="#e9eee8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121815" media="(prefers-color-scheme: dark)"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Mossgate"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
 <title>Mossgate Idle</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -199,6 +199,10 @@ table{border-collapse:collapse;width:100%;font-size:13px}td,th{padding:5px 8px;b
 .petc{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 6px;text-align:center;background:var(--panel2);border:1px solid var(--line);border-radius:8px;color:inherit;font:inherit;cursor:pointer;min-width:0}
 .petc .pi{font-size:28px}.petc.lock{opacity:.5;cursor:default}.petc.on{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold)}
 @media (prefers-reduced-motion:reduce){.cos{animation:none}}
+
+.hpn{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-style:normal;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.7)}
+.dlog{display:flex;flex-direction:column;gap:2px;margin-top:10px;font-size:13px;min-height:60px}.dres{margin-top:8px;font-weight:700;font-size:16px}.dres.win{color:var(--gold)}.dres.loss{color:var(--hp)}
+#dstake{padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:var(--panel2);color:inherit;font:inherit;width:100%}
 </style>
 <div class="app" id="app"><aside class="rail" id="rail"></aside><div class="main"><header class="top" id="top"></header><main class="page" id="page"></main></div></div>
 <div class="toasts" id="toasts" aria-live="polite"></div><div id="modal"></div><div id="ctx"></div>
@@ -1082,12 +1086,13 @@ const SLOTS=['weapon','shield','helmet','body','legs','boots','gloves','ring','a
 
 function newState(){
  const s={v:1,name:'Adventurer',saved:Date.now(),clock:0,play:0,coins:100,bank:{},nb:0,bankBuys:0,xp:{},pres:{},hs:null,mast:{},upg:{},equip:{},acts:[null,null],perk:{},wheel:{last:0,win:null,spins:0},cb:null,buffs:{},
-  farm:{plots:[],auto:true,allot:3,herb:2,tree:1},stats:{kills:0,deaths:0,actions:0,coins:0},bk:{},bpity:{},col:{},dg:{clears:{},relics:{},log:[]},hp:100,dgn:{},bag:{items:{},n:0,up:0,mode:'bank'},theme:'auto',pets:{},pet:'',cape:''};
+  farm:{plots:[],auto:true,allot:3,herb:2,tree:1},stats:{kills:0,deaths:0,actions:0,coins:0},bk:{},bpity:{},col:{},dg:{clears:{},relics:{},log:[]},hp:100,dgn:{},bag:{items:{},n:0,up:0,mode:'bank'},theme:'auto',pets:{},pet:'',cape:'',duel:{w:0,l:0,won:0,lost:0,streak:0,best:0}};
  ALLSK.forEach(id=>s.xp[id]=0);s.xp.hp=XPT[9];s.hp=100;
  ensure(s);
  s.bank.food_shrimp=10;s.nb=1;s.equip={weapon:'g_bronze_sword',food:'food_shrimp'};
  return s;}
 function ensure(s){
+ if(!s.duel)s.duel={w:0,l:0,won:0,lost:0,streak:0,best:0};
  if(!s.pets)s.pets={};if(s.pet==null)s.pet='';for(const k in s.pets)if(!PETB[k])delete s.pets[k];if(s.pet&&!PETB[s.pet])s.pet='';if(s.cape==null)s.cape='';
  ALLSK.forEach(id=>{if(s.xp[id]==null)s.xp[id]=0;});if(!s.pres)s.pres={};if(!s.hs)s.hs={id:hsUuid(),secret:hsRand(16),on:false,name:'',last:0};
  SKILLS.forEach(k=>{const id=k[0];if(!s.mast[id])s.mast[id]={pool:0,a:{}};});
@@ -1397,7 +1402,7 @@ const SK=n=>'mossgate-idle-slot-'+n;
 let SLOT=0;const SAVESTAT={ok:true,at:0,err:'',bak:0};
 
 /* ---------- save integrity: signed, tamper-evident saves ---------- */
-const BUILD_TS=1794721980000;
+const BUILD_TS=1794728756000;
 const SIGKEY=['mg','8f2c','-gate','Q7x','r0ot','5e1d','|idle','b9'].join('');
 const SHA_K=(()=>{const k=[];for(let n=2;k.length<64;n++){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)k.push(Math.floor((Math.cbrt(n)%1)*4294967296));}return k;})();
 const SHA_H=(()=>{const h=[];for(let n=2;h.length<8;n++){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)h.push(Math.floor((Math.sqrt(n)%1)*4294967296));}return h;})();
@@ -1497,9 +1502,37 @@ function spinWheel(paid){
  const r=WHEEL[idx].roll();if(paid)S.coins-=WHEEL_COST;else S.wheel.last=Date.now();
  if(r.coins)addCoins(r.coins);(r.items||[]).forEach(it=>{add(it[0],it[1]);if(it[0].startsWith('bw_'))S.col[it[0]]=1;});
  S.wheel.win={idx,coins:r.coins||0,items:r.items||[]};S.wheel.spins++;dirty.v=1;return{idx,r};}
+
+/* ---------- duel arena ---------- */
+const DUELT=[{id:'nov',n:'Novice Duellist',i:'🧑',m:.6},{id:'vet',n:'Veteran Duellist',i:'🧔',m:1},{id:'chp',n:'Arena Champion',i:'🥷',m:1.25},{id:'leg',n:'Legend of the Arena',i:'👑',m:1.6}];
+const DUELN=['Brannoc','Isolde','Garrick','Mara the Quick','Tobren','Sable','Hob Ironjaw','Vesper','Dunmar','Quill','Ratcliff','Odalys','Ser Pell','Kestrel'];
+function duelStats(){const pc=playerCombat(),sp=PS.type==='magic'?SPELLS[0]:null;return{a:pc.atkRoll,d:pc.defRoll,mx:Math.max(1,maxHitPlayer(sp)),hp:Math.max(10,maxHp())};}
+function duelFight(st,m,full){
+ m=1+(m-1)*.35;
+ const P={a:st.a,d:st.d,mx:st.mx,hp:st.hp},O={a:st.a*m,d:st.d*m,mx:Math.max(1,Math.round(st.mx*m)),hp:Math.max(10,Math.round(st.hp*m))};
+ let ph=P.hp,oh=O.hp,turn=Math.random()<.5?0:1;const rounds=[];
+ for(let i=0;i<300&&ph>0&&oh>0;i++,turn^=1){
+  const A=turn?O:P,D=turn?P:O;let dmg=0;
+  if(Math.random()<hitChance(A.a,D.d)){const lo=Math.max(1,Math.ceil(A.mx*DMG_MIN));dmg=lo+Math.floor(Math.random()*(A.mx-lo+1));}
+  if(turn)ph=Math.max(0,ph-dmg);else oh=Math.max(0,oh-dmg);
+  if(full)rounds.push({w:turn?'o':'p',d:dmg,ph,oh});}
+ return{win:oh<=0&&ph>0,draw:ph>0&&oh>0,rounds,pmax:P.hp,omax:O.hp};}
+const DUELC={};
+function duelOdds(t){const st=duelStats(),k=[st.a|0,st.d|0,st.mx,st.hp,t.id].join('|');if(DUELC[k]!=null)return DUELC[k];
+ let w=0;const N=800;for(let i=0;i<N;i++)if(duelFight(st,t.m,false).win)w++;return DUELC[k]=w/N;}
+function duelPay(t){const w=duelOdds(t);return Math.round(Math.min(25,Math.max(1.05,0.92/Math.max(w,.01)))*100)/100;}
+function duelStart(tid,stake){
+ const D=UI.duel;if(D&&D.shown<D.rounds.length)return;
+ const t=DUELT.find(x=>x.id===tid);stake=Math.floor(+stake);
+ if(!t||!(stake>=10)||stake>S.coins){toast(stake>S.coins?'You do not have that much to stake.':'The minimum stake is 10 coins.','warn');return;}
+ S.coins-=stake;const r=duelFight(duelStats(),t.m,true);let pay=0;
+ if(r.win){pay=Math.floor(stake*duelPay(t));S.coins+=pay;S.duel.w++;S.duel.won+=pay-stake;S.duel.streak++;S.duel.best=Math.max(S.duel.best,S.duel.streak);}
+ else if(r.draw){pay=stake;S.coins+=pay;}
+ else{S.duel.l++;S.duel.lost+=stake;S.duel.streak=0;}
+ UI.duel={t,name:DUELN[rnd(0,DUELN.length-1)],stake,pay,res:r.win?'win':r.draw?'draw':'loss',rounds:r.rounds,pmax:r.pmax,omax:r.omax,shown:0};dirty.v=1;}
 'use strict';
 /* ===== Mossgate Idle: UI ===== */
-const UI={tgt:0,page:'home',navOpen:false,bsel:null,bcat:'all',bq:'',slot:null,pick:null,area:'farm',confirm:false,imp:'',msg:'',modal:null,nm:'',rn:''};
+const UI={tgt:0,page:'home',navOpen:false,bsel:null,bcat:'all',bq:'',bsort:0,rsel:null,slot:null,pick:null,area:'farm',confirm:false,imp:'',msg:'',modal:null,nm:'',rn:''};
 const $=s=>document.querySelector(s);
 function fmt(n){n=Math.floor(n);if(n<10000)return n.toLocaleString('en-US');const u=['k','M','B','T'];let i=-1,v=n;while(v>=1000&&i<3){v/=1000;i++;}return v.toFixed(v<10?2:v<100?1:0)+u[i];}
 const fmtT=s=>{s=Math.max(0,Math.round(s));const h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=s%60;return(h?h+'h ':'')+(h||m?m+'m ':'')+(!h?x+'s':'');};
@@ -1558,7 +1591,7 @@ function navHtml(){
  h+=it('home','🏠','Overview');h+=it('combat','⚔️','Combat','Lv '+combatLevel(),!!S.cb&&!S.cb.dg);h+=it('dungeons',P.gate('#6b7480'),'Dungeons',null,!!(S.cb&&S.cb.dg));h+=it('equip','🎒','Equipment');h+=it('bank','🏦','Bank',S.nb+'/'+bankSlots());h+=it('shop','🛒','Shop');h+=it('wheel',P.wheel(),'Daily Wheel',wheelLeft()===0?'<b class="gold">Ready</b>':'');
  h+='<div class="navh">Skills</div>';
  SKILLS.forEach(s=>{h+=it(s[0],s[2],s[1],lv(s[0])+(prN(s[0])?' ★'+prN(s[0]):''),S.acts.some(a=>a&&a.sk===s[0]));});
- h+='<div class="navh">Game</div>'+it('hiscores','🏆','Hiscores')+it('pets','🐾','Pets & Capes',Object.keys(S.pets).length+'/'+PETS.length)+it('prestige','🌟','Prestige',totalPres()?'★'+totalPres():'')+it('set','⚙️','Settings');return h;}
+ h+='<div class="navh">Game</div>'+it('duel','🤺','Duel Arena')+it('hiscores','🏆','Hiscores')+it('pets','🐾','Pets & Capes',Object.keys(S.pets).length+'/'+PETS.length)+it('prestige','🌟','Prestige',totalPres()?'★'+totalPres():'')+it('set','⚙️','Settings');return h;}
 
 /* ---------- hiscores (online leaderboard) ---------- */
 const hsEsc=t=>String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -1613,6 +1646,22 @@ function petsPage(){
  h+='</div></div><div class="panel"><h3>Skill capes</h3><div class="petg">';
  ALLSK.forEach(k=>{const o=capeOk(k);h+=`<button class="petc${o?'':' lock'}${S.cape===k?' on':''}" ${o?`data-a="capeset" data-sk="${k}"`:'disabled'}><span class="capechip big" style="background:${o?CAPEC[k]:'#555'}"></span><b>${SKN[k].n} cape</b><span class="sub">${o?'Unlocked':'Level '+MAXL+' needed'}</span></button>`;});
  return h+'</div></div>';}
+function duelPage(){
+ if(UI.dstake==null)UI.dstake=Math.min(100,S.coins);
+ const D=UI.duel,live=D&&D.shown<D.rounds.length,du=S.duel;
+ let h=`<div class="panel"><h2>🤺 Duel Arena</h2><div class="sub">Challenge a duellist to a stake match. Both fighters use your own combat stats scaled by their rank, no food, no prayers, pure luck of the swing. Your stake is paid back plus the odds if you win, and lost if you lose. Your real hitpoints are never touched. Gambling is risky: only stake what you can afford to lose.</div>
+ <div class="stats" style="margin-top:8px"><span>Record <b>${du.w}W – ${du.l}L</b></span><span>Won <b class="good">🪙 ${fmt(du.won)}</b></span><span>Lost <b class="bad">🪙 ${fmt(du.lost)}</b></span><span>Streak <b>${du.streak}</b> (best ${du.best})</span></div></div>`;
+ h+=`<div class="panel"><h3>Your stake</h3><div class="row"><input type="number" id="dstake" min="10" step="10" value="${UI.dstake}" aria-label="Stake in coins" style="max-width:160px"><span class="coins">🪙 ${fmt(S.coins)}</span></div><div class="chips" style="margin-top:8px">${[['100','100'],['1000','1k'],['10000','10k'],['100000','100k'],['half','Half'],['all','All in']].map(c=>`<button class="tag" data-a="dstk" data-v="${c[0]}">${c[1]}</button>`).join('')}</div></div>`;
+ h+='<div class="grid">';
+ DUELT.forEach(t=>{const w=duelOdds(t);
+  h+=`<div class="card static"><div class="ch"><span class="ci">${t.i}</span><div><div class="cn">${t.n}</div><div class="cm">Win chance about ${Math.round(w*100)}%</div></div></div><div class="stats"><span>Win pays <b>${duelPay(t)}×</b> your stake</span></div><button class="btn pri sm${live||!(UI.dstake>=10)||UI.dstake>S.coins?' off':''}" data-a="duelgo" data-t="${t.id}" style="align-self:flex-start">Duel 🪙 ${fmt(UI.dstake||0)}</button></div>`;});
+ h+='</div>';
+ if(D){const sh=D.shown,r=sh>0?D.rounds[sh-1]:null,ph=r?r.ph:D.pmax,oh=r?r.oh:D.omax;
+  h+=`<div class="panel duelp"><div class="row"><b>You</b><div class="sp"></div><b>${D.t.i} ${D.name}</b></div><div class="row" style="gap:12px"><div style="flex:1;position:relative">${bar(pc(ph,D.pmax),'hp big')}<em class="hpn">${ph}/${D.pmax}</em></div><div style="flex:1;position:relative">${bar(pc(oh,D.omax),'hp big')}<em class="hpn">${oh}/${D.omax}</em></div></div><div class="dlog">`;
+  D.rounds.slice(Math.max(0,sh-8),sh).reverse().forEach(x=>{h+=`<div class="${x.w==='p'?'good':'bad'}">${x.w==='p'?'You':D.name} ${x.d?'hit '+x.d:'missed'}</div>`;});
+  if(!live)h+=`<div class="dres ${D.res}">${D.res==='win'?'🏆 You won! +🪙 '+fmt(D.pay-D.stake)+' profit':D.res==='draw'?'🤝 Draw, stake returned':'💀 You lost 🪙 '+fmt(D.stake)}</div>`;
+  h+='</div></div>';}
+ return h;}
 function slotHtml(i){const A=S.acts[i];let inner;
  if(!A)inner='<span class="mute">Empty. Pick an action.</span>';
  else if(A.sk==='combat'){const M=MONS[A.id];inner=`<span class="at">${M.i} ${M.n}</span><span class="hpw">${bar(pc(S.hp,maxHp()),'hp')}<em>${Math.ceil(S.hp)}/${maxHp()}</em></span>`;}
@@ -1771,11 +1820,14 @@ function equipPage(){
  return h;}
 
 const BCATS=[['all','All'],['gear','Gear'],['food','Food'],['log','Logs'],['ore','Ore'],['bar','Bars'],['ammo','Ammo'],['fish','Fish'],['potion','Potions'],['rune','Runes'],['gem','Gems'],['seed','Seeds'],['herb','Herbs'],['crop','Crops'],['hide','Hides'],['misc','Other']];
+const BSORT=[['Category',(a,b)=>ITEMS[a].cat.localeCompare(ITEMS[b].cat)||ITEMS[b].v-ITEMS[a].v],['Value (high)',(a,b)=>ITEMS[b].v*S.bank[b]-ITEMS[a].v*S.bank[a]],['Rarity',(a,b)=>(ITEMS[b].rar==null?-1:ITEMS[b].rar)-(ITEMS[a].rar==null?-1:ITEMS[a].rar)||ITEMS[b].v-ITEMS[a].v],['Quantity',(a,b)=>S.bank[b]-S.bank[a]],['Name A-Z',(a,b)=>ITEMS[a].n.localeCompare(ITEMS[b].n)]];
 function bankPage(){
  const q=UI.bq.trim().toLowerCase();
- const ids=Object.keys(S.bank).filter(id=>(UI.bcat==='all'||ITEMS[id].cat===UI.bcat)&&(!q||ITEMS[id].n.toLowerCase().includes(q))).sort((a,b)=>ITEMS[a].cat.localeCompare(ITEMS[b].cat)||ITEMS[b].v-ITEMS[a].v);
- let h=`<div class="panel"><div class="row"><h2 style="margin:0">Bank</h2><span class="pill">${S.nb} / ${bankSlots()} slots</span><div class="sp"></div><input type="search" id="bsearch" placeholder="Search items" value="${UI.bq.replace(/"/g,'')}" aria-label="Search bank"></div>
+ const ids=Object.keys(S.bank).filter(id=>(UI.bcat==='all'||ITEMS[id].cat===UI.bcat)&&(!q||ITEMS[id].n.toLowerCase().includes(q))).sort(BSORT[UI.bsort][1]);
+ const rq=[0,1,2,3,4].map(r=>{let n=0,v=0;Object.keys(S.bank).forEach(id=>{if(ITEMS[id].rar===r&&!ITEMS[id].uniq){n+=S.bank[id];v+=S.bank[id]*ITEMS[id].v;}});return[n,v];});
+ let h=`<div class="panel"><div class="row"><h2 style="margin:0">Bank</h2><span class="pill">${S.nb} / ${bankSlots()} slots</span><div class="sp"></div><button class="btn sm" data-a="bsort" title="Click to change how items are sorted">⇅ Sort: ${BSORT[UI.bsort][0]}</button><input type="search" id="bsearch" placeholder="Search items" value="${UI.bq.replace(/"/g,'')}" aria-label="Search bank"></div>
  <div class="chips" style="margin-top:8px">${BCATS.map(c=>`<button class="tag${UI.bcat===c[0]?' on':''}" data-a="bcat" data-c="${c[0]}">${c[1]}</button>`).join('')}</div></div>`;
+ h+=`<div class="panel"><div class="row"><b>Sell by rarity</b><span class="sub">sells every rarity weapon and armour of that rarity in your bank (boss-trophy capes and rings are kept)</span></div><div class="chips" style="margin-top:8px">${RAR.map((r,i)=>rq[i][0]?(UI.rsel===i?`<button class="tag on" data-a="rsell" data-r="${i}" style="border-color:${r[2]}">Confirm: sell ${fmt(rq[i][0])} ${r[0]} for 🪙 ${fmt(rq[i][1])}</button><button class="tag" data-a="rcancel">Cancel</button>`:`<button class="tag" data-a="rask" data-r="${i}" style="border-color:${r[2]}">${r[0]} ×${fmt(rq[i][0])}</button>`):`<span class="tag off" style="opacity:.45">${r[0]} ×0</span>`).join('')}</div></div>`;
  const sid=UI.bsel&&S.bank[UI.bsel]?UI.bsel:null;
  if(sid){const it=ITEMS[sid],n=cnt(sid);
   h+=`<div class="panel bdet"><div class="row"><span class="ci">${it.i}</span><div><b${rc(it)}>${it.n}</b> <span class="pill">×${fmt(n)}</span><div class="sub">${itemDesc(it)||'&nbsp;'}</div><div class="sub">Worth 🪙 ${fmt(it.v)} each</div>${it.slot&&S.equip[it.slot]&&S.equip[it.slot]!==sid?`<div class="sub">Replaces: ${ITEMS[S.equip[it.slot]].n}</div>`:''}</div></div>
@@ -1828,7 +1880,7 @@ function homePage(){
 
 function pageHtml(){
  const p=UI.page;
- if(p==='home')return homePage();if(p==='combat')return combatPage();if(p==='dungeons')return dungeonsPage();if(p==='equip')return equipPage();if(p==='bank')return bankPage();if(p==='shop')return shopPage();if(p==='wheel')return wheelPage();if(p==='set')return settingsPage();if(p==='prestige')return prestigePage();if(p==='pets')return petsPage();if(p==='hiscores')return hiscoresPage();
+ if(p==='home')return homePage();if(p==='combat')return combatPage();if(p==='dungeons')return dungeonsPage();if(p==='equip')return equipPage();if(p==='bank')return bankPage();if(p==='shop')return shopPage();if(p==='wheel')return wheelPage();if(p==='set')return settingsPage();if(p==='prestige')return prestigePage();if(p==='pets')return petsPage();if(p==='duel')return duelPage();if(p==='hiscores')return hiscoresPage();
  return skillPage(p);}
 function ctxHtml(){const c=UI.ctx;if(!c)return'';let b='',t='';
  if(c.t==='item'){const it=ITEMS[c.id],n=cnt(c.id);if(!it||!n)return'';t=`<span${rc(it)}>${it.n}</span> ×${fmt(n)}`;
@@ -1913,7 +1965,7 @@ function handle(d){
   case'stance':if(S.cb)S.cb.stance=+d.i;UI.stance=+d.i;break;
   case'spell':if(lv('mag')>=SPELLS[+d.i].lvl){if(S.cb)S.cb.spell=+d.i;UI.spell=+d.i;}break;
   case'eslot':UI.slot=UI.slot===d.s?null:d.s;break;case'equip':equip(d.id);break;case'unequip':unequip(d.s);break;
-  case'bsel':UI.bsel=d.id;break;case'bcat':UI.bcat=d.c;break;
+  case'bsort':UI.bsort=(UI.bsort+1)%BSORT.length;break;case'rask':UI.rsel=+d.r;break;case'rcancel':UI.rsel=null;break;case'rsell':{const r=+d.r;let g=0;Object.keys(S.bank).forEach(id=>{const it=ITEMS[id];if(it.rar===r&&!it.uniq){const n=cnt(id);g+=n*it.v;sell(id,n);}});UI.rsel=null;UI.bsel=null;if(g)toast('Sold '+RAR[r][0]+' items for 🪙 '+fmt(g),'info');break;}case'duelgo':duelStart(d.t,UI.dstake);break;case'dstk':UI.dstake=d.v==='all'?S.coins:d.v==='half'?Math.floor(S.coins/2):+d.v;break;case'duelclr':UI.duel=null;break;case'bsel':UI.bsel=d.id;break;case'bcat':UI.bcat=d.c;break;
   case'sell':sell(d.id,+d.q);break;case'drink':usePotion(d.id);break;
   case'upg':buyUpg(d.sk);break;case'buybank':buyBank();break;case'buyplot':buyPlot(d.c);break;case'buyi':buyItem(d.id,+d.q);break;case'buyperk':buyPerk(d.id);break;
   case'pick':UI.pick=+d.i;break;case'pickclose':UI.pick=null;break;
@@ -1953,7 +2005,7 @@ let lpT=null;
 document.addEventListener('touchstart',e=>{const el=e.target.closest('[data-ctx]');if(!el)return;const t=e.touches[0],d=el.dataset;lpT=setTimeout(()=>{lpT=null;UI.ctx={t:d.ctx,id:d.id,s:d.s,x:t.clientX,y:t.clientY};if(d.ctx==='item')UI.bsel=d.id;UI.noclick=Date.now()+700;render();},500);},{passive:true});
 ['touchend','touchmove','touchcancel'].forEach(ev=>document.addEventListener(ev,()=>{if(lpT){clearTimeout(lpT);lpT=null;}},{passive:true}));
 document.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches&&e.target.matches('[role=button][data-a]')){e.preventDefault();handle(e.target.dataset);}});
-document.addEventListener('input',e=>{if(e.target.id==='bsearch'){UI.bq=e.target.value;render();}if(e.target.id==='imp')UI.imp=e.target.value;if(e.target.id==='cheat')UI.cheat=e.target.value;if(e.target.id==='hsn')UI.hsn=e.target.value;if(e.target.id==='nm')UI.nm=e.target.value;if(e.target.id==='rn')UI.rn=e.target.value;});
+document.addEventListener('input',e=>{if(e.target.id==='dstake'){UI.dstake=Math.max(0,Math.floor(+e.target.value||0));return;}if(e.target.id==='bsearch'){UI.bq=e.target.value;render();}if(e.target.id==='imp')UI.imp=e.target.value;if(e.target.id==='cheat')UI.cheat=e.target.value;if(e.target.id==='hsn')UI.hsn=e.target.value;if(e.target.id==='nm')UI.nm=e.target.value;if(e.target.id==='rn')UI.rn=e.target.value;});
 
 /* ---------- boot + loop ---------- */
 
@@ -1968,6 +2020,7 @@ document.addEventListener('pointermove',tipMove);
 ['click','scroll','keydown','contextmenu'].forEach(ev=>document.addEventListener(ev,()=>{TIP.hidden=true;},{passive:true,capture:true}));
 document.documentElement.addEventListener('mouseleave',()=>{TIP.hidden=true;});
 function boot(){
+ setInterval(()=>{const D=UI.duel;if(D&&D.shown<D.rounds.length){D.shown++;dirty.v=1;}},600);
  migrateLegacy();
  const mt=getMeta();let entered=false;
  if(mt.auto&&mt.last&&!lockedElsewhere(mt.last)){const r=readSlot(mt.last);if(r&&!r.bad){enterSlot(mt.last,r.s);entered=true;}}
