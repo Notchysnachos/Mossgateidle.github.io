@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-f++qa8ptmAxb9oEZ/cygj+ido9/4DD7Jvl1Yzy+BAWc=' 'sha256-3kUJRw3imQB4sILA6qP0rs8BsofKxtKoO8GylmTEh5U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; worker-src 'self'; connect-src https://fogoltmnmdabjimxsjnm.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="icons/icon-192.png"><meta name="theme-color" content="#e9eee8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121815" media="(prefers-color-scheme: dark)"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Mossgate"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-ai3LFbuz1z0b/IgGcOkKLhhJ1qcMNvsHXZsvSryqxhY=' 'sha256-3kUJRw3imQB4sILA6qP0rs8BsofKxtKoO8GylmTEh5U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; worker-src 'self'; connect-src https://fogoltmnmdabjimxsjnm.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="icons/icon-192.png"><meta name="theme-color" content="#e9eee8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121815" media="(prefers-color-scheme: dark)"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Mossgate"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
 <title>Mossgate Idle</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -630,7 +630,7 @@ const BAG_CAP=[1000,2000,4000,8000,15000,30000,60000],BAG_COST=[0,20000,100000,5
 const GEARW=1.5,ACC_BUFF=1.4,DMG_MIN=0.25,HIT_MULT={melee:1.35,ranged:1.35,magic:1.12};
 
 /* ===== pets and cape colours ===== */
-const PET_CH=1/1500,PET_BOSS=1/8;
+const PET_BASE=120000,PET_LV=400,PET_DELVE=1/150,PET_DG=1/250,PET_RAID=1/400;
 const PETN={wc:['Sprig the Beaver','🦫'],fish:['Pip the Heron','🦩'],mine:['Rocky the Mole','🦔'],fm:['Cinder the Salamander','🦎'],cook:['Crumb the Mouse','🐭'],smith:['Sparks the Ember Fox','🦊'],fletch:['Quill the Owl','🦉'],craft:['Thimble the Moth','🦋'],thief:['Bandit the Raccoon','🦝'],farm:['Turnip the Bunny','🐰'],herb:['Sage the Toad','🐸'],rc:['Wisp the Spark','✨'],agi:['Dash the Hare','🐇'],dung:['Delver the Bat','🦇'],slayer:['Reaper the Imp','😈'],atk:['Fang the Wolf Pup','🐺'],str:['Bruno the Bear Cub','🐻'],def:['Shell the Turtle','🐢'],hp:['Heart the Fairy','🧚'],rng:['Hawk the Falcon','🦅'],mag:['Mystic the Dragonet','🐲']};
 const PETS=[];
 SKILLS.forEach(s=>{const id=s[0];const p=PETN[id]||[SKN[id].n+' Sprite','🐾'];PETS.push({id:'p_'+id,n:p[0],i:p[1],from:SKN[id].n+' training',sk:id});});
@@ -1310,7 +1310,7 @@ function prestige(sk){if(!canPrestige(sk))return false;
  refreshPS();dirty.v=1;toast(SKN[sk].i+' '+SKN[sk].n+' prestiged! Now prestige '+S.pres[sk]+': +'+Math.round(PRES_B*S.pres[sk]*100)+'% XP','boss');return true;}
 function givePet(id){if(S.pets[id])return;S.pets[id]=1;if(!S.pet)S.pet=id;dirty.v=1;if(!TRACK)toast('A pet found you: '+PETB[id].i+' '+PETB[id].n+'!','boss');}
 function capeOk(sk){return lv(sk)>=MAXL||prN(sk)>0;}
-function gainXp(sk,x){if(PETB['p_'+sk]&&!S.pets['p_'+sk]&&Math.random()<PET_CH)givePet('p_'+sk);x*=prB(sk);const before=lvlOf(S.xp[sk]);S.xp[sk]+=x;if(TRACK)TRACK.xp[sk]=(TRACK.xp[sk]||0)+x;
+function gainXp(sk,x){if(PETB['p_'+sk]&&!S.pets['p_'+sk]&&Math.random()<1/(PET_BASE-PET_LV*lv(sk)))givePet('p_'+sk);x*=prB(sk);const before=lvlOf(S.xp[sk]);S.xp[sk]+=x;if(TRACK)TRACK.xp[sk]=(TRACK.xp[sk]||0)+x;
  const after=lvlOf(S.xp[sk]);if(after>before){toast(SKN[sk].i+' '+SKN[sk].n+' reached level '+after+'!','lvl');if(sk==='hp')S.hp+=(after-before)*10;if(!TRACK)dirty.lvl=sk;}}
 function gainM(sk,a,x){const M=S.mast[sk];const before=mLvlFromXp(M.a[a.id]||0);M.a[a.id]=(M.a[a.id]||0)+x;
  const pb=poolPct(sk);M.pool=Math.min(poolMax(sk),M.pool+x*0.5);const pa=poolPct(sk);
@@ -1370,7 +1370,7 @@ function runDungeon(sk,a,A,mod,ml){
   const nc=(S.dg.clears[a.id]||0)+1;S.dg.clears[a.id]=nc;
   let relic=false;
   if(!S.dg.relics[a.relic]&&(Math.random()<0.06||nc>=15)){S.dg.relics[a.relic]=1;relic=true;if(!TRACK)toast('Relic found: '+RELICS[a.relic][0]+'! ('+RELICS[a.relic][2]+')','boss');}
-  if(Math.random()<PET_BOSS*frac)givePet('p_'+a.id);
+  if(Math.random()<PET_DELVE*frac)givePet('p_'+a.id);
   gainXp(sk,xp);gainM(sk,a,mxpOf(sk,a));
   ['atk','str','def'].forEach(c=>gainXp(c,xp*0.05*cxm()));
   dlog({id:a.id,res:'clear',floors:a.floors,xp:Math.round(xp),relic});
@@ -1431,7 +1431,7 @@ function dungeonNext(C,M){
   d.loot.forEach(l=>{if(Math.random()<l[1]){const q=rnd(l[2],l[3]);add(l[0],q);got.push([l[0],q]);}});
   const owns=id=>cnt(id)>0||Object.values(S.equip).includes(id);
   if(!owns(d.cape.id)&&!S.col[d.cape.id]){add(d.cape.id,1);S.col[d.cape.id]=1;got.push([d.cape.id,1]);if(!TRACK)toast('You conquered '+d.n+' and earned the '+d.cape.n+'!','boss');}
-  if(Math.random()<(d.raid?PET_BOSS*.6:PET_BOSS))givePet('p_'+d.id);
+  if(Math.random()<(d.raid?PET_RAID:PET_DG))givePet('p_'+d.id);
   r.pity=(r.pity||0)+1;const open=d.rares.filter(x=>!owns(x.id)&&!S.col[x.id]);let drop=null;
   open.forEach(x=>{if(!drop&&Math.random()<0.08)drop=x;});if(!drop&&open.length&&r.pity>=10)drop=open[rnd(0,open.length-1)];
   if(drop){add(drop.id,1);S.col[drop.id]=1;r.pity=0;got.push([drop.id,1]);if(!TRACK)toast('Rare drop: '+drop.n+'!','boss');}
@@ -1545,7 +1545,7 @@ const SK=n=>'mossgate-idle-slot-'+n;
 let SLOT=0;const SAVESTAT={ok:true,at:0,err:'',bak:0};
 
 /* ---------- save integrity: signed, tamper-evident saves ---------- */
-const BUILD_TS=1794730331000;
+const BUILD_TS=1794730737000;
 const SIGKEY=['mg','8f2c','-gate','Q7x','r0ot','5e1d','|idle','b9'].join('');
 const SHA_K=(()=>{const k=[];for(let n=2;k.length<64;n++){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)k.push(Math.floor((Math.cbrt(n)%1)*4294967296));}return k;})();
 const SHA_H=(()=>{const h=[];for(let n=2;h.length<8;n++){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)h.push(Math.floor((Math.sqrt(n)%1)*4294967296));}return h;})();
@@ -1801,7 +1801,7 @@ function prestigePage(){
  return h+'</div></div>';}
 function petsPage(){
  const own=Object.keys(S.pets).length;
- let h=`<div class="panel"><h2>🐾 Pets &amp; Capes</h2><div class="sub">Pets are rare drops: about 1 in ${Math.round(1/PET_CH)} skilling actions, or 1 in ${Math.round(1/PET_BOSS)} dungeon clears. Pick one to show in the top bar. Skill capes are cosmetic: unlock one by reaching level ${MAXL} (or prestiging) in a skill.</div><div class="sub" style="margin-top:6px">Pets found: <b>${own}/${PETS.length}</b></div></div>`;
+ let h=`<div class="panel"><h2>🐾 Pets &amp; Capes</h2><div class="sub">Pets are rare drops: about 1 in ${fmt(PET_BASE-PET_LV*99)} to ${fmt(PET_BASE-PET_LV)} skilling actions (a little better at higher levels), 1 in ${Math.round(1/PET_DELVE)} delve clears, 1 in ${Math.round(1/PET_DG)} dungeon clears and 1 in ${Math.round(1/PET_RAID)} raid clears. Pick one to show in the top bar. Skill capes are cosmetic: unlock one by reaching level ${MAXL} (or prestiging) in a skill.</div><div class="sub" style="margin-top:6px">Pets found: <b>${own}/${PETS.length}</b></div></div>`;
  h+='<div class="panel"><h3>Pets</h3><div class="petg">';
  PETS.forEach(p=>{const o=!!S.pets[p.id];h+=`<button class="petc${o?'':' lock'}${S.pet===p.id?' on':''}" ${o?`data-a="petset" data-id="${p.id}"`:'disabled'}><span class="pi">${o?p.i:'❔'}</span><b>${o?p.n:'???'}</b><span class="sub">${p.from}</span></button>`;});
  h+='</div></div><div class="panel"><h3>Skill capes</h3><div class="petg">';
