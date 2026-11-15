@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Xh6yKCnI3h2dWwqpMdvpK65zTWlenwecEEDnnFcVBvo=' 'sha256-3kUJRw3imQB4sILA6qP0rs8BsofKxtKoO8GylmTEh5U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; worker-src 'self'; connect-src https://fogoltmnmdabjimxsjnm.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="icons/icon-192.png"><meta name="theme-color" content="#e9eee8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121815" media="(prefers-color-scheme: dark)"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Mossgate"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-fOHvw0z7rhbnRLv4tNleocLznmvs5qvGBDW9bvuhGr4=' 'sha256-3kUJRw3imQB4sILA6qP0rs8BsofKxtKoO8GylmTEh5U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; worker-src 'self'; connect-src https://fogoltmnmdabjimxsjnm.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="icons/icon-192.png"><meta name="theme-color" content="#e9eee8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121815" media="(prefers-color-scheme: dark)"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Mossgate"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
 <title>Mossgate Idle</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -734,6 +734,70 @@ function creature(id){const [c,f]=CR[id];const eyes=f==='eye'?'<circle cx="16" c
 const AREAI={farm:P.land('#c9b44a','<path d="M16 26V12M16 16c-4 0-6-2-6-6 4 0 6 2 6 6zM16 20c4 0 6-2 6-6-4 0-6 2-6 6z" fill="#e4c640"/>'),camp:P.land('#7a8f5a','<path d="M6 25L16 7l10 18z" fill="#c9b27a"/><path d="M16 7v18" stroke="#6b4a2b"/>'),wood:P.land('#3f7a4a','<path d="M16 5l8 12h-5l6 8H7l6-8H8z" fill="#1f4a2a"/>'),crypt:P.land('#6a6a88','<path d="M10 25V13a6 6 0 0 1 12 0v12z" fill="#2c2c44"/><path d="M16 14v6M13 17h6" stroke="#cfd" />'),crag:P.land('#9a8f84','<path d="M3 25l8-14 5 7 4-5 9 12z" fill="#6a6058"/>'),ember:P.land('#c8503a','<path d="M3 25l9-13 4 5 4-9 8 17z" fill="#4a2a20"/><path d="M14 7c1 3 4 3 4 7" stroke="#ffb040" stroke-width="2" fill="none"/>'),abyss:P.land('#3a2a5a','<circle cx="16" cy="16" r="9" fill="#0a0612"/><circle cx="16" cy="16" r="4" fill="#7a3aaa"/>'),frost:P.land('#8ec8e0','<path d="M16 5v22M7 10l18 12M25 10L7 22" stroke="#f4fbff" stroke-width="2.500" fill="none"/>'),isle:P.land('#3a8aa8','<path d="M4 24c4-6 8-6 12-4s8 2 12-2" stroke="#e8f4f8" stroke-width="2.500" fill="none"/><path d="M12 22l2-8 4 8z" fill="#e4c88a"/>')};
 const E2S={'🪙':P.coin(),'🏠':P.house(),'⚔️':P.swords(),'🎒':P.pack(),'🏦':P.bank(),'🛒':P.bag(),'⚙️':P.cog(),'🏰':P.castle(),'🧑':P.person(),'🧺':P.basket(),'🟫':P.plot(),'🌱':P.sprout(),'🌿':P.herb('#4aa44a'),'🥬':P.leafy(),'🧪':P.potion('#58b85a'),'🧴':P.vial(),'🔥':P.flame()};
 
+
+/* ===== weapon library: many shapes so weapons are easy to tell apart ===== */
+const WD='#7a4e2a',WG='#c9a24a';
+const V=b=>`<g transform="rotate(45 16 16)">${b}</g>`;
+const grip=(l)=>`<path d="M14.8 ${l||21}h2.4v7h-2.4z" fill="${WD}"/><circle cx="16" cy="29.5" r="2" fill="${WG}"/>`;
+const guard=(y,w,c)=>`<path d="M${16-w/2} ${y}h${w}v2.4h-${w}z" fill="${c||WG}"/>`;
+const W={
+ dagger:c=>SV(V(`<path d="M16 7l3 4v9h-6v-9z" fill="${c}"/><path d="M16 8v12" stroke="#fff8"/>${guard(20,9)}${grip(22.4)}`)),
+ sword:c=>SV(V(`<path d="M16 3l3.2 4.5V20h-6.4V7.5z" fill="${c}"/><path d="M16 4v16" stroke="#fff8"/>${guard(20,12)}${grip()}`)),
+ scim:c=>SV(V(`<path d="M13 20C10 13 11 6 19 1c-1 6 0 12 0 19z" fill="${c}"/><path d="M14.5 18C13 12 14 7 18 3" stroke="#fff8" fill="none"/>${guard(20,11)}${grip()}`)),
+ long:c=>SV(V(`<path d="M16 0l3.4 5V20h-6.8V5z" fill="${c}"/><path d="M16 1v18" stroke="#fff8"/><path d="M16 3v14" stroke="${mix(c,-.4)}" stroke-width="1.4" opacity=".7"/>${guard(20,14)}${grip()}`)),
+ katana:c=>SV(V(`<path d="M14 20.500C12.500 13 13.500 6 19.500 -1 18 7 19 14 18 20.500z" fill="${c}"/><path d="M17 17C16.500 11 17 6 19 1" stroke="#fff8" fill="none"/><ellipse cx="16" cy="21.500" rx="4.200" ry="1.800" fill="#2a2a30"/><path d="M14.600 23h2.800v6h-2.800z" fill="#3a2a40"/><path d="M14.600 25h2.800M14.600 27h2.800" stroke="#c9a24a" stroke-width=".9"/><circle cx="16" cy="29.800" r="1.600" fill="${WG}"/>`)),
+ broad:c=>SV(V(`<path d="M16 0l6 6.5V20H10V6.5z" fill="${c}"/><path d="M16 1v19" stroke="#fff8"/><path d="M13 8l3 3 3-3" stroke="${mix(c,-.4)}" fill="none"/>${guard(20,16)}${grip()}`)),
+ claymore:c=>SV(V(`<path d="M16 -1l3.8 5.5V18h-7.6V4.5z" fill="${c}"/><path d="M16 0v17" stroke="#fff8"/><path d="M6.5 18h19l-2.5 3H9z" fill="${WG}"/><path d="M14.8 21h2.4v8h-2.4z" fill="${WD}"/><circle cx="16" cy="30" r="2" fill="${WG}"/>`)),
+ axe:c=>SV(V(`<path d="M15 4h2v25h-2z" fill="${WD}"/><path d="M17 5C26 3 30 8 28 14c-3-3-7-3-11-2z" fill="${c}"/><path d="M15 6C9 5 6 8 7 11c2-2 5-2 8-1z" fill="${mix(c,-.25)}"/><path d="M18 7c4-1 7 0 8 3" stroke="#fff8" fill="none"/>`)),
+ handaxe:c=>SV(V(`<path d="M15 8h2v21h-2z" fill="${WD}"/><path d="M17 8c7-3 11 2 9 7-3-2-6-2-9-1z" fill="${c}"/><path d="M18 9c3-1 5 0 6 2" stroke="#fff8" fill="none"/>`)),
+ mace:c=>SV(V(`<path d="M15 9h2v20h-2z" fill="${WD}"/><circle cx="16" cy="7" r="5.5" fill="${c}"/><path d="M16 0v3M16 11v3M9.5 7h3M19.5 7h3M11.5 2.5l2 2M20.5 2.5l-2 2M11.5 11.5l2-2M20.5 11.5l-2-2" stroke="${mix(c,-.35)}" stroke-width="2"/><circle cx="14.3" cy="5.3" r="1.6" fill="#fff8"/>`)),
+ hammer:c=>SV(V(`<path d="M15 6h2v23h-2z" fill="${WD}"/><path d="M7 1h18v9H7z" fill="${c}"/><path d="M7 4h18" stroke="${mix(c,-.35)}"/><path d="M9 2.5h8" stroke="#fff8"/><path d="M7 1v9M25 1v9" stroke="${mix(c,-.3)}" stroke-width="2"/>`)),
+ spear:c=>SV(V(`<path d="M15.2 9h1.6v21h-1.6z" fill="${WD}"/><path d="M16 0l4 8.5-4 2-4-2z" fill="${c}"/><path d="M16 1.5v8" stroke="#fff8"/><path d="M12.5 9.5h7" stroke="${WG}" stroke-width="1.6"/>`)),
+ halberd:c=>SV(V(`<path d="M15.2 6h1.6v24h-1.6z" fill="${WD}"/><path d="M16 0l2.6 6h-5.2z" fill="${c}"/><path d="M16.8 7C25 6 27 11 25 15c-2-2-5-3-8.200-2.500z" fill="${c}"/><path d="M15.200 9C11 9 9 11 10 13l5.200-1z" fill="${mix(c,-.3)}"/>`)),
+ scythe:c=>SV(V(`<path d="M15 6h2v23h-2z" fill="${WD}"/><path d="M16 5C24 -1 31 3 31 11 28 6 22 5 17 9z" fill="${c}"/><path d="M18 6c5-3 9-1 11 3" stroke="#fff8" fill="none"/><circle cx="16" cy="8" r="1.8" fill="${WG}"/>`)),
+ club:c=>SV(V(`<path d="M12.5 1h7l1.5 19h-10z" fill="${c}"/><path d="M14.5 21h3v8h-3z" fill="${WD}"/><circle cx="14" cy="6" r="1.1" fill="#fff8"/><circle cx="18.400" cy="12" r="1.1" fill="${mix(c,-.4)}"/><circle cx="14" cy="17" r="1.1" fill="${mix(c,-.4)}"/>`)),
+ cleaver:c=>SV(V(`<path d="M11 1h11c3 5 3 11 0 17H11z" fill="${c}"/><circle cx="17" cy="6" r="1.8" fill="#2a2a30"/><path d="M13 2v15" stroke="#fff8"/><path d="M11 18h11v2.600H11z" fill="${WG}"/><path d="M15 20.600h2.400V29H15z" fill="${WD}"/>`)),
+ fork:c=>SV(V(`<path d="M15 12h2v18h-2z" fill="${WD}"/><path d="M8 1v8c0 2 2 3 4 3h8c2 0 4-1 4-3V1" fill="none" stroke="${c}" stroke-width="2.200"/><path d="M16 0v12" stroke="${c}" stroke-width="2.200"/><path d="M12 2v8M20 2v8" stroke="${c}" stroke-width="1.600" opacity="0"/>`)),
+ fang:c=>SV(V(`<path d="M12.500 21C9 13 12 5 20 0c-2 6-1 14 .5 21z" fill="${c}"/><path d="M14 19C12 12 14 6 18 2" stroke="#fff8" fill="none"/><path d="M12 21l3 4 3-4z" fill="#e8e2cc"/><path d="M14.800 25h2.400v4h-2.400z" fill="#5a3a22"/><circle cx="16" cy="12" r="1.200" fill="#e8e2cc"/>`)),
+ flame:c=>SV(V(`<path d="M16 -1c5 4 2 7 4 10 2 3 1 8-1 11h-6c-3-4-3-9 0-12 1-3-1-5 3-9z" fill="${c}"/><path d="M16 5c2 3 0 5 1 8s0 5-2 7" stroke="#ffe9a0" fill="none" stroke-width="1.600"/>${guard(20,12,'#3a2a2a')}${grip()}`)),
+ bone:c=>SV(V(`<path d="M16 -1l3.600 5L18 8l2 3-2 3 1.800 3v3h-7.600v-3L14 14l-2-3 2-3-1.600-4z" fill="${c}"/><path d="M16 1v17" stroke="#fff8"/><circle cx="10.500" cy="21" r="2.200" fill="${c}"/><circle cx="21.500" cy="21" r="2.200" fill="${c}"/><path d="M9 21h14" stroke="${c}" stroke-width="2.600"/>${grip(22.5)}`)),
+ /* bows */
+ short:c=>SV(`<path d="M9 5c13 3 13 19 0 22" fill="none" stroke="${c}" stroke-width="3"/><path d="M9 5v22" stroke="#e8e8e8"/><path d="M7 16h18" stroke="#8b6a3a" stroke-width="1.400"/><path d="M25 16l-4-2.500v5z" fill="#ccc"/>`),
+ recurve:c=>SV(`<path d="M6 2c-3 2 1 4 4 6 8 5 8 11 0 16-3 2-7 4-4 6" fill="none" stroke="${c}" stroke-width="2.800"/><path d="M6 2L6 30" stroke="#e8e8e8"/><path d="M6 16h19" stroke="#8b6a3a" stroke-width="1.400"/><path d="M26 16l-5-2.500v5z" fill="#ccc"/>`),
+ horn:c=>SV(`<path d="M8 2C5 4 8 6 11 8c7 5 7 11 0 16-3 2-6 4-3 6" fill="none" stroke="${c}" stroke-width="3.400"/><path d="M8 2v28" stroke="#e8e8e8"/><path d="M11 13v6" stroke="#6a4a2a" stroke-width="3"/><path d="M8 16h17" stroke="#8b6a3a" stroke-width="1.400"/><path d="M26 16l-5-2.500v5z" fill="#ccc"/>`),
+ lbow:c=>SV(`<path d="M10 0C24 7 24 25 10 32" fill="none" stroke="${c}" stroke-width="2.600"/><path d="M10 0v32" stroke="#e8e8e8" stroke-width=".9"/><path d="M8.500 13h3v6h-3z" fill="#5a3a22"/><path d="M10 16h18" stroke="#8b6a3a" stroke-width="1.400"/><path d="M29 16l-5-2.500v5z" fill="#ccc"/>`),
+ cross:c=>SV(`<path d="M4 16h24" stroke="#6a4a2a" stroke-width="4"/><path d="M22 4c-8 5-8 19 0 24" fill="none" stroke="${c}" stroke-width="3.200"/><path d="M22 4L7 16l15 12" fill="none" stroke="#e8e8e8"/><path d="M8 16h18" stroke="#c9ccd2" stroke-width="1.400"/><path d="M29 16l-4-2.500v5z" fill="#ccc"/><path d="M3 14.500h4v3H3z" fill="${WG}"/>`),
+ war:c=>SV(`<path d="M8 1c18 5 18 25 0 30" fill="none" stroke="${c}" stroke-width="4"/><path d="M8 1v30" stroke="#e8e8e8"/><path d="M12 10h3M12 16h3M12 22h3" stroke="${mix(c,.4)}" stroke-width="2"/><circle cx="8" cy="1.500" r="2" fill="${WG}"/><circle cx="8" cy="30.500" r="2" fill="${WG}"/><path d="M8 16h19" stroke="#8b6a3a" stroke-width="1.400"/><path d="M28 16l-5-3v6z" fill="#ccc"/>`),
+ reed:c=>SV(`<path d="M9 4c12 3 12 21 0 24" fill="none" stroke="${c}" stroke-width="2"/><path d="M9 4v24" stroke="#e8f0c8" stroke-width=".9"/><path d="M13 9l3-1M14 16h2M13 23l3 1" stroke="#9ac35a" stroke-width="1.400"/><path d="M9 16h17" stroke="#c9b27a" stroke-width="1.400"/><path d="M27 16l-5-2.500v5z" fill="#cfd6a0"/>`),
+ ribbow:c=>SV(`<path d="M9 2C25 7 25 25 9 30" fill="none" stroke="${c}" stroke-width="3"/><path d="M9 2v28" stroke="#d8d4c4" stroke-width="1"/><path d="M13 7l5 2M16 12l3 .5M16 20l3-.5M13 25l5-2" stroke="${mix(c,-.35)}" stroke-width="2"/><path d="M9 16h17" stroke="#8b6a3a" stroke-width="1.400"/><path d="M27 16l-5-2.500v5z" fill="#ccc"/>`),
+ flamebow:c=>SV(`<path d="M9 3c14 4 14 22 0 26" fill="none" stroke="${c}" stroke-width="3"/><path d="M9 3v26" stroke="#ffe9a0"/><path d="M24 9c3 2 2 4 3 6-3 0-5-2-3-6zM25 20c3 1 2 3 3 5-3 0-5-2-3-5z" fill="#ff9a2a"/><path d="M9 16h17" stroke="#8b6a3a" stroke-width="1.400"/><path d="M27 16l-5-2.500v5z" fill="#ffb040"/>`),
+ wingbow:c=>SV(`<path d="M9 1c17 5 17 25 0 30" fill="none" stroke="${c}" stroke-width="3.200"/><path d="M9 1v30" stroke="#e8e8e8"/><path d="M13 5c6 3 7 8 6 11 1 3 0 8-6 11" fill="${mix(c,-.2)}" opacity=".5" stroke="none"/><path d="M9 1L4 -1l3 4zM9 31l-5 2 3-4z" fill="${mix(c,.3)}"/><path d="M9 16h18" stroke="#8b6a3a" stroke-width="1.400"/><path d="M28 16l-5-3v6z" fill="#ccc"/>`),
+ boulder:c=>SV(`<path d="M3 17h23" stroke="#6a4a2a" stroke-width="4.500"/><path d="M22 3c-9 5-9 21 0 26" fill="none" stroke="${c}" stroke-width="4"/><path d="M22 3L8 16l14 13" fill="none" stroke="#d8d4c4"/><path d="M5 12l4 3-3 3zM14 22l4-1-1 4z" fill="${mix(c,-.3)}"/><path d="M8 17h20" stroke="#9a9ca4" stroke-width="1.600"/><path d="M29 17l-4-2.500v5z" fill="#9a9ca4"/>`),
+ /* staves */
+ orb:(c,g)=>SV(V(`<path d="M15 9h2v21h-2z" fill="${WD}"/><path d="M12 10h8l-1.500 2h-5z" fill="${WG}"/><circle cx="16" cy="5.500" r="5.200" fill="${g||c}"/><circle cx="14.200" cy="3.800" r="1.700" fill="#fff9"/>`)),
+ crystal:(c,g)=>SV(V(`<path d="M15 10h2v20h-2z" fill="${WD}"/><path d="M16 0l5 6.500-5 7.500-5-7.500z" fill="${g||c}"/><path d="M16 0v14M11 6.500h10" stroke="#fff8" stroke-width=".8"/><path d="M12.500 12.500l3.500 3 3.500-3" stroke="${WG}" fill="none" stroke-width="1.600"/>`)),
+ forked:(c,g)=>SV(V(`<path d="M15 12h2v18h-2z" fill="${WD}"/><path d="M16 13C9 12 7 6 9 1M16 13c7-1 9-7 7-12" fill="none" stroke="${WD}" stroke-width="2.400"/><circle cx="16" cy="6.500" r="3.400" fill="${g||c}"/><circle cx="15" cy="5.500" r="1.100" fill="#fff9"/>`)),
+ scepter:(c,g)=>SV(V(`<path d="M15 10h2v19h-2z" fill="${WD}"/><path d="M10 9h12l-2 3h-8z" fill="${WG}"/><path d="M16 0l3.500 4.500L16 10l-3.500-5.500z" fill="${g||c}"/><path d="M9 2c2 0 3 2 3.500 3M23 2c-2 0-3 2-3.500 3" fill="none" stroke="${WG}" stroke-width="1.800"/>`)),
+ wand:(c,g)=>SV(V(`<path d="M15.200 9h1.600v20h-1.600z" fill="${WD}"/><path d="M16 0l1.800 4.200L22 5l-3.300 3L19.500 12 16 9.800 12.500 12l.8-4L10 5l4.200-.8z" fill="${g||c}"/>`)),
+ totem:(c,g)=>SV(V(`<path d="M15 10h2v20h-2z" fill="${WD}"/><path d="M11 1h10v10H11z" fill="${c}"/><circle cx="14" cy="5" r="1.500" fill="${g||'#fff'}"/><circle cx="18" cy="5" r="1.500" fill="${g||'#fff'}"/><path d="M13 8.500h6" stroke="#2a1a10" stroke-width="1.200"/><path d="M9 3l-2 6M23 3l2 6M16 1V-1" stroke="${WG}" stroke-width="1.600"/><path d="M9 3l-2 6M23 3l2 6" stroke="#cf4a3d" stroke-width="1.100"/>`)),
+ skullst:(c,g)=>SV(V(`<path d="M15 11h2v19h-2z" fill="${WD}"/><path d="M16 0c-4.500 0-7 3-7 6.500 0 2.200 1 3.500 2.500 4.500v2.500h9V11c1.500-1 2.500-2.300 2.500-4.500C23 3 20.500 0 16 0z" fill="${c}"/><circle cx="13" cy="6.500" r="2" fill="${g||'#8cff9c'}"/><circle cx="19" cy="6.500" r="2" fill="${g||'#8cff9c'}"/><path d="M14 10.500v2M16 10.500v2M18 10.500v2" stroke="#4a4a40" stroke-width=".9"/>`)),
+ moon:(c,g)=>SV(V(`<path d="M15 10h2v20h-2z" fill="${WD}"/><path d="M20 0C11 0 7 8 12 13c3 3 8 2 10-1-5 1-9-2-8-6 1-3 3-5 6-6z" fill="${g||c}"/><circle cx="21" cy="11.500" r="1.200" fill="${WG}"/>`)),
+ rock:(c,g)=>SV(V(`<path d="M15 12h2v18h-2z" fill="${WD}"/><path d="M9 11l-1-6 4-3 2-3 4 2 4-1 2 5-1 6-4 3z" fill="${c}"/><path d="M12 5l3 3 3-3M15 8l-1 4" stroke="${mix(c,-.4)}" fill="none"/><path d="M13 3l2 2" stroke="#fff8"/><circle cx="19" cy="7.500" r="1.800" fill="${g||'#ffcf5a'}"/>`)),
+ fire:(c,g)=>SV(V(`<path d="M15 11h2v19h-2z" fill="${WD}"/><path d="M16 -1c4 3 2 6 4 8 3 3 1 7-4 7s-7-4-4-8c2-2 0-4 4-7z" fill="${g||'#ff8a2a'}"/><path d="M16 4c2 2 1 4 2 6s-1 3-2 3-3-1-2-3 2-3 2-6z" fill="#ffe08a"/><path d="M12 13h8l-1 2h-6z" fill="${WG}"/>`)),
+ dragonhead:(c,g)=>SV(V(`<path d="M15 12h2v18h-2z" fill="${WD}"/><path d="M10 12c-3-3-2-7 1-9l2 2c2-2 4-4 7-4-1 3-1 5-1 7 2 0 4 1 5 3-3 1-5 0-6 1l-1 3z" fill="${c}"/><circle cx="15" cy="6.500" r="1.400" fill="${g||'#ffd23a'}"/><path d="M11 3L9 0M14 4l-1-4" stroke="${mix(c,.3)}" stroke-width="1.600"/><path d="M18 11l3 1" stroke="#fff8"/>`)),
+ pumpkin:(c,g)=>SV(V(`<path d="M15.200 11h1.600v19h-1.600z" fill="${WD}"/><ellipse cx="16" cy="6" rx="7" ry="5.500" fill="${g||'#f08a24'}"/><path d="M13 1.500Q12 6 13 10.500M16 .6V11.400M19 1.500Q20 6 19 10.500" stroke="#b05a10" fill="none"/><path d="M15 0c0-2 2-3 3-3" stroke="#4a8a3a" stroke-width="1.800" fill="none"/><path d="M13 5l2 1.500-2 1zM19 5l-2 1.500 2 1z" fill="#2a1a08"/>`)),
+ pitch:c=>W.fork(c),
+};
+const BADGE_SKULL=c=>`<circle cx="25" cy="25" r="6.600" fill="#1d1a22" stroke="${c}" stroke-width="1.600"/><path d="M25 20.600c-2.600 0-4 1.700-4 3.600 0 1.200.6 2 1.400 2.600v1.300h5.200v-1.300c.8-.6 1.400-1.400 1.400-2.600 0-1.900-1.400-3.600-4-3.600z" fill="#f2efe6" stroke="none"/><circle cx="23.500" cy="24.200" r="1" fill="#1d1a22" stroke="none"/><circle cx="26.500" cy="24.200" r="1" fill="#1d1a22" stroke="none"/>`;
+const BADGE_CROWN=c=>`<circle cx="25" cy="25" r="6.600" fill="#2a2230" stroke="${c}" stroke-width="1.600"/><path d="M20.500 28.500l.8-6 2.200 2.600L25 21.500l1.500 3.600 2.200-2.600.8 6z" fill="#f2c230" stroke="none"/>`;
+function tagItem(svg,c,kind){const bg=`<rect x="1" y="1" width="30" height="30" rx="7" fill="${c}" fill-opacity=".2" stroke="${c}" stroke-width="1.600"/>`;
+ return svg.replace(/(<g [^>]*>)/,'$1'+bg).replace('</g></svg>',(kind==='crown'?BADGE_CROWN(c):BADGE_SKULL(c))+'</g></svg>');}
+const BOSSW={scarecrow:['fork','reed','pumpkin'],warlord:['cleaver','war','totem'],alpha:['fang','lbow','moon'],tyrant:['scythe','ribbow','skullst'],titan:['hammer','boulder','rock'],wyrm:['flame','flamebow','fire'],elder:['bone','wingbow','dragonhead']};
+const TIERW=['dagger','sword','scim','long','katana','broad','claymore'];
+const BOWS=['short','recurve','horn','lbow','cross','war','wingbow'];
+const STAVES=['wand','orb','forked','crystal','scepter','totem','skullst'];
+const STG=['#8fd0ff','#7ae07a','#e0a0ff','#ffd060','#ff7a60','#60e0e0','#ff60a0'];
+
 /* ---- apply to the game data ---- */
 (function(){
  const tierOf=id=>{const m=id.match(/^g_(\w+?)_/);return m?T.findIndex(t=>t.id===m[1]):0;};
@@ -747,17 +811,15 @@ const E2S={'🪙':P.coin(),'🏠':P.house(),'⚔️':P.swords(),'🎒':P.pack(),
   else if(id.startsWith('bar_'))s=P.bar(TC[T.findIndex(t=>'bar_'+t.id===id)]);
   else if(id.startsWith('tip_'))s=P.tip(TC[T.findIndex(t=>'tip_'+t.id===id)]);
   else if(id.startsWith('arrow_'))s=P.arrow(TC[T.findIndex(t=>'arrow_'+t.id===id)]);
-  else if(id.startsWith('g_')){const c=TC[tierOf(id)],sl=it.slot;s=sl==='weapon'?P.sword(c):P[sl==='ammo'?'arrow':sl](c);}
-  else if(id.startsWith('ba_')){const q=id.split('_'),r=+q[3],c=RAR[r][2];s=P[it.slot](c);
-   if(r>=3)s=s.replace('</g></svg>','<path d="M27 3l1 3 3 1-3 1-1 3-1-3-3-1 3-1z" fill="#fff" stroke="none"/></g></svg>');}
-  else if(id.startsWith('bw_')){const q=id.split('_'),r=+q[3],c=RAR[r][2],t=+q[2];s=t===0?P.sword(c):t===1?P.bow(c):P.staff(c);
-   if(r>=3)s=s.replace('</g></svg>','<path d="M27 3l1 3 3 1-3 1-1 3-1-3-3-1 3-1z" fill="#fff" stroke="none"/></g></svg>');}
-  else if(id.startsWith('bow_'))s=P.bow(LC[BOWL[+id.slice(4)]]);
-  else if(id.startsWith('staff_'))s=P.staff(LC[BOWL[+id.slice(6)]]);
+  else if(id.startsWith('g_')){const k=tierOf(id),c=TC[k],sl=it.slot;s=sl==='weapon'?W[TIERW[k]](c):P[sl==='ammo'?'arrow':sl](c);}
+  else if(id.startsWith('ba_')){const q=id.split('_'),r=+q[3],c=RAR[r][2];s=tagItem(P[it.slot](c),c,'skull');}
+  else if(id.startsWith('bw_')){const q=id.split('_'),r=+q[3],c=RAR[r][2],t=+q[2],sh=BOSSW[q[1]][t];s=tagItem(W[sh](c,mix(c,.35)),c,'skull');}
+  else if(id.startsWith('bow_')){const k=+id.slice(4);s=W[BOWS[k]](LC[BOWL[k]]);}
+  else if(id.startsWith('staff_')){const k=+id.slice(6);s=W[STAVES[k]](LC[BOWL[k]],STG[k]);}
   else if(id.startsWith('h_')){const c=HIC[id.split('_')[1]],sl=it.slot;s=P[sl](c);}
   else if(id.startsWith('r_')){const c=CLC[id.split('_')[1]],sl=it.slot;s=sl==='helmet'?P.hat(c):sl==='body'?P.robetop(c):sl==='legs'?P.legs(c):P[sl](c);}
-  else if(id.startsWith('cape_'))s=P.cape(it.col||'#c2410c');
-  else if(id.startsWith('dr_'))s=P[it.slot](it.col);
+  else if(id.startsWith('cape_'))s=tagItem(P.cape(it.col||'#c2410c'),it.col||'#c2410c','crown');
+  else if(id.startsWith('dr_'))s=tagItem(P[it.slot](it.col),it.col,'crown');
   else if(id.startsWith('tome_'))s=P.tome(it.col);
   else if(id.startsWith('estaff_'))s=P.staff(it.col);
   else if(id.startsWith('mring_'))s=P.ring(it.col);
@@ -1233,6 +1295,7 @@ function newState(){
 function ensure(s){
  if(!s.sl)s.sl={task:null,pts:0,streak:0,done:0,block:[],auto:0,autoOwn:0};if(s.sl.auto==null)s.sl.auto=0;if(s.sl.autoOwn==null)s.sl.autoOwn=0;
  if(!s.duel)s.duel={w:0,l:0,won:0,lost:0,streak:0,best:0};
+ if(!s.pvp)s.pvp={w:0,l:0,won:0,lost:0,cd:{}};
  if(!s.pets)s.pets={};if(s.pet==null)s.pet='';for(const k in s.pets)if(!PETB[k])delete s.pets[k];if(s.pet&&!PETB[s.pet])s.pet='';if(s.cape==null)s.cape='';
  ALLSK.forEach(id=>{if(s.xp[id]==null)s.xp[id]=0;});if(!s.pres)s.pres={};if(!s.hs)s.hs={id:hsUuid(),secret:hsRand(16),on:false,name:'',last:0};
  SKILLS.forEach(k=>{const id=k[0];if(!s.mast[id])s.mast[id]={pool:0,a:{}};});
@@ -1546,7 +1609,7 @@ const SK=n=>'mossgate-idle-slot-'+n;
 let SLOT=0;const SAVESTAT={ok:true,at:0,err:'',bak:0};
 
 /* ---------- save integrity: signed, tamper-evident saves ---------- */
-const BUILD_TS=1794731248000;
+const BUILD_TS=1794770118000;
 const SIGKEY=['mg','8f2c','-gate','Q7x','r0ot','5e1d','|idle','b9'].join('');
 const SHA_K=(()=>{const k=[];for(let n=2;k.length<64;n++){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)k.push(Math.floor((Math.cbrt(n)%1)*4294967296));}return k;})();
 const SHA_H=(()=>{const h=[];for(let n=2;h.length<8;n++){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)h.push(Math.floor((Math.sqrt(n)%1)*4294967296));}return h;})();
@@ -1653,7 +1716,9 @@ const DUELN=['Brannoc','Isolde','Garrick','Mara the Quick','Tobren','Sable','Hob
 function duelStats(){const pc=playerCombat(),sp=PS.type==='magic'?SPELLS[0]:null;return{a:pc.atkRoll,d:pc.defRoll,mx:Math.max(1,maxHitPlayer(sp)),hp:Math.max(10,maxHp())};}
 function duelFight(st,m,full){
  m=1+(m-1)*.35;
- const P={a:st.a,d:st.d,mx:st.mx,hp:st.hp},O={a:st.a*m,d:st.d*m,mx:Math.max(1,Math.round(st.mx*m)),hp:Math.max(10,Math.round(st.hp*m))};
+ return duelFightO(st,{a:st.a*m,d:st.d*m,mx:Math.max(1,Math.round(st.mx*m)),hp:Math.max(10,Math.round(st.hp*m))},full);}
+function duelFightO(st,O,full){
+ const P={a:st.a,d:st.d,mx:st.mx,hp:st.hp};
  let ph=P.hp,oh=O.hp,turn=Math.random()<.5?0:1;const rounds=[];
  for(let i=0;i<300&&ph>0&&oh>0;i++,turn^=1){
   const A=turn?O:P,D=turn?P:O;let dmg=0;
@@ -1664,7 +1729,7 @@ function duelFight(st,m,full){
 const DUELC={};
 function duelOdds(t){const st=duelStats(),k=[st.a|0,st.d|0,st.mx,st.hp,t.id].join('|');if(DUELC[k]!=null)return DUELC[k];
  let w=0;const N=800;for(let i=0;i<N;i++)if(duelFight(st,t.m,false).win)w++;return DUELC[k]=w/N;}
-function duelPay(t){const w=duelOdds(t);return Math.round(Math.min(25,Math.max(1.05,0.92/Math.max(w,.01)))*100)/100;}
+function duelPay(t){const w=duelOdds(t);return Math.round(Math.min(25,Math.max(1,0.92/Math.max(w,.01)))*100)/100;}
 function duelStart(tid,stake){
  const D=UI.duel;if(D&&D.shown<D.rounds.length)return;
  const t=DUELT.find(x=>x.id===tid);stake=Math.floor(+stake);
@@ -1696,12 +1761,50 @@ function slayUnblock(id){const sl=S.sl;sl.block=sl.block.filter(x=>x!==id);dirty
 
 function slayBuyAuto(){const sl=S.sl;if(sl.autoOwn||sl.pts<400)return;sl.pts-=400;sl.autoOwn=1;sl.auto=1;dirty.v=1;toast('Auto Slayer unlocked and switched on.','boss');if(!sl.task){slayAssign();}if(sl.task)sl.sw=sl.task.mon;}
 function slayToggleAuto(){const sl=S.sl;if(!sl.autoOwn)return;sl.auto=sl.auto?0:1;dirty.v=1;if(sl.auto){if(!sl.task)slayAssign();if(sl.task)sl.sw=sl.task.mon;}}
+
+/* ---------- PvP arena (async ghost duels vs other players' saved fighters) ---------- */
+const PV=()=>UI.pv||(UI.pv={list:null,board:null,busy:0,msg:'',sync:0,odds:{}});
+function pvSnap(){const s=duelStats();return{a:Math.round(s.a),d:Math.round(s.d),mx:Math.round(s.mx),hp:Math.round(s.hp),cl:combatLevel()};}
+function pvClean(o){const f=(v,lo,hi)=>Math.min(hi,Math.max(lo,+v||lo));return{a:f(o.a,1,1e7),d:f(o.d,1,1e7),mx:f(o.mx,1,1e5),hp:f(o.hp,10,1e6)};}
+const PV_ERR={not_on_hiscores:'Submit your score to the hiscores first, then try again.',denied:'The server did not accept your hiscores name key.',implausible:'The server rejected your fighter stats.',bad:'The server rejected the request.'};
+async function pvSync(force){
+ const P=PV();if(!hsReady()||!S.hs||!S.hs.on||P.busy)return;
+ if(!force&&Date.now()-P.sync<300000)return;
+ P.busy=1;P.msg='';dirty.v=1;
+ try{await hsSubmit();const r=await hsCall('pvp_sync',{p_id:S.hs.id,p_secret:S.hs.secret,p_snap:pvSnap()});
+  if(r==='ok'){P.sync=Date.now();P.msg='Your fighter was saved. Others can now challenge you.';const l=await hsCall('pvp_list',{p_id:S.hs.id});P.list=Array.isArray(l)?l:[];const b=await hsCall('pvp_board',{p_limit:25,p_id:S.hs.id});P.board=Array.isArray(b)?b:[];}
+  else P.msg=PV_ERR[r]||'Could not save your fighter ('+r+').';}
+ catch(x){P.msg='Could not reach the arena. Check your connection and that the PvP setup SQL was run.';}
+ P.busy=0;dirty.v=1;}
+async function pvRefresh(){
+ const P=PV();if(!hsReady()||!S.hs||!S.hs.on||P.busy)return;P.busy=1;dirty.v=1;
+ try{const l=await hsCall('pvp_list',{p_id:S.hs.id});P.list=Array.isArray(l)?l:[];const b=await hsCall('pvp_board',{p_limit:25,p_id:S.hs.id});P.board=Array.isArray(b)?b:[];P.msg='';}
+ catch(x){P.msg='Could not reach the arena.';}
+ P.busy=0;dirty.v=1;}
+function pvOdds(o){const st=duelStats(),k=[st.a|0,st.d|0,st.mx,st.hp,o.id].join('|'),P=PV();if(P.odds[k]!=null)return P.odds[k];
+ const c=pvClean(o.snap||{});let w=0;const N=600;for(let i=0;i<N;i++)if(duelFightO(st,c,false).win)w++;return P.odds[k]=w/N;}
+function pvPay(o){return Math.round(Math.min(25,Math.max(1,0.92/Math.max(pvOdds(o),.01)))*100)/100;}
+function pvStart(oid,stake){
+ const D=UI.duel;if(D&&D.shown<D.rounds.length)return;
+ const P=PV(),o=(P.list||[]).find(x=>x.id===oid);stake=Math.floor(+stake);
+ if(!o||!S.hs||!S.hs.on)return;
+ if(!(stake>=10)||stake>S.coins){toast(stake>S.coins?'You do not have that much to stake.':'The minimum stake is 10 coins.','warn');return;}
+ const cd=S.pvp.cd[oid]||0;if(Date.now()-cd<20*60000){toast('You fought them recently. Try another fighter or wait a while.','warn');return;}
+ const mult=pvPay(o);S.coins-=stake;const r=duelFightO(duelStats(),pvClean(o.snap||{}),true);let pay=0;
+ S.pvp.cd[oid]=Date.now();
+ if(r.win){pay=Math.floor(stake*mult);S.coins+=pay;S.pvp.w++;S.pvp.won+=pay-stake;}
+ else if(r.draw){pay=stake;S.coins+=pay;}
+ else{S.pvp.l++;S.pvp.lost+=stake;}
+ UI.duel={t:{i:'⚔️'},name:o.name,stake,pay,res:r.win?'win':r.draw?'draw':'loss',rounds:r.rounds,pmax:r.pmax,omax:Math.max(10,Math.round(pvClean(o.snap||{}).hp)),shown:0};
+ if(!r.draw)hsCall('pvp_report',{p_id:S.hs.id,p_secret:S.hs.secret,p_opp:oid,p_won:!!r.win}).then(()=>pvRefresh()).catch(()=>{});
+ dirty.v=1;}
 'use strict';
 /* ===== Mossgate Idle: UI ===== */
 const UI={tgt:0,page:'home',navOpen:false,bsel:null,bcat:'all',bq:'',bsort:0,rsel:null,slot:null,pick:null,area:'farm',confirm:false,imp:'',msg:'',modal:null,nm:'',rn:''};
 const $=s=>document.querySelector(s);
 function fmt(n){n=Math.floor(n);if(n<10000)return n.toLocaleString('en-US');const u=['k','M','B','T'];let i=-1,v=n;while(v>=1000&&i<3){v/=1000;i++;}return v.toFixed(v<10?2:v<100?1:0)+u[i];}
 const fmtT=s=>{s=Math.max(0,Math.round(s));const h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=s%60;return(h?h+'h ':'')+(h||m?m+'m ':'')+(!h?x+'s':'');};
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
 const pc=(a,b)=>Math.max(0,Math.min(100,b>0?a/b*100:0));
 const bar=(p,c)=>`<div class="bar ${c||''}"><i style="width:${p.toFixed(1)}%"></i></div>`;
 const rc=it=>it.rar!=null?` style="color:${RAR[it.rar][2]}"`:'';
@@ -1711,12 +1814,15 @@ const SLOTI={weapon:P.sword('#999'),shield:P.shield('#999'),helmet:P.helmet('#99
 const STN={atk:'Attack',str:'Strength',def:'Defence',rng:'Ranged',mag:'Magic'};
 
 const STATN={atk:'Attack',str:'Strength',def:'Defence',rngA:'Ranged attack',rngS:'Ranged strength',magA:'Magic attack',magD:'Magic damage %'};
-const SLOTLBL={weapon:'Weapon',shield:'Shield',helmet:'Helmet',body:'Body armour',legs:'Leg armour',boots:'Boots',gloves:'Gloves',ring:'Ring',amulet:'Amulet',ammo:'Ammunition',food:'Food'};
+function rarKind(it){const raid=/^(dr_(ama|blf|drk|ars)_|cape_(amaskot|bloodfall|derek|arsenal))/.test(it.id||'');const sl=(SLOTLBL[it.slot]||'item').toLowerCase();
+ if(it.boss)return it.slot==='weapon'?'boss weapon':'boss '+sl;
+ return (raid?'raid ':'dungeon ')+(it.slot==='cape'?'cape':'reward '+sl);}
+const SLOTLBL={cape:'Cape',weapon:'Weapon',shield:'Shield',helmet:'Helmet',body:'Body armour',legs:'Leg armour',boots:'Boots',gloves:'Gloves',ring:'Ring',amulet:'Amulet',ammo:'Ammunition',food:'Food'};
 const statShort=it=>it&&it.st?Object.keys(it.st).map(k=>'+'+it.st[k]+' '+STATN[k]).join(' · '):'';
 function tipHtml(id){const it=ITEMS[id];if(!it)return'';
  const col=it.rar!=null?RAR[it.rar][2]:'inherit';
  let h=`<div class="tn" style="color:${col}">${it.i}<b>${it.n}</b></div>`;
- const kind=it.rar!=null?RAR[it.rar][0]+' · '+(it.arm?'boss armour':'boss weapon'):(it.slot?SLOTLBL[it.slot]:(it.cat==='gear'?'Gear':it.cat[0].toUpperCase()+it.cat.slice(1)));
+ const kind=it.rar!=null?RAR[it.rar][0]+' · '+rarKind(it):(it.slot?SLOTLBL[it.slot]:(it.cat==='gear'?'Gear':it.cat[0].toUpperCase()+it.cat.slice(1)));
  h+=`<div class="tk">${kind}${it.wt?' · '+it.wt+' · '+it.sp+'s':''}</div>`;
  if(it.st){const cur=it.slot&&S.equip[it.slot]&&S.equip[it.slot]!==id?ITEMS[S.equip[it.slot]]:null;
   const keys=Object.keys(it.st).concat(cur&&cur.st?Object.keys(cur.st).filter(k=>!(k in it.st)):[]);
@@ -1731,7 +1837,7 @@ function tipHtml(id){const it=ITEMS[id];if(!it)return'';
  h+=`<div class="tk">Worth 🪙 ${fmt(it.v)}${cnt(id)?' · you own '+fmt(cnt(id)):''}${it.slot&&S.equip[it.slot]===id?' · equipped':''}</div>`;
  return h;}
 function itemDesc(it){
- if(it.rar!=null){const s=Object.keys(it.st).map(k=>'+'+it.st[k]+' '+({atk:'Attack',str:'Strength',def:'Defence',rngA:'Ranged Att',rngS:'Ranged Str',magA:'Magic Att',magD:'Magic Dmg%'})[k]).join(', ');return RAR[it.rar][0]+(it.arm?' boss armour · '+s:' boss weapon · '+s+' · '+it.wt+' · '+it.sp+'s')+' · needs combat level '+it.req+(it.lr?' and '+SKN[it.lr[0]].n+' '+it.lr[1]:'');}
+ if(it.rar!=null){const s=Object.keys(it.st).map(k=>'+'+it.st[k]+' '+({atk:'Attack',str:'Strength',def:'Defence',rngA:'Ranged Att',rngS:'Ranged Str',magA:'Magic Att',magD:'Magic Dmg%'})[k]).join(', ');return RAR[it.rar][0]+' '+rarKind(it)+' · '+s+(it.slot==='weapon'?' · '+it.wt+' · '+it.sp+'s':'')+' · needs combat level '+it.req+(it.lr?' and '+SKN[it.lr[0]].n+' '+it.lr[1]:'');}
  if(it.heal)return'Heals '+it.heal+' HP when eaten automatically in combat.';
  if(it.pot)return'+'+it.pot.v+'% '+PDESC[it.pot.t]+' for '+Math.round(it.pot.d/60)+' minutes.';
  if(it.st){const n={atk:'Attack',str:'Strength',def:'Defence',rngA:'Ranged Att',rngS:'Ranged Str',magA:'Magic Att',magD:'Magic Dmg%'};
@@ -1757,7 +1863,7 @@ function navHtml(){
  h+=it('home','🏠','Overview');h+=it('combat','⚔️','Combat','Lv '+combatLevel(),!!S.cb&&!S.cb.dg);h+=it('dungeons',P.gate('#6b7480'),'Dungeons',null,!!(S.cb&&S.cb.dg&&!DGB[S.cb.dg].raid));h+=it('raids',P.gate('#b03030'),'Raids',null,!!(S.cb&&S.cb.dg&&DGB[S.cb.dg].raid));h+=it('equip','🎒','Equipment');h+=it('bank','🏦','Bank',S.nb+'/'+bankSlots());h+=it('shop','🛒','Shop');h+=it('wheel',P.wheel(),'Daily Wheel',wheelLeft()===0?'<b class="gold">Ready</b>':'');
  h+='<div class="navh">Skills</div>';
  SKILLS.forEach(s=>{h+=it(s[0],s[2],s[1],lv(s[0])+(prN(s[0])?' ★'+prN(s[0]):''),S.acts.some(a=>a&&a.sk===s[0]));});
- h+='<div class="navh">Game</div>'+it('duel','🤺','Duel Arena')+it('hiscores','🏆','Hiscores')+it('pets','🐾','Pets & Capes',Object.keys(S.pets).length+'/'+PETS.length)+it('prestige','🌟','Prestige',totalPres()?'★'+totalPres():'')+it('set','⚙️','Settings');return h;}
+ h+='<div class="navh">Game</div>'+it('duel','🤺','Duel Arena')+it('pvp','⚔️','PvP Arena')+it('hiscores','🏆','Hiscores')+it('pets','🐾','Pets & Capes',Object.keys(S.pets).length+'/'+PETS.length)+it('prestige','🌟','Prestige',totalPres()?'★'+totalPres():'')+it('set','⚙️','Settings');return h;}
 
 /* ---------- hiscores (online leaderboard) ---------- */
 const hsEsc=t=>String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -1822,11 +1928,31 @@ function duelPage(){
  DUELT.forEach(t=>{const w=duelOdds(t);
   h+=`<div class="card static"><div class="ch"><span class="ci">${t.i}</span><div><div class="cn">${t.n}</div><div class="cm">Win chance about ${Math.round(w*100)}%</div></div></div><div class="stats"><span>Win pays <b>${duelPay(t)}×</b> your stake</span></div><button class="btn pri sm${live||!(UI.dstake>=10)||UI.dstake>S.coins?' off':''}" data-a="duelgo" data-t="${t.id}" style="align-self:flex-start">Duel 🪙 ${fmt(UI.dstake||0)}</button></div>`;});
  h+='</div>';
+ h+=duelBattleHtml();
+ return h;}
+function duelBattleHtml(){const D=UI.duel,live=D&&D.shown<D.rounds.length;let h='';
  if(D){const sh=D.shown,r=sh>0?D.rounds[sh-1]:null,ph=r?r.ph:D.pmax,oh=r?r.oh:D.omax;
   h+=`<div class="panel duelp"><div class="row"><b>You</b><div class="sp"></div><b>${D.t.i} ${D.name}</b></div><div class="row" style="gap:12px"><div style="flex:1;position:relative">${bar(pc(ph,D.pmax),'hp big')}<em class="hpn">${ph}/${D.pmax}</em></div><div style="flex:1;position:relative">${bar(pc(oh,D.omax),'hp big')}<em class="hpn">${oh}/${D.omax}</em></div></div><div class="dlog">`;
   D.rounds.slice(Math.max(0,sh-8),sh).reverse().forEach(x=>{h+=`<div class="${x.w==='p'?'good':'bad'}">${x.w==='p'?'You':D.name} ${x.d?'hit '+x.d:'missed'}</div>`;});
   if(!live)h+=`<div class="dres ${D.res}">${D.res==='win'?'🏆 You won! +🪙 '+fmt(D.pay-D.stake)+' profit':D.res==='draw'?'🤝 Draw, stake returned':'💀 You lost 🪙 '+fmt(D.stake)}</div>`;
   h+='</div></div>';}
+ return h;}
+function pvpPage(){
+ const P=PV(),pv=S.pvp;if(UI.dstake==null)UI.dstake=Math.min(100,S.coins);
+ let h=`<div class="panel"><h2>⚔️ PvP Arena</h2><div class="sub">Challenge the saved fighters of real players. Their combat stats were uploaded the last time they opened this arena, so you fight them while they are away. Win to take your stake back plus the odds and to climb the PvP ladder. Your hitpoints are never touched. Gambling is risky: only stake what you can afford to lose.</div>`;
+ if(!hsReady())return h+'<div class="sub" style="margin-top:8px">The online arena is not set up on this copy of the game.</div></div>';
+ if(!S.hs||!S.hs.on)return h+`<div class="sub" style="margin-top:8px">You need to be on the hiscores to enter, since your fighter is tied to your hiscores name.</div><div class="row" style="margin-top:10px"><button class="btn pri sm" data-a="nav" data-p="hiscores">Go to hiscores</button></div></div>`;
+ const me=(P.board||[]).find(x=>x.mine);
+ h+=`<div class="stats" style="margin-top:8px"><span>Record <b>${pv.w}W – ${pv.l}L</b></span><span>Won <b class="good">🪙 ${fmt(pv.won)}</b></span><span>Lost <b class="bad">🪙 ${fmt(pv.lost)}</b></span>${me?`<span>Rating <b>${me.rating}</b> · rank #${me.rank}</span>`:''}</div>
+ <div class="row" style="margin-top:10px"><button class="btn pri sm${P.busy?' off':''}" data-a="pvsync">${P.busy?'Working…':'Save my fighter & refresh'}</button><span class="sub">Fighter: hit ${fmt(pvSnap().mx)} max · ${fmt(pvSnap().hp)} HP · combat ${combatLevel()}</span></div>${P.msg?`<div class="sub" style="margin-top:6px">${P.msg}</div>`:''}</div>`;
+ h+=`<div class="panel"><h3>Your stake</h3><div class="row"><input type="number" id="dstake" min="10" step="10" value="${UI.dstake}" aria-label="Stake in coins" style="max-width:160px"><span class="coins">🪙 ${fmt(S.coins)}</span></div><div class="chips" style="margin-top:8px">${[['100','100'],['1000','1k'],['10000','10k'],['100000','100k'],['half','Half'],['all','All in']].map(c=>`<button class="tag" data-a="dstk" data-v="${c[0]}">${c[1]}</button>`).join('')}</div></div>`;
+ const D=UI.duel,live=D&&D.shown<D.rounds.length;
+ if(!P.list)h+=`<div class="panel"><div class="sub">${P.busy?'Loading fighters…':'Press “Save my fighter & refresh” to find opponents.'}</div></div>`;
+ else if(!P.list.length)h+='<div class="panel"><div class="sub">No other fighters yet. Ask a friend to open the PvP Arena, or check back later.</div></div>';
+ else{h+='<div class="grid">';P.list.forEach(o=>{const w=pvOdds(o),cd=Date.now()-(pv.cd[o.id]||0)<20*60000;
+  h+=`<div class="card static"><div class="ch"><span class="ci">🛡️</span><div><div class="cn">${esc(o.name)}</div><div class="cm">Combat ${o.combat} · rating ${o.rating} · ${o.wins}W ${o.losses}L</div></div></div><div class="stats"><span>Win chance about <b>${Math.round(w*100)}%</b></span><span>Win pays <b>${pvPay(o)}×</b></span></div><button class="btn pri sm${live||cd||!(UI.dstake>=10)||UI.dstake>S.coins?' off':''}" data-a="pvgo" data-id="${o.id}" style="align-self:flex-start">${cd?'Fought recently':'Duel 🪙 '+fmt(UI.dstake||0)}</button></div>`;});h+='</div>';}
+ h+=duelBattleHtml();
+ if(P.board&&P.board.length)h+=`<div class="panel"><h3>PvP ladder</h3><div class="sub" style="margin-bottom:6px">Everyone starts at 1000. Beating higher-rated players earns more.</div>${P.board.map(r=>`<div class="row" style="padding:3px 0${r.mine?';font-weight:700':''}"><span style="width:34px">#${r.rank}</span><span style="flex:1">${esc(r.name)}</span><span>${r.rating}</span><span class="sub" style="width:90px;text-align:right">${r.wins}W ${r.losses}L</span></div>`).join('')}</div>`;
  return h;}
 function slayerPage(){
  const sl=S.sl,t=sl.task,M=t?MONS[t.mon]:null;
@@ -2058,7 +2184,7 @@ function homePage(){
 
 function pageHtml(){
  const p=UI.page;
- if(p==='home')return homePage();if(p==='combat')return combatPage();if(p==='dungeons')return dungeonsPage(0);if(p==='raids')return dungeonsPage(1);if(p==='equip')return equipPage();if(p==='bank')return bankPage();if(p==='shop')return shopPage();if(p==='wheel')return wheelPage();if(p==='set')return settingsPage();if(p==='prestige')return prestigePage();if(p==='pets')return petsPage();if(p==='duel')return duelPage();if(p==='hiscores')return hiscoresPage();
+ if(p==='home')return homePage();if(p==='combat')return combatPage();if(p==='dungeons')return dungeonsPage(0);if(p==='raids')return dungeonsPage(1);if(p==='equip')return equipPage();if(p==='bank')return bankPage();if(p==='shop')return shopPage();if(p==='wheel')return wheelPage();if(p==='set')return settingsPage();if(p==='prestige')return prestigePage();if(p==='pets')return petsPage();if(p==='duel')return duelPage();if(p==='pvp'){const P=PV();if(S.hs&&S.hs.on&&hsReady()&&!P.list&&!P.busy&&!P.auto){P.auto=1;pvSync(true);}return pvpPage();}if(p==='hiscores')return hiscoresPage();
  return skillPage(p);}
 function ctxHtml(){const c=UI.ctx;if(!c)return'';let b='',t='';
  if(c.t==='item'){const it=ITEMS[c.id],n=cnt(c.id);if(!it||!n)return'';t=`<span${rc(it)}>${it.n}</span> ×${fmt(n)}`;
@@ -2143,7 +2269,7 @@ function handle(d){
   case'stance':if(S.cb)S.cb.stance=+d.i;UI.stance=+d.i;break;
   case'spell':if(lv('mag')>=SPELLS[+d.i].lvl){if(S.cb)S.cb.spell=+d.i;UI.spell=+d.i;}break;
   case'eslot':UI.slot=UI.slot===d.s?null:d.s;break;case'equip':equip(d.id);break;case'unequip':unequip(d.s);break;
-  case'bsort':UI.bsort=(UI.bsort+1)%BSORT.length;break;case'rask':UI.rsel=+d.r;break;case'rcancel':UI.rsel=null;break;case'rsell':{const r=+d.r;let g=0;Object.keys(S.bank).forEach(id=>{const it=ITEMS[id];if(it.rar===r&&!it.uniq){const n=cnt(id);g+=n*it.v;sell(id,n);}});UI.rsel=null;UI.bsel=null;if(g)toast('Sold '+RAR[r][0]+' items for 🪙 '+fmt(g),'info');break;}case'duelgo':duelStart(d.t,UI.dstake);break;case'dstk':UI.dstake=d.v==='all'?S.coins:d.v==='half'?Math.floor(S.coins/2):+d.v;break;case'duelclr':UI.duel=null;break;case'slaybuyauto':slayBuyAuto();break;case'slayauto':slayToggleAuto();break;case'slayget':slayAssign();break;case'slayreroll':slayReroll();break;case'slayblock':slayBlock();break;case'slayunblock':slayUnblock(d.id);break;case'slayfight':{const t=S.sl.task;if(t&&!(S.cb&&S.cb.mon===t.mon)){const m=MONS[t.mon];startCombat(m.area,t.mon);}break;}case'bsel':UI.bsel=d.id;break;case'bcat':UI.bcat=d.c;break;
+  case'bsort':UI.bsort=(UI.bsort+1)%BSORT.length;break;case'rask':UI.rsel=+d.r;break;case'rcancel':UI.rsel=null;break;case'rsell':{const r=+d.r;let g=0;Object.keys(S.bank).forEach(id=>{const it=ITEMS[id];if(it.rar===r&&!it.uniq){const n=cnt(id);g+=n*it.v;sell(id,n);}});UI.rsel=null;UI.bsel=null;if(g)toast('Sold '+RAR[r][0]+' items for 🪙 '+fmt(g),'info');break;}case'pvsync':pvSync(true);break;case'pvgo':pvStart(d.id,UI.dstake);break;case'duelgo':duelStart(d.t,UI.dstake);break;case'dstk':UI.dstake=d.v==='all'?S.coins:d.v==='half'?Math.floor(S.coins/2):+d.v;break;case'duelclr':UI.duel=null;break;case'slaybuyauto':slayBuyAuto();break;case'slayauto':slayToggleAuto();break;case'slayget':slayAssign();break;case'slayreroll':slayReroll();break;case'slayblock':slayBlock();break;case'slayunblock':slayUnblock(d.id);break;case'slayfight':{const t=S.sl.task;if(t&&!(S.cb&&S.cb.mon===t.mon)){const m=MONS[t.mon];startCombat(m.area,t.mon);}break;}case'bsel':UI.bsel=d.id;break;case'bcat':UI.bcat=d.c;break;
   case'sell':sell(d.id,+d.q);break;case'drink':usePotion(d.id);break;
   case'upg':buyUpg(d.sk);break;case'buybank':buyBank();break;case'buyplot':buyPlot(d.c);break;case'buyi':buyItem(d.id,+d.q);break;case'buyperk':buyPerk(d.id);break;
   case'pick':UI.pick=+d.i;break;case'pickclose':UI.pick=null;break;
