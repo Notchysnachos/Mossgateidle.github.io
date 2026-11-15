@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-EPUEjGmwCupKgvK2ExUsTv4vtNyJqWO3NkJt8NUg4e8=' 'sha256-3kUJRw3imQB4sILA6qP0rs8BsofKxtKoO8GylmTEh5U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; worker-src 'self'; connect-src https://fogoltmnmdabjimxsjnm.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="icons/icon-192.png"><meta name="theme-color" content="#e9eee8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121815" media="(prefers-color-scheme: dark)"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Mossgate"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-RL4SNcY39U9ou+fYq20Jkd1+rge5iQ2h0EYn5YZjmsg=' 'sha256-3kUJRw3imQB4sILA6qP0rs8BsofKxtKoO8GylmTEh5U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; worker-src 'self'; connect-src https://fogoltmnmdabjimxsjnm.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="icons/icon-192.png"><meta name="theme-color" content="#e9eee8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121815" media="(prefers-color-scheme: dark)"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Mossgate"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
 <title>Mossgate Idle</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1655,7 +1655,7 @@ const SK=n=>'mossgate-idle-slot-'+n;
 let SLOT=0;const SAVESTAT={ok:true,at:0,err:'',bak:0};
 
 /* ---------- save integrity: signed, tamper-evident saves ---------- */
-const BUILD_TS=1794785230000;
+const BUILD_TS=1794785752000;
 const SIGKEY=['mg','8f2c','-gate','Q7x','r0ot','5e1d','|idle','b9'].join('');
 const SHA_K=(()=>{const k=[];for(let n=2;k.length<64;n++){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)k.push(Math.floor((Math.cbrt(n)%1)*4294967296));}return k;})();
 const SHA_H=(()=>{const h=[];for(let n=2;h.length<8;n++){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)h.push(Math.floor((Math.sqrt(n)%1)*4294967296));}return h;})();
@@ -1927,6 +1927,50 @@ async function hsLeave(){const h=S&&S.hs;if(!h)return;h.on=false;UI.hsMsg='You l
 function hsLoad(sort){const B=UI.hsb||(UI.hsb={}),e=B[sort];if(!hsReady()||(e&&(e.loading||Date.now()-e.t<(e.err?15000:60000))))return;
  const n=B[sort]={t:Date.now(),loading:true,rows:e?e.rows:null,err:false};
  hsCall('get_hiscores',{p_sort:sort,p_limit:100,p_id:S&&S.hs?S.hs.id:null}).then(r=>{B[sort]={t:Date.now(),rows:Array.isArray(r)?r:[],err:false};}).catch(()=>{B[sort]={t:Date.now(),rows:n.rows,err:true};});}
+
+/* ---------- cloud saves ---------- */
+const CL_K='mossgate-cloud-code';
+const clHex=n=>{const a=new Uint8Array(n/2);crypto.getRandomValues(a);return[...a].map(b=>b.toString(16).padStart(2,'0')).join('');};
+function clParse(t){const h=String(t||'').toLowerCase().replace(/[^0-9a-f]/g,'');if(h.length!==56)return null;return{id:h.slice(0,32).replace(/^(.{8})(.{4})(.{4})(.{4})(.{12})$/,'$1-$2-$3-$4-$5'),secret:h.slice(32),code:h};}
+const clFmt=c=>c.match(/.{1,8}/g).join('-').toUpperCase();
+const CL=()=>UI.cl||(UI.cl={acc:clParse(lsGet(CL_K)),list:null,msg:'',busy:0,show:0,dl:'',force:0,loaded:0});
+const clAtGet=n=>lsGet('mossgate-cloud-at-'+n)||null,clAtSet=(n,v)=>{if(v)lsSet('mossgate-cloud-at-'+n,v);};
+async function clRefresh(quiet){const C=CL();if(!C.acc)return;if(!quiet){C.busy=1;dirty.v=1;}
+ try{const r=await hsCall('cloud_list',{p_id:C.acc.id,p_secret:C.acc.secret});C.list=Array.isArray(r)?r:[];C.loaded=1;}
+ catch(e){C.msg='Could not reach the cloud. Check your connection and that the cloud setup SQL was run.';C.loaded=1;}
+ C.busy=0;dirty.v=1;}
+async function clUpload(force){const C=CL();if(!C.acc||C.busy||!S||!SLOT)return;
+ if(!force&&!clAtGet(SLOT)&&(C.list||[]).some(x=>x.slot===SLOT)){C.force=SLOT;C.msg='Slot '+SLOT+' already has a save in the cloud that this device has not loaded. Download it first, or choose Overwrite to replace it with this save.';dirty.v=1;return;}C.busy=1;C.msg='';dirty.v=1;saveLocal();
+ try{const r=await hsCall('cloud_put',{p_id:C.acc.id,p_secret:C.acc.secret,p_slot:SLOT,p_data:serialize(),p_meta:{name:S.name,total:totalLevel(),play:Math.floor(S.play||0)},p_expect:clAtGet(SLOT),p_force:!!force});
+  if(r.res==='ok'){clAtSet(SLOT,r.at);C.msg='Uploaded slot '+SLOT+' to the cloud.';C.force=0;}
+  else if(r.res==='newer'){C.force=SLOT;C.msg='The cloud copy of slot '+SLOT+' is newer: '+(r.name||'?')+', total level '+r.total+', saved '+new Date(r.at).toLocaleString()+'. Download it, or overwrite it with this save.';}
+  else C.msg=r.res==='denied'?'The cloud code was not accepted.':'The server rejected the upload.';}
+ catch(e){C.msg='Could not reach the cloud. Check your connection and that the cloud setup SQL was run.';}
+ C.busy=0;dirty.v=1;await clRefresh(true);}
+async function clDownload(n,prev){const C=CL();if(!C.acc||C.busy)return;C.busy=1;C.msg='';C.dl='';dirty.v=1;
+ try{const r=await hsCall('cloud_get',{p_id:C.acc.id,p_secret:C.acc.secret,p_slot:n,p_prev:!!prev});
+  if(r.res!=='ok')C.msg=r.res==='denied'?'The cloud code was not accepted.':'Nothing found in the cloud for that slot.';
+  else{let s=null;try{s=parseSave(r.data);}catch(e){}
+   if(!s)C.msg='That cloud save could not be read. It may be damaged.';
+   else if(n===SLOT){s.name=s.name||S.name;useState(s);saveLocal();clAtSet(n,r.at);C.msg='Loaded the '+(prev?'previous ':'')+'cloud save into slot '+n+'.';}
+   else if(lsSet(SK(n),r.data)){clAtSet(n,r.at);C.msg='Saved the '+(prev?'previous ':'')+'cloud save into slot '+n+'. Open it from Switch save.';}
+   else C.msg='Could not write to this browser. Storage may be full or blocked.';}}
+ catch(e){C.msg='Could not reach the cloud.';}
+ C.busy=0;dirty.v=1;}
+function cloudPanel(){const C=CL();let h='<div class="panel"><h2>☁️ Cloud saves</h2>';
+ if(!hsReady())return h+'<div class="sub">Cloud saves are not switched on in this version.</div></div>';
+ h+='<div class="sub">Keep your saves online to continue on another PC or phone. Your <b>cloud code</b> is the only key to them. Anyone who has it can load or overwrite your cloud saves, and it cannot be recovered if you lose it, so store it somewhere safe.</div>';
+ if(!C.acc)return h+`<div class="row" style="margin:10px 0"><button class="btn pri" data-a="clnew">Create my cloud code</button></div><div class="sub">Already have a code from another device? Paste it here:</div><div class="row" style="margin:6px 0"><input type="text" id="clcode" placeholder="Paste your cloud code" autocomplete="off" value="${esc(UI.clc||'')}" aria-label="Cloud code"><button class="btn" data-a="clenter">Use this code</button></div>${C.msg?`<div class="sub">${esc(C.msg)}</div>`:''}</div>`;
+ h+=`<div class="row" style="margin:10px 0;gap:8px;flex-wrap:wrap"><b>Cloud code</b><code style="user-select:all;word-break:break-all">${C.show?clFmt(C.acc.code):'••••••••-••••••••-••••••••-••••••••-••••••••-••••••••-••••••••'}</code><button class="btn sm" data-a="clshow">${C.show?'Hide':'Show'}</button><button class="btn sm" data-a="clref">Refresh</button><button class="btn sm" data-a="clout">Sign out on this device</button></div>`;
+ if(C.show)h+='<div class="sub"><b>Copy this code now</b> and keep it private. Enter it in the Cloud saves panel on your other device.</div>';
+ for(let n=1;n<=3;n++){const e=(C.list||[]).find(x=>x.slot===n),cur=n===SLOT,k='d'+n,kp='p'+n;
+  h+=`<div class="card static" style="margin:8px 0"><div class="row" style="gap:8px;flex-wrap:wrap"><b>Slot ${n}${cur?' (this save)':''}</b><span class="sub">${e?`Cloud: ${esc(e.name||'?')}, total level ${e.total}, played ${fmtT(e.play)}, saved ${new Date(e.saved_at).toLocaleString()}`:(C.loaded?'Nothing in the cloud yet':'Loading…')}</span></div><div class="row" style="gap:8px;flex-wrap:wrap;margin-top:6px">`;
+  if(cur)h+=`<button class="btn pri sm${C.busy?' off':''}" data-a="clup">Upload this save</button>`;else h+='<span class="sub">Switch to this save to upload it.</span>';
+  if(e)h+=`<button class="btn sm${C.busy?' off':''}" data-a="cldl" data-n="${n}" data-p="0">${C.dl===k?'Press again to replace this device’s slot '+n:'Download'}</button>`;
+  if(e&&e.has_prev)h+=`<button class="btn sm${C.busy?' off':''}" data-a="cldl" data-n="${n}" data-p="1">${C.dl===kp?'Press again to confirm':'Download previous version'}</button>`;
+  if(cur&&C.force===n)h+='<button class="btn sm" data-a="clupf">Overwrite cloud with this save</button>';
+  h+='</div></div>';}
+ return h+(C.msg?`<div class="sub" style="margin-top:6px">${esc(C.msg)}</div>`:'')+'</div>';}
 function hiscoresPage(){
  const hs=S.hs,sort=UI.hsSort||'total',B=UI.hsb||{},e=B[sort];
  let h=`<div class="panel"><h2>🏆 Hiscores</h2><div class="sub">See how you rank against other players. If you join, only your chosen name, your skill levels and XP and your play time are shared. Nothing else leaves your device. You can leave at any time and your entry is deleted.</div>`;
@@ -2218,6 +2262,7 @@ function settingsPage(){
  <div class="sub">Backup text works on this slot. Copy it to keep it safe or move it to another device.</div>
  <div class="row" style="margin:8px 0"><button class="btn pri" data-a="export">Show backup text</button><button class="btn" data-a="import">Load from text below</button></div>
  <textarea id="imp" placeholder="Paste backup text here" aria-label="Backup text">${UI.imp}</textarea><div class="sub" style="margin-top:6px">${UI.msg}</div></div>
+ ${cloudPanel()}
  <div class="panel"><h2>Cheat codes</h2><div class="sub">Type a code and press Redeem. Cheats change your save permanently, so export a backup first if you care about a clean run.</div><div class="row" style="margin:8px 0"><input type="text" id="cheat" placeholder="Enter code" value="${UI.cheat||''}" autocomplete="off" autocapitalize="characters" aria-label="Cheat code"><button class="btn pri" data-a="cheat">Redeem</button><span class="sub">${UI.msg2||''}</span></div><div class="tw"><table>${CHEATS.map(c=>`<tr><td><b>${c[0]}</b></td><td>${c[1]}</td></tr>`).join('')}</table></div>${S.cheat.speed===5?'<div class="gold">Turbo is on.</div>':''}${S.cheat.god?'<div class="gold">God mode is on.</div>':''}</div>
  <div class="panel"><h2>Statistics</h2><div class="stats"><span>Time played <b>${fmtT(S.play)}</b></span><span>Actions <b>${fmt(S.stats.actions)}</b></span><span>Monsters killed <b>${fmt(S.stats.kills)}</b></span><span>Times knocked out <b>${S.stats.deaths}</b></span><span>Coins earned <b>${fmt(S.stats.coins)}</b></span></div></div>
  <div class="panel"><h2>Reset</h2><div class="sub">Restarts this slot from scratch. The previous save is kept as an automatic backup until the next one replaces it.</div><div class="row" style="margin-top:8px">${UI.confirm?'<button class="btn dng" data-a="reset">Yes, erase everything</button><button class="btn" data-a="resetno">Cancel</button>':'<button class="btn dng" data-a="resetask">Reset game</button>'}</div></div>`;}
@@ -2232,7 +2277,7 @@ function homePage(){
 
 function pageHtml(){
  const p=UI.page;
- if(p==='home')return homePage();if(p==='combat')return combatPage();if(p==='dungeons')return dungeonsPage(0);if(p==='raids')return dungeonsPage(1);if(p==='equip')return equipPage();if(p==='bank')return bankPage();if(p==='shop')return shopPage();if(p==='wheel')return wheelPage();if(p==='set')return settingsPage();if(p==='prestige')return prestigePage();if(p==='pets')return petsPage();if(p==='duel')return duelPage();if(p==='pvp'){const P=PV();if(S.hs&&S.hs.on&&hsReady()&&!P.list&&!P.busy&&!P.auto){P.auto=1;pvSync(true);}return pvpPage();}if(p==='hiscores')return hiscoresPage();
+ if(p==='home')return homePage();if(p==='combat')return combatPage();if(p==='dungeons')return dungeonsPage(0);if(p==='raids')return dungeonsPage(1);if(p==='equip')return equipPage();if(p==='bank')return bankPage();if(p==='shop')return shopPage();if(p==='wheel')return wheelPage();if(p==='set'){const C_=CL();if(C_.acc&&!C_.loaded&&!C_.busy)clRefresh();return settingsPage();}if(p==='prestige')return prestigePage();if(p==='pets')return petsPage();if(p==='duel')return duelPage();if(p==='pvp'){const P=PV();if(S.hs&&S.hs.on&&hsReady()&&!P.list&&!P.busy&&!P.auto){P.auto=1;pvSync(true);}return pvpPage();}if(p==='hiscores')return hiscoresPage();
  return skillPage(p);}
 function ctxHtml(){const c=UI.ctx;if(!c)return'';let b='',t='';
  if(c.t==='item'){const it=ITEMS[c.id],n=cnt(c.id);if(!it||!n)return'';t=`<span${rc(it)}>${it.n}</span> ×${fmt(n)}`;
@@ -2338,6 +2383,12 @@ function handle(d){
   case'slotauto':{const m=getMeta();m.auto=!m.auto;setMeta(m);}break;
   case'slots':saveLocal();UI.modal={type:'slots',boot:false,newN:null,delN:null,warn:null};break;
   case'savenow':saveLocal();break;
+  case'clnew':{const C=CL(),c=clHex(56);lsSet(CL_K,c);C.acc=clParse(c);C.show=1;C.list=[];C.loaded=1;C.msg='Cloud code created. Upload a save to start using it.';break;}
+  case'clenter':{const C=CL(),a=clParse(UI.clc);if(!a){C.msg='That does not look like a cloud code.';break;}lsSet(CL_K,a.code);C.acc=a;C.show=0;C.msg='';C.loaded=0;UI.clc='';clRefresh();break;}
+  case'clshow':CL().show=!CL().show;break;case'clref':clRefresh();break;
+  case'clout':{const C=CL();lsDel(CL_K);C.acc=null;C.list=null;C.show=0;C.msg='Signed out on this device. Your cloud saves are still online.';break;}
+  case'clup':clUpload(false);break;case'clupf':clUpload(true);break;
+  case'cldl':{const C=CL(),n=+d.n,p=d.p==='1',k=(p?'p':'d')+n;if(C.dl!==k)C.dl=k;else clDownload(n,p);break;}
   case'rename':{const n=cleanName(UI.rn);if(n){S.name=n;UI.rn='';saveLocal();}}break;
   case'switchslot':leaveSlot();break;
   case'hsjoin':{const el=$('#hsn'),v=(el?el.value:'').trim().replace(/\s+/g,' ');UI.hsn=v;if(!/^[A-Za-z0-9_ -]{3,16}$/.test(v)){UI.hsMsg=HS_ERR.bad_name;break;}S.hs.name=v;S.hs.on=true;UI.hsMsg='Joining...';hsSubmit().then(r=>{if(r!=='ok'){S.hs.on=false;}saveLocal();});break;}
@@ -2358,7 +2409,7 @@ document.addEventListener('touchstart',e=>{const el=e.target.closest('[data-ctx]
 ['touchend','touchmove','touchcancel'].forEach(ev=>document.addEventListener(ev,()=>{if(lpT){clearTimeout(lpT);lpT=null;}},{passive:true}));
 document.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches&&e.target.matches('[role=button][data-a]')){e.preventDefault();handle(e.target.dataset);}});
 document.addEventListener('change',e=>{if(e.target.id==='foodsel'){const v=e.target.value;S.equip.food=v||null;refreshPS();dirty.v=1;}});
-document.addEventListener('input',e=>{if(e.target.id==='dstake'){UI.dstake=Math.max(0,Math.floor(+e.target.value||0));return;}if(e.target.id==='bsearch'){UI.bq=e.target.value;render();}if(e.target.id==='imp')UI.imp=e.target.value;if(e.target.id==='cheat')UI.cheat=e.target.value;if(e.target.id==='hsn')UI.hsn=e.target.value;if(e.target.id==='nm')UI.nm=e.target.value;if(e.target.id==='rn')UI.rn=e.target.value;});
+document.addEventListener('input',e=>{if(e.target.id==='clcode'){UI.clc=e.target.value;return;}if(e.target.id==='dstake'){UI.dstake=Math.max(0,Math.floor(+e.target.value||0));return;}if(e.target.id==='bsearch'){UI.bq=e.target.value;render();}if(e.target.id==='imp')UI.imp=e.target.value;if(e.target.id==='cheat')UI.cheat=e.target.value;if(e.target.id==='hsn')UI.hsn=e.target.value;if(e.target.id==='nm')UI.nm=e.target.value;if(e.target.id==='rn')UI.rn=e.target.value;});
 
 /* ---------- boot + loop ---------- */
 
