@@ -1,0 +1,1179 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Mossgate Idle</title><meta name="description" content="Mossgate Idle, a Melvor-style browser idle game."><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@600;700&family=Rubik:wght@400;500;600&display=swap">
+<style>
+/* Layout: fixed left rail of pages and skills, a sticky top bar showing the running activity, and a content column of panels and card grids. */
+:root{
+ --bg:#e9eee8;--panel:#f8faf6;--panel2:#eef2ea;--rail:#dfe6dc;--ink:#1b2420;--mute:#5b6a62;--line:#cfd8cb;
+ --accent:#2f7a52;--accent-ink:#ffffff;--gold:#b87a10;--good:#2f7a52;--bad:#c4483a;--xp:#3a6fb0;--hp:#c4483a;--mast:#8a5ac4;--shadow:0 1px 2px rgba(20,40,30,.08);
+ --f-head:'Bitter',Georgia,serif;--f-body:'Rubik',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+ --bg:#121815;--panel:#1b2420;--panel2:#222d28;--rail:#161d1a;--ink:#e3ebe2;--mute:#93a399;--line:#2d3a34;
+ --accent:#5cbf86;--accent-ink:#0d1a12;--gold:#e5ab3c;--good:#5cbf86;--bad:#ee6f5f;--xp:#6aa3e6;--hp:#ee6f5f;--mast:#b58af0;--shadow:none;color-scheme:dark}}
+:root[data-theme="dark"]{
+ --bg:#121815;--panel:#1b2420;--panel2:#222d28;--rail:#161d1a;--ink:#e3ebe2;--mute:#93a399;--line:#2d3a34;
+ --accent:#5cbf86;--accent-ink:#0d1a12;--gold:#e5ab3c;--good:#5cbf86;--bad:#ee6f5f;--xp:#6aa3e6;--hp:#ee6f5f;--mast:#b58af0;--shadow:none;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:14px/1.45 var(--f-body);margin:0;font-variant-numeric:tabular-nums}
+button{font:inherit;color:inherit}
+h1,h2,h3{font-family:var(--f-head);margin:0;text-wrap:balance}
+.app{display:grid;grid-template-columns:236px minmax(0,1fr);min-height:100vh}
+.rail{background:var(--rail);border-right:1px solid var(--line);padding:12px 8px;position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column;gap:2px}
+.brand{font:700 19px var(--f-head);padding:6px 10px 12px;display:flex;align-items:center;gap:8px}
+.brand small{display:block;font:400 11px var(--f-body);color:var(--mute)}
+.navh{font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--mute);padding:12px 10px 4px}
+.ni{display:flex;align-items:center;gap:9px;padding:7px 10px;border-radius:7px;cursor:pointer;border:0;background:none;text-align:left;width:100%}
+.ni:hover{background:var(--panel2)}
+.ni.on{background:var(--panel);box-shadow:inset 3px 0 0 var(--accent)}
+.ni .nl{margin-left:auto;font-size:12px;color:var(--mute)}
+.ni .run{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:pulse 1.4s infinite}
+@keyframes pulse{50%{opacity:.25}}
+.main{min-width:0;display:flex;flex-direction:column}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--panel);border-bottom:1px solid var(--line);display:flex;gap:12px;align-items:center;padding:8px max(16px,env(safe-area-inset-right,0px)) 8px 16px;min-height:52px}
+.burger{display:none;border:1px solid var(--line);background:var(--panel2);border-radius:7px;padding:6px 10px;cursor:pointer}
+.coins{font-weight:600;color:var(--gold);white-space:nowrap}
+.tslots{flex:1;min-width:0;display:flex;gap:8px}
+.sl{flex:1;min-width:0;display:flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--panel2);border-radius:9px;padding:4px 8px;cursor:pointer;min-height:36px}
+.sl.tgt{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset}
+.sl .sn{color:var(--accent);font-family:var(--f-head)}
+.sl .at{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:55%}
+.sl .bar{flex:1;min-width:24px}
+.ic{width:1em;height:1em;vertical-align:-.17em;display:inline-block;flex:none}
+.act{flex:1;min-width:0;display:flex;align-items:center;gap:10px}
+.act .at{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:46%}
+.act .bar{flex:1;min-width:40px}
+.page{padding:18px max(16px,env(safe-area-inset-right,0px)) 40px 16px;display:flex;flex-direction:column;gap:14px;max-width:1180px;width:100%}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px;box-shadow:var(--shadow);min-width:0}
+.panel h2{font-size:17px;margin-bottom:8px}
+.panel h3{font-size:14px;margin:0 0 6px}
+.sub{color:var(--mute);font-size:12.5px}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.sp{flex:1}
+.bar{height:9px;border-radius:5px;background:var(--panel2);border:1px solid var(--line);overflow:hidden;position:relative;min-width:0}
+.bar>i{display:block;height:100%;background:var(--accent);transition:width .2s linear}
+.bar.xp>i{background:var(--xp)}.bar.hp>i{background:var(--hp)}.bar.mast>i{background:var(--mast)}.bar.big{height:14px}.bar.thin{height:5px}
+.bar .tick{position:absolute;top:0;bottom:0;width:2px;background:var(--ink);opacity:.35}
+.btn{border:1px solid var(--line);background:var(--panel2);border-radius:7px;padding:6px 12px;cursor:pointer;font-weight:500}
+.btn:hover{border-color:var(--accent)}
+.btn.pri{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.dng{background:var(--bad);color:#fff;border-color:var(--bad)}
+.btn[disabled],.btn.off{opacity:.45;cursor:not-allowed}
+.btn.sm{padding:3px 9px;font-size:12.5px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.tag{border:1px solid var(--line);background:var(--panel2);border-radius:999px;padding:3px 11px;cursor:pointer;font-size:12.5px}
+.tag.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+.grid.sm{grid-template-columns:repeat(auto-fill,minmax(170px,1fr))}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:11px;display:flex;flex-direction:column;gap:6px;cursor:pointer;min-width:0;text-align:left}
+.card:hover{border-color:var(--accent)}
+.card.on{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent) inset}
+.card.locked{opacity:.55;cursor:not-allowed}
+.card.static{cursor:default}.card.static:hover{border-color:var(--line)}
+.ch{display:flex;gap:9px;align-items:center}
+.ci{font-size:24px;width:34px;text-align:center}
+.cn{font-weight:600;line-height:1.2}.cm{font-size:12px;color:var(--mute)}
+.io{font-size:12.5px;display:flex;gap:5px;flex-wrap:wrap;align-items:center}
+.io b{color:var(--mute);font-weight:500;margin-right:2px}
+.chip{background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:1px 6px;white-space:nowrap}
+.chip.bad{color:var(--bad);border-color:var(--bad)}
+.stats{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--mute)}
+.stats b{color:var(--ink);font-weight:600}
+.cps{display:flex;gap:6px 14px;flex-wrap:wrap;font-size:12px;color:var(--mute);margin-top:6px}
+.cps .got{color:var(--mast);font-weight:600}
+.fight{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fighter{background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:10px;display:flex;flex-direction:column;gap:6px;text-align:center}
+.fighter .big{font-size:38px;line-height:1}
+.hit{font-weight:700;color:var(--bad);min-height:20px}
+.log{font-size:12.5px;display:flex;flex-direction:column;gap:3px;color:var(--mute)}
+.slots{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;max-width:420px}
+.slot{background:var(--panel2);border:1px dashed var(--line);border-radius:9px;min-height:78px;padding:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;cursor:pointer;text-align:center;font-size:12px}
+.slot.on{border-style:solid;border-color:var(--accent)}
+.slot .si{font-size:24px}
+.slot small{color:var(--mute);font-size:10.5px;text-transform:uppercase;letter-spacing:.06em}
+.bank{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:6px}
+.bi{position:relative;aspect-ratio:1;background:var(--panel2);border:1px solid var(--line);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:26px;cursor:pointer;padding:0}
+.bi:hover{border-color:var(--accent)}.bi.on{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent) inset}
+.bi span{position:absolute;right:4px;bottom:2px;font-size:11px;font-weight:600;background:var(--panel);border-radius:4px;padding:0 3px}
+input[type=text],input[type=search],textarea{font:inherit;background:var(--panel2);color:var(--ink);border:1px solid var(--line);border-radius:7px;padding:6px 10px;min-width:0}
+textarea{width:100%;min-height:90px;font-family:ui-monospace,Menlo,monospace;font-size:12px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.tile{background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:9px;cursor:pointer;display:flex;flex-direction:column;gap:5px;text-align:left}
+.tile:hover{border-color:var(--accent)}
+.tile .tl{display:flex;justify-content:space-between;align-items:center;font-weight:600}
+table{border-collapse:collapse;width:100%;font-size:13px}td,th{padding:5px 8px;border-bottom:1px solid var(--line);text-align:left}
+.tw{overflow-x:auto}
+.toasts{position:fixed;right:max(12px,env(safe-area-inset-right,0px));bottom:calc(12px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:6px;z-index:30;pointer-events:none;max-width:min(340px,calc(100vw - 24px))}
+.toast{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:8px;padding:8px 12px;box-shadow:0 4px 14px rgba(0,0,0,.2);font-size:13px}
+.toast.lvl{border-left-color:var(--xp)}.toast.mast{border-left-color:var(--mast)}.toast.warn{border-left-color:var(--gold)}.toast.bad{border-left-color:var(--bad)}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:40;display:flex;align-items:center;justify-content:center;padding:16px}
+.mbox{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px;max-width:520px;width:100%;max-height:85vh;overflow:auto;display:flex;flex-direction:column;gap:10px}
+.good{color:var(--good)}.bad{color:var(--bad)}.gold{color:var(--gold)}.mute{color:var(--mute)}
+.pill{font-size:11px;border-radius:999px;padding:1px 8px;background:var(--panel2);border:1px solid var(--line);color:var(--mute)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (max-width:900px){
+ .app{grid-template-columns:minmax(0,1fr)}
+ .rail{position:fixed;left:0;top:0;bottom:0;z-index:20;width:250px;transform:translateX(-105%);transition:transform .2s;padding-left:max(8px,env(safe-area-inset-left,0px))}
+ .app.open .rail{transform:none;box-shadow:0 0 30px rgba(0,0,0,.4)}
+ .burger{display:block}
+ .top{padding-left:max(16px,env(safe-area-inset-left,0px))}.page{padding-left:max(16px,env(safe-area-inset-left,0px))}
+ .fight{grid-template-columns:1fr}
+ .top{flex-wrap:wrap}.tslots{order:3;flex-basis:100%}.sl .at{max-width:48%}
+}
+@media (prefers-reduced-motion:reduce){.bar>i,.rail{transition:none}.ni .run{animation:none}}
+.ni .ic,.tile .ic,.tag .ic{width:1.3em;height:1.3em}
+.toast.boss{border-left-color:#f0a030;background:var(--panel2)}
+
+.ctx{position:fixed;z-index:50;background:var(--panel);border:1px solid var(--line);border-radius:9px;box-shadow:0 8px 24px rgba(0,0,0,.35);padding:4px;min-width:170px}
+.ctx button{display:block;width:100%;text-align:left;border:0;background:none;padding:7px 10px;border-radius:6px;cursor:pointer}
+.ctx button:hover{background:var(--panel2)}.ctx button.off{opacity:.45}
+.ctx .ct{font-weight:600;padding:6px 10px;border-bottom:1px solid var(--line);margin-bottom:3px}
+[data-ctx]{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+.wheelwrap{position:relative;width:min(340px,100%);margin:10px auto}
+.wheel{width:100%;height:auto;display:block;transition:transform 4.2s cubic-bezier(.12,.6,.1,1);filter:drop-shadow(0 4px 10px rgba(0,0,0,.35))}
+.ptr{position:absolute;left:50%;top:-6px;width:0;height:0;margin-left:-11px;border-left:11px solid transparent;border-right:11px solid transparent;border-top:22px solid var(--ink);z-index:2}
+@media (prefers-reduced-motion:reduce){.wheel{transition-duration:.01s}}
+.bdet{min-height:122px}
+
+.slotc{border:1px solid var(--line);border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:8px}
+.slotc.cur{border-color:var(--accent)}
+.slotc .sh{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.slotc .sh span{color:var(--mute);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+</style>
+<div class="app" id="app"><aside class="rail" id="rail"></aside><div class="main"><header class="top" id="top"></header><main class="page" id="page"></main></div></div>
+<div class="toasts" id="toasts" aria-live="polite"></div><div id="modal"></div><div id="ctx"></div>
+<script>
+'use strict';
+/* ===== Mossgate Idle: game data ===== */
+const XPT=[0];(function(){let p=0;for(let l=1;l<120;l++){p+=Math.floor(l+300*Math.pow(2,l/7));XPT[l]=Math.floor(p/4);}})();
+const MAXL=99;
+function lvlOf(xp){let lo=1,hi=MAXL;while(lo<hi){const m=(lo+hi+1)>>1;if(XPT[m-1]<=xp)lo=m;else hi=m-1;}return lo;}
+const MXP=L=>Math.round(XPT[L-1]*0.06); // mastery xp needed for level L
+
+const ITEMS={};
+function mk(id,n,i,v,cat,o){ITEMS[id]=Object.assign({id,n,i,v,cat},o||{});return ITEMS[id];}
+const ACT={wc:[],fish:[],mine:[],fm:[],cook:[],smith:[],fletch:[],craft:[],thief:[],agi:[],herb:[],rc:[]};
+const R=Math.round;
+
+const SKILLS=[
+ ['wc','Woodcutting','🪓','Chop trees to gather logs.'],
+ ['fish','Fishing','🎣','Catch fish to cook or sell.'],
+ ['mine','Mining','⛏️','Mine ore, coal, essence and gems.'],
+ ['fm','Firemaking','🔥','Burn logs for experience and ashes.'],
+ ['cook','Cooking','🍳','Cook fish into food that heals you in combat.'],
+ ['smith','Smithing','🔨','Smelt bars and forge weapons, armour and arrowtips.'],
+ ['fletch','Fletching','🪶','Make bows, staves and arrows.'],
+ ['craft','Crafting','🧵','Craft hide armour, robes and jewellery.'],
+ ['thief','Thieving','🗝️','Pick pockets for coins. Failure hurts and stuns you.'],
+ ['farm','Farming','🌱','Grow crops and herbs in real time, even while you are away.'],
+ ['herb','Herblore','🧪','Brew potions that boost your skills and combat.'],
+ ['rc','Runecrafting','🔮','Turn essence into runes for magic.'],
+ ['agi','Agility','🏃','Run obstacle courses for coins and experience.']
+];
+const COMBAT=[['atk','Attack','⚔️'],['str','Strength','💪'],['def','Defence','🛡️'],['hp','Hitpoints','❤️'],['rng','Ranged','🏹'],['mag','Magic','🔮']];
+const SKN={};SKILLS.forEach(s=>SKN[s[0]]={n:s[1],i:s[2],d:s[3]});COMBAT.forEach(s=>SKN[s[0]]={n:s[1],i:s[2],d:''});
+const SKKIND={wc:'gather',fish:'gather',mine:'gather',thief:'thief',agi:'gather',fm:'art',cook:'art',smith:'art',fletch:'art',craft:'art',herb:'art',rc:'art',farm:'farm'};
+const ALLSK=COMBAT.map(c=>c[0]).concat(SKILLS.map(s=>s[0]));
+
+const T=[
+ {id:'bronze',n:'Bronze',lv:1,p:1},{id:'iron',n:'Iron',lv:10,p:1.8},{id:'steel',n:'Steel',lv:20,p:2.8},
+ {id:'mithril',n:'Mithril',lv:35,p:4.2},{id:'adamant',n:'Adamant',lv:50,p:6},{id:'rune',n:'Rune',lv:65,p:8.5},{id:'dragon',n:'Dragon',lv:80,p:12}];
+
+/* misc */
+mk('ashes','Ashes','🌫️',1,'misc');mk('bones','Bones','🦴',2,'misc');mk('feather','Feather','🪶',1,'misc');
+mk('dragon_bone','Dragon Bone','🦴',60,'misc');mk('dragon_scale','Dragon Scale','🐲',900,'misc');
+mk('vial','Empty Vial','🧴',6,'misc');
+mk('hide_cow','Cowhide','🟫',8,'hide');mk('hide_wolf','Wolf Pelt','🟫',40,'hide');mk('hide_bear','Bear Hide','🟫',120,'hide');mk('hide_drake','Drake Hide','🟥',420,'hide');
+const GEMS=[['sapphire','Sapphire','🔷',40],['emerald','Emerald','🟩',90],['ruby','Ruby','🟥',200],['diamond','Diamond','💎',500]];
+GEMS.forEach(g=>mk('gem_'+g[0],g[1],g[2],g[3],'gem'));
+
+/* woodcutting + firemaking */
+const LOGS=[['normal','Normal Log',1,8,1],['oak','Oak Log',10,14,3],['willow','Willow Log',20,22,6],['teak','Teak Log',30,32,10],['maple','Maple Log',40,46,16],['mahog','Mahogany Log',50,64,26],['yew','Yew Log',60,88,42],['magic','Magic Log',75,130,80],['redwood','Redwood Log',90,200,150]];
+LOGS.forEach((l,k)=>{const id='log_'+l[0];mk(id,l[1],'🪵',l[4],'log');
+ ACT.wc.push({id:'wc_'+l[0],n:l[1].replace('Log','Tree'),i:'🌲',lvl:l[2],xp:l[3],t:R((3+k*0.35)*10)/10,out:{[id]:1}});
+ ACT.fm.push({id:'fm_'+l[0],n:'Burn '+l[1],i:'🔥',lvl:l[2],xp:R(l[3]*1.15+2),t:R((2+k*0.25)*10)/10,in:{[id]:1},out:{ashes:1}});});
+
+/* fishing + cooking */
+const FISH=[['shrimp','Shrimp',1,8,2,3,30],['sardine','Sardine',8,13,3,3.2,40],['trout','Trout',18,22,6,3.5,70],['salmon','Salmon',28,32,9,3.8,95],['lobster','Lobster',40,46,16,4.2,130],['swordfish','Swordfish',52,64,26,4.6,175],['shark','Shark',65,86,45,5,230],['ray','Manta Ray',78,115,75,5.5,290],['eel','Abyss Eel',90,160,130,6,370]];
+FISH.forEach(f=>{mk('fish_'+f[0],'Raw '+f[1],'🐟',f[4],'fish');mk('food_'+f[0],f[1],'🍖',R(f[4]*2.2+1),'food',{heal:f[6],slot:'food'});
+ ACT.fish.push({id:'fish_'+f[0],n:f[1],i:'🐟',lvl:f[2],xp:f[3],t:f[5],out:{['fish_'+f[0]]:1}});
+ ACT.cook.push({id:'cook_'+f[0],n:'Cook '+f[1],i:'🍖',lvl:f[2],xp:R(f[3]*0.9+1),t:3,in:{['fish_'+f[0]]:1},out:{['food_'+f[0]]:1}});});
+
+/* mining */
+const ORES=[['copper','Copper Ore',1,7,2,3],['tin','Tin Ore',1,7,2,3],['iron','Iron Ore',15,16,5,3.4],['coal','Coal',30,30,9,3.8],['mithril','Mithril Ore',35,36,18,4],['adamant','Adamant Ore',50,56,34,4.5],['rune','Rune Ore',65,85,60,5],['dragon','Dragonite Ore',80,130,110,6],['ess','Rune Essence',1,5,2,2.5]];
+ORES.forEach(o=>{mk('ore_'+o[0],o[1],o[0]==='ess'?'✨':'🪨',o[4],'ore');
+ ACT.mine.push({id:'mine_'+o[0],n:o[1],i:o[0]==='ess'?'✨':'⛏️',lvl:o[2],xp:o[3],t:o[5],out:{['ore_'+o[0]]:1},gem:o[0]!=='ess'?0.012:0});});
+
+/* smithing */
+const BARIN=[{ore_copper:1,ore_tin:1},{ore_iron:1},{ore_iron:1,ore_coal:2},{ore_mithril:1,ore_coal:3},{ore_adamant:1,ore_coal:4},{ore_rune:1,ore_coal:5},{ore_dragon:1,ore_coal:6}];
+const BARSELL=[6,10,22,50,95,170,310],BARXP=[6,12,20,36,56,84,125];
+const PIECES=[['sword','Sword',1,0,'weapon',{atk:7,str:6}],['shield','Shield',2,5,'shield',{def:5}],['helmet','Helmet',1,3,'helmet',{def:3}],['body','Platebody',4,8,'body',{def:9}],['legs','Platelegs',3,6,'legs',{def:6}],['boots','Boots',1,1,'boots',{def:2}],['gloves','Gauntlets',1,2,'gloves',{def:2}]];
+const scale=(st,p)=>{const o={};for(const k in st)o[k]=R(st[k]*p);return o;};
+T.forEach((t,k)=>{
+ mk('bar_'+t.id,t.n+' Bar','🧱',BARSELL[k],'bar');
+ ACT.smith.push({id:'bar_'+t.id,n:t.n+' Bar',i:'🧱',lvl:t.lv,xp:BARXP[k],t:3,in:BARIN[k],out:{['bar_'+t.id]:1}});
+ PIECES.forEach(pc=>{const id='g_'+t.id+'_'+pc[0];
+  const o={slot:pc[4],st:scale(pc[5],t.p),tier:k};if(pc[4]==='weapon'){o.wt='melee';o.sp=2.4;}
+  mk(id,t.n+' '+pc[1],pc[4]==='weapon'?'⚔️':pc[4]==='shield'?'🛡️':pc[4]==='helmet'?'⛑️':pc[4]==='body'?'🥋':pc[4]==='legs'?'👖':pc[4]==='boots'?'🥾':'🧤',R(pc[2]*BARSELL[k]*1.3),'gear',o);
+  ACT.smith.push({id,n:t.n+' '+pc[1],i:ITEMS[id].i,lvl:Math.min(99,t.lv+pc[3]),xp:R(BARXP[k]*pc[2]*1.2+2),t:4,in:{['bar_'+t.id]:pc[2]},out:{[id]:1}});});
+ mk('tip_'+t.id,t.n+' Arrowtips','🔻',Math.max(1,R(BARSELL[k]/12)),'ammo');
+ ACT.smith.push({id:'tip_'+t.id,n:t.n+' Arrowtips ×15',i:'🔻',lvl:Math.min(99,t.lv+4),xp:R(BARXP[k]*0.8+2),t:3,in:{['bar_'+t.id]:1},out:{['tip_'+t.id]:15}});
+ /* fletching arrows */
+ mk('arrow_'+t.id,t.n+' Arrows','➳',Math.max(1,R(BARSELL[k]/10)),'ammo',{slot:'ammo',st:{rngS:R(4*t.p+1)},tier:k});
+ ACT.fletch.push({id:'arrow_'+t.id,n:t.n+' Arrows ×15',i:'➳',lvl:t.lv,xp:R(BARXP[k]*0.9+2),t:3,in:{['tip_'+t.id]:15,log_normal:1},out:{['arrow_'+t.id]:15}});
+});
+/* bows and staves by log */
+const BOWL=[0,1,2,4,6,7,8],BOWN=['Wooden','Oak','Willow','Maple','Yew','Magic','Redwood'];
+BOWL.forEach((li,k)=>{const L=LOGS[li],p=T[k].p;
+ mk('bow_'+k,BOWN[k]+' Bow','🏹',R(L[4]*2.6+2),'gear',{slot:'weapon',wt:'ranged',sp:2.4,st:{rngA:R(8*p),rngS:R(5*p)},tier:k});
+ ACT.fletch.push({id:'bow_'+k,n:BOWN[k]+' Bow',i:'🏹',lvl:L[2],xp:R(L[3]*2+4),t:3.5,in:{['log_'+L[0]]:2},out:{['bow_'+k]:1}});
+ mk('staff_'+k,BOWN[k]+' Staff','🪄',R(L[4]*3.6+2),'gear',{slot:'weapon',wt:'magic',sp:2.8,st:{magA:R(8*p),magD:R(4*p)},tier:k});
+ ACT.fletch.push({id:'staff_'+k,n:BOWN[k]+' Staff',i:'🪄',lvl:Math.min(99,L[2]+1),xp:R(L[3]*2.6+4),t:4,in:{['log_'+L[0]]:3},out:{['staff_'+k]:1}});});
+
+/* crafting: hide armour */
+const HIDES=[['cow','Hide',1,1],['wolf','Wolf',25,2.6],['bear','Bear',45,5],['drake','Drake',70,9]];
+const HP_=[['hood','Hood',1,0,'helmet',{def:2,rngA:3}],['body','Body',3,3,'body',{def:6,rngA:8}],['chaps','Chaps',2,2,'legs',{def:4,rngA:5}],['boots','Boots',1,1,'boots',{def:2,rngA:2}],['vambs','Vambraces',1,1,'gloves',{def:2,rngA:2}]];
+const HNAME=['Leather','Wolfhide','Bearhide','Drakehide'];
+HIDES.forEach((h,k)=>{HP_.forEach(pc=>{const id='h_'+h[0]+'_'+pc[0];
+ mk(id,HNAME[k]+' '+pc[1],'🥼',R(pc[2]*ITEMS['hide_'+(h[0])].v*1.5+4),'gear',{slot:pc[4],st:scale(pc[5],h[3]),tier:k});
+ ACT.craft.push({id,n:HNAME[k]+' '+pc[1],i:'🥼',lvl:Math.min(99,h[2]+pc[3]),xp:R((12+h[2]*0.9)*pc[2]),t:3.5,in:{['hide_'+h[0]]:pc[2]},out:{[id]:1}});});});
+/* crafting: cloth + robes */
+const CLOTH=[['linen','Linen',1,'crop_flax',1],['silk','Silk',38,'crop_silkweed',3.2],['lunar','Lunar',68,'crop_moonthread',7]];
+const RP=[['hat','Hat',1,0,'helmet',{def:1,magA:3,magD:1}],['top','Robe Top',3,3,'body',{def:3,magA:8,magD:3}],['bottom','Robe Bottom',2,2,'legs',{def:2,magA:5,magD:2}]];
+CLOTH.forEach((c,k)=>{mk('cloth_'+c[0],c[1]+' Cloth','🧶',[8,50,200][k],'misc');
+ ACT.craft.push({id:'cloth_'+c[0],n:c[1]+' Cloth',i:'🧶',lvl:c[2],xp:[10,60,160][k],t:3,in:{[c[3]]:3},out:{['cloth_'+c[0]]:1}});
+ RP.forEach(pc=>{const id='r_'+c[0]+'_'+pc[0];mk(id,c[1]+' '+pc[1],'👘',R(pc[2]*[8,50,200][k]*1.6+4),'gear',{slot:pc[4],st:scale(pc[5],c[4]),tier:k});
+  ACT.craft.push({id,n:c[1]+' '+pc[1],i:'👘',lvl:Math.min(99,c[2]+pc[3]),xp:R((14+c[2]*0.9)*pc[2]),t:3.5,in:{['cloth_'+c[0]]:pc[2]},out:{[id]:1}});});});
+/* crafting: jewellery */
+const JW=[['sapphire','Sapphire',20,{def:8}],['emerald','Emerald',35,{rngA:8,rngS:5}],['ruby','Ruby',55,{atk:8,str:6}],['diamond','Diamond',75,{atk:10,str:8,def:6,rngA:6,magA:6}]];
+JW.forEach((j,k)=>{
+ mk('ring_'+j[0],j[1]+' Ring','💍',R(ITEMS['gem_'+j[0]].v*1.5+40),'gear',{slot:'ring',st:j[3],tier:k});
+ ACT.craft.push({id:'ring_'+j[0],n:j[1]+' Ring',i:'💍',lvl:j[2],xp:R(40+j[2]*2.5),t:3.5,in:{['gem_'+j[0]]:1,bar_steel:1},out:{['ring_'+j[0]]:1}});
+ mk('amu_'+j[0],j[1]+' Amulet','📿',R(ITEMS['gem_'+j[0]].v*1.8+80),'gear',{slot:'amulet',st:scale(j[3],1.6),tier:k});
+ ACT.craft.push({id:'amu_'+j[0],n:j[1]+' Amulet',i:'📿',lvl:j[2]+4,xp:R(60+j[2]*3),t:4,in:{['gem_'+j[0]]:1,bar_mithril:2},out:{['amu_'+j[0]]:1}});});
+
+/* runecrafting */
+const RUNES=[['air','Air Rune','💨',1,4],['water','Water Rune','💧',5,8],['earth','Earth Rune','🪨',9,12],['fire','Fire Rune','🔥',14,17]];
+RUNES.forEach(r=>{mk('rune_'+r[0],r[1],r[2],2,'rune');
+ ACT.rc.push({id:'rc_'+r[0],n:r[1]+'s',i:r[2],lvl:r[3],xp:r[4],t:2.5,in:{ore_ess:1},out:{['rune_'+r[0]]:6}});});
+const SPELLS=[
+ {id:'gust',n:'Gust',lvl:1,max:25,xp:6,cost:{rune_air:2}},
+ {id:'wave',n:'Splash Wave',lvl:10,max:40,xp:11,cost:{rune_water:2,rune_air:2}},
+ {id:'rockfall',n:'Rockfall',lvl:20,max:60,xp:18,cost:{rune_earth:3,rune_air:2}},
+ {id:'cinder',n:'Cinder Bolt',lvl:30,max:85,xp:28,cost:{rune_fire:3,rune_air:2}},
+ {id:'gale',n:'Gale',lvl:40,max:115,xp:40,cost:{rune_air:6}},
+ {id:'surge',n:'Tidal Surge',lvl:50,max:150,xp:55,cost:{rune_water:6,rune_air:3}},
+ {id:'tremor',n:'Tremor',lvl:60,max:190,xp:72,cost:{rune_earth:6,rune_air:3}},
+ {id:'inferno',n:'Inferno',lvl:70,max:240,xp:95,cost:{rune_fire:6,rune_air:3}},
+ {id:'cyclone',n:'Cyclone',lvl:80,max:300,xp:125,cost:{rune_air:10,rune_water:4}}];
+
+/* thieving */
+const THIEF=[['man','Townsperson','🧍',1,8,[1,10],25,[]],['farmer','Farmer','🧑‍🌾',10,16,[4,28],40,[['seed_potato',0.1,1,3]]],['warrior','Guard','💂',20,26,[20,70],70,[['bar_iron',0.05,1,1]]],
+ ['merchant','Merchant','🧔',30,38,[60,150],110,[['ore_coal',0.1,2,6]]],['noble','Noble','🤴',45,56,[120,320],170,[['gem_sapphire',0.03,1,1]]],['wizard','Wizard','🧙',60,80,[220,540],260,[['rune_fire',0.25,6,18],['rune_water',0.25,6,18]]],
+ ['guild','Guildmaster','🕵️',75,115,[420,980],380,[['gem_ruby',0.03,1,1],['gem_emerald',0.05,1,1]]],['hoard','Dragon Hoarder','🐉',90,170,[900,2100],600,[['gem_diamond',0.03,1,1],['bar_dragon',0.04,1,1]]]];
+THIEF.forEach((t,k)=>ACT.thief.push({id:'thief_'+t[0],n:t[1],i:t[2],lvl:t[3],xp:t[4],t:3,coins:t[5],dmg:t[6],drops:t[7]}));
+
+/* agility */
+const AGI=[['log','Log Balance',1,8,3,[2,6]],['rope','Rope Swing',10,15,3.4,[6,16]],['wall','Wall Climb',20,24,3.8,[14,36]],['ledge','Narrow Ledge',30,36,4.2,[28,70]],['net','Net Crawl',40,52,4.6,[55,130]],['pipe','Pipe Squeeze',50,72,5,[100,230]],['tight','Tightrope',60,98,5.4,[170,380]],['spike','Spike Pits',70,128,5.8,[260,560]],['sky','Sky Bridge',80,165,6.2,[400,820]],['scale','Scale Wall',90,215,6.6,[600,1250]]];
+AGI.forEach(a=>ACT.agi.push({id:'agi_'+a[0],n:a[1],i:'🏃',lvl:a[2],xp:a[3],t:a[4],coins:a[5]}));
+
+/* herblore */
+const HERBS=[['green','Greenleaf',5],['mint','Marshmint',15],['sun','Sunpetal',30],['frost','Frostbloom',45],['ember','Emberroot',60],['moon','Moonwort',75],['thistle','Dragonthistle',90]];
+const RN=['I','II','III','IV','V','VI','VII'];
+const PS_=[['speed','Haste'],['xp','Wisdom'],['double','Bounty'],['preserve','Thrift']],PC_=[['acc','Precision'],['str','Might'],['def','Warding'],['xpc','Valor']];
+const PMAG={speed:k=>4+k*1.5,xp:k=>5+k*2,double:k=>4+k*2.5,preserve:k=>4+k*2.5,acc:k=>5+k*2,str:k=>5+k*2,def:k=>6+k*2.5,xpc:k=>5+k*2};
+const PDESC={speed:'faster skilling',xp:'skill experience',double:'chance to double gathering',preserve:'chance to save materials',acc:'combat accuracy',str:'max hit',def:'defence rating',xpc:'combat experience'};
+HERBS.forEach((h,k)=>{
+ mk('herb_'+h[0],h[1],'🌿',R(6+k*k*6+k*8),'herb');
+ [['s',PS_[k%4]],['c',PC_[(k+1)%4]]].forEach(([side,pn])=>{const id='pot_'+h[0]+'_'+side;const ty=pn[0],v=Math.round(PMAG[ty](k)*10)/10;
+  mk(id,pn[1]+' Draught '+RN[k],'🧪',R(30+k*k*18+k*24),'potion',{pot:{t:ty,v,d:420}});
+  ACT.herb.push({id,n:pn[1]+' Draught '+RN[k],i:'🧪',lvl:h[2]+(side==='c'?2:0),xp:R(14+h[2]*1.6+(side==='c'?4:0)),t:3.5,in:{['herb_'+h[0]]:1,vial:1},out:{[id]:1}});});});
+
+/* farming */
+const CROPS=[
+ ['potato','Potato','allot',1,60,300,10,2,[5,9]],['flax','Flax','allot',5,75,360,14,3,[6,10]],['onion','Onion','allot',10,120,480,22,5,[5,9]],
+ ['cabbage','Cabbage','allot',20,200,600,38,9,[5,9]],['tomato','Tomato','allot',30,300,900,60,14,[5,9]],['sweetcorn','Sweetcorn','allot',40,450,1200,95,24,[5,9]],
+ ['silkweed','Silkweed','allot',45,520,1200,110,24,[6,10]],['strawberry','Strawberry','allot',50,700,1500,150,42,[5,9]],['watermelon','Watermelon','allot',60,1000,1800,220,70,[4,8]],
+ ['moonthread','Moonthread','allot',70,1400,2400,320,40,[6,10]]];
+HERBS.forEach((h,k)=>CROPS.push([h[0],h[1],'herb',h[2],[120,220,420,700,1100,1800,3000][k],[900,1200,1800,2400,3000,3600,5400][k],[40,70,120,200,320,520,900][k],0,[3,6]]));
+const CROP=CROPS.map(c=>{const isH=c[2]==='herb';
+ const o={id:'c_'+c[0],n:c[1],cat:c[2],lvl:c[3],xp:c[4],t:c[5],seedCost:c[6],q:c[8],item:isH?'herb_'+c[0]:'crop_'+c[0],seed:'seed_'+c[0],i:isH?'🌿':'🥬'};
+ mk(o.seed,c[1]+' Seed','🌱',Math.max(1,R(c[6]/3)),'seed');
+ if(!isH)mk(o.item,c[1],'🥬',c[7],'crop');
+ return o;});
+const CROPBY={};CROP.forEach(c=>CROPBY[c.id]=c);
+CROP.forEach(c=>c.mx=Math.max(8,c.t/12));
+
+/* monsters */
+const bonesD=[['bones',1,1,1]];
+const AREAS=[
+ {id:'farm',n:'Greenfield Farm',i:'🌾',mons:[
+  ['chicken','Chicken','🐔',1,[['bones',1,1,1],['feather',0.8,3,8],['seed_potato',0.1,1,2]]],
+  ['cow','Cow','🐄',5,[['bones',1,1,1],['hide_cow',1,1,1],['seed_flax',0.08,1,2]]],
+  ['farmhand','Rogue Farmhand','🧑‍🌾',9,[['bones',1,1,1],['seed_onion',0.1,1,3],['ore_copper',0.15,1,3],['vial',0.1,1,2]]]]},
+ {id:'camp',n:'Goblin Camp',i:'⛺',mons:[
+  ['goblin','Goblin','👺',13,[['bones',1,1,1],['ore_tin',0.2,1,3],['bar_bronze',0.06,1,1]]],
+  ['hobgob','Hobgoblin','👹',19,[['bones',1,1,1],['ore_iron',0.15,1,3],['bar_bronze',0.1,1,2],['gem_sapphire',0.015,1,1]]],
+  ['chief','Goblin Chief','👑',26,[['bones',1,1,1],['bar_iron',0.15,1,2],['gem_sapphire',0.03,1,1],['seed_cabbage',0.08,1,2]]]]},
+ {id:'wood',n:'Darkwood',i:'🌲',mons:[
+  ['wolf','Dire Wolf','🐺',30,[['bones',1,1,1],['hide_wolf',1,1,1],['herb_green',0.1,1,2]]],
+  ['bandit','Highway Bandit','🥷',36,[['bones',1,1,1],['gem_emerald',0.03,1,1],['bar_steel',0.1,1,2],['seed_tomato',0.08,1,2]]],
+  ['bear','Cave Bear','🐻',43,[['bones',1,1,1],['hide_bear',1,1,1],['herb_mint',0.1,1,2]]]]},
+ {id:'crypt',n:'Sunken Crypt',i:'⚰️',mons:[
+  ['skel','Skeleton Warrior','💀',46,[['bones',1,1,1],['bar_steel',0.12,1,2],['rune_earth',0.3,5,14]]],
+  ['wight','Barrow Wight','👻',52,[['bones',1,1,1],['rune_water',0.35,6,18],['herb_sun',0.12,1,2],['gem_ruby',0.02,1,1]]],
+  ['lich','Crypt Lich','🧙',58,[['bones',1,1,1],['rune_air',0.4,8,22],['gem_ruby',0.04,1,1],['seed_sweetcorn',0.08,1,2]]]]},
+ {id:'crag',n:'Giant Crag',i:'⛰️',mons:[
+  ['giant','Hill Giant','🧌',62,[['bones',1,1,1],['ore_coal',0.4,3,8],['herb_frost',0.1,1,2]]],
+  ['golem','Stone Golem','🗿',68,[['ore_mithril',0.3,1,3],['ore_coal',0.4,3,9],['gem_emerald',0.04,1,1]]],
+  ['cyclops','Cyclops','👁️',74,[['bones',1,1,1],['ore_adamant',0.2,1,3],['gem_ruby',0.05,1,1],['seed_watermelon',0.07,1,2]]]]},
+ {id:'ember',n:'Ember Peaks',i:'🌋',mons:[
+  ['imp','Fire Imp','😈',76,[['rune_fire',0.5,8,24],['herb_ember',0.1,1,2]]],
+  ['drake','Ember Drake','🐉',82,[['bones',1,1,1],['hide_drake',1,1,1],['gem_diamond',0.01,1,1]]],
+  ['brute','Magma Brute','🔥',88,[['bones',1,1,1],['ore_rune',0.2,1,3],['bar_adamant',0.12,1,2],['herb_moon',0.08,1,2]]]]},
+ {id:'isle',n:'Dragon Isle',i:'🏝️',mons:[
+  ['wyvern','Wyvern','🦎',92,[['dragon_bone',1,1,1],['hide_drake',0.5,1,2],['gem_diamond',0.02,1,1]]],
+  ['gdragon','Green Dragon','🐲',100,[['dragon_bone',1,1,1],['hide_drake',0.7,1,2],['bar_rune',0.1,1,2],['herb_thistle',0.1,1,2],['gem_diamond',0.03,1,1]]],
+  ['elder','Elder Dragon','🐲',115,[['dragon_bone',1,1,2],['dragon_scale',0.2,1,1],['ore_dragon',0.25,1,3],['bar_dragon',0.1,1,2],['gem_diamond',0.08,1,1]],true]]}];
+const MONS={};
+AREAS.forEach(a=>{a.mons=a.mons.map(m=>{const cb=m[3],boss=!!m[5];
+ const o={id:m[0],n:m[1],i:m[2],cb,area:a.id,boss,hp:R((15+cb*8+cb*cb*0.05)*(boss?1.3:1)),
+  maxHit:R((3+cb*1.4+cb*cb*0.01)*(boss?1.4:1)),sp:boss?3:2.4,atkRoll:(cb+8)*(64+cb*1.2),defRoll:(cb+8)*(64+cb*0.6),
+  coins:[0,0],drops:m[4]};
+ const avg=4+cb*5+cb*cb*0.08;o.coins=[R(avg*0.6),R(avg*1.4)];MONS[o.id]=o;return o;});});
+
+/* shop */
+const UPG_COST=[400,3500,22000,140000,900000,5e6,3e7,1.5e8],UPG_LV=[5,20,40,60,80,90,95,99],UPG_N=['Iron','Steel','Mithril','Adamant','Rune','Dragon','Celestial','Mythic'],UPG_MAX=8;
+const TOOLS={farm:'Watering Can',wc:'Axe',fish:'Fishing Rod',mine:'Pickaxe',fm:'Tinderbox',cook:'Cooking Pot',smith:'Hammer',fletch:'Carving Knife',craft:'Needle Set',thief:'Lockpicks',herb:'Mortar',rc:'Talisman',agi:'Climbing Gear'};
+const BANK_BASE=60,BANK_STEP=10,bankCost=n=>Math.round(1500*Math.pow(1.45,n)),BANK_MAXBUY=20;
+const plotCost=(cat,owned)=>cat==='allot'?Math.round(1500*Math.pow(2.3,owned-3)):Math.round(3500*Math.pow(2.6,owned-2));
+const PLOT_MAX={allot:8,herb:5};
+const OFFLINE_CAP=12*3600;
+const PERKS=[
+ {id:'xp',n:"Scholar's Tome",d:'+2% experience in every skill',max:5,cost:[50000,250000,1e6,4e6,15e6]},
+ {id:'luck',n:'Lucky Charm',d:'+2% chance to double gathered items and to save materials',max:5,cost:[60000,300000,1.2e6,5e6,18e6]},
+ {id:'dmg',n:'Battle Training',d:'+3% damage in combat',max:5,cost:[80000,400000,1.6e6,6e6,20e6]},
+ {id:'hp',n:'Iron Will',d:'+5% maximum health',max:5,cost:[70000,350000,1.4e6,5e6,17e6]},
+ {id:'eat',n:'Field Medic',d:'Eat food at a higher health level (+5% per tier, from 50%)',max:5,cost:[40000,180000,700000,2.5e6,9e6]},
+ {id:'gold',n:"Merchant's Ledger",d:'+5% coins from monsters, thieving and agility',max:5,cost:[90000,450000,1.8e6,7e6,22e6]},
+ {id:'off',n:'Camp Bed',d:'+6 hours of offline progress',max:5,cost:[100000,500000,2e6,8e6,25e6]}];
+const SUPPLY={vial:25,food_shrimp:20,food_trout:55,food_salmon:85,food_lobster:150,arrow_bronze:6,arrow_iron:14,arrow_steel:28,arrow_mithril:60,rune_air:6,rune_water:6,rune_earth:6,rune_fire:6,ore_ess:8,log_normal:8,log_oak:20,ore_copper:10,ore_tin:10,ore_coal:30,bones:6};
+
+/* ===== bosses and rarity weapons ===== */
+const RAR=[['Common','Rough','#9aa0a6'],['Uncommon','Fine','#4caf6a'],['Rare','Superior','#4a8be0'],['Epic','Exalted','#a855d6'],['Legendary','Mythic','#f0a030']];
+const RARM=[1,1.15,1.35,1.6,1.9],RARW=[60,25,10,4,1],RARSP=[0,0,0,0.1,0.3],RARV=[1,2.2,5,12,30],WT=['melee','ranged','magic'];
+function mkMon(area,id,n,cb,drops){const o={id,n,i:'',cb,area,boss:true,hp:R((15+cb*8+cb*cb*0.05)*1.3),maxHit:R((3+cb*1.4+cb*cb*0.01)*1.4),sp:3,atkRoll:(cb+8)*(64+cb*1.2),defRoll:(cb+8)*(64+cb*0.6),coins:[0,0],drops};
+ const avg=(4+cb*5+cb*cb*0.08)*2;o.coins=[R(avg*0.6),R(avg*1.4)];MONS[id]=o;AREAS.find(a=>a.id===area).mons.push(o);return o;}
+const BOSSDEF=[
+ ['farm','scarecrow','Scarecrow King',12,1.3,['Pitchfork','Reed Bow','Pumpkin Wand'],[['bones',1,1,1],['hide_cow',1,2,3],['seed_cabbage',0.3,1,3],['bar_bronze',0.3,1,3],['vial',0.3,1,3]]],
+ ['camp','warlord','Warlord Grukk',30,2.2,['Warlord Cleaver','Goblin Warbow','Shaman Totem'],[['bones',1,1,1],['bar_iron',0.4,1,3],['ore_iron',0.5,2,6],['gem_sapphire',0.12,1,1],['seed_tomato',0.2,1,3]]],
+ ['wood','alpha','Alpha Direwolf',46,3.4,['Fang Blade','Hunter Longbow','Moonhowl Staff'],[['bones',1,1,1],['hide_wolf',1,2,3],['bar_steel',0.3,1,3],['herb_mint',0.3,1,3],['gem_emerald',0.1,1,1]]],
+ ['crypt','tyrant','Bone Tyrant',62,4.8,['Marrow Scythe','Ribcage Bow','Gravecaller Staff'],[['bones',1,1,1],['bar_mithril',0.3,1,3],['rune_water',0.5,10,30],['herb_sun',0.25,1,3],['gem_ruby',0.1,1,1]]],
+ ['crag','titan','Titan Garron',78,6.8,['Titan Maul','Boulder Bow','Quake Staff'],[['bones',1,1,1],['ore_mithril',0.5,2,5],['ore_adamant',0.3,1,3],['bar_adamant',0.2,1,2],['herb_frost',0.25,1,3],['gem_ruby',0.12,1,1]]],
+ ['ember','wyrm','Infernal Wyrm',94,9.5,['Ember Fang','Cinder Bow','Pyre Staff'],[['dragon_bone',1,1,1],['hide_drake',1,1,2],['bar_rune',0.2,1,2],['rune_fire',0.5,10,30],['herb_ember',0.25,1,3],['gem_diamond',0.06,1,1]]],
+ ['isle','elder','Elder Dragon',115,14,['Dragonbone Blade','Wyrmsong Bow','Elder Scepter'],null]];
+BOSSDEF.forEach(b=>{const M=b[6]?mkMon(b[0],b[1],b[2],b[3],b[6]):MONS[b[1]];M.wn=b[5];M.wp=b[4];M.wch=0.35;
+ for(let t=0;t<3;t++)for(let r=0;r<5;r++){const p=b[4],m=RARM[r];
+  const st=t===0?{atk:R(7*p*m),str:R(6*p*m)}:t===1?{rngA:R(9*p*m),rngS:R(6*p*m)}:{magA:R(9*p*m),magD:R(5*p*m)};
+  mk('bw_'+b[1]+'_'+t+'_'+r,RAR[r][1]+' '+b[5][t],'',R(40*p*RARV[r]),'gear',{slot:'weapon',wt:WT[t],sp:Math.round(((t===2?2.8:2.4)-RARSP[r])*10)/10,st,rar:r,boss:b[1],tier:r,req:R(b[3]*0.6)+r*4});}});
+function pickRarity(){let x=Math.random()*100,r=0;for(;r<4;r++){x-=RARW[r];if(x<0)break;}return r;}
+
+/* ===== boss armour sets (6 pieces per boss, 5 rarities) ===== */
+const BAP=[['shield','Aegis','shield',5],['helmet','Helm','helmet',3],['body','Cuirass','body',9],['legs','Greaves','legs',6],['boots','Treads','boots',2],['gloves','Gauntlets','gloves',2]];
+const BAN=['Scarecrow','Grukk','Direwolf','Tyrant','Garron','Wyrm','Elder'];
+BOSSDEF.forEach((b,bi)=>{for(let pi=0;pi<6;pi++)for(let r=0;r<5;r++){const p=b[4],m=RARM[r],pc=BAP[pi];
+ mk('ba_'+b[1]+'_'+pi+'_'+r,RAR[r][1]+' '+BAN[bi]+' '+pc[1],'',R(8*pc[3]*p*RARV[r]+20),'gear',{slot:pc[2],st:{def:R(pc[3]*p*1.15*m)},rar:r,arm:1,boss:b[1],tier:r,req:R(b[3]*0.6)+r*3,lr:['def',Math.min(99,R(b[3]*0.55)+r*3)]});}});
+/* skill requirements on tiered gear (OSRS style) */
+Object.keys(ITEMS).forEach(id=>{const it=ITEMS[id];
+ if(id.startsWith('g_'))it.lr=[it.slot==='weapon'?'atk':'def',T[it.tier].lv];
+ else if(id.startsWith('bow_'))it.lr=['rng',T[it.tier].lv];
+ else if(id.startsWith('staff_'))it.lr=['mag',T[it.tier].lv];
+ else if(id.startsWith('h_'))it.lr=['rng',HIDES[it.tier][2]];
+ else if(id.startsWith('r_'))it.lr=['mag',CLOTH[it.tier][2]];
+ if(it.lr&&it.lr[1]<=1)delete it.lr;});
+'use strict';
+/* ===== Mossgate Idle: generated vector icons (replace every emoji so nothing renders as a blank box) ===== */
+function mix(h,t){const n=parseInt(h.slice(1),16);let r=n>>16,g=n>>8&255,b=n&255;const f=t>0?255:0,a=Math.abs(t);r=Math.round(r+(f-r)*a);g=Math.round(g+(f-g)*a);b=Math.round(b+(f-b)*a);return'#'+((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1);}
+const SV=b=>`<svg class="ic" viewBox="0 0 32 32" aria-hidden="true"><g stroke="rgba(0,0,0,.5)" stroke-width="1" stroke-linejoin="round" stroke-linecap="round">${b}</g></svg>`;
+const TC=['#b8733a','#8d949e','#b9c6d4','#4f74d6','#3f9f5f','#2fb9cc','#cf4a3d'];
+const LC=['#b08450','#8a5a2b','#8fa05a','#a8642e','#c26b38','#8c3b2a','#6b4a2b','#7a4ec2','#b5322e'];
+const FC=['#f0a58a','#9db4c4','#d98b5e','#e8836a','#d6523f','#8fa7c9','#5f7f9a','#4a86b8','#3a4e78'];
+const OC={copper:'#c8703a',tin:'#b9c0c6',iron:'#7d7f86',coal:'#2c2e33',mithril:'#4f74d6',adamant:'#3f9f5f',rune:'#2fb9cc',dragon:'#cf4a3d'};
+const GC={sapphire:'#3b6fe0',emerald:'#2fb45a',ruby:'#d63a4a',diamond:'#bfe9f5'};
+const HC=['#4aa44a','#5ac8b0','#f0c030','#7ac0f0','#e86a2a','#a78bdc','#c2402f'];
+const HIC={cow:'#a8703a',wolf:'#7a6a5a',bear:'#5b3a22',drake:'#b02f2f'};
+const CLC={linen:'#d8cfb0',silk:'#8a6ad0',lunar:'#3a4ab0'};
+const CRC={potato:'#c9a15a',flax:'#7a9ad0',onion:'#d9b0c0',cabbage:'#8ccf7a',tomato:'#e0452f',sweetcorn:'#f0cf40',silkweed:'#b59ae0',strawberry:'#e0405a',watermelon:'#4aa860',moonthread:'#8aa0f0'};
+const RUC={air:'#b8c8d8',water:'#3b82d6',earth:'#8a6a3a',fire:'#e0572a'};
+const P={
+ log:c=>SV(`<rect x="3" y="10" width="24" height="13" rx="3" fill="${c}"/><ellipse cx="25" cy="16.5" rx="3.5" ry="6.5" fill="${mix(c,.35)}"/><ellipse cx="25" cy="16.5" rx="1.4" ry="3" fill="none" stroke="${mix(c,-.35)}"/><path d="M8 14h11M8 19h13" stroke="${mix(c,-.3)}" fill="none"/>`),
+ fish:(c,cooked)=>SV(`<path d="M3 16c5-8 14-8 19 0-5 8-14 8-19 0z" fill="${c}"/><path d="M21 16l8-6v12z" fill="${mix(c,-.15)}"/><circle cx="8.5" cy="14" r="1.4" fill="#fff"/>${cooked?'<path d="M12 10v12M16 9.5v13M20 11v10" stroke="rgba(60,25,0,.55)" fill="none"/>':'<path d="M10 20c4 2 8 1 11-2" stroke="#fff6" fill="none"/>'}`),
+ ore:(c)=>SV(`<path d="M4 24l3-10 7-6 9 3 5 8-4 7z" fill="${c}"/><path d="M7 14l7-6 9 3M14 8l-1 9 8 2" stroke="${mix(c,.45)}" fill="none"/>`),
+ ess:()=>SV('<path d="M16 2l5 10 9 4-9 4-5 10-5-10-9-4 9-4z" fill="#e6dcff"/><path d="M16 8l2 6 6 2-6 2-2 6-2-6-6-2 6-2z" fill="#b69cf0"/>'),
+ bar:c=>SV(`<path d="M3 21l5-9h16l5 9z" fill="${mix(c,.3)}"/><path d="M3 21h26v5H3z" fill="${c}"/><path d="M9 14h12" stroke="#fff8" fill="none"/>`),
+ sword:c=>SV(`<path d="M26 3l3 3-15 16-4-4z" fill="${c}"/><path d="M26 3l3 3" stroke="#fff8"/><path d="M8 16l8 8-3 3-8-8z" fill="#7a4e2a"/><circle cx="5" cy="28" r="2.3" fill="#444"/>`),
+ shield:c=>SV(`<path d="M16 2l12 4v9c0 7-5 12-12 15C9 27 4 22 4 15V6z" fill="${c}"/><path d="M16 6v20M8 13h16" stroke="${mix(c,.5)}" stroke-width="2" fill="none"/>`),
+ helmet:c=>SV(`<path d="M5 25v-9c0-7 5-12 11-12s11 5 11 12v9z" fill="${c}"/><rect x="10" y="15" width="12" height="5" rx="1" fill="#0007"/><path d="M16 4v8" stroke="${mix(c,.5)}" stroke-width="2"/>`),
+ body:c=>SV(`<path d="M10 4L2 9l3 7 5-2v15h12V14l5 2 3-7-8-5c-1 3-3 4-6 4s-5-1-6-4z" fill="${c}"/><path d="M16 11v17" stroke="${mix(c,-.3)}" fill="none"/>`),
+ legs:c=>SV(`<path d="M7 3h18l1 26h-9l-1-14-1 14H6z" fill="${c}"/><path d="M7 8h18" stroke="${mix(c,-.3)}" fill="none"/>`),
+ boots:c=>SV(`<path d="M9 3h10v13l10 5v7H6V3z" fill="${c}"/><path d="M6 24h23" stroke="${mix(c,-.35)}" stroke-width="2"/>`),
+ gloves:c=>SV(`<path d="M8 29V16L5 9l3-1 3 4 1-9 3 1 1 8 1-7 3 1v8l3-3 2 2-5 11-2 5z" fill="${c}"/>`),
+ bow:c=>SV(`<path d="M8 3c16 4 16 22 0 26" fill="none" stroke="${c}" stroke-width="3.2"/><path d="M8 3v26" stroke="#e8e8e8" stroke-width="1"/><path d="M6 16h20" stroke="#8b6a3a" stroke-width="1.5"/><path d="M26 16l-5-3v6z" fill="#ccc"/>`),
+ staff:c=>SV(`<path d="M6 29L22 9" stroke="#7a4e2a" stroke-width="3.2"/><circle cx="24" cy="8" r="5.5" fill="${c}"/><circle cx="22.4" cy="6.4" r="1.8" fill="#fff9"/>`),
+ ring:c=>SV(`<circle cx="16" cy="19" r="8" fill="none" stroke="#e4bc4c" stroke-width="3.4"/><path d="M16 4l5 5-5 5-5-5z" fill="${c}"/>`),
+ amulet:c=>SV(`<path d="M5 4c1 14 21 14 22 0" fill="none" stroke="#e4bc4c" stroke-width="2"/><path d="M16 17l6 6-6 8-6-8z" fill="${c}"/><path d="M12 23h8" stroke="#fff8" fill="none"/>`),
+ tip:c=>SV(`<path d="M16 2l8 20H8z" fill="${c}"/><path d="M16 2v20" stroke="#fff8" fill="none"/><rect x="13" y="22" width="6" height="7" fill="#8b6a3a"/>`),
+ arrow:c=>SV(`<path d="M4 28L25 7" stroke="#9a7a46" stroke-width="2.4"/><path d="M28 4l-9 1 8 8z" fill="${c}"/><path d="M4 28l1-7 5 3zM8 24l1-7 5 3z" fill="#f2f2f2"/>`),
+ hat:c=>SV(`<path d="M16 2l9 22H7z" fill="${c}"/><ellipse cx="16" cy="25" rx="13" ry="3.5" fill="${mix(c,-.2)}"/>`),
+ robetop:c=>SV(`<path d="M11 3L2 14l4 4 4-3v14h12V15l4 3 4-4-9-11c-1 3-3 4-5 4s-4-1-5-4z" fill="${c}"/><path d="M16 8v20" stroke="${mix(c,-.3)}" fill="none"/>`),
+ seed:()=>SV('<ellipse cx="11" cy="20" rx="4" ry="6" fill="#c9a15a" transform="rotate(-20 11 20)"/><ellipse cx="21" cy="21" rx="4" ry="6" fill="#b58a42" transform="rotate(20 21 21)"/><ellipse cx="16" cy="12" rx="3.6" ry="5.5" fill="#d8b36a"/>'),
+ crop:c=>SV(`<circle cx="16" cy="19" r="10" fill="${c}"/><path d="M16 9c-1-5 2-7 7-7-1 5-3 6-7 7z" fill="#3a8a3a"/><path d="M11 15c1-2 3-3 5-3" stroke="#fff7" fill="none"/>`),
+ herb:c=>SV(`<path d="M16 30V12" stroke="#2f6e2f" stroke-width="2" fill="none"/><path d="M16 24C8 24 5 19 5 12c8 0 11 5 11 12zM16 18c7 0 11-5 11-12-8 0-11 5-11 12z" fill="${c}"/>`),
+ potion:c=>SV(`<rect x="12" y="2" width="8" height="4" rx="1" fill="#a86a3a"/><path d="M13 6h6v6l7 13c1.5 3-.5 5-3.5 5h-13c-3 0-5-2-3.5-5l7-13z" fill="#d8ecf2" fill-opacity=".55"/><path d="M8.6 21h14.8l2.6 4.5c1.5 3-.5 4.5-3.5 4.5h-13c-3 0-5-1.500-3.500-4.500z" fill="${c}"/>`),
+ vial:()=>SV('<rect x="12" y="2" width="8" height="4" rx="1" fill="#a86a3a"/><path d="M13 6h6v6l7 13c1.500 3-.500 5-3.500 5h-13c-3 0-5-2-3.500-5l7-13z" fill="#d8ecf2" fill-opacity=".55"/>'),
+ rune:t=>{const c=RUC[t];const g={air:`<path d="M9 13h10c3 0 3-4 0-4M8 18h14c3 0 3 4 0 4M9 23h8" stroke="${c}" stroke-width="2.2" fill="none"/>`,water:`<path d="M16 8c4 6 7 9 7 13a7 7 0 0 1-14 0c0-4 3-7 7-13z" fill="${c}"/>`,earth:`<path d="M16 8l8 8-8 8-8-8z" fill="${c}"/>`,fire:`<path d="M16 7c1 5 7 7 7 14a7 7 0 0 1-14 0c0-3 2-4 3-6 1 2 2 2 2 0 0-3 1-5 2-8z" fill="${c}"/>`}[t];return SV(`<path d="M8 3h16l5 13-5 13H8L3 16z" fill="#cfc9bb"/>${g}`);},
+ gem:c=>SV(`<path d="M8 4h16l6 8-14 17L2 12z" fill="${c}"/><path d="M2 12h28M11 4l-3 8 8 17M21 4l3 8-8 17" stroke="#fff9" fill="none"/>`),
+ hide:c=>SV(`<path d="M4 7l7-4 5 3 5-3 7 4-3 9 3 9-7 4-5-3-5 3-7-4 3-9z" fill="${c}"/><path d="M12 12l4 4 4-4M12 22l4-4 4 4" stroke="${mix(c,-.35)}" fill="none"/>`),
+ bones:()=>SV('<path d="M8 24L24 8" stroke="#eee8d2" stroke-width="5" stroke-linecap="round"/><circle cx="6.5" cy="25.5" r="3.2" fill="#eee8d2"/><circle cx="9" cy="27.5" r="2.4" fill="#eee8d2"/><circle cx="25.5" cy="6.5" r="3.2" fill="#eee8d2"/><circle cx="27.5" cy="9" r="2.4" fill="#eee8d2"/>'),
+ dbone:()=>SV('<path d="M8 24L24 8" stroke="#e8d8b8" stroke-width="6" stroke-linecap="round"/><circle cx="6" cy="26" r="4" fill="#e8d8b8"/><circle cx="26" cy="6" r="4" fill="#e8d8b8"/><path d="M12 20L20 12" stroke="#c0453a" stroke-width="2"/>'),
+ feather:()=>SV('<path d="M5 28C5 12 13 4 28 4 26 18 18 27 5 28z" fill="#f5f2ea"/><path d="M5 28L23 9" stroke="#b9b4a6" fill="none"/>'),
+ ashes:()=>SV('<path d="M3 27c2-9 6-14 13-14s11 5 13 14z" fill="#9b9b9b"/><path d="M9 22c2-3 5-4 8-3" stroke="#fff6" fill="none"/><circle cx="22" cy="9" r="1.500" fill="#bbb"/><circle cx="12" cy="7" r="1.200" fill="#bbb"/>'),
+ scale:()=>SV('<path d="M16 2l11 6v12L16 30 5 20V8z" fill="#2fa86a"/><path d="M16 2v28M5 8l11 6 11-6" stroke="#bdf5d6" fill="none"/>'),
+ cloth:c=>SV(`<rect x="3" y="8" width="26" height="17" rx="2" fill="${c}"/><path d="M3 14h26M3 20h26" stroke="rgba(0,0,0,.25)" fill="none"/>`),
+ coin:()=>SV('<circle cx="16" cy="16" r="12" fill="#e4b33a"/><circle cx="16" cy="16" r="8.5" fill="none" stroke="#a77512"/><path d="M16 10v12M13 13h5a2 2 0 0 1 0 3h-4a2 2 0 0 0 0 3h5" stroke="#a77512" fill="none"/>'),
+ flame:()=>SV('<path d="M16 2c2 8 11 10 11 19a11 11 0 0 1-22 0c0-5 3-7 5-10 1 3 3 3 3 0 0-3 1-5 3-9z" fill="#ee6a2a"/><path d="M16 14c1 4 5 5 5 9a5 5 0 0 1-10 0c0-3 2-4 3-6 1 2 2 1 2-3z" fill="#ffd34a"/>'),
+ axe:()=>SV('<path d="M7 29L22 6" stroke="#7a4e2a" stroke-width="3.2"/><path d="M15 5c6-4 13-1 15 3-5 1-8 4-11 7z" fill="#b9c2cc"/>'),
+ pick:()=>SV('<path d="M7 29L23 9" stroke="#7a4e2a" stroke-width="3.2"/><path d="M3 12C9 3 22 2 29 9c-7-3-14-2-19 5z" fill="#b9c2cc"/>'),
+ pot:()=>SV('<path d="M5 12h22v8c0 6-4 9-11 9S5 26 5 20z" fill="#5b5f66"/><rect x="3" y="9" width="26" height="4" rx="2" fill="#7b8088"/><path d="M10 6c0-2 2-2 2-4M16 6c0-2 2-2 2-4M22 6c0-2 2-2 2-4" stroke="#bbb" fill="none"/>'),
+ anvil:()=>SV('<path d="M3 8h26c0 4-3 6-8 6v4h5v6H6v-6h5v-4C6 14 3 12 3 8z" fill="#5b6068"/><path d="M5 9h22" stroke="#fff6" fill="none"/>'),
+ spool:()=>SV('<rect x="8" y="5" width="16" height="22" rx="2" fill="#c9a15a"/><rect x="5" y="3" width="22" height="4" rx="1" fill="#8b6a3a"/><rect x="5" y="25" width="22" height="4" rx="1" fill="#8b6a3a"/><path d="M8 11l16 3M8 16l16 3M8 21l16 3" stroke="#d94a6a" stroke-width="2" fill="none"/>'),
+ key:()=>SV('<circle cx="10" cy="11" r="6" fill="none" stroke="#e4bc4c" stroke-width="3.500"/><path d="M14 15l14 14M22 23l3-3M26 27l3-3" stroke="#e4bc4c" stroke-width="3.500" fill="none"/>'),
+ sprout:()=>SV('<path d="M16 29V15" stroke="#2f6e2f" stroke-width="2.500" fill="none"/><path d="M16 18C8 18 4 13 4 6c8 0 12 5 12 12zM16 14c6 0 11-4 11-11-7 0-11 4-11 11z" fill="#58b85a"/><path d="M8 29h16" stroke="#7a4e2a" stroke-width="3"/>'),
+ boot:()=>SV('<path d="M9 3h10v13l10 5v7H6V3z" fill="#8a6a3a"/><path d="M6 24h23" stroke="#4a3418" stroke-width="2"/><path d="M2 12h5M1 17h6M3 22h4" stroke="#8fa" stroke-width="1.500" fill="none"/>'),
+ heart:()=>SV('<path d="M16 28C5 20 3 14 3 10a6.500 6.500 0 0 1 13-2 6.500 6.500 0 0 1 13 2c0 4-2 10-13 18z" fill="#d94a4a"/><path d="M8 10c0-2 2-3 3-3" stroke="#fff8" fill="none"/>'),
+ dumb:()=>SV('<rect x="2" y="11" width="5" height="10" rx="1" fill="#6b7078"/><rect x="25" y="11" width="5" height="10" rx="1" fill="#6b7078"/><rect x="7" y="8" width="4" height="16" rx="1" fill="#8d949e"/><rect x="21" y="8" width="4" height="16" rx="1" fill="#8d949e"/><rect x="11" y="14" width="10" height="4" fill="#b9c2cc"/>'),
+ orb:()=>SV('<circle cx="16" cy="16" r="12" fill="#7a5ac2"/><circle cx="16" cy="16" r="7" fill="#a78bdc"/><circle cx="12.500" cy="12.500" r="3" fill="#fff9"/>'),
+ swords:()=>SV('<path d="M4 4l5-1 17 17-3 3L6 7z" fill="#b9c6d4"/><path d="M28 4l-5-1L6 20l3 3L26 7z" fill="#9db0c4"/><path d="M3 25l4 4M29 25l-4 4" stroke="#7a4e2a" stroke-width="3"/>'),
+ house:()=>SV('<path d="M3 16L16 4l13 12h-4v12H7V16z" fill="#c9915a"/><rect x="13" y="19" width="6" height="9" fill="#6b4a2b"/><path d="M2 16L16 3l14 13" stroke="#8a3a2a" stroke-width="2.500" fill="none"/>'),
+ pack:()=>SV('<path d="M8 8c0-4 3-6 8-6s8 2 8 6v18c0 2-1 4-3 4H11c-2 0-3-2-3-4z" fill="#8a6a3a"/><rect x="10" y="16" width="12" height="8" rx="1" fill="#6b4e28"/><path d="M12 8h8" stroke="#4a3418" stroke-width="2"/>'),
+ bank:()=>SV('<path d="M3 11L16 3l13 8z" fill="#c9b27a"/><rect x="6" y="13" width="4" height="12" fill="#e4d3a2"/><rect x="14" y="13" width="4" height="12" fill="#e4d3a2"/><rect x="22" y="13" width="4" height="12" fill="#e4d3a2"/><rect x="3" y="26" width="26" height="3" fill="#c9b27a"/>'),
+ bag:()=>SV('<path d="M11 4h10l-2 5h-6z" fill="#8a6a3a"/><path d="M13 9c-8 3-9 9-9 14 0 4 4 6 12 6s12-2 12-6c0-5-1-11-9-14z" fill="#b98a4a"/><path d="M16 15v9M13.500 18h4a1.700 1.700 0 0 1 0 3.400h-3a1.700 1.700 0 0 0 0 3.400h4" stroke="#fff9" fill="none"/>'),
+ cog:()=>SV('<path d="M14 2h4l1 4 3 1 3-2 3 3-2 3 1 3 4 1v4l-4 1-1 3 2 3-3 3-3-2-3 1-1 4h-4l-1-4-3-1-3 2-3-3 2-3-1-3-4-1v-4l4-1 1-3-2-3 3-3 3 2 3-1z" fill="#8d949e"/><circle cx="16" cy="16" r="5" fill="#3b4048"/>'),
+ castle:()=>SV('<path d="M3 29V10h4v3h3v-3h4v3h4v-3h4v3h3v-3h4v19z" fill="#8f96a0"/><path d="M13 29v-8a3 3 0 0 1 6 0v8z" fill="#3b4048"/>'),
+ person:()=>SV('<circle cx="16" cy="9" r="6" fill="#e0b48c"/><path d="M5 29c0-8 5-12 11-12s11 4 11 12z" fill="#4a7ab8"/>'),
+ basket:()=>SV('<path d="M4 13h24l-3 15H7z" fill="#b98a4a"/><path d="M9 13c0-8 14-8 14 0" stroke="#7a5a2a" stroke-width="2.500" fill="none"/><path d="M8 18h16M9 23h14" stroke="#7a5a2a" fill="none"/><circle cx="12" cy="11" r="3" fill="#e0452f"/><circle cx="19" cy="10" r="3" fill="#7ac35a"/>'),
+ plot:()=>SV('<rect x="3" y="10" width="26" height="18" rx="2" fill="#8a5a3a"/><path d="M5 16h22M5 22h22" stroke="#5e3a22" stroke-width="2" fill="none"/>'),
+ leafy:()=>SV('<circle cx="16" cy="18" r="10" fill="#7ac35a"/><path d="M16 9c-1-5 2-7 7-7-1 5-3 6-7 7z" fill="#3a8a3a"/>'),
+ runner:()=>SV('<circle cx="19" cy="6" r="3.500" fill="#e0b48c"/><path d="M18 11l-6 6 5 4-2 8M18 11l5 5 5-1M12 17l-5 2" stroke="#4a7ab8" stroke-width="3" fill="none"/>'),
+ pouch:()=>SV('<path d="M12 4h8l-1.500 5h-5z" fill="#6b4e28"/><path d="M12.500 9C5 12 5 19 5 22c0 4 5 6 11 6s11-2 11-6c0-3 0-10-7.500-13z" fill="#7a6a4a"/><circle cx="16" cy="19" r="4" fill="#e4b33a"/>'),
+ tome:()=>SV('<rect x="5" y="3" width="22" height="26" rx="2" fill="#6a4ab0"/><path d="M9 3v26" stroke="#fff5" fill="none"/><path d="M14 11h9M14 16h9M14 21h6" stroke="#f0d890" stroke-width="1.6" fill="none"/>'),
+ clover:()=>SV('<circle cx="11" cy="11" r="5" fill="#3fae5a"/><circle cx="21" cy="11" r="5" fill="#3fae5a"/><circle cx="11" cy="20" r="5" fill="#3fae5a"/><circle cx="21" cy="20" r="5" fill="#3fae5a"/><path d="M16 16l6 14" stroke="#2a7a3a" stroke-width="2.5" fill="none"/>'),
+ wheel:()=>SV('<circle cx="16" cy="16" r="13" fill="#a855d6"/><path d="M16 3v26M3 16h26M7 7l18 18M25 7L7 25" stroke="#fff9" stroke-width="1.5" fill="none"/><circle cx="16" cy="16" r="4" fill="#f0c040"/>'),
+ land:(c,s)=>SV(`<circle cx="16" cy="16" r="13" fill="${c}"/>${s}`)
+};
+function iconForSkill(id){return({wc:P.axe,fish:()=>P.fish('#5b9ad0'),mine:P.pick,fm:P.flame,cook:P.pot,smith:P.anvil,fletch:()=>P.bow('#a8642e'),craft:P.spool,thief:P.key,farm:P.sprout,herb:()=>P.potion('#58b85a'),rc:()=>P.rune('fire'),agi:P.runner,atk:()=>P.sword('#b9c6d4'),str:P.dumb,def:()=>P.shield('#4f74d6'),hp:P.heart,rng:()=>P.bow('#8a5a2b'),mag:P.orb})[id]();}
+/* creatures: a coloured body, eyes and one signature feature */
+const CR={chicken:['#f2efe6','beak'],cow:['#e6e0d4','horns'],farmhand:['#d9a66a','hat'],goblin:['#6dae4a','ears'],hobgob:['#b8643a','ears'],chief:['#4c8a3a','crown'],wolf:['#7b7f88','ears'],bandit:['#5a4a6a','hood'],bear:['#7a4a2a','ears'],skel:['#e8e4d4','skull'],wight:['#7a8fb0','hood'],lich:['#6a4a9a','crown'],giant:['#c08a5a','tusks'],golem:['#8a8f98','spikes'],cyclops:['#a8b86a','eye'],imp:['#d8452a','horns'],drake:['#c83a2a','spikes'],brute:['#6a2a20','horns'],wyvern:['#3a8a8a','spikes'],gdragon:['#3a9a4a','spikes'],elder:['#7a2a3a','crown'],scarecrow:['#c9a15a','hat'],warlord:['#3f7a2a','crown'],alpha:['#4a4f5a','ears'],tyrant:['#d8d4c0','skull'],titan:['#8f857a','tusks'],wyrm:['#a8302a','spikes']};
+function creature(id){const [c,f]=CR[id];const eyes=f==='eye'?'<circle cx="16" cy="15" r="5" fill="#fff"/><circle cx="16" cy="15" r="2.500" fill="#222"/>':f==='skull'?'<ellipse cx="11.500" cy="15" rx="2.800" ry="3.200" fill="#222"/><ellipse cx="20.500" cy="15" rx="2.800" ry="3.200" fill="#222"/><path d="M13 24v3M16 24v3M19 24v3" stroke="#222"/>':'<circle cx="11.500" cy="15" r="2.400" fill="#fff"/><circle cx="20.500" cy="15" r="2.400" fill="#fff"/><circle cx="12" cy="15.500" r="1.100" fill="#111"/><circle cx="20" cy="15.500" r="1.100" fill="#111"/>';
+ const ft={beak:'<path d="M13 19l3 5 3-5z" fill="#f0a030"/><path d="M13 4c1 3 2 3 3 1 1 2 2 2 3-1" fill="#d94a3a"/>',horns:`<path d="M7 9L4 2l8 5zM25 9l3-7-8 5z" fill="#e8dcc0"/>`,hat:'<path d="M4 9h24l-3-3H7z" fill="#c9a15a"/><path d="M9 6c1-4 13-4 14 0z" fill="#d8b36a"/>',ears:'<path d="M5 12L3 3l8 5zM27 12l2-9-8 5z" fill="#4a3a2a"/>',crown:'<path d="M8 8l2-6 4 4 2-5 2 5 4-4 2 6z" fill="#e4bc4c"/>',hood:'<path d="M3 16C3 7 9 2 16 2s13 5 13 14c-3-5-8-6-13-6S6 11 3 16z" fill="#2a2433"/>',skull:'',tusks:'<path d="M9 22l-2 7 5-4zM23 22l2 7-5-4z" fill="#f2ecd8"/>',spikes:'<path d="M6 8l3-6 3 6M13 6l3-6 3 6M20 8l3-6 3 6" fill="#e8dcc0"/>',eye:''}[f];
+ return SV(`<circle cx="16" cy="17" r="12" fill="${c}"/>${ft}${eyes}${f==='skull'?'':'<path d="M11 23c3 2 7 2 10 0" stroke="rgba(0,0,0,.55)" stroke-width="1.600" fill="none"/>'}`);}
+const AREAI={farm:P.land('#c9b44a','<path d="M16 26V12M16 16c-4 0-6-2-6-6 4 0 6 2 6 6zM16 20c4 0 6-2 6-6-4 0-6 2-6 6z" fill="#e4c640"/>'),camp:P.land('#7a8f5a','<path d="M6 25L16 7l10 18z" fill="#c9b27a"/><path d="M16 7v18" stroke="#6b4a2b"/>'),wood:P.land('#3f7a4a','<path d="M16 5l8 12h-5l6 8H7l6-8H8z" fill="#1f4a2a"/>'),crypt:P.land('#6a6a88','<path d="M10 25V13a6 6 0 0 1 12 0v12z" fill="#2c2c44"/><path d="M16 14v6M13 17h6" stroke="#cfd" />'),crag:P.land('#9a8f84','<path d="M3 25l8-14 5 7 4-5 9 12z" fill="#6a6058"/>'),ember:P.land('#c8503a','<path d="M3 25l9-13 4 5 4-9 8 17z" fill="#4a2a20"/><path d="M14 7c1 3 4 3 4 7" stroke="#ffb040" stroke-width="2" fill="none"/>'),isle:P.land('#3a8aa8','<path d="M4 24c4-6 8-6 12-4s8 2 12-2" stroke="#e8f4f8" stroke-width="2.500" fill="none"/><path d="M12 22l2-8 4 8z" fill="#e4c88a"/>')};
+const E2S={'🪙':P.coin(),'🏠':P.house(),'⚔️':P.swords(),'🎒':P.pack(),'🏦':P.bank(),'🛒':P.bag(),'⚙️':P.cog(),'🏰':P.castle(),'🧑':P.person(),'🧺':P.basket(),'🟫':P.plot(),'🌱':P.sprout(),'🌿':P.herb('#4aa44a'),'🥬':P.leafy(),'🧪':P.potion('#58b85a'),'🧴':P.vial(),'🔥':P.flame()};
+
+/* ---- apply to the game data ---- */
+(function(){
+ const tierOf=id=>{const m=id.match(/^g_(\w+?)_/);return m?T.findIndex(t=>t.id===m[1]):0;};
+ for(const id in ITEMS){const it=ITEMS[id];let s;
+  if(id.startsWith('log_')){s=P.log(LC[LOGS.findIndex(l=>'log_'+l[0]===id)]);}
+  else if(id.startsWith('fish_')){s=P.fish(FC[FISH.findIndex(f=>'fish_'+f[0]===id)],false);}
+  else if(id.startsWith('food_')){s=P.fish(mix(FC[FISH.findIndex(f=>'food_'+f[0]===id)],-.2),true);}
+  else if(id==='ore_ess')s=P.ess();
+  else if(id.startsWith('ore_'))s=P.ore(OC[id.slice(4)]);
+  else if(id.startsWith('bar_'))s=P.bar(TC[T.findIndex(t=>'bar_'+t.id===id)]);
+  else if(id.startsWith('tip_'))s=P.tip(TC[T.findIndex(t=>'tip_'+t.id===id)]);
+  else if(id.startsWith('arrow_'))s=P.arrow(TC[T.findIndex(t=>'arrow_'+t.id===id)]);
+  else if(id.startsWith('g_')){const c=TC[tierOf(id)],sl=it.slot;s=sl==='weapon'?P.sword(c):P[sl==='ammo'?'arrow':sl](c);}
+  else if(id.startsWith('ba_')){const q=id.split('_'),r=+q[3],c=RAR[r][2];s=P[it.slot](c);
+   if(r>=3)s=s.replace('</g></svg>','<path d="M27 3l1 3 3 1-3 1-1 3-1-3-3-1 3-1z" fill="#fff" stroke="none"/></g></svg>');}
+  else if(id.startsWith('bw_')){const q=id.split('_'),r=+q[3],c=RAR[r][2],t=+q[2];s=t===0?P.sword(c):t===1?P.bow(c):P.staff(c);
+   if(r>=3)s=s.replace('</g></svg>','<path d="M27 3l1 3 3 1-3 1-1 3-1-3-3-1 3-1z" fill="#fff" stroke="none"/></g></svg>');}
+  else if(id.startsWith('bow_'))s=P.bow(LC[BOWL[+id.slice(4)]]);
+  else if(id.startsWith('staff_'))s=P.staff(LC[BOWL[+id.slice(6)]]);
+  else if(id.startsWith('h_')){const c=HIC[id.split('_')[1]],sl=it.slot;s=P[sl](c);}
+  else if(id.startsWith('r_')){const c=CLC[id.split('_')[1]],sl=it.slot;s=sl==='helmet'?P.hat(c):sl==='body'?P.robetop(c):P.legs(c);}
+  else if(id.startsWith('ring_'))s=P.ring(GC[id.slice(5)]);
+  else if(id.startsWith('amu_'))s=P.amulet(GC[id.slice(4)]);
+  else if(id.startsWith('gem_'))s=P.gem(GC[id.slice(4)]);
+  else if(id.startsWith('rune_'))s=P.rune(id.slice(5));
+  else if(id.startsWith('seed_'))s=P.seed();
+  else if(id.startsWith('crop_'))s=P.crop(CRC[id.slice(5)]);
+  else if(id.startsWith('herb_'))s=P.herb(HC[HERBS.findIndex(h=>'herb_'+h[0]===id)]);
+  else if(id.startsWith('pot_')){const k=HERBS.findIndex(h=>id.startsWith('pot_'+h[0]+'_'));s=P.potion(HC[k]);}
+  else if(id.startsWith('hide_'))s=P.hide(HIC[id.slice(5)]);
+  else if(id.startsWith('cloth_'))s=P.cloth(CLC[id.slice(6)]);
+  else s={vial:P.vial,bones:P.bones,dragon_bone:P.dbone,feather:P.feather,ashes:P.ashes,dragon_scale:P.scale}[id]();
+  it.i=s;}
+ ALLSK.forEach(id=>{SKN[id].i=iconForSkill(id);});
+ const PI={xp:P.tome(),luck:P.clover(),dmg:P.swords(),hp:P.heart(),eat:P.potion('#d94a4a'),gold:P.bag(),off:P.house(),slot:P.person()};PERKS.forEach(p=>{p.i=PI[p.id];});
+ SKILLS.forEach(s=>s[2]=SKN[s[0]].i);COMBAT.forEach(s=>s[2]=SKN[s[0]].i);
+ for(const sk in ACT)ACT[sk].forEach(a=>{
+  if(sk==='fm')a.i=P.flame();else if(sk==='thief')a.i=P.pouch();else if(sk==='agi')a.i=P.runner();
+  else if(a.out)a.i=ITEMS[Object.keys(a.out)[0]].i;});
+ CROP.forEach(c=>{c.i=ITEMS[c.item].i;});
+ AREAS.forEach(a=>{a.i=AREAI[a.id];a.mons.forEach(m=>{m.i=creature(m.id);});});
+ for(const id in MONS)MONS[id].i=creature(id);
+})();
+'use strict';
+/* ===== Mossgate Idle: engine ===== */
+let S=null,PS=null;
+const EV=[];let TRACK=null;const dirty={v:1};
+const rnd=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+function toast(t,k){EV.push({t,k:k||'info',at:Date.now(),id:Math.random()});if(EV.length>30)EV.shift();dirty.v=1;}
+const actsOf=sk=>sk==='farm'?CROP:ACT[sk];
+const actBy=(sk,id)=>actsOf(sk).find(a=>a.id===id);
+const SLOTS=['weapon','shield','helmet','body','legs','boots','gloves','ring','amulet','ammo','food'];
+
+function newState(){
+ const s={v:1,name:'Adventurer',saved:Date.now(),clock:0,play:0,coins:100,bank:{},nb:0,bankBuys:0,xp:{},mast:{},upg:{},equip:{},acts:[null,null],perk:{},wheel:{last:0,win:null,spins:0},cb:null,buffs:{},
+  farm:{plots:[],auto:true,allot:3,herb:2},stats:{kills:0,deaths:0,actions:0,coins:0},bk:{},bpity:{},col:{},hp:100,theme:'auto'};
+ ALLSK.forEach(id=>s.xp[id]=0);s.xp.hp=XPT[9];s.hp=100;
+ ensure(s);
+ s.bank.food_shrimp=10;s.nb=1;s.equip={weapon:'g_bronze_sword',food:'food_shrimp'};
+ return s;}
+function ensure(s){
+ ALLSK.forEach(id=>{if(s.xp[id]==null)s.xp[id]=0;});
+ SKILLS.forEach(k=>{const id=k[0];if(!s.mast[id])s.mast[id]={pool:0,a:{}};});
+ const f=s.farm;while(f.plots.filter(p=>p.cat==='allot').length<f.allot)f.plots.push({cat:'allot',crop:null,ready:0,start:0});
+ while(f.plots.filter(p=>p.cat==='herb').length<f.herb)f.plots.push({cat:'herb',crop:null,ready:0,start:0});
+ s.nb=Object.keys(s.bank).length;
+ if(!s.buffs)s.buffs={};if(!s.wheel)s.wheel={last:0,win:null,spins:0};if(!s.perk)s.perk={};if(s.perk.slot){s.coins+=30e6;delete s.perk.slot;}while(s.acts.length<2)s.acts.push(null);if(s.acts.length>2){const k=s.acts.slice(2).filter(Boolean);s.acts.length=2;if(!s.acts[0]&&k[0])s.acts[0]=k[0];}if(!s.cheat)s.cheat={speed:1,god:false};if(!s.bk)s.bk={};if(!s.bpity)s.bpity={};if(!s.col)s.col={};
+ if(!s.acts){s.acts=[s.act||null,null];delete s.act;if(s.cb&&!s.acts[0])s.acts[0]={sk:'combat',id:s.cb.mon,t:0};}}
+function useState(s){S=s;ensure(S);refreshPS();if(S.hp>maxHp())S.hp=maxHp();}
+const lv=id=>lvlOf(S.xp[id]);
+const perk=id=>S.perk[id]||0;
+const slotCount=()=>2,newSlots=()=>Array(slotCount()).fill(null),offCap=()=>OFFLINE_CAP+6*3600*perk('off');
+const cg=()=>1+.05*perk('gold'),cxm=()=>1+buff('xpc')/100+.02*perk('xp');
+const maxHp=()=>Math.floor(lvlOf(S.xp.hp)*10*(1+.05*perk('hp')));
+const totalLevel=()=>ALLSK.reduce((a,id)=>a+lvlOf(S.xp[id]),0);
+function combatLevel(){const a=lv('atk'),s=lv('str'),d=lv('def'),h=lv('hp'),r=lv('rng'),m=lv('mag');return Math.floor(0.25*(d+h)+0.325*Math.max(a+s,1.5*r,1.5*m));}
+
+/* ---------- bank ---------- */
+const cnt=id=>S.bank[id]||0;
+const bankSlots=()=>BANK_BASE+S.bankBuys*BANK_STEP;
+function addGain(k,id,q){if(!TRACK)return;const o=TRACK[k];o[id]=(o[id]||0)+q;}
+function add(id,q){
+ if(q<=0)return;
+ if(S.bank[id]){S.bank[id]+=q;}
+ else if(S.nb<bankSlots()){S.bank[id]=q;S.nb++;}
+ else{const g=ITEMS[id].v*q;S.coins+=g;S.stats.coins+=g;if(TRACK)TRACK.coins+=g;if(TRACK)addGain('sold',id,q);dirty.v=1;return;}
+ addGain('items',id,q);dirty.v=1;}
+function take(id,q){const h=S.bank[id]||0;if(h<q)return false;if(h===q){delete S.bank[id];S.nb--;}else S.bank[id]=h-q;dirty.v=1;return true;}
+function addCoins(n){S.coins+=n;S.stats.coins+=n;if(TRACK)TRACK.coins+=n;}
+function sell(id,q){const h=cnt(id);q=Math.min(q,h);if(q<=0)return;
+ for(const sl in S.equip){if((sl==='food'||sl==='ammo')&&S.equip[sl]===id&&h-q<=0){S.equip[sl]=null;}}
+ take(id,q);S.coins+=ITEMS[id].v*q;dirty.v=1;}
+
+/* ---------- mastery + modifiers ---------- */
+function mLvlFromXp(x){let l=1;while(l<99&&x>=MXP(l+1))l++;return l;}
+const mXp=(sk,id)=>S.mast[sk].a[id]||0;
+const mLvl=(sk,id)=>mLvlFromXp(mXp(sk,id));
+const poolMax=sk=>sk==='farm'?CROP.length*400:ACT[sk].length*3000;
+const poolPct=sk=>Math.min(1,S.mast[sk].pool/poolMax(sk));
+const CPS=[[.1,'+5% skill XP'],[.25,'+5% double/preserve chance'],[.5,'-5% action time'],[.95,'+10% skill XP']];
+const buff=t=>S.buffs[t]?S.buffs[t].v:0;
+function skMods(sk){const p=poolPct(sk),kind=SKKIND[sk],m={xp:0,dbl:0,pre:0,ivl:0};
+ if(p>=.1)m.xp+=.05;if(p>=.25){if(kind==='art')m.pre+=.05;else m.dbl+=.05;}if(p>=.5)m.ivl+=.05;if(p>=.95)m.xp+=.1;
+ m.ivl+=(S.upg[sk]||0)*.06+buff('speed')/100;m.xp+=buff('xp')/100;m.dbl+=buff('double')/100;m.pre+=buff('preserve')/100;m.xp+=.02*perk('xp');m.dbl+=.02*perk('luck');m.pre+=.02*perk('luck');
+ return m;}
+function interval(sk,a){if(sk==='farm')return a.t;return Math.max(0.6,a.t*(1-Math.min(.6,skMods(sk).ivl)));}
+const mxpOf=(sk,a)=>sk==='farm'?a.mx:Math.max(1,a.t*0.9*(1+a.lvl/50));
+function gainXp(sk,x){const before=lvlOf(S.xp[sk]);S.xp[sk]+=x;if(TRACK)TRACK.xp[sk]=(TRACK.xp[sk]||0)+x;
+ const after=lvlOf(S.xp[sk]);if(after>before){toast(SKN[sk].i+' '+SKN[sk].n+' reached level '+after+'!','lvl');if(sk==='hp')S.hp+=(after-before)*10;if(!TRACK)dirty.lvl=sk;}}
+function gainM(sk,a,x){const M=S.mast[sk];const before=mLvlFromXp(M.a[a.id]||0);M.a[a.id]=(M.a[a.id]||0)+x;
+ const pb=poolPct(sk);M.pool=Math.min(poolMax(sk),M.pool+x*0.5);const pa=poolPct(sk);
+ const after=mLvlFromXp(M.a[a.id]);if(after>before&&!TRACK&&after%5===0)toast(SKN[sk].n+': '+a.n+' mastery '+after,'mast');
+ CPS.forEach(c=>{if(pb<c[0]&&pa>=c[0])toast(SKN[sk].n+' mastery pool checkpoint: '+c[1],'mast');});}
+
+/* ---------- activity ---------- */
+function stopAll(msg){S.acts=newSlots();S.cb=null;if(msg)toast(msg,'warn');dirty.v=1;}
+function clearSlot(i){const a=S.acts[i];if(a&&a.sk==='combat')S.cb=null;S.acts[i]=null;dirty.v=1;}
+function stopCombat(msg){const i=S.acts.findIndex(a=>a&&a.sk==='combat');if(i>=0)S.acts[i]=null;S.cb=null;if(msg)toast(msg,'warn');dirty.v=1;}
+function freeSlot(pref){if(pref>=0&&pref<S.acts.length)return pref;const e=S.acts.findIndex(a=>!a);return e>=0?e:S.acts.length-1;}
+function startAction(sk,id,slot){
+ const a=actBy(sk,id);if(!a)return;if(lv(sk)<a.lvl){toast('Requires '+SKN[sk].n+' level '+a.lvl,'warn');return;}
+ const cur=S.acts.findIndex(x=>x&&x.sk===sk);
+ if(cur>=0&&S.acts[cur].id===id){clearSlot(cur);return;}
+ const i=cur>=0?cur:freeSlot(slot);clearSlot(i);S.acts[i]={sk,id,t:0};dirty.v=1;}
+function eatIfNeeded(){
+ if(S.hp>=maxHp()*(0.5+.05*perk('eat')))return;const f=S.equip.food;if(!f||cnt(f)<1)return;
+ const h=ITEMS[f].heal;take(f,1);S.hp=Math.min(maxHp(),S.hp+h);if(!cnt(f)&&TRACK==null)toast('Out of '+ITEMS[f].n,'warn');}
+function die(){S.stats.deaths++;if(TRACK)TRACK.deaths++;S.acts=newSlots();S.cb=null;S.hp=Math.ceil(maxHp()*0.1);if(!TRACK)toast('You were knocked out and had to rest.','bad');dirty.v=1;}
+function hurt(d){if(S.cheat&&S.cheat.god)return false;S.hp-=d;eatIfNeeded();if(S.hp<=0){die();return true;}return false;}
+
+function complete(sk,a,A){
+ const kind=SKKIND[sk],mod=skMods(sk),ml=mLvl(sk,a.id);
+ if(a.in){for(const k in a.in)if(cnt(k)<a.in[k]){if(!TRACK)toast('Out of materials: '+ITEMS[k].n,'warn');return false;}
+  const pre=Math.min(.9,mod.pre+ml*.0025);if(!(Math.random()<pre))for(const k in a.in)take(k,a.in[k]);}
+ let mult=1;
+ if(kind==='gather'||kind==='thief'){if(Math.random()<Math.min(.95,mod.dbl+ml*.0025))mult=2;}
+ let ok=true;
+ if(kind==='thief'){
+  const ch=Math.min(.95,.5+(lv(sk)-a.lvl)*.012+ml*.004);
+  if(Math.random()>=ch){ok=false;const stun=3;A.t=-stun;hurt(rnd(Math.ceil(a.dmg*.3),a.dmg));S.stats.actions++;return true;}
+  addCoins(Math.round(rnd(a.coins[0],a.coins[1])*mult*cg()));
+  (a.drops||[]).forEach(d=>{if(Math.random()<d[1])add(d[0],rnd(d[2],d[3])*mult);});
+ }else{
+  if(a.out)for(const k in a.out)add(k,a.out[k]*(kind==='gather'?mult:1));
+  if(a.coins)addCoins(Math.round(rnd(a.coins[0],a.coins[1])*mult*cg()));
+  if(a.gem&&Math.random()<a.gem){const r=Math.random();add(r<.5?'gem_sapphire':r<.8?'gem_emerald':r<.95?'gem_ruby':'gem_diamond',1);}
+ }
+ gainXp(sk,a.xp*(1+mod.xp));gainM(sk,a,mxpOf(sk,a));S.stats.actions++;return true;}
+function stepAct(A,dt){
+ A.t+=dt;const a=actBy(A.sk,A.id);if(!a){clearSlot(S.acts.indexOf(A));return;}
+ let iv=interval(A.sk,a),g=0;
+ while(S.acts.includes(A)&&A.t>=iv&&g++<40){A.t-=iv;if(!complete(A.sk,a,A)){clearSlot(S.acts.indexOf(A));break;}iv=interval(A.sk,a);}}
+
+/* ---------- equipment ---------- */
+function equipStats(){const g={atk:0,str:0,def:0,rngA:0,rngS:0,magA:0,magD:0};
+ for(const sl of SLOTS){const id=S.equip[sl];if(!id||sl==='food')continue;const it=ITEMS[id];if(!it||!it.st)continue;
+  if(sl==='ammo'){continue;}for(const k in it.st)g[k]+=it.st[k];}
+ return g;}
+function refreshPS(){
+ const g=equipStats(),w=S.equip.weapon?ITEMS[S.equip.weapon]:null;
+ const type=w?w.wt:'melee',sp=w?w.sp:3;
+ let ammo=S.equip.ammo&&ITEMS[S.equip.ammo]?ITEMS[S.equip.ammo].st.rngS:0;
+ PS={g,type,sp,ammoS:ammo};dirty.v=1;}
+function lacks(it){if(it.req&&combatLevel()<it.req)return'combat level '+it.req;if(it.lr&&lv(it.lr[0])<it.lr[1])return SKN[it.lr[0]].n+' level '+it.lr[1];return'';}
+function equip(id){
+ const it=ITEMS[id];if(!it||!it.slot||cnt(id)<1)return;
+ {const need=lacks(it);if(need){toast('Requires '+need,'warn');return;}}
+ if(it.slot==='food'||it.slot==='ammo'){S.equip[it.slot]=id;refreshPS();return;}
+ const old=S.equip[it.slot];
+ if(old&&S.nb>=bankSlots()&&cnt(old)===0&&cnt(id)>1){toast('Bank is full','warn');return;}
+ take(id,1);if(old)add(old,1);S.equip[it.slot]=id;refreshPS();}
+function unequip(slot){const id=S.equip[slot];if(!id)return;
+ if(slot==='food'||slot==='ammo'){S.equip[slot]=null;refreshPS();return;}
+ if(!cnt(id)&&S.nb>=bankSlots()){toast('Bank is full','warn');return;}
+ add(id,1);S.equip[slot]=null;refreshPS();}
+
+/* ---------- combat ---------- */
+const STANCES={melee:[['Accurate','atk'],['Aggressive','str'],['Defensive','def']],ranged:[['Accurate','rng'],['Longrange','rng+def']],magic:[['Standard','mag'],['Defensive','mag+def']]};
+function startCombat(area,mon,slot){
+ const m=MONS[mon];if(!m)return;
+ if(S.cb&&S.cb.mon===mon){stopCombat();return;}
+ const old=S.cb||{};let i=S.acts.findIndex(a=>a&&a.sk==='combat');if(i<0){i=freeSlot(slot);clearSlot(i);}
+ S.acts[i]={sk:'combat',id:mon,t:0};
+ S.cb={area,mon,mhp:m.hp,pt:0,mt:0,rs:0,stance:old.stance||0,spell:old.spell||0,log:[],kills:0};dirty.v=1;}
+function playerCombat(){
+ const g=PS.g,t=PS.type;let lvl,atkB,defL=lv('def');
+ if(t==='ranged'){lvl=lv('rng');atkB=g.rngA;}else if(t==='magic'){lvl=lv('mag');atkB=g.magA;}else{lvl=lv('atk');atkB=g.atk;}
+ return{lvl,atkB,defRoll:(defL+8)*(g.def+64)*(1+buff('def')/100),atkRoll:(lvl+8)*(atkB+64)*(1+buff('acc')/100)};}
+function maxHitPlayer(spell){
+ const t=PS.type,g=PS.g;let mh;
+ if(t==='melee')mh=Math.floor(10*(0.5+(lv('str')+8)*(g.str+64)/640));
+ else if(t==='ranged')mh=Math.floor(10*(0.5+(lv('rng')+8)*(g.rngS+PS.ammoS+64)/640));
+ else mh=Math.floor(spell.max*(1+g.magD/100)*(1+Math.max(0,lv('mag')-spell.lvl)*0.005));
+ return Math.floor(mh*(1+buff('str')/100+.03*perk('dmg')));}
+const hitChance=(a,d)=>a>d?1-(d+2)/(2*(a+1)):a/(2*(d+1));
+function awardCombatXp(skills,x){const f=cxm();const list=skills.split('+');list.forEach(s=>gainXp(s,x/list.length*f));}
+function playerAttack(C,M){
+ const t=PS.type;let spell=null;
+ if(t==='ranged'){const am=S.equip.ammo;if(!am||cnt(am)<1){stopCombat('Out of arrows.');return false;}take(am,1);}
+ if(t==='magic'){spell=SPELLS[C.spell]||SPELLS[0];if(lv('mag')<spell.lvl)spell=SPELLS[0];
+  for(const k in spell.cost)if(cnt(k)<spell.cost[k]){stopCombat('Out of runes for '+spell.n+'.');return false;}
+  for(const k in spell.cost)take(k,spell.cost[k]);}
+ const pc=playerCombat(),mx=maxHitPlayer(spell);
+ let dmg=0;if(Math.random()<hitChance(pc.atkRoll,M.defRoll))dmg=1+Math.floor(Math.random()*mx);
+ const st=STANCES[t][Math.min(C.stance,STANCES[t].length-1)][1];
+ if(spell)gainXp('mag',spell.xp*cxm());
+ if(dmg>0){C.mhp-=dmg;C.last=dmg;awardCombatXp(st,dmg*(t==='magic'?0.3:0.4));gainXp('hp',dmg*0.133*cxm());}else C.last=0;
+ if(C.mhp<=0)kill(C,M);
+ return true;}
+function kill(C,M){
+ S.stats.kills++;C.kills++;if(TRACK)TRACK.kills++;
+ const c=Math.round(rnd(M.coins[0],M.coins[1])*cg());addCoins(c);const got=[];
+ M.drops.forEach(d=>{if(Math.random()<d[1]){const q=rnd(d[2],d[3]);add(d[0],q);got.push([d[0],q]);}});
+ if(M.boss){S.bk[M.id]=(S.bk[M.id]||0)+1;S.bpity[M.id]=(S.bpity[M.id]||0)+1;
+  if(Math.random()<M.wch||S.bpity[M.id]>=8){S.bpity[M.id]=0;const r=pickRarity(),id='bw_'+M.id+'_'+rnd(0,2)+'_'+r;add(id,1);S.col[id]=1;got.push([id,1]);
+   if(!TRACK&&r>=2)toast('Boss drop: '+ITEMS[id].n+' ('+RAR[r][0]+')','boss');}
+  S.bpity[M.id+'_a']=(S.bpity[M.id+'_a']||0)+1;
+  if(Math.random()<0.25||S.bpity[M.id+'_a']>=10){S.bpity[M.id+'_a']=0;const r=pickRarity(),id='ba_'+M.id+'_'+rnd(0,5)+'_'+r;add(id,1);S.col[id]=1;got.push([id,1]);
+   if(!TRACK&&r>=2)toast('Armour drop: '+ITEMS[id].n+' ('+RAR[r][0]+')','boss');}}
+ C.log.unshift({c,got});if(C.log.length>6)C.log.pop();C.rs=M.boss?6:3;C.mhp=0;}
+function monsterAttack(C,M){
+ const pc=playerCombat();let dmg=0;
+ if(Math.random()<hitChance(M.atkRoll,pc.defRoll))dmg=1+Math.floor(Math.random()*M.maxHit);
+ C.mlast=dmg;if(dmg>0)hurt(dmg);}
+function stepCombat(dt){
+ const C=S.cb,M=MONS[C.mon];
+ if(C.rs>0){C.rs-=dt;if(C.rs<=0){C.rs=0;C.mhp=M.hp;C.pt=0;C.mt=0;}return;}
+ C.pt+=dt;C.mt+=dt;
+ while(S.cb===C&&C.pt>=PS.sp&&C.rs<=0){C.pt-=PS.sp;if(!playerAttack(C,M))return;}
+ if(S.cb!==C||C.rs>0)return;
+ while(S.cb===C&&C.mt>=M.sp){C.mt-=M.sp;monsterAttack(C,M);}
+}
+
+/* ---------- potions ---------- */
+function usePotion(id){const it=ITEMS[id];if(!it||!it.pot||cnt(id)<1)return;take(id,1);
+ S.buffs[it.pot.t]={v:it.pot.v,left:it.pot.d,id};dirty.v=1;toast('Drank '+it.n,'info');}
+
+/* ---------- farming ---------- */
+const plotsOf=cat=>S.farm.plots.map((p,i)=>[p,i]).filter(x=>x[0].cat===cat);
+function plant(i,cropId,free){
+ const p=S.farm.plots[i],c=CROPBY[cropId];if(!p||!c||p.crop||c.cat!==p.cat)return false;
+ if(lv('farm')<c.lvl){toast('Requires Farming level '+c.lvl,'warn');return false;}
+ if(cnt(c.seed)>=1)take(c.seed,1);else if(S.coins>=c.seedCost){S.coins-=c.seedCost;}else{toast('No seeds and not enough coins','warn');return false;}
+ p.crop=cropId;p.start=S.clock;p.ready=S.clock+c.t*(1-Math.min(.5,(S.upg.farm||0)*.06));dirty.v=1;return true;}
+function harvest(i){
+ const p=S.farm.plots[i];if(!p||!p.crop||S.clock<p.ready)return false;
+ const c=CROPBY[p.crop],ml=mLvl('farm',c.id),mod=skMods('farm');
+ let q=rnd(c.q[0],c.q[1]);if(Math.random()<Math.min(.95,mod.dbl+ml*.0025))q*=2;
+ add(c.item,q);gainXp('farm',c.xp*(1+mod.xp));gainM('farm',c,c.mx);S.stats.actions++;
+ const again=S.farm.auto&&(cnt(c.seed)>=1||S.coins>=c.seedCost*3);
+ p.crop=null;p.ready=0;if(again&&lv('farm')>=c.lvl)plant(i,c.id);dirty.v=1;return true;}
+function harvestAll(){let n=0;S.farm.plots.forEach((p,i)=>{if(p.crop&&S.clock>=p.ready&&harvest(i))n++;});return n;}
+
+/* ---------- shop ---------- */
+function upgCost(sk){const n=S.upg[sk]||0;return n>=UPG_MAX?null:UPG_COST[n];}
+function buyUpg(sk){const n=S.upg[sk]||0;if(n>=UPG_MAX)return;if(lv(sk)<UPG_LV[n]){toast('Requires '+SKN[sk].n+' level '+UPG_LV[n],'warn');return;}
+ if(S.coins<UPG_COST[n]){toast('Not enough coins','warn');return;}S.coins-=UPG_COST[n];S.upg[sk]=n+1;toast('Bought '+UPG_N[n]+' '+TOOLS[sk],'info');dirty.v=1;}
+function buyBank(){if(S.bankBuys>=BANK_MAXBUY)return;const c=bankCost(S.bankBuys);if(S.coins<c){toast('Not enough coins','warn');return;}S.coins-=c;S.bankBuys++;dirty.v=1;}
+function buyPlot(cat){const own=S.farm[cat];if(own>=PLOT_MAX[cat])return;const c=plotCost(cat,own);if(S.coins<c){toast('Not enough coins','warn');return;}
+ S.coins-=c;S.farm[cat]++;ensure(S);dirty.v=1;}
+function buyItem(id,q){let cost;if(SUPPLY[id])cost=SUPPLY[id];else{const c=CROP.find(x=>x.seed===id);if(!c)return;cost=c.seedCost;if(lv('farm')<c.lvl){toast('Requires Farming level '+c.lvl,'warn');return;}}
+ const tot=cost*q;if(S.coins<tot){toast('Not enough coins','warn');return;}S.coins-=tot;add(id,q);dirty.v=1;}
+
+/* ---------- main step ---------- */
+function step(dt){
+ S.clock+=dt;S.play+=dt;
+ for(const k in S.buffs){const b=S.buffs[k];b.left-=dt;if(b.left<=0)delete S.buffs[k];}
+ const mh=maxHp();if(S.hp<mh)S.hp=Math.min(mh,S.hp+mh*0.0025*dt);
+ for(const A of S.acts.slice()){if(!A||!S.acts.includes(A))continue;if(A.sk==='combat'){if(S.cb)stepCombat(dt);}else stepAct(A,dt);}}
+function advance(sec,fine){let left=sec;const d=fine?0.1:0.5;while(left>0){const x=Math.min(d,left);step(x);left-=x;}}
+function simulateOffline(sec){
+ sec=Math.min(sec,offCap());TRACK={xp:{},items:{},sold:{},coins:0,kills:0,deaths:0,secs:sec};
+ const had=S.acts.map(Boolean);
+ advance(sec,false);const r=TRACK;TRACK=null;r.stopped=had.some((h,i)=>h&&!S.acts[i]);dirty.v=1;return r;}
+
+/* ---------- save ---------- */
+const NSAVE=3,META='mossgate-idle-meta',LEGACY='mossgate-idle-v1',TABID=(()=>{try{let t=sessionStorage.getItem('mossgate-tab');if(!t){t=Math.random().toString(36).slice(2);sessionStorage.setItem('mossgate-tab',t);}return t;}catch(e){return Math.random().toString(36).slice(2);}})();
+const SK=n=>'mossgate-idle-slot-'+n;
+let SLOT=0;const SAVESTAT={ok:true,at:0,err:'',bak:0};
+function lsGet(k){try{return localStorage.getItem(k);}catch(e){return null;}}
+function lsSet(k,v){try{localStorage.setItem(k,v);return true;}catch(e){return false;}}
+function lsDel(k){try{localStorage.removeItem(k);}catch(e){}}
+function getMeta(){try{return Object.assign({auto:false,last:0},JSON.parse(lsGet(META)||'{}'));}catch(e){return{auto:false,last:0};}}
+function setMeta(m){lsSet(META,JSON.stringify(m));}
+function serialize(){S.saved=Date.now();return JSON.stringify(S);}
+function parseSave(txt){const o=JSON.parse(txt);if(!o||typeof o!=='object'||!o.xp||!o.bank)throw new Error('bad save');return Object.assign(newState(),o);}
+function readSlot(n){for(const k of[SK(n),SK(n)+'-bak']){const t=lsGet(k);if(t){try{return{s:parseSave(t),bak:k.slice(-4)==='-bak'};}catch(e){}}}return null;}
+function summarize(s){const o=S;S=s;try{return{name:s.name||'Adventurer',tl:totalLevel(),cl:combatLevel(),play:s.play||0,coins:s.coins||0,saved:s.saved||0};}finally{S=o;}}
+function slotInfo(n){const r=readSlot(n);if(!r)return null;const i=summarize(r.s);i.bak=r.bak;return i;}
+function ownerOf(n){try{return JSON.parse(lsGet(SK(n)+'-own'));}catch(e){return null;}}
+function lockedElsewhere(n){const o=ownerOf(n);return!!(o&&o.id!==TABID&&Date.now()-o.ts<120000);}
+function claim(n){lsSet(SK(n)+'-own',JSON.stringify({id:TABID,ts:Date.now()}));}
+function release(){if(!SLOT)return;const o=ownerOf(SLOT);if(o&&o.id===TABID)lsDel(SK(SLOT)+'-own');}
+function saveLocal(){
+ if(!S||!SLOT)return false;
+ if(lockedElsewhere(SLOT)){if(SAVESTAT.ok)toast('This save is open in another tab, so this tab stopped saving.','warn');SAVESTAT.ok=false;SAVESTAT.err='Open in another tab';return false;}
+ const k=SK(SLOT),txt=serialize(),old=lsGet(k);
+ if(old&&Date.now()-SAVESTAT.bak>300000){try{parseSave(old);if(lsSet(k+'-bak',old))SAVESTAT.bak=Date.now();}catch(e){}}
+ const ok=lsSet(k,txt);if(ok)claim(SLOT);
+ if(!ok&&SAVESTAT.ok)toast('Could not save: browser storage is full or blocked. Use Show backup text.','warn');
+ SAVESTAT.ok=ok;SAVESTAT.err=ok?'':'Storage full or blocked';if(ok)SAVESTAT.at=Date.now();return ok;}
+function migrateLegacy(){const t=lsGet(LEGACY);if(!t||lsGet(SK(1)))return;try{const s=parseSave(t);if(!s.name)s.name='Adventurer';if(lsSet(SK(1),JSON.stringify(s))){lsSet(LEGACY+'-migrated',t);lsDel(LEGACY);}}catch(e){}}
+function deleteSlot(n){[SK(n),SK(n)+'-bak',SK(n)+'-own'].forEach(lsDel);const m=getMeta();if(m.last===n){m.last=0;setMeta(m);}}
+const cleanName=t=>String(t||'').replace(/[<>&"'`]/g,'').trim().slice(0,20);
+function exportSave(){return btoa(unescape(encodeURIComponent(serialize())));}
+function importSave(txt){const j=decodeURIComponent(escape(atob(txt.trim())));return parseSave(j);}
+
+/* ---------- cheat codes ---------- */
+const CHEATS=[
+ ['RICHES','Adds 1,000,000 coins'],['MAXALL','Sets every skill to level 99'],['LEVELUP','Adds one level to every skill'],
+ ['STOCKUP','Gives 1,000 of every material, food, ammo and rune'],['FEAST','Gives 500 of every food and equips the best'],
+ ['MYTHIC','Gives every Mythic boss weapon'],['HEAL','Restores full health'],['GROWNOW','Finishes growing every crop'],
+ ['MAXSHOP','Maxes every tool upgrade and shop perk'],['SPIN','Resets the daily wheel timer'],['TURBO','Toggles 5x game speed'],['GODMODE','Toggles taking no damage'],['SLOTS','Adds 200 bank slots']];
+function cheat(code){
+ code=(code||'').trim().toUpperCase();const c=S.cheat;
+ switch(code){
+  case'RICHES':S.coins+=1000000;return'Added 1,000,000 coins.';
+  case'MAXALL':ALLSK.forEach(k=>{S.xp[k]=Math.max(S.xp[k],XPT[98]);});S.hp=maxHp();refreshPS();return'Every skill is now level 99.';
+  case'LEVELUP':ALLSK.forEach(k=>{const L=lvlOf(S.xp[k]);if(L<99)S.xp[k]=XPT[L];});S.hp=Math.min(maxHp(),S.hp+10);refreshPS();return'Every skill gained a level.';
+  case'STOCKUP':S.bankBuys=Math.max(S.bankBuys,BANK_MAXBUY);for(const id in ITEMS){const it=ITEMS[id];if(['log','ore','bar','fish','food','ammo','rune','herb','crop','seed','gem','hide','misc'].includes(it.cat)||id==='vial'){if(it.cat==='ammo'&&!it.slot&&!/^tip_/.test(id))continue;add(id,Math.max(0,1000-cnt(id)));}}return'Stocked your bank.';
+  case'FEAST':{let best=null;FISH.forEach(f=>{add('food_'+f[0],Math.max(0,500-cnt('food_'+f[0])));best='food_'+f[0];});S.equip.food=best;return'Food stocked and the best food equipped.';}
+  case'MYTHIC':BOSSDEF.forEach(b=>{for(let t=0;t<3;t++){const id='bw_'+b[1]+'_'+t+'_4';add(id,1);S.col[id]=1;}});BOSSDEF.forEach(b=>{for(let p=0;p<6;p++){const id='ba_'+b[1]+'_'+p+'_4';add(id,1);S.col[id]=1;}});return'Added every Mythic boss weapon and armour piece. Check your bank.';
+  case'MAXSHOP':Object.keys(TOOLS).forEach(k=>S.upg[k]=UPG_MAX);PERKS.forEach(p=>S.perk[p.id]=p.max);ensure(S);return'Every upgrade and perk is maxed.';
+  case'SPIN':S.wheel.last=0;return'The wheel is ready to spin.';
+  case'HEAL':S.hp=maxHp();return'Health restored.';
+  case'GROWNOW':S.farm.plots.forEach(p=>{if(p.crop)p.ready=S.clock;});return'All crops are ready.';
+  case'TURBO':c.speed=c.speed===5?1:5;return c.speed===5?'Turbo on: 5x speed.':'Turbo off.';
+  case'GODMODE':c.god=!c.god;return c.god?'God mode on.':'God mode off.';
+  case'SLOTS':S.bankBuys+=20;return'Added 200 bank slots.';
+ }
+ return'';}
+
+function buyPerk(id){const p=PERKS.find(x=>x.id===id);if(!p)return;const n=perk(id);if(n>=p.max)return;const c=p.cost[n];
+ if(S.coins<c){toast('Not enough coins','warn');return;}S.coins-=c;S.perk[id]=n+1;if(id==='hp')S.hp+=Math.floor(lvlOf(S.xp.hp)*.5);toast('Bought '+p.n,'info');dirty.v=1;}
+
+/* ---------- daily wheel ---------- */
+const WHEEL_CD=24*3600*1000,WHEEL_COST=250000;
+const bossWeapon=r=>{const b=BOSSDEF[rnd(0,BOSSDEF.length-1)];return'bw_'+b[1]+'_'+rnd(0,2)+'_'+r;};
+const WHEEL=[
+ {n:'1,000 coins',s:'1k',w:28,col:'#5d7f63',roll:()=>({coins:1000})},
+ {n:'10,000 coins',s:'10k',w:20,col:'#4a7aa6',roll:()=>({coins:10000})},
+ {n:'100,000 coins',s:'100k',w:8,col:'#b8861c',roll:()=>({coins:100000})},
+ {n:'60 cooked fish (best you can use)',s:'Food',w:15,col:'#a85a4a',roll:()=>{const lim=Math.max(lv('cook'),lv('fish'),Math.floor(combatLevel()*0.8));let f=FISH[0];FISH.forEach(x=>{if(x[2]<=lim)f=x;});return{items:[['food_'+f[0],60]]};}},
+ {n:'3 random potions',s:'Potions',w:9,col:'#7a5ab0',roll:()=>{const lim=Math.max(lv('herb'),lv('farm'),30),pool=ACT.herb.filter(a=>a.lvl<=lim),o={};for(let i=0;i<3;i++){const a=pool[rnd(0,pool.length-1)];o[a.id]=(o[a.id]||0)+1;}return{items:Object.keys(o).map(k=>[k,o[k]])};}},
+ {n:'6 random gems',s:'Gems',w:9,col:'#3f9a8a',roll:()=>{const o={};for(let i=0;i<6;i++){const x=Math.random()*100;const g=x<50?'sapphire':x<80?'emerald':x<95?'ruby':'diamond';o['gem_'+g]=(o['gem_'+g]||0)+1;}return{items:Object.keys(o).map(k=>[k,o[k]])};}},
+ {n:'Boss weapon (Common to Rare)',s:'Rare',w:6,col:'#4a8be0',roll:()=>({items:[[bossWeapon(Math.min(2,pickRarity())),1]]})},
+ {n:'Epic boss weapon',s:'Epic',w:4,col:'#a855d6',roll:()=>({items:[[bossWeapon(3),1]]})},
+ {n:'MYTHIC boss weapon',s:'Mythic',w:1,col:'#e0a020',roll:()=>({items:[[bossWeapon(4),1]]})}];
+const wheelLeft=()=>Math.max(0,WHEEL_CD-(Date.now()-S.wheel.last));
+function spinWheel(paid){
+ if(paid){if(S.coins<WHEEL_COST){toast('Not enough coins','warn');return null;}}else if(wheelLeft()>0)return null;
+ let x=Math.random()*100,idx=0;for(;idx<WHEEL.length-1;idx++){x-=WHEEL[idx].w;if(x<0)break;}
+ const r=WHEEL[idx].roll();if(paid)S.coins-=WHEEL_COST;else S.wheel.last=Date.now();
+ if(r.coins)addCoins(r.coins);(r.items||[]).forEach(it=>{add(it[0],it[1]);if(it[0].startsWith('bw_'))S.col[it[0]]=1;});
+ S.wheel.win={idx,coins:r.coins||0,items:r.items||[]};S.wheel.spins++;dirty.v=1;return{idx,r};}
+'use strict';
+/* ===== Mossgate Idle: UI ===== */
+const UI={tgt:0,page:'home',navOpen:false,bsel:null,bcat:'all',bq:'',slot:null,pick:null,area:'farm',confirm:false,imp:'',msg:'',modal:null,nm:'',rn:''};
+const $=s=>document.querySelector(s);
+function fmt(n){n=Math.floor(n);if(n<10000)return n.toLocaleString('en-US');const u=['k','M','B','T'];let i=-1,v=n;while(v>=1000&&i<3){v/=1000;i++;}return v.toFixed(v<10?2:v<100?1:0)+u[i];}
+const fmtT=s=>{s=Math.max(0,Math.round(s));const h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=s%60;return(h?h+'h ':'')+(h||m?m+'m ':'')+(!h?x+'s':'');};
+const pc=(a,b)=>Math.max(0,Math.min(100,b>0?a/b*100:0));
+const bar=(p,c)=>`<div class="bar ${c||''}"><i style="width:${p.toFixed(1)}%"></i></div>`;
+const rc=it=>it.rar!=null?` style="color:${RAR[it.rar][2]}"`:'';
+const ic=(id,q,need)=>{const it=ITEMS[id];if(!it)return'';const bad=need!=null&&cnt(id)<need;return`<span class="chip${bad?' bad':''}"${rc(it)}>${it.i} ${it.n} ${need!=null?fmt(cnt(id))+'/'+fmt(need):'×'+fmt(q)}</span>`;};
+const SLOTN={weapon:'Weapon',shield:'Shield',helmet:'Helmet',body:'Body',legs:'Legs',boots:'Boots',gloves:'Gloves',ring:'Ring',amulet:'Amulet',ammo:'Ammo',food:'Food'};
+const SLOTI={weapon:P.sword('#999'),shield:P.shield('#999'),helmet:P.helmet('#999'),body:P.body('#999'),legs:P.legs('#999'),boots:P.boots('#999'),gloves:P.gloves('#999'),ring:P.ring('#999'),amulet:P.amulet('#999'),ammo:P.arrow('#999'),food:P.fish('#999',true)};
+const STN={atk:'Attack',str:'Strength',def:'Defence',rng:'Ranged',mag:'Magic'};
+function itemDesc(it){
+ if(it.rar!=null){const s=Object.keys(it.st).map(k=>'+'+it.st[k]+' '+({atk:'Attack',str:'Strength',def:'Defence',rngA:'Ranged Att',rngS:'Ranged Str',magA:'Magic Att',magD:'Magic Dmg%'})[k]).join(', ');return RAR[it.rar][0]+(it.arm?' boss armour · '+s:' boss weapon · '+s+' · '+it.wt+' · '+it.sp+'s')+' · needs combat level '+it.req+(it.lr?' and '+SKN[it.lr[0]].n+' '+it.lr[1]:'');}
+ if(it.heal)return'Heals '+it.heal+' HP when eaten automatically in combat.';
+ if(it.pot)return'+'+it.pot.v+'% '+PDESC[it.pot.t]+' for '+Math.round(it.pot.d/60)+' minutes.';
+ if(it.st){const n={atk:'Attack',str:'Strength',def:'Defence',rngA:'Ranged Att',rngS:'Ranged Str',magA:'Magic Att',magD:'Magic Dmg%'};
+  let s=Object.keys(it.st).map(k=>'+'+it.st[k]+' '+n[k]).join(', ');if(it.wt)s+=' · '+it.wt+' · '+it.sp+'s';if(it.lr)s+=' · needs '+SKN[it.lr[0]].n+' '+it.lr[1];return s;}
+ return it.cat==='seed'?'Plant in a farming plot.':it.cat==='misc'||it.cat==='gem'||it.cat==='hide'?'Crafting or trade good.':'';}
+
+/* ---------- DOM morph (keeps focus and hover while re-rendering) ---------- */
+function morph(a,b){const bc=b.childNodes;for(let i=0;i<bc.length;i++){const x=a.childNodes[i],y=bc[i];if(!x)a.appendChild(y.cloneNode(true));else patch(x,y);}while(a.childNodes.length>bc.length)a.removeChild(a.lastChild);}
+function patch(x,y){
+ if(x.nodeType!==y.nodeType||x.nodeName!==y.nodeName){x.replaceWith(y.cloneNode(true));return;}
+ if(x.nodeType!==1){if(x.nodeValue!==y.nodeValue)x.nodeValue=y.nodeValue;return;}
+ for(const at of Array.from(x.attributes))if(!y.hasAttribute(at.name))x.removeAttribute(at.name);
+ for(const at of Array.from(y.attributes))if(x.getAttribute(at.name)!==at.value)x.setAttribute(at.name,at.value);
+ if(x.nodeName==='TEXTAREA'||x.nodeName==='INPUT'){if(x===document.activeElement)return;if(x.nodeName==='INPUT')x.value=y.getAttribute('value')||'';else x.value=y.textContent;return;}
+ morph(x,y);}
+const E2RE=new RegExp(Object.keys(E2S).join('|'),'g');
+function paint(el,html){html=html.replace(E2RE,m=>E2S[m]);const t=document.createElement('template');t.innerHTML=html;morph(el,t.content);}
+
+/* ---------- navigation ---------- */
+function navHtml(){
+ const it=(p,i,n,r,run)=>`<button class="ni${UI.page===p?' on':''}" data-a="nav" data-p="${p}"><span>${i}</span><span>${n}</span>${run?'<span class="run"></span>':''}<span class="nl">${r||''}</span></button>`;
+ let h=`<div class="brand"><span>🏰</span><div>Mossgate Idle<small>Total level ${totalLevel()}</small></div></div>`;
+ h+=it('home','🏠','Overview');h+=it('combat','⚔️','Combat','Lv '+combatLevel(),!!S.cb);h+=it('equip','🎒','Equipment');h+=it('bank','🏦','Bank',S.nb+'/'+bankSlots());h+=it('shop','🛒','Shop');h+=it('wheel',P.wheel(),'Daily Wheel',wheelLeft()===0?'<b class="gold">Ready</b>':'');
+ h+='<div class="navh">Skills</div>';
+ SKILLS.forEach(s=>{h+=it(s[0],s[2],s[1],lv(s[0]),S.acts.some(a=>a&&a.sk===s[0]));});
+ h+='<div class="navh">Game</div>'+it('set','⚙️','Settings');return h;}
+
+/* ---------- pages ---------- */
+function slotHtml(i){const A=S.acts[i];let inner;
+ if(!A)inner='<span class="mute">Empty. Pick an action.</span>';
+ else if(A.sk==='combat'){const M=MONS[A.id];inner=`<span class="at">${M.i} ${M.n}</span>${bar(pc(S.hp,maxHp()),'hp')}`;}
+ else{const x=actBy(A.sk,A.id);inner=`<span class="at">${SKN[A.sk].i} ${x.n}</span>${bar(pc(Math.max(0,A.t),interval(A.sk,x)))}`;}
+ return`<div class="sl${UI.tgt===i?' tgt':''}" role="button" tabindex="0" data-a="slot" data-i="${i}" title="New actions start in the highlighted slot"><b class="sn">${'ABC'[i]}</b>${inner}${A?`<button class="btn sm" data-a="stopslot" data-i="${i}" aria-label="Stop">✕</button>`:''}</div>`;}
+function topHtml(){return`<button class="burger" data-a="navtoggle" aria-label="Menu">☰</button><div class="tslots">${S.acts.map((a,i)=>slotHtml(i)).join('')}</div><div class="coins">🪙 ${fmt(S.coins)}</div>`;}
+
+function skHead(sk){
+ const L=lv(sk),x=S.xp[sk],cur=XPT[L-1],nx=L>=MAXL?cur:XPT[L];
+ let h=`<div class="panel"><div class="row"><span class="ci">${SKN[sk].i}</span><div><h2 style="margin:0">${SKN[sk].n}</h2><div class="sub">${SKN[sk].d}</div></div><div class="sp"></div><div style="text-align:right"><b>Level ${L}</b> / ${MAXL}<div class="sub">${fmt(x)} XP${L<MAXL?' · '+fmt(nx-x)+' to next':''}</div></div></div>`;
+ h+=`<div style="margin-top:8px">${bar(L>=MAXL?100:pc(x-cur,nx-cur),'xp big')}</div>`;
+ if(SKN[sk]&&S.mast[sk]){const p=poolPct(sk);
+  h+=`<div class="row" style="margin-top:10px"><b style="color:var(--mast)">Mastery pool</b><span class="sub">${fmt(S.mast[sk].pool)} / ${fmt(poolMax(sk))} (${(p*100).toFixed(1)}%)</span></div><div style="position:relative">${bar(p*100,'mast big')}</div>`;
+  h+='<div class="cps">'+CPS.map(c=>`<span class="${p>=c[0]?'got':''}">${p>=c[0]?'✔':'○'} ${Math.round(c[0]*100)}%: ${c[1]}</span>`).join('')+'</div>';
+  const u=S.upg[sk]||0;if(TOOLS[sk]&&u)h+=`<div class="sub" style="margin-top:6px">Tool: ${UPG_N[u-1]} ${TOOLS[sk]} (−${u*6}% action time)</div>`;}
+ return h+'</div>';}
+
+function actCard(sk,a){
+ const locked=lv(sk)<a.lvl,A=S.acts.find(x=>x&&x.sk===sk&&x.id===a.id),on=!!A,mod=skMods(sk),ml=mLvl(sk,a.id),kind=SKKIND[sk],iv=interval(sk,a);
+ let io='';
+ if(a.in)io+='<div class="io"><b>Uses</b>'+Object.keys(a.in).map(k=>ic(k,0,a.in[k])).join('')+'</div>';
+ if(a.out)io+='<div class="io"><b>Makes</b>'+Object.keys(a.out).map(k=>ic(k,a.out[k])).join('')+'</div>';
+ if(kind==='thief'){io+=`<div class="io">Success ${Math.round(Math.min(.95,.5+(lv(sk)-a.lvl)*.012+ml*.004)*100)}% · 🪙 ${a.coins[0]}–${a.coins[1]} · hurts up to ${a.dmg}</div>`;}
+ else if(a.coins)io+=`<div class="io"><b>Earns</b>🪙 ${a.coins[0]}–${a.coins[1]}</div>`;
+ const m0=MXP(ml),m1=ml>=99?m0:MXP(ml+1);
+ let pct=0;if(on)pct=pc(Math.max(0,A.t),iv);
+ const dc=Math.round(Math.min(.95,(kind==='art'?mod.pre:mod.dbl)+ml*.0025)*100);
+ return`<div class="card${locked?' locked':''}${on?' on':''}" role="button" tabindex="0" data-a="start" data-sk="${sk}" data-id="${a.id}">
+ <div class="ch"><span class="ci">${a.i}</span><div><div class="cn">${a.n}</div><div class="cm">${locked?'<span class="bad">Requires level '+a.lvl+'</span>':'Level '+a.lvl}</div></div></div>
+ <div class="stats"><span><b>${(a.xp*(1+mod.xp)).toFixed(a.xp<20?1:0)}</b> XP</span><span><b>${iv.toFixed(1)}s</b></span>${kind==='gather'||kind==='thief'?`<span>double <b>${dc}%</b></span>`:kind==='art'?`<span>save <b>${dc}%</b></span>`:''}</div>${io}
+ <div class="row" style="gap:6px"><span class="sub" style="color:var(--mast)">Mastery ${ml}</span><div class="sp">${bar(ml>=99?100:pc(mXp(sk,a.id)-m0,m1-m0),'mast thin')}</div></div>
+ ${on?bar(pct,'big'):''}</div>`;}
+
+function skillPage(sk){
+ if(sk==='farm')return farmPage();
+ let h=skHead(sk)+'<div class="grid">';
+ ACT[sk].forEach(a=>{h+=actCard(sk,a);});
+ return h+'</div>';}
+
+function farmPage(){
+ let h=skHead('farm');
+ h+=`<div class="panel"><div class="row"><button class="btn pri" data-a="harvestall">Harvest all ready</button><button class="btn${S.farm.auto?' pri':''}" data-a="autoplant">Auto-replant: ${S.farm.auto?'On':'Off'}</button><span class="sub">Crops grow in real time, even while you are away. Seeds are used from your bank, or bought on the spot.</span></div></div>`;
+ ['allot','herb'].forEach(cat=>{
+  h+=`<div class="panel"><h2>${cat==='allot'?'Allotments':'Herb patches'} <span class="pill">${S.farm[cat]}/${PLOT_MAX[cat]}</span></h2><div class="grid sm">`;
+  plotsOf(cat).forEach(([p,i])=>{
+   if(!p.crop)h+=`<div class="card" role="button" tabindex="0" data-a="pick" data-i="${i}"><div class="ch"><span class="ci">🟫</span><div><div class="cn">Empty plot</div><div class="cm">Tap to plant</div></div></div></div>`;
+   else{const c=CROPBY[p.crop],ready=S.clock>=p.ready;
+    h+=`<div class="card${ready?' on':''}" role="button" tabindex="0" data-a="${ready?'harvest':'noop'}" data-i="${i}"><div class="ch"><span class="ci">${ready?'🧺':'🌱'}</span><div><div class="cn">${c.n}</div><div class="cm">${ready?'<b class="good">Ready to harvest</b>':fmtT(p.ready-S.clock)+' left'}</div></div></div>${bar(ready?100:pc(S.clock-p.start,p.ready-p.start))}</div>`;}});
+  h+='</div></div>';});
+ if(UI.pick!=null&&S.farm.plots[UI.pick]&&!S.farm.plots[UI.pick].crop){
+  const cat=S.farm.plots[UI.pick].cat;
+  h+=`<div class="panel"><div class="row"><h2 style="margin:0">Choose a crop</h2><div class="sp"></div><button class="btn sm" data-a="pickclose">Cancel</button></div><div class="tw"><table><tr><th>Crop</th><th>Level</th><th>XP</th><th>Grows</th><th>Yield</th><th>Seeds</th><th></th></tr>`;
+  CROP.filter(c=>c.cat===cat).forEach(c=>{const lock=lv('farm')<c.lvl,have=cnt(c.seed);
+   h+=`<tr><td>${c.i} ${c.n}</td><td class="${lock?'bad':''}">${c.lvl}</td><td>${c.xp}</td><td>${fmtT(c.t)}</td><td>${c.q[0]}–${c.q[1]}</td><td>${have?have+' owned':'🪙 '+c.seedCost}</td><td><button class="btn sm pri${lock?' off':''}" data-a="plant" data-crop="${c.id}">Plant</button></td></tr>`;});
+  h+='</table></div></div>';}
+ return h;}
+
+function monCard(M){
+ const on=S.cb&&S.cb.mon===M.id;
+ let bw='';if(M.boss){const col=Object.keys(S.col).filter(k=>k.startsWith('bw_'+M.id+'_')).length;bw=`<div class="io"><b>Weapons</b>${[0,1,2].map(t=>ITEMS['bw_'+M.id+'_'+t+'_4'].i).join('')}<span class="sub">${Math.round(M.wch*100)}% per kill (guaranteed every 8)</span></div><div class="io">${RAR.map((r,i)=>`<span style="color:${r[2]};font-size:12px">${r[0]} ${RARW[i]}%</span>`).join(' · ')}</div><div class="io"><b>Armour</b>${[0,1,2,3,4,5].map(p=>ITEMS['ba_'+M.id+'_'+p+'_4'].i).join('')}<span class="sub">25% per kill (guaranteed every 10), same rarities</span></div><div class="io"><b>Collected</b>weapons ${col}/15 · armour ${Object.keys(S.col).filter(k=>k.startsWith('ba_'+M.id+'_')).length}/30 · <b>Kills</b>${S.bk[M.id]||0}</div>`;}
+ const dr=M.drops.filter(d=>d[0]!=='bones').slice(0,5).map(d=>ITEMS[d[0]].i).join(' ');
+ return`<div class="card${on?' on':''}" role="button" tabindex="0" data-a="mon" data-id="${M.id}"><div class="ch"><span class="ci">${M.i}</span><div><div class="cn">${M.n}${M.boss?' <span class="pill">Boss</span>':''}</div><div class="cm">Combat level ${M.cb}</div></div></div>
+ <div class="stats"><span>HP <b>${M.hp}</b></span><span>Max hit <b>${M.maxHit}</b></span><span>🪙 <b>${M.coins[0]}–${M.coins[1]}</b></span></div>${bw}<div class="io"><b>Drops</b> ${dr||'—'}</div>
+ <button class="btn ${on?'dng':'pri'} sm" style="align-self:flex-start">${on?'Stop fighting':'Fight'}</button></div>`;}
+
+function combatPage(){
+ let h=`<div class="panel"><div class="row"><h2 style="margin:0">Combat</h2><span class="pill">Combat level ${combatLevel()}</span><div class="sp"></div><span class="sub">Each area ends with a boss that can drop unique weapons and armour sets in five rarities. Fights are automatic. You eat food from your food slot below 50% HP.</span></div><div class="tiles" style="margin-top:10px">`;
+ COMBAT.forEach(c=>{const L=lv(c[0]),x=S.xp[c[0]],cur=XPT[L-1],nx=L>=MAXL?cur:XPT[L];h+=`<div class="tile" style="cursor:default"><div class="tl"><span>${c[2]} ${c[1]}</span><span>${L}</span></div>${bar(L>=MAXL?100:pc(x-cur,nx-cur),'xp thin')}</div>`;});
+ h+='</div></div>';
+ /* loadout */
+ const t=PS.type,M=S.cb?MONS[S.cb.mon]:null;
+ h+=`<div class="panel"><h3>Loadout</h3><div class="stats"><span>Style <b>${t}</b></span><span>Attack speed <b>${PS.sp}s</b></span>`;
+ const pcb=playerCombat();let sp=null;if(t==='magic'){sp=SPELLS[S.cb?S.cb.spell:Math.min(UI.spell||0,SPELLS.length-1)]||SPELLS[0];}
+ h+=`<span>Max hit <b>${maxHitPlayer(sp||SPELLS[0])}</b></span>${M?`<span>Hit chance <b>${Math.round(hitChance(pcb.atkRoll,M.defRoll)*100)}%</b></span>`:''}</div>`;
+ const stl=STANCES[t];const cur=S.cb?Math.min(S.cb.stance,stl.length-1):Math.min(UI.stance||0,stl.length-1);
+ h+='<div class="row" style="margin-top:8px"><b>Stance</b><div class="chips">'+stl.map((s,i)=>`<button class="tag${cur===i?' on':''}" data-a="stance" data-i="${i}">${s[0]} · ${s[1].split('+').map(k=>STN[k]).join(' + ')} XP</button>`).join('')+'</div></div>';
+ if(t==='magic'){const cs=S.cb?S.cb.spell:Math.min(UI.spell||0,SPELLS.length-1);
+  h+='<div class="row" style="margin-top:8px"><b>Spell</b><div class="chips">'+SPELLS.map((s,i)=>`<button class="tag${cs===i?' on':''}${lv('mag')<s.lvl?' off':''}" data-a="spell" data-i="${i}" title="Level ${s.lvl}">${s.n} · ${s.max}</button>`).join('')+'</div></div>';
+  h+='<div class="sub" style="margin-top:4px">Cost: '+Object.keys(sp.cost).map(k=>ic(k,0,sp.cost[k])).join(' ')+'</div>';}
+ if(t==='ranged')h+='<div class="sub" style="margin-top:6px">Arrows: '+(S.equip.ammo?ic(S.equip.ammo,cnt(S.equip.ammo)):'<span class="bad">none equipped</span>')+'</div>';
+ const f=S.equip.food;h+='<div class="sub" style="margin-top:6px">Food: '+(f&&cnt(f)?ic(f,cnt(f))+' heals '+ITEMS[f].heal:'<span class="bad">no food equipped</span> (cook fish, then equip it from the Bank)')+'</div></div>';
+ /* fight */
+ if(S.cb){const C=S.cb;
+  h+=`<div class="panel"><div class="fight"><div class="fighter"><div class="big">🧑</div><b>You</b>${bar(pc(S.hp,maxHp()),'hp big')}<div class="sub">${Math.ceil(S.hp)} / ${maxHp()} HP</div>${bar(pc(C.pt,PS.sp),'thin')}<div class="hit">${C.mlast!=null&&C.mlast>0?'−'+C.mlast:C.mlast===0?'dodged':''}</div></div>
+  <div class="fighter"><div class="big">${M.i}</div><b>${M.n}</b>${bar(pc(Math.max(0,C.mhp),M.hp),'hp big')}<div class="sub">${C.rs>0?'Respawning…':Math.max(0,Math.ceil(C.mhp))+' / '+M.hp+' HP'}</div>${bar(pc(C.mt,M.sp),'thin')}<div class="hit">${C.last!=null&&C.last>0?'−'+C.last:C.last===0?'miss':''}</div></div></div>
+  <div class="row" style="margin-top:10px"><span class="sub">Kills this fight: <b>${C.kills}</b></span><div class="sp"></div><button class="btn dng sm" data-a="stop">Stop</button></div>
+  <div class="log" style="margin-top:6px">${C.log.map(l=>`<div>🪙 ${l.c}${l.got.map(g=>' · '+ITEMS[g[0]].i+(g[1]>1?'×'+g[1]:'')).join('')}</div>`).join('')||'<div>No kills yet.</div>'}</div></div>`;}
+ h+='<div class="chips">'+AREAS.map(a=>`<button class="tag${UI.area===a.id?' on':''}" data-a="area" data-id="${a.id}">${a.i} ${a.n}</button>`).join('')+'</div>';
+ const ar=AREAS.find(a=>a.id===UI.area)||AREAS[0];h+='<div class="grid">'+ar.mons.map(monCard).join('')+'</div>';
+ return h;}
+
+function equipPage(){
+ const g=PS.g;let h='<div class="panel"><h2>Equipment</h2><div class="slots">';
+ ['helmet','amulet','ammo','weapon','body','shield','gloves','legs','ring','boots','food'].forEach(sl=>{
+  const id=S.equip[sl],it=id?ITEMS[id]:null;
+  h+=`<div class="slot${UI.slot===sl?' on':''}" role="button" tabindex="0" data-a="eslot" data-ctx="slot" data-s="${sl}">${it?`<span class="si">${it.i}</span><span${rc(it)}>${it.n}</span>${(sl==='ammo'||sl==='food')?`<small>×${fmt(cnt(id))}</small>`:''}`:`<span class="si" style="opacity:.35">${SLOTI[sl]}</span><small>${SLOTN[sl]}</small>`}</div>`;});
+ h+='</div></div>';
+ h+=`<div class="panel"><h3>Bonuses</h3><div class="stats"><span>Attack <b>${g.atk}</b></span><span>Strength <b>${g.str}</b></span><span>Defence <b>${g.def}</b></span><span>Ranged att <b>${g.rngA}</b></span><span>Ranged str <b>${g.rngS+PS.ammoS}</b></span><span>Magic att <b>${g.magA}</b></span><span>Magic dmg <b>${g.magD}%</b></span></div></div>`;
+ if(UI.slot){const sl=UI.slot,cur=S.equip[sl];
+  const opts=Object.keys(S.bank).filter(id=>ITEMS[id].slot===sl);
+  h+=`<div class="panel"><div class="row"><h3 style="margin:0">${SLOTN[sl]} slot</h3><div class="sp"></div>${cur?`<button class="btn sm" data-a="unequip" data-s="${sl}">Unequip ${ITEMS[cur].n}</button>`:''}</div><div class="grid" style="margin-top:8px">`;
+  h+=opts.map(id=>{const it=ITEMS[id];return`<div class="card${lacks(it)?' locked':''}" role="button" tabindex="0" data-a="equip" data-ctx="item" data-id="${id}"><div class="ch"><span class="ci">${it.i}</span><div><div class="cn"${rc(it)}>${it.n}</div><div class="cm">${itemDesc(it)}</div></div></div><div class="sub">In bank: ${fmt(cnt(id))}</div></div>`;}).join('')||'<div class="sub">Nothing in your bank fits this slot.</div>';
+  h+='</div></div>';}
+ else h+='<div class="sub">Tap a slot to change what you wear.</div>';
+ h+=`<div class="panel"><h3>Armour tiers</h3><div class="tw"><table><tr><th>Tier</th><th>Needs</th><th>Made by</th></tr>${T.map((t,k)=>`<tr><td>${t.n}</td><td>Defence ${t.lv}</td><td>Smithing ${Math.min(99,t.lv+8)}+ (platebody)</td></tr>`).join('')}${HIDES.map((x,k)=>`<tr><td>${HNAME[k]}</td><td>Ranged ${x[2]}</td><td>Crafting</td></tr>`).join('')}${CLOTH.map((c,k)=>`<tr><td>${c[1]} robes</td><td>Magic ${c[2]}</td><td>Crafting</td></tr>`).join('')}<tr><td>Boss armour</td><td>Defence and combat level</td><td>Boss drops, 5 rarities</td></tr></table></div></div>`;
+ return h;}
+
+const BCATS=[['all','All'],['gear','Gear'],['food','Food'],['log','Logs'],['ore','Ore'],['bar','Bars'],['ammo','Ammo'],['fish','Fish'],['potion','Potions'],['rune','Runes'],['gem','Gems'],['seed','Seeds'],['herb','Herbs'],['crop','Crops'],['hide','Hides'],['misc','Other']];
+function bankPage(){
+ const q=UI.bq.trim().toLowerCase();
+ const ids=Object.keys(S.bank).filter(id=>(UI.bcat==='all'||ITEMS[id].cat===UI.bcat)&&(!q||ITEMS[id].n.toLowerCase().includes(q))).sort((a,b)=>ITEMS[a].cat.localeCompare(ITEMS[b].cat)||ITEMS[b].v-ITEMS[a].v);
+ let h=`<div class="panel"><div class="row"><h2 style="margin:0">Bank</h2><span class="pill">${S.nb} / ${bankSlots()} slots</span><div class="sp"></div><input type="search" id="bsearch" placeholder="Search items" value="${UI.bq.replace(/"/g,'')}" aria-label="Search bank"></div>
+ <div class="chips" style="margin-top:8px">${BCATS.map(c=>`<button class="tag${UI.bcat===c[0]?' on':''}" data-a="bcat" data-c="${c[0]}">${c[1]}</button>`).join('')}</div></div>`;
+ const sid=UI.bsel&&S.bank[UI.bsel]?UI.bsel:null;
+ if(sid){const it=ITEMS[sid],n=cnt(sid);
+  h+=`<div class="panel bdet"><div class="row"><span class="ci">${it.i}</span><div><b${rc(it)}>${it.n}</b> <span class="pill">×${fmt(n)}</span><div class="sub">${itemDesc(it)||'&nbsp;'}</div><div class="sub">Worth 🪙 ${fmt(it.v)} each</div>${it.slot&&S.equip[it.slot]&&S.equip[it.slot]!==sid?`<div class="sub">Replaces: ${ITEMS[S.equip[it.slot]].n}</div>`:''}</div></div>
+  <div class="row" style="margin-top:10px">${it.slot?`<button class="btn pri sm${lacks(it)?' off':''}" data-a="equip" data-id="${sid}">${it.slot==='food'||it.slot==='ammo'?'Set as '+SLOTN[it.slot]:'Equip'}</button>`:''}${it.pot?`<button class="btn pri sm" data-a="drink" data-id="${sid}">Drink</button>`:''}
+  <button class="btn sm" data-a="sell" data-id="${sid}" data-q="1">Sell 1</button><button class="btn sm${n<10?' off':''}" data-a="sell" data-id="${sid}" data-q="10">Sell 10</button><button class="btn sm" data-a="sell" data-id="${sid}" data-q="${n}">Sell all (🪙 ${fmt(it.v*n)})</button></div></div>`;}
+ if(!sid)h+='<div class="panel bdet"><div class="sub">Select an item to see details. Right-click (or press and hold on a phone) for quick actions, or double-click gear to equip it.</div></div>';
+ h+='<div class="panel"><div class="bank">'+(ids.map(id=>`<button class="bi${sid===id?' on':''}" data-a="bsel" data-ctx="item" data-id="${id}" title="${ITEMS[id].n}"${ITEMS[id].rar!=null?` style="border-color:${RAR[ITEMS[id].rar][2]}"`:''}>${ITEMS[id].i}<span>${fmt(S.bank[id])}</span></button>`).join('')||'<div class="sub">Nothing here yet.</div>')+'</div></div>';
+ const bs=Object.keys(S.buffs);if(bs.length)h+='<div class="panel"><h3>Active potions</h3><div class="stats">'+bs.map(k=>`<span>🧪 +${S.buffs[k].v}% ${PDESC[k]} <b>${fmtT(S.buffs[k].left)}</b></span>`).join('')+'</div></div>';
+ return h;}
+
+function shopPage(){
+ let h=`<div class="panel"><h2>Tool upgrades</h2><div class="sub">Each tier cuts the time of every action in that skill by 6%.</div></div><div class="grid">`;
+ Object.keys(TOOLS).forEach(sk=>{const n=S.upg[sk]||0,cost=upgCost(sk);
+  h+=`<div class="card static"><div class="ch"><span class="ci">${SKN[sk].i}</span><div><div class="cn">${n?UPG_N[n-1]+' ':''}${TOOLS[sk]}</div><div class="cm">${SKN[sk].n} · tier ${n}/${UPG_MAX}</div></div></div>
+  ${cost==null?'<div class="good">Fully upgraded</div>':`<div class="stats"><span>Next: <b>${UPG_N[n]} ${TOOLS[sk]}</b></span><span class="${lv(sk)<UPG_LV[n]?'bad':''}">needs level <b>${UPG_LV[n]}</b></span></div><button class="btn pri sm${S.coins<cost||lv(sk)<UPG_LV[n]?' off':''}" data-a="upg" data-sk="${sk}" style="align-self:flex-start">Buy · 🪙 ${fmt(cost)}</button>`}</div>`;});
+ h+='</div><div class="panel"><h2>Perks</h2><div class="sub">Permanent bonuses that apply to everything you do.</div></div><div class="grid">';
+ PERKS.forEach(p=>{const n=perk(p.id),c=n>=p.max?null:p.cost[n];
+  h+=`<div class="card static"><div class="ch"><span class="ci">${p.i}</span><div><div class="cn">${p.n}</div><div class="cm">tier ${n}/${p.max}</div></div></div><div class="sub">${p.d}</div>${c==null?'<div class="good">Maxed</div>':`<button class="btn pri sm${S.coins<c?' off':''}" data-a="buyperk" data-id="${p.id}" style="align-self:flex-start">Buy · 🪙 ${fmt(c)}</button>`}</div>`;});
+ h+='</div><div class="grid">';
+ const bc=S.bankBuys>=BANK_MAXBUY?null:bankCost(S.bankBuys);
+ h+=`<div class="card static"><div class="ch"><span class="ci">🏦</span><div><div class="cn">Bank space</div><div class="cm">${bankSlots()} slots · +${BANK_STEP} per purchase</div></div></div>${bc==null?'<div class="good">Maximum</div>':`<button class="btn pri sm${S.coins<bc?' off':''}" data-a="buybank" style="align-self:flex-start">Buy · 🪙 ${fmt(bc)}</button>`}</div>`;
+ ['allot','herb'].forEach(cat=>{const own=S.farm[cat],c=own>=PLOT_MAX[cat]?null:plotCost(cat,own);
+  h+=`<div class="card static"><div class="ch"><span class="ci">🟫</span><div><div class="cn">${cat==='allot'?'Allotment plot':'Herb patch'}</div><div class="cm">${own}/${PLOT_MAX[cat]} owned</div></div></div>${c==null?'<div class="good">Maximum</div>':`<button class="btn pri sm${S.coins<c?' off':''}" data-a="buyplot" data-c="${cat}" style="align-self:flex-start">Buy · 🪙 ${fmt(c)}</button>`}</div>`;});
+ h+='</div><div class="panel"><h2>Supplies and seeds</h2><div class="tw"><table><tr><th>Item</th><th>Price</th><th>Owned</th><th></th></tr>';
+ const row=(id,n,i,cost,lock)=>`<tr><td>${i} ${n}</td><td>🪙 ${fmt(cost)}</td><td>${fmt(cnt(id))}</td><td><button class="btn sm${lock||S.coins<cost?' off':''}" data-a="buyi" data-id="${id}" data-q="1">Buy 1</button> <button class="btn sm${lock||S.coins<cost*10?' off':''}" data-a="buyi" data-id="${id}" data-q="10">Buy 10</button></td></tr>`;
+ Object.keys(SUPPLY).forEach(id=>{h+=row(id,ITEMS[id].n,ITEMS[id].i,SUPPLY[id],false);});
+ CROP.forEach(c=>{h+=row(c.seed,c.n+' Seed','🌱',c.seedCost,lv('farm')<c.lvl);});
+ return h+'</table></div></div>';}
+
+function settingsPage(){
+ return`<div class="panel"><h2>Settings</h2><div class="row"><b>Theme</b>${['auto','light','dark'].map(t=>`<button class="tag${S.theme===t?' on':''}" data-a="theme" data-t="${t}">${t[0].toUpperCase()+t.slice(1)}</button>`).join('')}</div></div>
+ <div class="panel"><h2>Save</h2><div class="sub">You are playing <b>${S.name}</b> in <b>slot ${SLOT}</b>. ${SAVESTAT.ok?'Last saved '+ago(SAVESTAT.at)+'. It saves automatically every few seconds.':'<span class="gold">Not saving: '+SAVESTAT.err+'.</span>'}</div>
+ <div class="row" style="margin:8px 0"><button class="btn pri" data-a="savenow">Save now</button><button class="btn" data-a="slots">Manage saves</button><button class="btn" data-a="switchslot">Switch save</button></div>
+ <div class="row" style="margin:8px 0"><input type="text" id="rn" maxlength="20" placeholder="Rename adventurer" value="${UI.rn}" autocomplete="off" aria-label="New name"><button class="btn" data-a="rename">Rename</button></div>
+ <div class="sub">Backup text works on this slot. Copy it to keep it safe or move it to another device.</div>
+ <div class="row" style="margin:8px 0"><button class="btn pri" data-a="export">Show backup text</button><button class="btn" data-a="import">Load from text below</button></div>
+ <textarea id="imp" placeholder="Paste backup text here" aria-label="Backup text">${UI.imp}</textarea><div class="sub" style="margin-top:6px">${UI.msg}</div></div>
+ <div class="panel"><h2>Cheat codes</h2><div class="sub">Type a code and press Redeem. Cheats change your save permanently, so export a backup first if you care about a clean run.</div><div class="row" style="margin:8px 0"><input type="text" id="cheat" placeholder="Enter code" value="${UI.cheat||''}" autocomplete="off" autocapitalize="characters" aria-label="Cheat code"><button class="btn pri" data-a="cheat">Redeem</button><span class="sub">${UI.msg2||''}</span></div><div class="tw"><table>${CHEATS.map(c=>`<tr><td><b>${c[0]}</b></td><td>${c[1]}</td></tr>`).join('')}</table></div>${S.cheat.speed===5?'<div class="gold">Turbo is on.</div>':''}${S.cheat.god?'<div class="gold">God mode is on.</div>':''}</div>
+ <div class="panel"><h2>Statistics</h2><div class="stats"><span>Time played <b>${fmtT(S.play)}</b></span><span>Actions <b>${fmt(S.stats.actions)}</b></span><span>Monsters killed <b>${fmt(S.stats.kills)}</b></span><span>Times knocked out <b>${S.stats.deaths}</b></span><span>Coins earned <b>${fmt(S.stats.coins)}</b></span></div></div>
+ <div class="panel"><h2>Reset</h2><div class="sub">Restarts this slot from scratch. The previous save is kept as an automatic backup until the next one replaces it.</div><div class="row" style="margin-top:8px">${UI.confirm?'<button class="btn dng" data-a="reset">Yes, erase everything</button><button class="btn" data-a="resetno">Cancel</button>':'<button class="btn dng" data-a="resetask">Reset game</button>'}</div></div>`;}
+
+function homePage(){
+ let h=`<div class="panel"><h2>Welcome to Mossgate</h2><div class="sub">Pick a skill, start an action, and let it run. You can run two activities at once, one in each of slots A and B (the boxes in the top bar; tap a slot to choose where your next action starts, and combat counts as one activity). Your crops keep growing and your progress continues while you are away (up to 12 hours, more with the Camp Bed perk).</div>
+ <div class="stats" style="margin-top:10px"><span>Total level <b>${totalLevel()}</b> / ${ALLSK.length*99}</span><span>Combat level <b>${combatLevel()}</b></span><span>🪙 <b>${fmt(S.coins)}</b></span><span>Played <b>${fmtT(S.play)}</b></span></div></div>`;
+ h+='<div class="panel"><h2>Skills</h2><div class="tiles">';
+ COMBAT.concat(SKILLS).forEach(s=>{const id=s[0],L=lv(id),x=S.xp[id],cur=XPT[L-1],nx=L>=MAXL?cur:XPT[L],comb=COMBAT.some(c=>c[0]===id);
+  h+=`<button class="tile" data-a="nav" data-p="${comb?'combat':id}"><div class="tl"><span>${comb?s[2]:s[2]} ${comb?s[1]:s[1]}</span><span>${L}</span></div>${bar(L>=MAXL?100:pc(x-cur,nx-cur),'xp thin')}</button>`;});
+ return h+'</div></div>';}
+
+function pageHtml(){
+ const p=UI.page;
+ if(p==='home')return homePage();if(p==='combat')return combatPage();if(p==='equip')return equipPage();if(p==='bank')return bankPage();if(p==='shop')return shopPage();if(p==='wheel')return wheelPage();if(p==='set')return settingsPage();
+ return skillPage(p);}
+function ctxHtml(){const c=UI.ctx;if(!c)return'';let b='',t='';
+ if(c.t==='item'){const it=ITEMS[c.id],n=cnt(c.id);if(!it||!n)return'';t=`<span${rc(it)}>${it.n}</span> ×${fmt(n)}`;
+  const lowl=lacks(it);
+  if(it.slot)b+=`<button class="${lowl?'off':''}" data-a="equip" data-id="${c.id}">${it.slot==='food'||it.slot==='ammo'?'Set as '+SLOTN[it.slot]:'Equip'}${lowl?' (needs '+lacks(it)+')':''}</button>`;
+  if(it.pot)b+=`<button data-a="drink" data-id="${c.id}">Drink</button>`;
+  b+=`<button data-a="ctxsel" data-id="${c.id}">Select in bank</button><button data-a="sell" data-id="${c.id}" data-q="1">Sell 1</button>${n>1?`<button data-a="sell" data-id="${c.id}" data-q="${n}">Sell all (🪙 ${fmt(it.v*n)})</button>`:''}`;}
+ else{const id=S.equip[c.s];if(!id)return'';t=`<span${rc(ITEMS[id])}>${ITEMS[id].n}</span>`;b=`<button data-a="unequip" data-s="${c.s}">Unequip</button>`;}
+ const x=Math.max(4,Math.min(c.x,innerWidth-190)),y=Math.max(4,Math.min(c.y,innerHeight-210));
+ return`<div class="ctx" style="left:${x}px;top:${y}px"><div class="ct">${t}</div>${b}</div>`;}
+function wheelPage(){
+ const W=S.wheel,left=wheelLeft(),spinning=UI.wspin&&Date.now()<UI.wspin,n=WHEEL.length,seg=360/n;
+ const pt=(a,r)=>{const t=a*Math.PI/180;return[(r*Math.sin(t)).toFixed(2),(-r*Math.cos(t)).toFixed(2)];};
+ let svg='';
+ WHEEL.forEach((w,i)=>{const a=pt(i*seg,100),b=pt((i+1)*seg,100),m=(i+.5)*seg;
+  svg+=`<path d="M0 0L${a[0]} ${a[1]}A100 100 0 0 1 ${b[0]} ${b[1]}Z" fill="${w.col}" stroke="rgba(0,0,0,.35)" stroke-width="1"/><text transform="rotate(${m}) translate(0,-66)" text-anchor="middle" font-size="${w.s.length>5?10:12}" font-weight="700" fill="#fff" stroke="rgba(0,0,0,.4)" stroke-width=".4">${w.s}</text>`;});
+ svg+='<circle r="14" fill="#f0c040" stroke="rgba(0,0,0,.4)"/><circle r="5" fill="#8a5a10"/>';
+ let h=`<div class="panel"><h2>Daily Wheel</h2><div class="sub">One free spin every 24 hours. Prizes include coins, food, potions, gems and boss weapons, with a small chance of a Mythic weapon.</div>
+ <div class="wheelwrap"><div class="ptr"></div><svg class="wheel" viewBox="-104 -104 208 208" style="transform:rotate(${UI.wrot||0}deg)" aria-label="Prize wheel">${svg}</svg></div>
+ <div class="row" style="justify-content:center"><button class="btn pri${left>0||spinning?' off':''}" data-a="spin">${left>0?'Next free spin in '+fmtT(left/1000):'Spin the wheel'}</button><button class="btn${S.coins<WHEEL_COST||spinning?' off':''}" data-a="spinpaid">Extra spin · 🪙 ${fmt(WHEEL_COST)}</button></div></div>`;
+ if(W.win&&!spinning){const w=WHEEL[W.win.idx];h+=`<div class="panel"><h3>Last prize: <span style="color:${w.col}">${w.n}</span></h3><div class="io">${W.win.coins?`<span class="chip">🪙 ${fmt(W.win.coins)}</span>`:''}${W.win.items.map(i=>ic(i[0],i[1])).join('')}</div></div>`;}
+ h+=`<div class="panel"><h3>Odds per spin</h3><div class="tw"><table>${WHEEL.map(w=>`<tr><td><span style="color:${w.col}">■</span> ${w.n}</td><td>${w.w}%</td></tr>`).join('')}</table></div><div class="sub" style="margin-top:6px">Total spins: ${W.spins}. Boss weapons still need their combat level to equip.</div></div>`;
+ return h;}
+function toastHtml(){const now=Date.now();return EV.filter(e=>now-e.at<5000).slice(-4).map(e=>`<div class="toast ${e.k}">${e.t}</div>`).join('');}
+
+function ago(t){if(!t)return'never';const s=(Date.now()-t)/1000;return s<10?'just now':fmtT(s)+' ago';}
+function slotsModal(m){
+ const mt=getMeta();let h='';
+ for(let n=1;n<=NSAVE;n++){const i=slotInfo(n),cur=!!S&&SLOT===n;let b;
+  if(m.newN===n)b=`<div class="row"><input type="text" id="nm" maxlength="20" placeholder="Name your adventurer" value="${UI.nm}" autocomplete="off" aria-label="Adventurer name"><button class="btn pri" data-a="slotnew" data-n="${n}">Start</button><button class="btn" data-a="slotcancel">Cancel</button></div>`;
+  else if(m.warn===n)b=`<div class="gold">This save looks open in another tab. Playing it in two tabs can overwrite progress.</div><div class="row"><button class="btn dng" data-a="slotforce" data-n="${n}">Play anyway</button><button class="btn" data-a="slotcancel">Cancel</button></div>`;
+  else if(!i)b=`<div class="sub">Empty slot</div><div class="row"><button class="btn pri" data-a="slotnewask" data-n="${n}">New game</button></div>`;
+  else b=`<div class="stats"><span>Total level <b>${i.tl}</b></span><span>Combat <b>${i.cl}</b></span><span>🪙 <b>${fmt(i.coins)}</b></span><span>Played <b>${fmtT(i.play)}</b></span><span>Saved <b>${ago(i.saved)}</b></span></div>
+   ${i.bak?'<div class="gold">The main save could not be read. This is the automatic backup.</div>':''}
+   <div class="row">${cur?'<span class="tag on">Playing now</span>':`<button class="btn pri" data-a="slotplay" data-n="${n}">Play</button>`}${cur?'':(m.delN===n?`<button class="btn dng" data-a="slotdel" data-n="${n}">Yes, delete it</button><button class="btn" data-a="slotcancel">Keep</button>`:`<button class="btn" data-a="slotdelask" data-n="${n}">Delete</button>`)}</div>`;
+  h+=`<div class="slotc${cur?' cur':''}"><div class="sh"><b>Slot ${n}</b>${i?`<span>${i.name}</span>`:''}</div>${b}</div>`;}
+ return`<div class="modal"><div class="mbox"><h2>${m.boot?'Choose a save':'Your saves'}</h2><div class="sub">Each slot is a separate game saved in this browser. Progress saves automatically.</div>${h}
+ <div class="row"><button class="tag${mt.auto?' on':''}" data-a="slotauto" aria-pressed="${mt.auto}">Skip this screen and continue my last save</button></div>
+ ${m.boot?'':'<div class="row"><button class="btn" data-a="closemodal">Back to game</button></div>'}</div></div>`;}
+function enterSlot(n,s){
+ SLOT=n;SAVESTAT.ok=true;SAVESTAT.bak=0;useState(s);claim(n);const m=getMeta();m.last=n;setMeta(m);UI.modal=null;UI.page='home';UI.bsel=null;UI.confirm=false;UI.msg='';
+ const away=(Date.now()-(s.saved||Date.now()))/1000;
+ if(away>=30){const r=simulateOffline(away);if(away>=120&&(r.coins>0||Object.keys(r.xp).length||Object.keys(r.items).length))UI.modal={type:'offline',r,away};}
+ const h=location.hash.replace('#','');if(h&&(['home','combat','equip','bank','shop','wheel','set'].includes(h)||SKILLS.some(x=>x[0]===h)))UI.page=h;
+ saveLocal();}
+function playSlot(n,force){const r=readSlot(n);if(!r)return;if(!force&&lockedElsewhere(n)){UI.modal.warn=n;UI.modal.newN=null;UI.modal.delN=null;return;}enterSlot(n,r.s);if(r.bak)toast('Loaded the automatic backup for this slot.','warn');}
+function leaveSlot(){if(S){saveLocal();release();}S=null;SLOT=0;UI.modal={type:'slots',boot:true,newN:null,delN:null,warn:null};}
+function modalHtml(){const m=UI.modal;if(!m)return'';
+ if(m.type==='slots')return slotsModal(m);
+ if(m.type==='offline'){const r=m.r;
+  const xp=Object.keys(r.xp).map(k=>`<tr><td>${SKN[k].i} ${SKN[k].n}</td><td>+${fmt(r.xp[k])} XP</td></tr>`).join('');
+  const it=Object.keys(r.items).sort((a,b)=>r.items[b]*ITEMS[b].v-r.items[a]*ITEMS[a].v).slice(0,12).map(k=>`<span class="chip">${ITEMS[k].i} ${ITEMS[k].n} ×${fmt(r.items[k])}</span>`).join(' ');
+  return`<div class="modal"><div class="mbox"><h2>Welcome back</h2><div class="sub">You were away for ${fmtT(m.away)}${m.away>offCap()?' (progress is capped at '+Math.round(offCap()/3600)+' hours)':''}.</div>
+  ${r.stopped?'<div class="gold">Your activity stopped before you returned (out of materials, supplies or health).</div>':''}
+  <div class="stats"><span>🪙 <b>+${fmt(r.coins)}</b></span>${r.kills?`<span>Kills <b>${fmt(r.kills)}</b></span>`:''}${r.deaths?`<span>Knocked out <b>${r.deaths}</b></span>`:''}</div>
+  ${xp?`<table>${xp}</table>`:''}${it?`<div class="io">${it}</div>`:''}<button class="btn pri" data-a="closemodal">Continue</button></div></div>`;}
+ if(m.type==='export')return`<div class="modal"><div class="mbox"><h2>Backup text</h2><div class="sub">Select all and copy this text, then store it somewhere safe.</div><textarea id="exp" readonly>${m.txt}</textarea><div class="row"><button class="btn pri" data-a="copyexp">Copy</button><button class="btn" data-a="closemodal">Close</button></div></div></div>`;
+ return'';}
+
+let lastNav='',lastKey='';
+function render(){
+ if(!S){paint($('#modal'),modalHtml());return;}
+ document.documentElement.dataset.theme=S.theme==='auto'?'':S.theme;if(S.theme==='auto')document.documentElement.removeAttribute('data-theme');
+ $('#app').classList.toggle('open',UI.navOpen);
+ paint($('#rail'),navHtml());paint($('#top'),topHtml());paint($('#page'),pageHtml());paint($('#toasts'),toastHtml());paint($('#modal'),modalHtml());paint($('#ctx'),ctxHtml());}
+
+/* ---------- actions ---------- */
+function go(p){UI.page=p;UI.navOpen=false;window.scrollTo(0,0);try{history.replaceState(null,'','#'+p);}catch(e){}}
+function nextSlot(){if(S.acts[UI.tgt]){const o=S.acts.findIndex((a,i)=>!a&&i!==UI.tgt);if(o>=0)UI.tgt=o;}}
+function handle(d){
+ switch(d.a){
+  case'nav':go(d.p);break;case'navtoggle':UI.navOpen=!UI.navOpen;break;
+  case'start':startAction(d.sk,d.id,UI.tgt);nextSlot();break;case'stop':stopAll();break;case'slot':UI.tgt=+d.i;break;case'stopslot':clearSlot(+d.i);UI.tgt=+d.i;break;
+  case'mon':startCombat(UI.area,d.id,UI.tgt);nextSlot();if(S.cb){S.cb.stance=UI.stance||0;S.cb.spell=UI.spell||0;}break;case'area':UI.area=d.id;break;
+  case'stance':if(S.cb)S.cb.stance=+d.i;UI.stance=+d.i;break;
+  case'spell':if(lv('mag')>=SPELLS[+d.i].lvl){if(S.cb)S.cb.spell=+d.i;UI.spell=+d.i;}break;
+  case'eslot':UI.slot=UI.slot===d.s?null:d.s;break;case'equip':equip(d.id);break;case'unequip':unequip(d.s);break;
+  case'bsel':UI.bsel=d.id;break;case'bcat':UI.bcat=d.c;break;
+  case'sell':sell(d.id,+d.q);break;case'drink':usePotion(d.id);break;
+  case'upg':buyUpg(d.sk);break;case'buybank':buyBank();break;case'buyplot':buyPlot(d.c);break;case'buyi':buyItem(d.id,+d.q);break;case'buyperk':buyPerk(d.id);break;
+  case'pick':UI.pick=+d.i;break;case'pickclose':UI.pick=null;break;
+  case'plant':if(UI.pick!=null&&plant(UI.pick,d.crop))UI.pick=null;break;
+  case'harvest':harvest(+d.i);break;case'harvestall':{const n=harvestAll();if(!n)toast('Nothing is ready yet','warn');}break;case'autoplant':S.farm.auto=!S.farm.auto;break;
+  case'theme':S.theme=d.t;break;
+  case'export':UI.modal={type:'export',txt:exportSave()};break;
+  case'copyexp':{const t=$('#exp');if(t){t.select();try{navigator.clipboard.writeText(t.value).then(()=>toast('Copied','info'),()=>{});}catch(e){}}}break;
+  case'import':try{const s=importSave($('#imp').value);s.name=s.name||S.name;SAVESTAT.bak=0;saveLocal();useState(s);saveLocal();UI.msg='Backup loaded.';UI.imp='';}catch(e){UI.msg='That backup text could not be read.';}break;
+  case'resetask':UI.confirm=true;break;case'resetno':UI.confirm=false;break;
+  case'reset':{const nm=S.name;SAVESTAT.bak=0;saveLocal();const f=newState();f.name=nm;useState(f);saveLocal();}UI.confirm=false;UI.page='home';UI.bsel=null;break;
+  case'slotnewask':UI.modal.newN=+d.n;UI.modal.delN=null;UI.modal.warn=null;UI.nm='';break;
+  case'slotnew':{const n=+d.n,s=newState();s.name=cleanName(UI.nm)||'Adventurer';deleteSlot(n);enterSlot(n,s);toast('Welcome, '+s.name+'! Pick a skill on the left to begin.','info');}break;
+  case'slotplay':playSlot(+d.n,false);break;case'slotforce':playSlot(+d.n,true);break;
+  case'slotdelask':UI.modal.delN=+d.n;UI.modal.newN=null;UI.modal.warn=null;break;
+  case'slotdel':deleteSlot(+d.n);UI.modal.delN=null;break;
+  case'slotcancel':UI.modal.newN=null;UI.modal.delN=null;UI.modal.warn=null;break;
+  case'slotauto':{const m=getMeta();m.auto=!m.auto;setMeta(m);}break;
+  case'slots':saveLocal();UI.modal={type:'slots',boot:false,newN:null,delN:null,warn:null};break;
+  case'savenow':saveLocal();break;
+  case'rename':{const n=cleanName(UI.rn);if(n){S.name=n;UI.rn='';saveLocal();}}break;
+  case'switchslot':leaveSlot();break;
+  case'closemodal':UI.modal=null;break;
+  case'ctxsel':UI.bsel=d.id;UI.page='bank';break;
+  case'spin':case'spinpaid':{if(UI.wspin&&Date.now()<UI.wspin)break;const r=spinWheel(d.a==='spinpaid');if(r){const seg=360/WHEEL.length,cur=UI.wrot||0;UI.wrot=Math.ceil(cur/360)*360+360*6+(360-(r.idx+.5)*seg)+(Math.random()-.5)*seg*.6;UI.wspin=Date.now()+4400;setTimeout(render,4500);if(r.idx>=6)setTimeout(()=>toast('Wheel prize: '+WHEEL[r.idx].n+'!','boss'),4400);}}break;
+  case'cheat':{const el=$('#cheat'),r=cheat(el?el.value:'');UI.msg2=r||'That code is not recognised.';if(r&&el){el.value='';UI.cheat='';}saveLocal();}break;}
+ render();}
+document.addEventListener('click',e=>{if(UI.noclick>Date.now()){e.preventDefault();return;}const had=!!UI.ctx;UI.ctx=null;const el=e.target.closest('[data-a]');if(!el||el.dataset.a==='noop'){if(had)render();return;}e.preventDefault();handle(el.dataset);});
+document.addEventListener('contextmenu',e=>{const el=e.target.closest('[data-ctx]');if(!el)return;e.preventDefault();const d=el.dataset;UI.ctx={t:d.ctx,id:d.id,s:d.s,x:e.clientX,y:e.clientY};if(d.ctx==='item')UI.bsel=d.id;render();});
+document.addEventListener('dblclick',e=>{const el=e.target.closest('.bank [data-ctx="item"]');if(el&&ITEMS[el.dataset.id].slot){equip(el.dataset.id);render();}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&UI.ctx){UI.ctx=null;render();}});
+window.addEventListener('scroll',()=>{if(UI.ctx){UI.ctx=null;render();}},{passive:true});
+let lpT=null;
+document.addEventListener('touchstart',e=>{const el=e.target.closest('[data-ctx]');if(!el)return;const t=e.touches[0],d=el.dataset;lpT=setTimeout(()=>{lpT=null;UI.ctx={t:d.ctx,id:d.id,s:d.s,x:t.clientX,y:t.clientY};if(d.ctx==='item')UI.bsel=d.id;UI.noclick=Date.now()+700;render();},500);},{passive:true});
+['touchend','touchmove','touchcancel'].forEach(ev=>document.addEventListener(ev,()=>{if(lpT){clearTimeout(lpT);lpT=null;}},{passive:true}));
+document.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches&&e.target.matches('[role=button][data-a]')){e.preventDefault();handle(e.target.dataset);}});
+document.addEventListener('input',e=>{if(e.target.id==='bsearch'){UI.bq=e.target.value;render();}if(e.target.id==='imp')UI.imp=e.target.value;if(e.target.id==='cheat')UI.cheat=e.target.value;if(e.target.id==='nm')UI.nm=e.target.value;if(e.target.id==='rn')UI.rn=e.target.value;});
+
+/* ---------- boot + loop ---------- */
+function boot(){
+ migrateLegacy();
+ const mt=getMeta();let entered=false;
+ if(mt.auto&&mt.last&&!lockedElsewhere(mt.last)){const r=readSlot(mt.last);if(r){enterSlot(mt.last,r.s);entered=true;}}
+ if(!entered)UI.modal={type:'slots',boot:true,newN:null,delN:null,warn:null};
+ render();
+ let last=performance.now(),acc=0;
+ setInterval(()=>{const now=performance.now();let d=(now-last)/1000;last=now;if(!S)return;
+  if(d>3){const r=simulateOffline(d);if(d>=60&&!UI.modal&&(r.coins>0||Object.keys(r.xp).length))UI.modal={type:'offline',r,away:d};}
+  else{acc+=d*(S.cheat.speed||1);let n=0;while(acc>=0.1&&n++<400){step(0.1);acc-=0.1;}}},100);
+ setInterval(()=>{if(!document.hidden)render();},200);
+ setInterval(saveLocal,10000);
+ document.addEventListener('visibilitychange',()=>{if(document.hidden)saveLocal();});
+ window.addEventListener('pagehide',()=>{saveLocal();release();});}
+boot();
+</script>
+</body></html>
