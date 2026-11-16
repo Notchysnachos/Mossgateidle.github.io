@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-+FU47ia07UgMcXntdhmJge0mBiFZYSDp8b+OvKdMyXI=' 'sha256-3kUJRw3imQB4sILA6qP0rs8BsofKxtKoO8GylmTEh5U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; worker-src 'self'; connect-src https://fogoltmnmdabjimxsjnm.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="icons/icon-192.png"><meta name="theme-color" content="#e9eee8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121815" media="(prefers-color-scheme: dark)"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Mossgate"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-HzGv2xpTSWxeLz00jaRmmF5/v/SYV2UPds2fA6op23o=' 'sha256-3kUJRw3imQB4sILA6qP0rs8BsofKxtKoO8GylmTEh5U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; worker-src 'self'; connect-src https://fogoltmnmdabjimxsjnm.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="icons/icon-192.png"><meta name="theme-color" content="#e9eee8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121815" media="(prefers-color-scheme: dark)"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Mossgate"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
 <title>Mossgate Idle</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -208,9 +208,13 @@ table{border-collapse:collapse;width:100%;font-size:13px}td,th{padding:5px 8px;b
 #dstake{padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:var(--panel2);color:inherit;font:inherit;width:100%}
 
 .wk{display:inline-flex;align-items:center;gap:4px;font:600 11px var(--f-body);padding:2px 8px 2px 4px;border-radius:999px;border:1px solid var(--line);background:var(--panel2);color:var(--ink)}.wk .ic{width:16px;height:16px}.wk.hit{border-color:var(--accent,#2e7d52);background:color-mix(in srgb,var(--accent,#2e7d52) 16%,var(--panel2))}
+
+.evbox{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:40;background:var(--panel,#222);border:2px solid #d8c060;border-radius:12px;padding:10px 14px;min-width:min(92vw,320px);max-width:92vw;box-shadow:0 6px 24px rgba(0,0,0,.45)}
+.evt{margin:6px 0;text-align:center}.evarea{position:relative;height:110px;background:rgba(0,0,0,.18);border-radius:8px;margin-top:4px}
+.evimp{position:absolute;font-size:28px;background:none;border:0;cursor:pointer;transform:translate(-50%,-50%)}.evodd{font-size:26px}
 </style>
 <div class="app" id="app"><aside class="rail" id="rail"></aside><div class="main"><header class="top" id="top"></header><main class="page" id="page"></main></div></div>
-<div class="toasts" id="toasts" aria-live="polite"></div><div id="modal"></div><div id="ctx"></div>
+<div class="toasts" id="toasts" aria-live="polite"></div><div id="evt"></div><div id="modal"></div><div id="ctx"></div>
 <script>
 (function(){
 'use strict';
@@ -224,7 +228,7 @@ const MXP=L=>Math.round(XPT[L-1]*0.06); // mastery xp needed for level L
 
 const ITEMS={};
 function mk(id,n,i,v,cat,o){ITEMS[id]=Object.assign({id,n,i,v,cat},o||{});return ITEMS[id];}
-const ACT={wc:[],fish:[],mine:[],fm:[],cook:[],smith:[],fletch:[],craft:[],thief:[],agi:[],herb:[],rc:[],dung:[],slayer:[]};
+const ACT={wc:[],fish:[],mine:[],fm:[],cook:[],smith:[],fletch:[],craft:[],thief:[],agi:[],herb:[],rc:[],dung:[],slayer:[],pray:[]};
 const R=Math.round;
 
 const SKILLS=[
@@ -241,12 +245,13 @@ const SKILLS=[
  ['herb','Herblore','🧪','Brew potions that boost your skills and combat.'],
  ['rc','Runecrafting','🔮','Turn essence into runes for magic.'],
  ['agi','Agility','🏃','Run obstacle courses for coins and experience.'],
+ ['pray','Prayer','🙏','Bury bones to train Prayer. In combat, switch on prayers for boosts; they drain Prayer points while you fight.'],
  ['slayer','Slayer','💀','Take tasks from the Slayer Master, then hunt the assigned monsters for Slayer XP and points.'],
  ['dung','Dungeoneering','🏰','Delve into dungeons floor by floor. Clear them for experience, coins, loot and permanent relics. Floors hurt, so bring food.']
 ];
 const COMBAT=[['atk','Attack','⚔️'],['str','Strength','💪'],['def','Defence','🛡️'],['hp','Hitpoints','❤️'],['rng','Ranged','🏹'],['mag','Magic','🔮']];
 const SKN={};SKILLS.forEach(s=>SKN[s[0]]={n:s[1],i:s[2],d:s[3]});COMBAT.forEach(s=>SKN[s[0]]={n:s[1],i:s[2],d:''});
-const SKKIND={wc:'gather',fish:'gather',mine:'gather',thief:'thief',agi:'gather',dung:'dungeon',fm:'art',cook:'art',smith:'art',fletch:'art',craft:'art',herb:'art',rc:'art',farm:'farm'};
+const SKKIND={wc:'gather',fish:'gather',mine:'gather',thief:'thief',agi:'gather',dung:'dungeon',fm:'art',cook:'art',smith:'art',fletch:'art',craft:'art',herb:'art',rc:'art',pray:'art',farm:'farm'};
 const ALLSK=COMBAT.map(c=>c[0]).concat(SKILLS.map(s=>s[0]));
 
 const T=[
@@ -636,15 +641,36 @@ const GEARW=1.5,ACC_BUFF=1.4,DMG_MIN=0.25,HIT_MULT={melee:1.35,ranged:1.5,magic:
 
 /* ===== pets and cape colours ===== */
 const PET_BASE=120000,PET_LV=400,PET_DELVE=1/150,PET_DG=1/250,PET_RAID=1/400;
-const PETN={wc:['Sprig the Beaver','🦫'],fish:['Pip the Heron','🦩'],mine:['Rocky the Mole','🦔'],fm:['Cinder the Salamander','🦎'],cook:['Crumb the Mouse','🐭'],smith:['Sparks the Ember Fox','🦊'],fletch:['Quill the Owl','🦉'],craft:['Thimble the Moth','🦋'],thief:['Bandit the Raccoon','🦝'],farm:['Turnip the Bunny','🐰'],herb:['Sage the Toad','🐸'],rc:['Wisp the Spark','✨'],agi:['Dash the Hare','🐇'],dung:['Delver the Bat','🦇'],slayer:['Reaper the Imp','😈'],atk:['Fang the Wolf Pup','🐺'],str:['Bruno the Bear Cub','🐻'],def:['Shell the Turtle','🐢'],hp:['Heart the Fairy','🧚'],rng:['Hawk the Falcon','🦅'],mag:['Mystic the Dragonet','🐲']};
+const PETN={wc:['Sprig the Beaver','🦫'],fish:['Pip the Heron','🦩'],mine:['Rocky the Mole','🦔'],fm:['Cinder the Salamander','🦎'],cook:['Crumb the Mouse','🐭'],smith:['Sparks the Ember Fox','🦊'],fletch:['Quill the Owl','🦉'],craft:['Thimble the Moth','🦋'],thief:['Bandit the Raccoon','🦝'],farm:['Turnip the Bunny','🐰'],herb:['Sage the Toad','🐸'],rc:['Wisp the Spark','✨'],agi:['Dash the Hare','🐇'],dung:['Delver the Bat','🦇'],slayer:['Reaper the Imp','😈'],pray:['Halo the Dove','🕊️'],atk:['Fang the Wolf Pup','🐺'],str:['Bruno the Bear Cub','🐻'],def:['Shell the Turtle','🐢'],hp:['Heart the Fairy','🧚'],rng:['Hawk the Falcon','🦅'],mag:['Mystic the Dragonet','🐲']};
 const PETS=[];
 SKILLS.forEach(s=>{const id=s[0];const p=PETN[id]||[SKN[id].n+' Sprite','🐾'];PETS.push({id:'p_'+id,n:p[0],i:p[1],from:SKN[id].n+' training',sk:id});});
 DUNG.forEach(a=>{PETS.push({id:'p_'+a[0],n:a[1]+' Imp',i:'👹',from:'Clearing '+a[1],dg:a[0]});});
 DUNGEONS.forEach(d=>{PETS.push({id:'p_'+d.id,n:d.pet?d.pet[0]:d.n+' Whelp',i:d.pet?d.pet[1]:'🐉',from:(d.raid?'Completing the raid ':'Conquering ')+d.n,dg:d.id});});
 const PETB={};PETS.forEach(p=>PETB[p.id]=p);
-const CAPEC={wc:'#6aa84f',fish:'#3d85c6',mine:'#999999',fm:'#e06666',cook:'#e69138',smith:'#666666',fletch:'#93c47d',craft:'#c27ba0',thief:'#674ea7',farm:'#38761d',herb:'#4caf6a',rc:'#a64d79',agi:'#45a1a1',dung:'#7f6000',slayer:'#8b1a1a',atk:'#cc0000',str:'#e2a100',def:'#2a6fb0',hp:'#f06080',rng:'#6b8e23',mag:'#6a5acd'};
+const CAPEC={wc:'#6aa84f',fish:'#3d85c6',mine:'#999999',fm:'#e06666',cook:'#e69138',smith:'#666666',fletch:'#93c47d',craft:'#c27ba0',thief:'#674ea7',farm:'#38761d',herb:'#4caf6a',rc:'#a64d79',agi:'#45a1a1',dung:'#7f6000',slayer:'#8b1a1a',pray:'#d8d2a8',atk:'#cc0000',str:'#e2a100',def:'#2a6fb0',hp:'#f06080',rng:'#6b8e23',mag:'#6a5acd'};
 
 ['farmhand','hobgob','chief','scarecrow'].forEach(id=>{if(MONS[id])MONS[id].nosl=1;});
+
+/* ---------- Prayer: bones, burying and the prayers themselves ---------- */
+mk('bbones','Big Bones','🦴',18,'misc');mk('wbones','Wyrm Bones','🦴',60,'misc');
+[['bones','Bury Bones',1,6,1.2],['bbones','Bury Big Bones',20,20,1.4],['wbones','Bury Wyrm Bones',45,55,1.6],['dragon_bone','Bury Dragon Bones',70,120,1.8]].forEach(b=>
+ ACT.pray.push({id:'pray_'+b[0],n:b[1],i:'🙏',lvl:b[2],xp:b[3],t:b[4],in:{[b[0]]:1}}));
+Object.values(MONS).forEach(m=>{if(m.dg||!m.drops)return;const bi=m.drops.findIndex(x=>x[0]==='bones');if(bi<0)return;
+ const t=m.cb>=60?'wbones':m.cb>=28?'bbones':null;if(t)m.drops[bi]=[t,1,1,1];});
+/* group: only one prayer per group can be on; 'all' blocks acc/str/def */
+const PRAYERS=[
+ {id:'thick',n:'Thick Skin',i:'🛡️',lvl:1,dr:.05,g:'def',e:{def:.10},d:'+10% defence'},
+ {id:'clarity',n:'Clarity of Thought',i:'🧠',lvl:4,dr:.05,g:'acc',e:{acc:.10},d:'+10% accuracy'},
+ {id:'burst',n:'Burst of Strength',i:'💪',lvl:8,dr:.05,g:'str',e:{str:.10},d:'+10% max hit'},
+ {id:'rock',n:'Rock Skin',i:'🪨',lvl:18,dr:.1,g:'def',e:{def:.20},d:'+20% defence'},
+ {id:'reflex',n:'Improved Reflexes',i:'⚡',lvl:22,dr:.1,g:'acc',e:{acc:.16},d:'+16% accuracy'},
+ {id:'super',n:'Superhuman Strength',i:'🦾',lvl:30,dr:.1,g:'str',e:{str:.16},d:'+16% max hit'},
+ {id:'steel',n:'Steel Skin',i:'🔩',lvl:40,dr:.17,g:'def',e:{def:.30},d:'+30% defence'},
+ {id:'eagle',n:'Eagle Eye',i:'🦅',lvl:50,dr:.2,g:'acc',e:{acc:.24},d:'+24% accuracy'},
+ {id:'ultimate',n:'Ultimate Strength',i:'🔥',lvl:60,dr:.2,g:'str',e:{str:.24},d:'+24% max hit'},
+ {id:'seer',n:'Weakness Focus',i:'🎯',lvl:55,dr:.12,g:'weak',e:{weak:.25},d:'Weakness hits deal +25% more (50% total)'},
+ {id:'piety',n:'Piety',i:'👑',lvl:75,dr:.45,g:'all',e:{acc:.28,str:.28,def:.28},d:'+28% accuracy, max hit and defence'}];
+const PRB={};PRAYERS.forEach(p=>PRB[p.id]=p);
 'use strict';
 /* ===== Mossgate Idle: generated vector icons (replace every emoji so nothing renders as a blank box) ===== */
 function mix(h,t){const n=parseInt(h.slice(1),16);let r=n>>16,g=n>>8&255,b=n&255;const f=t>0?255:0,a=Math.abs(t);r=Math.round(r+(f-r)*a);g=Math.round(g+(f-g)*a);b=Math.round(b+(f-b)*a);return'#'+((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1);}
@@ -773,7 +799,7 @@ P.rune=t=>{const c=RUC[t]||'#aaa';const g=(RUNEG[t]||'').replace(/<(path|circle)
  return SV(`<path d="M7 3h18l5 6v14l-5 6H7l-5-6V9z" fill="#aeb4be"/><path d="M7 3h18l5 6H2z" fill="#d7dce3"/><path d="M2 9l5-6 0 26-5-6z" fill="#cfd4dc"/><path d="M30 9v14l-5 6V3z" fill="#7f8692"/><path d="M7 29h18l5-6H2z" fill="#6b727e"/><rect x="7" y="9" width="18" height="14" fill="#262a32" opacity=".0"/><circle cx="16" cy="16" r="9" fill="#2a2f38"/><circle cx="16" cy="16" r="9" fill="none" stroke="${c}" stroke-opacity=".6"/><g transform="translate(0 0) scale(1)">${g}</g><path d="M8 5h9" stroke="#fff" stroke-width="1.200" opacity=".7"/>`)};
 
 /*HD-END*/
-function iconForSkill(id){return({wc:P.axe,fish:()=>P.fish('#5b9ad0'),mine:P.pick,fm:P.flame,cook:P.pot,smith:P.anvil,fletch:()=>P.bow('#a8642e'),craft:P.spool,thief:P.key,farm:P.sprout,herb:()=>P.potion('#58b85a'),rc:()=>P.rune('fire'),agi:P.runner,slayer:P.skull,dung:()=>P.gate('#f0a030'),atk:()=>P.sword('#b9c6d4'),str:P.dumb,def:()=>P.shield('#4f74d6'),hp:P.heart,rng:()=>P.bow('#8a5a2b'),mag:P.orb})[id]();}
+function iconForSkill(id){return({wc:P.axe,fish:()=>P.fish('#5b9ad0'),mine:P.pick,fm:P.flame,cook:P.pot,smith:P.anvil,fletch:()=>P.bow('#a8642e'),craft:P.spool,thief:P.key,farm:P.sprout,herb:()=>P.potion('#58b85a'),rc:()=>P.rune('fire'),agi:P.runner,slayer:P.skull,pray:()=>SV('<circle cx="16" cy="16" r="13" fill="#2c2a44"/><ellipse cx="16" cy="8" rx="7" ry="2.500" fill="none" stroke="#f5d060" stroke-width="1.800"/><path d="M16 12c-3 0-5 2-5 5v3c0 2 1 3 2 3h6c1 0 2-1 2-3v-3c0-3-2-5-5-5z" fill="#f1e6c8"/><path d="M13 16l3 3 3-3" stroke="#8a6a30" stroke-width="1.200" fill="none"/>'),dung:()=>P.gate('#f0a030'),atk:()=>P.sword('#b9c6d4'),str:P.dumb,def:()=>P.shield('#4f74d6'),hp:P.heart,rng:()=>P.bow('#8a5a2b'),mag:P.orb})[id]();}
 /* creatures: a coloured body, eyes and one signature feature */
 const CR={hellhound:['#6a2a1a','ears'],fgiant:['#d8602a','tusks'],fdragon:['#8ad0e8','spikes'],rdragon:['#c8302a','spikes'],blkdragon:['#2a2a34','spikes'],gdemon:['#8a1a2a','horns'],abdemon:['#5a1a6a','horns'],nech:['#6a6a7a','skull'],dkbeast:['#3a2a4a','ears'],spider:['#3a3a44','spikes'],zombie:['#8aa07a','skull'],ogre:['#9a7a4a','tusks'],demon:['#a82a3a','horns'],bdragon:['#3a6ac0','spikes'],iwarrior:['#b8e0f0','skull'],itroll:['#8ab8d0','tusks'],glacor:['#7fd0f0','crown'],chicken:['#f2efe6','beak'],cow:['#e6e0d4','horns'],farmhand:['#d9a66a','hat'],goblin:['#6dae4a','ears'],hobgob:['#b8643a','ears'],chief:['#4c8a3a','crown'],wolf:['#7b7f88','ears'],bandit:['#5a4a6a','hood'],bear:['#7a4a2a','ears'],skel:['#e8e4d4','skull'],wight:['#7a8fb0','hood'],lich:['#6a4a9a','crown'],giant:['#c08a5a','tusks'],golem:['#8a8f98','spikes'],cyclops:['#a8b86a','eye'],imp:['#d8452a','horns'],drake:['#c83a2a','spikes'],brute:['#6a2a20','horns'],wyvern:['#3a8a8a','spikes'],gdragon:['#3a9a4a','spikes'],elder:['#7a2a3a','crown'],scarecrow:['#c9a15a','hat'],warlord:['#3f7a2a','crown'],alpha:['#4a4f5a','ears'],tyrant:['#d8d4c0','skull'],titan:['#8f857a','tusks'],wyrm:['#a8302a','spikes']};
 function creature(id){const [c,f]=CR[id];const eyes=f==='eye'?'<circle cx="16" cy="15" r="5" fill="#fff"/><circle cx="16" cy="15" r="2.500" fill="#222"/>':f==='skull'?'<ellipse cx="11.500" cy="15" rx="2.800" ry="3.200" fill="#222"/><ellipse cx="20.500" cy="15" rx="2.800" ry="3.200" fill="#222"/><path d="M13 24v3M16 24v3M19 24v3" stroke="#222"/>':'<circle cx="11.500" cy="15" r="2.400" fill="#fff"/><circle cx="20.500" cy="15" r="2.400" fill="#fff"/><circle cx="12" cy="15.500" r="1.100" fill="#111"/><circle cx="20" cy="15.500" r="1.100" fill="#111"/>';
@@ -882,7 +908,7 @@ const STG=['#8fd0ff','#7ae07a','#e0a0ff','#ffd060','#ff7a60','#60e0e0','#ff60a0'
   else if(id.startsWith('pot_')){const k=HERBS.findIndex(h=>id.startsWith('pot_'+h[0]+'_'));s=P.potion(HC[k]);}
   else if(id.startsWith('hide_'))s=P.hide(HIC[id.slice(5)]);
   else if(id.startsWith('cloth_'))s=P.cloth(CLC[id.slice(6)]);
-  else s={vial:P.vial,bones:P.bones,dragon_bone:P.dbone,feather:P.feather,ashes:P.ashes,dragon_scale:P.scale}[id]();
+  else s={vial:P.vial,bones:P.bones,dragon_bone:P.dbone,feather:P.feather,ashes:P.ashes,dragon_scale:P.scale,bbones:P.bones,wbones:P.bones}[id]();
   it.i=s;}
  ALLSK.forEach(id=>{SKN[id].i=iconForSkill(id);});
  const PI={xp:P.tome(),luck:P.clover(),dmg:P.swords(),hp:P.heart(),eat:P.potion('#d94a4a'),gold:P.bag(),off:P.house(),slot:P.person()};PERKS.forEach(p=>{p.i=PI[p.id];});
@@ -1344,6 +1370,8 @@ function ensure(s){
  if(!s.sl)s.sl={task:null,pts:0,streak:0,done:0,block:[],auto:0,autoOwn:0};if(s.sl.auto==null)s.sl.auto=0;if(s.sl.autoOwn==null)s.sl.autoOwn=0;
  if(!s.duel)s.duel={w:0,l:0,won:0,lost:0,streak:0,best:0};
  if(!s.pvp)s.pvp={w:0,l:0,won:0,lost:0,cd:{}};
+ if(!s.pr)s.pr={on:[],pts:-1,alt:0};s.pr.on=(s.pr.on||[]).filter(id=>PRB[id]&&lvlOf(s.xp.pray)>=PRB[id].lvl);
+ if(!s.dq)s.dq={day:'',q:[],streak:0,lastAll:'',tot:0};if(!s.ev)s.ev={next:150,cur:null,done:0};
  if(!s.pets)s.pets={};if(s.pet==null)s.pet='';for(const k in s.pets)if(!PETB[k])delete s.pets[k];if(s.pet&&!PETB[s.pet])s.pet='';if(s.cape==null)s.cape='';
  ALLSK.forEach(id=>{if(s.xp[id]==null)s.xp[id]=0;});if(!s.pres)s.pres={};if(!s.hs)s.hs={id:hsUuid(),secret:hsRand(16),on:false,name:'',last:0};
  SKILLS.forEach(k=>{const id=k[0];if(!s.mast[id])s.mast[id]={pool:0,a:{}};if(s.mast[id].over==null)s.mast[id].over=0;});
@@ -1412,7 +1440,7 @@ const mxpOf=(sk,a)=>sk==='farm'?a.mx:Math.max(1,a.t*0.9*(1+a.lvl/50));
 function hsRand(n){const a=new Uint8Array(n);globalThis.crypto.getRandomValues(a);return Array.from(a,b=>b.toString(16).padStart(2,'0')).join('');}
 function hsUuid(){const h=hsRand(16).split('');h[12]='4';h[16]='89ab'[parseInt(h[16],16)&3];const s=h.join('');return s.slice(0,8)+'-'+s.slice(8,12)+'-'+s.slice(12,16)+'-'+s.slice(16,20)+'-'+s.slice(20);}
 const hsReady=()=>HS.url.indexOf('__')!==0&&HS.url.length>8&&HS.key.indexOf('__')!==0&&HS.key.length>8;
-function hsPayload(){const sk={};let tx=0;ALLSK.forEach(k=>{sk[k]=Math.floor(S.xp[k]);tx+=sk[k];});return{p_id:S.hs.id,p_secret:S.hs.secret,p_name:S.hs.name,p_total_level:totalLevel(),p_total_xp:tx,p_combat:combatLevel(),p_prestige:totalPres(),p_play:Math.floor(S.play),p_skills:sk};}
+function hsPayload(){const sk={};let tx=0;ALLSK.forEach(k=>{if(k==='pray')return;sk[k]=Math.floor(S.xp[k]);tx+=sk[k];});return{p_id:S.hs.id,p_secret:S.hs.secret,p_name:S.hs.name,p_total_level:totalLevel()-lvlOf(S.xp.pray),p_total_xp:tx,p_combat:combatLevel(),p_prestige:totalPres(),p_play:Math.floor(S.play),p_skills:sk};}
 const prN=sk=>(S.pres&&S.pres[sk])||0,prB=sk=>1+PRES_B*prN(sk);
 function canPrestige(sk){return lv(sk)>=MAXL&&prN(sk)<PRES_MAX;}
 const totalPres=()=>ALLSK.reduce((a,k)=>a+prN(k),0);
@@ -1469,7 +1497,7 @@ function complete(sk,a,A){
   if(a.coins)addCoins(Math.round(rnd(a.coins[0],a.coins[1])*mult*cg()));
   if(a.gem&&Math.random()<a.gem){const r=Math.random();add(r<.5?'gem_sapphire':r<.8?'gem_emerald':r<.95?'gem_ruby':'gem_diamond',1);}
  }
- gainXp(sk,a.xp*(1+mod.xp+mBonus(ml)));gainM(sk,a,mxpOf(sk,a));S.stats.actions++;return true;}
+ gainXp(sk,a.xp*(1+mod.xp+mBonus(ml)));gainM(sk,a,mxpOf(sk,a));S.stats.actions++;dqProg('act',sk);return true;}
 
 const dpow=()=>{const g=(PS&&PS.g)||{};return combatLevel()+Math.min(45,((g.atk||0)+(g.str||0)+(g.def||0)+Math.max(g.rngA||0,g.magA||0))/14);};
 function dlog(o){if(TRACK)return;const L=S.dg.log;L.unshift(o);if(L.length>6)L.pop();}
@@ -1562,13 +1590,13 @@ function dungeonNext(C,M){
 function playerCombat(){
  const g=PS.g,t=PS.type;let lvl,atkB,defL=lv('def');
  if(t==='ranged'){lvl=lv('rng');atkB=g.rngA;}else if(t==='magic'){lvl=lv('mag');atkB=g.magA;}else{lvl=lv('atk');atkB=g.atk;}
- return{lvl,atkB,defRoll:(defL+8)*(g.def+64)*(1+buff('def')/100+agiB('def')),atkRoll:(lvl+8)*(atkB*GEARW+64)*(1+buff('acc')/100+agiB('acc'))*ACC_BUFF};}
+ return{lvl,atkB,defRoll:(defL+8)*(g.def+64)*(1+buff('def')/100+agiB('def')+prE('def')),atkRoll:(lvl+8)*(atkB*GEARW+64)*(1+buff('acc')/100+agiB('acc')+prE('acc'))*ACC_BUFF};}
 function maxHitPlayer(spell){
  const t=PS.type,g=PS.g;let mh;
  if(t==='melee')mh=Math.floor(10*(0.5+(lv('str')+8)*(g.str*GEARW+64)/640));
  else if(t==='ranged')mh=Math.floor(10*(0.5+(lv('rng')+8)*((g.rngS+PS.ammoS)*GEARW+64)/640));
  else mh=Math.floor(spell.max*(1+g.magD/100)*(1+Math.max(0,lv('mag')-spell.lvl)*0.005));
- return Math.floor(mh*(1+buff('str')/100+.03*pk('dmg'))*HIT_MULT[t]);}
+ return Math.floor(mh*(1+buff('str')/100+.03*pk('dmg')+prE('str'))*HIT_MULT[t]);}
 const hitChance=(a,d)=>a>d?1-(d+2)/(2*(a+1)):a/(2*(d+1));
 function awardCombatXp(skills,x){const f=cxm();const list=skills.split('+');list.forEach(s=>gainXp(s,x/list.length*f));}
 /* ---------- enemy weaknesses ---------- */
@@ -1594,12 +1622,12 @@ function playerAttack(C,M){
  if(spell)gainXp('mag',spell.xp*cxm());
  if(dmg>0&&spell&&C.dg)dmg=Math.max(1,Math.ceil(dmg*DGB[C.dg].mag));
  if(dmg>0&&C.dg&&DGB[C.dg].res)dmg=Math.max(1,Math.ceil(dmg*DGB[C.dg].res[t]));
- if(dmg>0&&t===weakOf(M))dmg=Math.ceil(dmg*WEAK_MULT);
+ if(dmg>0&&t===weakOf(M))dmg=Math.ceil(dmg*(WEAK_MULT+prE('weak')));
  if(dmg>0){C.mhp-=dmg;C.last=dmg;if(spell&&spell.leech)S.hp=Math.min(maxHp(),S.hp+Math.ceil(dmg*spell.leech));awardCombatXp(st,dmg*(t==='magic'?0.3:0.4));gainXp('hp',dmg*0.133*cxm());}else C.last=0;
  if(C.mhp<=0)kill(C,M);
  return true;}
 function kill(C,M){
- S.stats.kills++;C.kills++;if(TRACK)TRACK.kills++;slayKill(M);
+ S.stats.kills++;C.kills++;dqProg('kill',M.id);if(TRACK)TRACK.kills++;slayKill(M);
  const c=Math.round(rnd(M.coins[0],M.coins[1])*cg());addCoins(c);const got=[];
  M.drops.forEach(d=>{if(Math.random()<d[1]){const q=rnd(d[2],d[3]);lootAdd(d[0],q);got.push([d[0],q]);}});
  if(M.boss&&!M.dg){S.bk[M.id]=(S.bk[M.id]||0)+1;S.bpity[M.id]=(S.bpity[M.id]||0)+1;
@@ -1661,6 +1689,7 @@ function step(dt){
  S.clock+=dt;S.play+=dt;
  if(S.sl&&S.sl.sw){const id=S.sl.sw;S.sl.sw=null;const m=MONS[id];if(m&&!(S.cb&&S.cb.mon===id))startCombat(m.area,id);}
  for(const k in S.buffs){const b=S.buffs[k];b.left-=dt;if(b.left<=0)delete S.buffs[k];}
+ prStep(dt);if(!TRACK)evStep(dt);
  const mh=maxHp();if(S.hp<mh)S.hp=Math.min(mh,S.hp+mh*0.0025*(1+agiB('reg'))*dt);
  for(const A of S.acts.slice()){if(!A||!S.acts.includes(A))continue;if(A.sk==='combat'){if(S.cb)stepCombat(dt);}else stepAct(A,dt);}}
 function advance(sec,fine){let left=sec;const d=fine?0.1:0.5;while(left>0){const x=Math.min(d,left);step(x);left-=x;}}
@@ -1675,7 +1704,7 @@ const SK=n=>'mossgate-idle-slot-'+n;
 let SLOT=0;const SAVESTAT={ok:true,at:0,err:'',bak:0};
 
 /* ---------- save integrity: signed, tamper-evident saves ---------- */
-const BUILD_TS=1794793130000;
+const BUILD_TS=1794797635000;
 const SIGKEY=['mg','8f2c','-gate','Q7x','r0ot','5e1d','|idle','b9'].join('');
 const SHA_K=(()=>{const k=[];for(let n=2;k.length<64;n++){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)k.push(Math.floor((Math.cbrt(n)%1)*4294967296));}return k;})();
 const SHA_H=(()=>{const h=[];for(let n=2;h.length<8;n++){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)h.push(Math.floor((Math.sqrt(n)%1)*4294967296));}return h;})();
@@ -1801,7 +1830,7 @@ function duelStart(tid,stake){
  const t=DUELT.find(x=>x.id===tid);stake=Math.floor(+stake);
  if(!t||!(stake>=10)||stake>S.coins){toast(stake>S.coins?'You do not have that much to stake.':'The minimum stake is 10 coins.','warn');return;}
  S.coins-=stake;const r=duelFight(duelStats(),t.m,true);let pay=0;
- if(r.win){pay=Math.floor(stake*duelPay(t));S.coins+=pay;S.duel.w++;S.duel.won+=pay-stake;S.duel.streak++;S.duel.best=Math.max(S.duel.best,S.duel.streak);}
+ if(r.win){pay=Math.floor(stake*duelPay(t));S.coins+=pay;S.duel.w++;dqProg('duel');S.duel.won+=pay-stake;S.duel.streak++;S.duel.best=Math.max(S.duel.best,S.duel.streak);}
  else if(r.draw){pay=stake;S.coins+=pay;}
  else{S.duel.l++;S.duel.lost+=stake;S.duel.streak=0;}
  UI.duel={t,name:DUELN[rnd(0,DUELN.length-1)],stake,pay,res:r.win?'win':r.draw?'draw':'loss',rounds:r.rounds,pmax:r.pmax,omax:r.omax,shown:0};dirty.v=1;}
@@ -1858,12 +1887,71 @@ function pvStart(oid,stake){
  const cd=S.pvp.cd[oid]||0;if(Date.now()-cd<20*60000){toast('You fought them recently. Try another fighter or wait a while.','warn');return;}
  const mult=pvPay(o);S.coins-=stake;const r=duelFightO(duelStats(),pvClean(o.snap||{}),true);let pay=0;
  S.pvp.cd[oid]=Date.now();
- if(r.win){pay=Math.floor(stake*mult);S.coins+=pay;S.pvp.w++;S.pvp.won+=pay-stake;}
+ if(r.win){pay=Math.floor(stake*mult);S.coins+=pay;S.pvp.w++;dqProg('duel');S.pvp.won+=pay-stake;}
  else if(r.draw){pay=stake;S.coins+=pay;}
  else{S.pvp.l++;S.pvp.lost+=stake;}
  UI.duel={t:{i:'⚔️'},name:o.name,stake,pay,res:r.win?'win':r.draw?'draw':'loss',rounds:r.rounds,pmax:r.pmax,omax:r.omax,shown:0};
  if(!r.draw)hsCall('pvp_report',{p_id:S.hs.id,p_secret:S.hs.secret,p_opp:oid,p_won:!!r.win}).then(()=>pvRefresh()).catch(()=>{});
  dirty.v=1;}
+
+/* ---------- Prayer ---------- */
+const prMax=()=>20+lv('pray')*4;
+function prPts(){if(S.pr.pts<0||S.pr.pts>prMax())S.pr.pts=prMax();return S.pr.pts;}
+function prE(k){const p=S.pr;if(!p||!p.on.length||prPts()<=0)return 0;let v=0;for(const id of p.on){const e=PRB[id].e[k];if(e)v+=e;}return v;}
+function prToggle(id){const P=PRB[id];if(!P)return;const p=S.pr;
+ if(p.on.includes(id)){p.on=p.on.filter(x=>x!==id);return;}
+ if(lv('pray')<P.lvl){toast('Needs Prayer level '+P.lvl,'warn');return;}
+ if(prPts()<=0){toast('Out of Prayer points. Use the altar or bury bones.','warn');return;}
+ p.on=p.on.filter(x=>{const o=PRB[x];return !(o.g===P.g||o.g==='all'||P.g==='all'&&['acc','str','def'].includes(o.g));});p.on.push(id);}
+function prStep(dt){const p=S.pr;if(!p)return;
+ if(S.cb&&p.on.length&&!(S.cb.rs>0)){let d=0;p.on.forEach(id=>d+=PRB[id].dr);p.pts=Math.max(0,prPts()-d*dt*Math.max(.4,1-lv('pray')*.004));
+  if(p.pts<=0){p.on=[];if(!TRACK)toast('Your prayer points ran out','warn');}}
+ else if(prPts()<prMax())p.pts=Math.min(prMax(),p.pts+prMax()*0.0006*dt);}
+const prAltarLeft=()=>Math.max(0,(S.pr.alt||0)+300000-Date.now());
+function prAltar(){if(prAltarLeft()>0)return;S.pr.pts=prMax();S.pr.alt=Date.now();toast('The altar restores your Prayer points','info');}
+
+/* ---------- Daily quests ---------- */
+const dqToday=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');};
+const dqYest=()=>{const d=new Date(Date.now()-864e5);return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');};
+const DQ_SK=['wood','mine','fish','cook','smith','craft','herb','thief','farm','pray'];
+function dqMk(){const seed=dqToday().split('-').join('')|0;let x=seed;const r=n=>{x=(x*1103515245+12345)&0x7fffffff;return x%n;};
+ const pool=[];const sks=DQ_SK.filter(k=>SKN[k]&&lv(k)>=1);
+ for(let i=0;i<3;i++){const k=sks[r(sks.length)];pool.push({k:'act',t:k,need:[30,50,80][r(3)],h:0});}
+ for(let i=0;i<2;i++)pool.push({k:'kill',t:'',need:[15,25,40][r(3)],h:0});
+ pool.push({k:'duel',t:'',need:1,h:0});pool.push({k:'event',t:'',need:1,h:0});
+ const pick=[];while(pick.length<3){const q=pool.splice(r(pool.length),1)[0];if(!pick.some(p=>p.k===q.k&&q.k!=='act'||p.k==='act'&&q.k==='act'&&p.t===q.t))pick.push(q);if(!pool.length)break;}
+ return pick;}
+function dqCheck(){const d=dqToday(),D=S.dq;if(D.day===d)return;
+ if(D.lastAll!==dqYest()&&D.lastAll!==d)D.streak=0;
+ D.day=d;D.q=dqMk();D.bonus=0;}
+const dqMult=()=>1+Math.min(.5,S.dq.streak*.05);
+const dqCoins=q=>Math.round((150+totalLevel()*12)*(q.need>=60?1.4:q.need>=30?1:.8)*dqMult());
+function dqRew(q){return q.k==='duel'||q.k==='event'?Math.round((150+totalLevel()*12)*1.2*dqMult()):dqCoins(q);}
+function dqProg(k,t){if(TRACK||!S.dq||!S.dq.q)return;let hit=false;S.dq.q.forEach(q=>{if(q.k!==k||q.c)return;if(k==='act'&&q.t!==t)return;if(q.h<q.need){q.h++;hit=true;if(q.h>=q.need&&!TRACK)toast('Daily quest ready to claim','info');}});if(hit)dirty.v=1;}
+function dqClaim(i){dqCheck();const q=S.dq.q[i];if(!q||q.c||q.h<q.need)return;q.c=1;const r=dqRew(q);S.coins+=r;S.stats.coins+=r;toast('Quest reward: '+fmt(r)+' coins','info');}
+function dqBonus(){const D=S.dq;if(D.bonus||D.q.length<3||!D.q.every(q=>q.c))return;D.bonus=1;S.sl.pts+=25;add('gem_ruby',1);D.tot++;
+ D.streak=(D.lastAll===dqYest())?D.streak+1:1;D.lastAll=dqToday();toast('All daily quests done: +25 Slayer points, a ruby, streak '+D.streak,'boss');}
+function dqDesc(q){if(q.k==='act')return 'Do '+q.need+' '+SKN[q.t].n+' actions';if(q.k==='kill')return 'Defeat '+q.need+' monsters';if(q.k==='duel')return 'Win a duel or PvP match';return 'Complete a random event';}
+const dqLeft=()=>{const n=new Date();const m=new Date(n.getFullYear(),n.getMonth(),n.getDate()+1);return(m-n)/1000;};
+
+/* ---------- Random events ---------- */
+const EV_ODD=[[['🍎','🍐','🍊','🍋'],'🪓'],[['🐟','🦈','🐠','🦐'],'🔨'],[['⚔️','🗡️','🏹','🔪'],'🍞'],[['🪙','💎','💰','💵'],'🪨'],[['🌲','🌳','🌴','🎄'],'🔥']];
+function evSpawn(){const t=['chest','imp','odd'][rnd(0,2)],E={t,left:30,id:Math.random()};
+ if(t==='imp'){E.hits=0;E.x=rnd(10,80);E.y=rnd(10,70);}
+ if(t==='odd'){const s=EV_ODD[rnd(0,EV_ODD.length-1)],items=s[0].slice(0,3).concat([s[1]]);for(let i=items.length-1;i>0;i--){const j=rnd(0,i);[items[i],items[j]]=[items[j],items[i]];}E.items=items;E.ans=s[1];}
+ S.ev.cur=E;dirty.v=1;}
+function evStep(dt){const V=S.ev;if(!V)return;
+ if(V.cur){V.cur.left-=dt;if(V.cur.left<=0){V.cur=null;V.next=rnd(180,360);dirty.v=1;}return;}
+ if(!S.acts.some(Boolean))return;V.next-=dt;if(V.next<=0)evSpawn();}
+function evReward(){const V=S.ev;V.cur=null;V.next=rnd(180,360);V.done=(V.done||0)+1;dqProg('event');
+ const c=Math.round((100+totalLevel()*8)*(1+Math.random())),r=Math.random();addCoins(c);S.buffs.xp={v:10,left:300,id:'ev'};
+ let txt=fmt(c)+' coins and +10% XP for 5 min';
+ if(r<.25){const g=['gem_sapphire','gem_emerald','gem_ruby'][rnd(0,2)];add(g,1);txt+=', '+ITEMS[g].n;}
+ toast('Event reward: '+txt,'boss');dirty.v=1;}
+function evClick(a,i){const E=S.ev.cur;if(!E)return;
+ if(E.t==='chest')evReward();
+ else if(E.t==='imp'){E.hits++;if(E.hits>=3)evReward();else{E.x=rnd(8,80);E.y=rnd(8,70);}}
+ else if(E.t==='odd'){if(E.items[i]===E.ans)evReward();else{S.ev.cur=null;S.ev.next=rnd(120,240);toast('Wrong pick. The event fades away.','warn');}}}
 'use strict';
 /* ===== Mossgate Idle: UI ===== */
 const UI={tgt:0,page:'home',navOpen:false,bsel:null,bcat:'all',bq:'',bsort:0,rsel:null,slot:null,pick:null,area:'farm',confirm:false,imp:'',msg:'',modal:null,nm:'',rn:''};
@@ -1930,7 +2018,7 @@ function navHtml(){
  h+=it('home','🏠','Overview');h+=it('combat','⚔️','Combat','Lv '+combatLevel(),!!S.cb&&!S.cb.dg);h+=it('dungeons',P.gate('#6b7480'),'Dungeons',null,!!(S.cb&&S.cb.dg&&!DGB[S.cb.dg].raid));h+=it('raids',P.gate('#b03030'),'Raids',null,!!(S.cb&&S.cb.dg&&DGB[S.cb.dg].raid));h+=it('equip','🎒','Equipment');h+=it('bank','🏦','Bank',S.nb+'/'+bankSlots());h+=it('shop','🛒','Shop');h+=it('wheel',P.wheel(),'Daily Wheel',wheelLeft()===0?'<b class="gold">Ready</b>':'');
  h+='<div class="navh">Skills</div>';
  SKILLS.forEach(s=>{h+=it(s[0],s[2],s[1],lv(s[0])+(prN(s[0])?' ★'+prN(s[0]):''),S.acts.some(a=>a&&a.sk===s[0]));});
- h+='<div class="navh">Game</div>'+it('duel','🤺','Duel Arena')+it('pvp','⚔️','PvP Arena')+it('hiscores','🏆','Hiscores')+it('pets','🐾','Pets & Capes',Object.keys(S.pets).length+'/'+PETS.length)+it('prestige','🌟','Prestige',totalPres()?'★'+totalPres():'')+it('set','⚙️','Settings');return h;}
+ h+='<div class="navh">Game</div>'+it('duel','🤺','Duel Arena')+it('pvp','⚔️','PvP Arena')+it('quests','📜','Daily Quests',dqBadge())+it('hiscores','🏆','Hiscores')+it('pets','🐾','Pets & Capes',Object.keys(S.pets).length+'/'+PETS.length)+it('prestige','🌟','Prestige',totalPres()?'★'+totalPres():'')+it('set','⚙️','Settings');return h;}
 
 /* ---------- hiscores (online leaderboard) ---------- */
 const hsEsc=t=>String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -2130,7 +2218,7 @@ function dungPanel(){
  h+=`<div class="panel"><h3>Recent runs</h3><div class="log">${L.length?L.map(l=>{const a=actBy('dung',l.id);if(!a)return'';return l.res==='clear'?`<div>✔ ${a.n} cleared · +${fmt(l.xp)} XP${l.relic?' · relic!':''}</div>`:l.res==='flee'?`<div>↩ Retreated from ${a.n} after ${l.cleared} of ${l.floors} floors</div>`:`<div>💤 Resting before ${a.n}…</div>`;}).join(''):'<div>No runs yet.</div>'}</div></div>`;
  return h;}
 function skillPage(sk){
- if(sk==='farm')return farmPage();if(sk==='slayer')return slayerPage();
+ if(sk==='pray')return prayPage();if(sk==='farm')return farmPage();if(sk==='slayer')return slayerPage();
  let h=skHead(sk)+(sk==='dung'?dungPanel():'')+'<div class="grid">';
  ACT[sk].forEach(a=>{h+=actCard(sk,a);});
  return h+'</div>';}
@@ -2190,9 +2278,10 @@ function combatPage(){
  COMBAT.forEach(c=>{const L=lv(c[0]),x=S.xp[c[0]],cur=XPT[L-1],nx=L>=MAXL?cur:XPT[L];h+=`<div class="tile" style="cursor:default"><div class="tl"><span>${c[2]} ${c[1]}</span><span>${L}</span></div>${bar(L>=MAXL?100:pc(x-cur,nx-cur),'xp thin')}</div>`;});
  h+='</div></div>';
  /* loadout */
+ h+='<details class="panel" '+(lv('pray')>0&&S.pr.on.length?'open':'')+'><summary><b>Prayers</b> ('+S.pr.on.length+' active)</summary>'+prayerPanel().replace('<div class="panel">','<div>')+'</details>';
  const t=PS.type,M=S.cb?MONS[S.cb.mon]:null;
  h+=`<div class="panel"><h3>Loadout</h3><div class="stats"><span>Style <b>${t}</b></span><span>Attack speed <b>${PS.sp}s</b></span>`;
- const pcb=playerCombat();let sp=null;if(t==='magic'){sp=SPELLS[S.cb?S.cb.spell:Math.min(UI.spell||0,SPELLS.length-1)]||SPELLS[0];}
+ const pcb=playerCombat();let sp=null;h+='';if(t==='magic'){sp=SPELLS[S.cb?S.cb.spell:Math.min(UI.spell||0,SPELLS.length-1)]||SPELLS[0];}
  h+=`<span>Max hit <b>${maxHitPlayer(sp||SPELLS[0])}</b></span>${M?`<span>Hit chance <b>${Math.round(hitChance(pcb.atkRoll,M.defRoll)*100)}%</b></span>`:''}</div>`;
  const stl=STANCES[t];const cur=S.cb?Math.min(S.cb.stance,stl.length-1):Math.min(UI.stance||0,stl.length-1);
  h+='<div class="row" style="margin-top:8px"><b>Stance</b><div class="chips">'+stl.map((s,i)=>`<button class="tag${cur===i?' on':''}" data-a="stance" data-i="${i}">${s[0]} · ${s[1].split('+').map(k=>STN[k]).join(' + ')} XP</button>`).join('')+'</div></div>';
@@ -2299,7 +2388,7 @@ function homePage(){
 
 function pageHtml(){
  const p=UI.page;
- if(p==='home')return homePage();if(p==='combat')return combatPage();if(p==='dungeons')return dungeonsPage(0);if(p==='raids')return dungeonsPage(1);if(p==='equip')return equipPage();if(p==='bank')return bankPage();if(p==='shop')return shopPage();if(p==='wheel')return wheelPage();if(p==='set'){const C_=CL();if(C_.acc&&!C_.loaded&&!C_.busy)clRefresh();return settingsPage();}if(p==='prestige')return prestigePage();if(p==='pets')return petsPage();if(p==='duel')return duelPage();if(p==='pvp'){const P=PV();if(S.hs&&S.hs.on&&hsReady()&&!P.list&&!P.busy&&!P.auto){P.auto=1;pvSync(true);}return pvpPage();}if(p==='hiscores')return hiscoresPage();
+ if(p==='home')return homePage();if(p==='combat')return combatPage();if(p==='quests')return questsPage();if(p==='dungeons')return dungeonsPage(0);if(p==='raids')return dungeonsPage(1);if(p==='equip')return equipPage();if(p==='bank')return bankPage();if(p==='shop')return shopPage();if(p==='wheel')return wheelPage();if(p==='set'){const C_=CL();if(C_.acc&&!C_.loaded&&!C_.busy)clRefresh();return settingsPage();}if(p==='prestige')return prestigePage();if(p==='pets')return petsPage();if(p==='duel')return duelPage();if(p==='pvp'){const P=PV();if(S.hs&&S.hs.on&&hsReady()&&!P.list&&!P.busy&&!P.auto){P.auto=1;pvSync(true);}return pvpPage();}if(p==='hiscores')return hiscoresPage();
  return skillPage(p);}
 function ctxHtml(){const c=UI.ctx;if(!c)return'';let b='',t='';
  if(c.t==='item'){const it=ITEMS[c.id],n=cnt(c.id);if(!it||!n)return'';t=`<span${rc(it)}>${it.n}</span> ×${fmt(n)}`;
@@ -2323,6 +2412,26 @@ function wheelPage(){
  if(W.win&&!spinning){const w=WHEEL[W.win.idx];h+=`<div class="panel"><h3>Last prize: <span style="color:${w.col}">${w.n}</span></h3><div class="io">${W.win.coins?`<span class="chip">🪙 ${fmt(W.win.coins)}</span>`:''}${W.win.items.map(i=>ic(i[0],i[1])).join('')}</div></div>`;}
  h+=`<div class="panel"><h3>Odds per spin</h3><div class="tw"><table>${WHEEL.map(w=>`<tr><td><span style="color:${w.col}">■</span> ${w.n}</td><td>${w.w}%</td></tr>`).join('')}</table></div><div class="sub" style="margin-top:6px">Total spins: ${W.spins}. Boss weapons still need their combat level to equip.</div></div>`;
  return h;}
+function dqBadge(){dqCheck();const n=S.dq.q.filter(q=>!q.c&&q.h>=q.need).length;return n?'● '+n:S.dq.q.filter(q=>!q.c).length+' left';}
+function prayerPanel(){const p=S.pr,mx=prMax(),pt=prPts(),L=lv('pray');
+ let h=`<div class="panel"><h3>Prayers</h3><div class="row"><span class="pill">🙏 ${Math.ceil(pt)} / ${mx}</span>${bar(pc(pt,mx),'xp thin')}<button class="btn sm${prAltarLeft()>0?' off':''}" data-a="altar">${prAltarLeft()>0?'Altar ready in '+fmtT(prAltarLeft()/1000):'Pray at the altar'}</button></div>
+ <div class="sub" style="margin:6px 0">Prayers drain points only while you fight. Points regenerate slowly otherwise. Bury bones to raise your Prayer level.</div><div class="grid">`;
+ PRAYERS.forEach(P=>{const on=p.on.includes(P.id),lk=L<P.lvl;h+=`<div class="tile${on?' sel':''}${lk?' off':''}" style="${on?'border-color:var(--pri,#d8c060)':''}"><div class="tl"><span>${P.i} ${P.n}</span><span>${P.lvl}</span></div><div class="sub">${P.d}</div><div class="sub">Drain ${(P.dr).toFixed(2)}/s</div><button class="btn sm${lk?' off':''}" data-a="pray" data-id="${P.id}">${on?'Turn off':lk?'Needs level '+P.lvl:'Turn on'}</button></div>`;});
+ return h+'</div></div>';}
+function prayPage(){let h=skHead('pray')+prayerPanel()+'<div class="grid">';ACT.pray.forEach(a=>{h+=actCard('pray',a);});return h+'</div>';}
+function questsPage(){dqCheck();const D=S.dq;
+ let h=`<div class="panel"><h2>Daily Quests</h2><div class="sub">Three new quests every day. Finish all three for a bonus. Streak ${D.streak} (+${Math.round((dqMult()-1)*100)}% rewards). Resets in ${fmtT(dqLeft())}.</div></div><div class="grid">`;
+ D.q.forEach((q,i)=>{const ok=q.h>=q.need;h+=`<div class="tile" style="cursor:default"><div class="tl"><span>${q.k==='act'?SKN[q.t].i:q.k==='kill'?'⚔️':q.k==='duel'?'🤺':'✨'} ${dqDesc(q)}</span><span>${Math.min(q.h,q.need)}/${q.need}</span></div>${bar(pc(Math.min(q.h,q.need),q.need),'xp thin')}<div class="io"><span class="chip">🪙 ${fmt(dqRew(q))}</span></div><button class="btn sm${q.c?' off':ok?' pri':' off'}" data-a="dqclaim" data-i="${i}">${q.c?'Claimed':ok?'Claim':'In progress'}</button></div>`;});
+ h+='</div>';const all=D.q.length&&D.q.every(q=>q.c);
+ h+=`<div class="panel"><h3>Bonus</h3><div class="sub">Complete all three: 25 Slayer points and a ruby. Streak days raise every reward by 5% (max +50%). Lifetime perfect days: ${D.tot}.</div><button class="btn${all&&!D.bonus?' pri':' off'}" data-a="dqbonus">${D.bonus?'Bonus claimed':'Claim bonus'}</button></div>`;
+ h+=`<div class="panel"><h3>Random events</h3><div class="sub">While you are busy, a Mossgate event now and then appears at the bottom of the screen. Click it in time for coins and a short XP boost. Events completed: ${S.ev.done||0}.</div></div>`;
+ return h;}
+function evHtml(){const E=S.ev&&S.ev.cur;if(!E)return'';
+ let b='';
+ if(E.t==='chest')b=`<div class="evt">A strange chest appears!</div><button class="btn pri" data-a="evclick">📦 Open it</button>`;
+ else if(E.t==='imp')b=`<div class="evt">Catch the imp! (${E.hits}/3)</div><div class="evarea"><button class="evimp" style="left:${E.x}%;top:${E.y}%" data-a="evclick">😈</button></div>`;
+ else b=`<div class="evt">Which one does not belong?</div><div class="row" style="justify-content:center">${E.items.map((x,i)=>`<button class="btn evodd" data-a="evclick" data-i="${i}">${x}</button>`).join('')}</div>`;
+ return`<div class="evbox"><div class="row"><b>Random event</b><div class="sp"></div><span class="sub">${Math.ceil(E.left)}s</span></div>${b}</div>`;}
 function toastHtml(){const now=Date.now();return EV.filter(e=>now-e.at<5000).slice(-4).map(e=>`<div class="toast ${e.k}">${e.t}</div>`).join('');}
 
 function ago(t){if(!t)return'never';const s=(Date.now()-t)/1000;return s<10?'just now':fmtT(s)+' ago';}
@@ -2371,14 +2480,14 @@ function render(){
  if(!S){paint($('#modal'),modalHtml());return;}
  document.documentElement.dataset.theme=S.theme==='auto'?'':S.theme;if(S.theme==='auto')document.documentElement.removeAttribute('data-theme');
  $('#app').classList.toggle('open',UI.navOpen);
- paint($('#rail'),navHtml());paint($('#top'),topHtml());paint($('#page'),pageHtml());paint($('#toasts'),toastHtml());paint($('#modal'),modalHtml());paint($('#ctx'),ctxHtml());}
+ paint($('#rail'),navHtml());paint($('#top'),topHtml());paint($('#page'),pageHtml());paint($('#toasts'),toastHtml());paint($('#evt'),evHtml());paint($('#modal'),modalHtml());paint($('#ctx'),ctxHtml());}
 
 /* ---------- actions ---------- */
 function go(p){UI.page=p;UI.navOpen=false;window.scrollTo(0,0);try{history.replaceState(null,'','#'+p);}catch(e){}}
 function nextSlot(){if(S.acts[UI.tgt]){const o=S.acts.findIndex((a,i)=>!a&&i!==UI.tgt);if(o>=0)UI.tgt=o;}}
 function handle(d){
  switch(d.a){
-  case'nav':go(d.p);break;case'navtoggle':UI.navOpen=!UI.navOpen;break;
+  case'nav':go(d.p);break;case'pray':prToggle(d.id);break;case'altar':prAltar();break;case'dqclaim':dqClaim(+d.i);break;case'dqbonus':dqBonus();break;case'evclick':evClick(d,+d.i);break;case'navtoggle':UI.navOpen=!UI.navOpen;break;
   case'start':startAction(d.sk,d.id,UI.tgt);nextSlot();break;case'stop':stopAll();break;case'dgn':startDungeon(d.id);if(S.cb&&S.cb.dg===d.id)go('combat');break;case'bagall':bagCollect();break;case'bagsell':bagSellAll();break;case'bagmode':S.bag.mode=S.bag.mode==='stop'?'bank':'stop';break;case'bagtake':if(!bagTake(d.id))toast('Your bank has no room for that.','warn');break;case'buybag':buyBag();break;case'slot':{UI.tgt=+d.i;const A=S.acts[UI.tgt];if(!A)UI.modal={type:'pick',slot:UI.tgt};else go(A.sk==='combat'?'combat':A.sk);}break;case'pickgo':UI.modal=null;go(d.p);break;case'stopslot':clearSlot(+d.i);UI.tgt=+d.i;break;
   case'mon':startCombat(UI.area,d.id,UI.tgt);nextSlot();if(S.cb){S.cb.stance=UI.stance||0;S.cb.spell=UI.spell||0;}break;case'area':UI.area=d.id;break;
   case'stance':if(S.cb)S.cb.stance=+d.i;UI.stance=+d.i;break;
