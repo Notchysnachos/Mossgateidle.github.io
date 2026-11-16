@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-XgKcJfKyumK3QISgCN1DiJ//KTDHx3fODNTckJXvYNI=' 'sha256-3kUJRw3imQB4sILA6qP0rs8BsofKxtKoO8GylmTEh5U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; worker-src 'self'; connect-src https://fogoltmnmdabjimxsjnm.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="icons/icon-192.png"><meta name="theme-color" content="#e9eee8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121815" media="(prefers-color-scheme: dark)"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Mossgate"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-+FU47ia07UgMcXntdhmJge0mBiFZYSDp8b+OvKdMyXI=' 'sha256-3kUJRw3imQB4sILA6qP0rs8BsofKxtKoO8GylmTEh5U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; worker-src 'self'; connect-src https://fogoltmnmdabjimxsjnm.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="icons/icon-192.png"><meta name="theme-color" content="#e9eee8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121815" media="(prefers-color-scheme: dark)"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Mossgate"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
 <title>Mossgate Idle</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1346,7 +1346,7 @@ function ensure(s){
  if(!s.pvp)s.pvp={w:0,l:0,won:0,lost:0,cd:{}};
  if(!s.pets)s.pets={};if(s.pet==null)s.pet='';for(const k in s.pets)if(!PETB[k])delete s.pets[k];if(s.pet&&!PETB[s.pet])s.pet='';if(s.cape==null)s.cape='';
  ALLSK.forEach(id=>{if(s.xp[id]==null)s.xp[id]=0;});if(!s.pres)s.pres={};if(!s.hs)s.hs={id:hsUuid(),secret:hsRand(16),on:false,name:'',last:0};
- SKILLS.forEach(k=>{const id=k[0];if(!s.mast[id])s.mast[id]={pool:0,a:{}};});
+ SKILLS.forEach(k=>{const id=k[0];if(!s.mast[id])s.mast[id]={pool:0,a:{}};if(s.mast[id].over==null)s.mast[id].over=0;});
  const f=s.farm;while(f.plots.filter(p=>p.cat==='allot').length<f.allot)f.plots.push({cat:'allot',crop:null,ready:0,start:0});
  while(f.plots.filter(p=>p.cat==='herb').length<f.herb)f.plots.push({cat:'herb',crop:null,ready:0,start:0});
  if(f.tree==null)f.tree=1;while(f.plots.filter(p=>p.cat==='tree').length<f.tree)f.plots.push({cat:'tree',crop:null,ready:0,start:0});
@@ -1392,7 +1392,9 @@ function sell(id,q){const h=cnt(id);q=Math.min(q,h);if(q<=0)return;
  take(id,q);S.coins+=ITEMS[id].v*q;dirty.v=1;}
 
 /* ---------- mastery + modifiers ---------- */
-function mLvlFromXp(x){let l=1;while(l<99&&x>=MXP(l+1))l++;return l;}
+const MMAX=120;
+function mLvlFromXp(x){let l=1;while(l<MMAX&&x>=MXP(l+1))l++;return l;}
+const mBonus=ml=>Math.max(0,ml-99)*.005; // extra skill XP for mastery levels beyond 99
 const mXp=(sk,id)=>S.mast[sk].a[id]||0;
 const mLvl=(sk,id)=>mLvlFromXp(mXp(sk,id));
 const poolMax=sk=>sk==='farm'?CROP.length*400:ACT[sk].length*3000;
@@ -1423,8 +1425,13 @@ function givePet(id){if(S.pets[id])return;S.pets[id]=1;if(!S.pet)S.pet=id;dirty.
 function capeOk(sk){return lv(sk)>=MAXL||prN(sk)>0;}
 function gainXp(sk,x){if(PETB['p_'+sk]&&!S.pets['p_'+sk]&&Math.random()<1/(PET_BASE-PET_LV*lv(sk)))givePet('p_'+sk);x*=prB(sk);const before=lvlOf(S.xp[sk]);S.xp[sk]+=x;if(TRACK)TRACK.xp[sk]=(TRACK.xp[sk]||0)+x;
  const after=lvlOf(S.xp[sk]);if(after>before){toast(SKN[sk].i+' '+SKN[sk].n+' reached level '+after+'!','lvl');if(sk==='hp')S.hp+=(after-before)*10;if(!TRACK)dirty.lvl=sk;}}
+function mSpend(sk,id,n){const M=S.mast[sk];if(!M)return'No mastery here.';const a=(sk==='farm'?CROPBY[id]:ACT[sk].find(x=>x.id===id));if(!a)return'';
+ const cur=M.a[id]||0,lvl=mLvlFromXp(cur);if(lvl>=MMAX)return'This is already at the maximum mastery level.';
+ const tgt=Math.min(MMAX,lvl+n),need=Math.max(0,MXP(tgt)-cur);
+ const avail=M.pool+(M.over||0);if(avail<need)return'Not enough mastery XP stored. You need '+fmt(need)+' and have '+fmt(avail)+'.';
+ const fromO=Math.min(M.over||0,need);M.over=(M.over||0)-fromO;M.pool-=need-fromO;M.a[id]=cur+need;toast(SKN[sk].n+': '+a.n+' mastery raised to '+tgt+' (-'+fmt(need)+' stored XP)','mast');return'';}
 function gainM(sk,a,x){const M=S.mast[sk];const before=mLvlFromXp(M.a[a.id]||0);M.a[a.id]=(M.a[a.id]||0)+x;
- const pb=poolPct(sk);M.pool=Math.min(poolMax(sk),M.pool+x*0.5);const pa=poolPct(sk);
+ const pb=poolPct(sk);const pt=M.pool+x*0.5,pm=poolMax(sk);M.pool=Math.min(pm,pt);if(pt>pm)M.over=(M.over||0)+(pt-pm);const pa=poolPct(sk);
  const after=mLvlFromXp(M.a[a.id]);if(after>before&&!TRACK&&after%5===0)toast(SKN[sk].n+': '+a.n+' mastery '+after,'mast');
  CPS.forEach(c=>{if(pb<c[0]&&pa>=c[0])toast(SKN[sk].n+' mastery pool checkpoint: '+c[1],'mast');});}
 
@@ -1462,7 +1469,7 @@ function complete(sk,a,A){
   if(a.coins)addCoins(Math.round(rnd(a.coins[0],a.coins[1])*mult*cg()));
   if(a.gem&&Math.random()<a.gem){const r=Math.random();add(r<.5?'gem_sapphire':r<.8?'gem_emerald':r<.95?'gem_ruby':'gem_diamond',1);}
  }
- gainXp(sk,a.xp*(1+mod.xp));gainM(sk,a,mxpOf(sk,a));S.stats.actions++;return true;}
+ gainXp(sk,a.xp*(1+mod.xp+mBonus(ml)));gainM(sk,a,mxpOf(sk,a));S.stats.actions++;return true;}
 
 const dpow=()=>{const g=(PS&&PS.g)||{};return combatLevel()+Math.min(45,((g.atk||0)+(g.str||0)+(g.def||0)+Math.max(g.rngA||0,g.magA||0))/14);};
 function dlog(o){if(TRACK)return;const L=S.dg.log;L.unshift(o);if(L.length>6)L.pop();}
@@ -1634,7 +1641,7 @@ function harvest(i){
  const p=S.farm.plots[i];if(!p||!p.crop||S.clock<p.ready)return false;
  const c=CROPBY[p.crop],ml=mLvl('farm',c.id),mod=skMods('farm');
  let q=rnd(c.q[0],c.q[1]);if(Math.random()<Math.min(.95,mod.dbl+ml*.0025))q*=2;
- add(c.item,q);gainXp('farm',c.xp*(1+mod.xp));gainM('farm',c,c.mx);S.stats.actions++;
+ add(c.item,q);gainXp('farm',c.xp*(1+mod.xp+mBonus(ml)));gainM('farm',c,c.mx);S.stats.actions++;
  const again=S.farm.auto&&(cnt(c.seed)>=1||(!c.noBuy&&S.coins>=c.seedCost*3));
  p.crop=null;p.ready=0;if(again&&lv('farm')>=c.lvl)plant(i,c.id);dirty.v=1;return true;}
 function harvestAll(){let n=0;S.farm.plots.forEach((p,i)=>{if(p.crop&&S.clock>=p.ready&&harvest(i))n++;});return n;}
@@ -1668,7 +1675,7 @@ const SK=n=>'mossgate-idle-slot-'+n;
 let SLOT=0;const SAVESTAT={ok:true,at:0,err:'',bak:0};
 
 /* ---------- save integrity: signed, tamper-evident saves ---------- */
-const BUILD_TS=1794786911000;
+const BUILD_TS=1794793130000;
 const SIGKEY=['mg','8f2c','-gate','Q7x','r0ot','5e1d','|idle','b9'].join('');
 const SHA_K=(()=>{const k=[];for(let n=2;k.length<64;n++){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)k.push(Math.floor((Math.cbrt(n)%1)*4294967296));}return k;})();
 const SHA_H=(()=>{const h=[];for(let n=2;h.length<8;n++){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)h.push(Math.floor((Math.sqrt(n)%1)*4294967296));}return h;})();
@@ -2084,7 +2091,7 @@ function skHead(sk){
  let h=`<div class="panel"><div class="row"><span class="ci">${SKN[sk].i}</span><div><h2 style="margin:0">${SKN[sk].n}</h2><div class="sub">${SKN[sk].d}</div></div><div class="sp"></div><div style="text-align:right"><b>Level ${L}</b> / ${MAXL}${prN(sk)?' <span class="pill">★'+prN(sk)+' · +'+Math.round(PRES_B*prN(sk)*100)+'% XP</span>':''}<div class="sub">${fmt(x)} XP${L<MAXL?' · '+fmt(nx-x)+' to next':''}</div></div></div>`;
  h+=`<div style="margin-top:8px">${bar(L>=MAXL?100:pc(x-cur,nx-cur),'xp big')}</div>`;
  if(SKN[sk]&&S.mast[sk]&&sk!=='slayer'){const p=poolPct(sk);
-  h+=`<div class="row" style="margin-top:10px"><b style="color:var(--mast)">Mastery pool</b><span class="sub">${fmt(S.mast[sk].pool)} / ${fmt(poolMax(sk))} (${(p*100).toFixed(1)}%)</span></div><div style="position:relative">${bar(p*100,'mast big')}</div>`;
+  h+=`<div class="row" style="margin-top:10px"><b style="color:var(--mast)">Mastery pool</b><span class="sub" style="margin-left:auto">Spend on ⬆ buttons: </span>${[1,5,10].map(n=>`<button class="tag${(UI.mspn||1)===n?' on':''}" data-a="mspn" data-n="${n}">+${n} lvl</button>`).join('')}<span class="sub">${fmt(S.mast[sk].pool)} / ${fmt(poolMax(sk))} (${(p*100).toFixed(1)}%)${S.mast[sk].over>0?` · <b>${fmt(S.mast[sk].over)}</b> overflow stored`:''}</span></div><div style="position:relative">${bar(p*100,'mast big')}</div>`;
   h+='<div class="cps">'+CPS.map(c=>`<span class="${p>=c[0]?'got':''}">${p>=c[0]?'✔':'○'} ${Math.round(c[0]*100)}%: ${c[1]}</span>`).join('')+'</div>';
   if(sk==='agi'){const L=lvlOf(S.xp.agi);h+='<div class="row" style="margin-top:10px"><b>Agility level buffs</b><span class="sub">permanent, apply everywhere</span></div><div class="cps">'+AGB.map(b=>`<span class="${L>=b[0]?'got':''}">${L>=b[0]?'✔':'○'} Lv ${b[0]}: ${b[1]}</span>`).join('')+'</div>';}
   const u=S.upg[sk]||0;if(TOOLS[sk]&&u)h+=`<div class="sub" style="margin-top:6px">Tool: ${UPG_N[u-1]} ${TOOLS[sk]} (−${u*6}% action time)</div>`;}
@@ -2103,13 +2110,13 @@ function actCard(sk,a){
  else if(kind==='dungeon'){const r=dpow()/a.rec,rk=r>=1.2?['Easy','good']:r>=1?['Fair','']:r>=.85?['Risky','gold']:['Deadly','bad'],cl=S.dg.clears[a.id]||0,gt=S.dg.relics[a.relic];
   io+=`<div class="io"><b>${a.floors}</b> floors · boss ${a.boss} · recommended combat <b>${a.rec}</b> · <span class="${rk[1]}">${rk[0]}</span></div><div class="io">🪙 ${fmt(a.coins[0])}–${fmt(a.coins[1])} · cleared <b>${cl}</b> · Relic: ${gt?'<span class="good">'+RELICS[a.relic][0]+'</span>':'<span class="sub">not found'+(cl?' ('+Math.max(0,15-cl)+' clears to guarantee)':'')+'</span>'}</div>`;}
  else if(a.coins)io+=`<div class="io"><b>Earns</b>🪙 ${a.coins[0]}–${a.coins[1]}</div>`;
- const m0=MXP(ml),m1=ml>=99?m0:MXP(ml+1);
+ const m0=MXP(ml),m1=ml>=MMAX?m0:MXP(ml+1);
  let pct=0;if(on)pct=pc(Math.max(0,A.t),iv);
  const dc=Math.round(Math.min(.95,(kind==='art'?mod.pre:mod.dbl)+ml*.0025)*100);
  return`<div class="card${locked?' locked':''}${on?' on':''}" role="button" tabindex="0" data-a="start" data-sk="${sk}" data-id="${a.id}">
  <div class="ch"${oit&&(oit.st||oit.heal||oit.pot)?` data-tip="${oid}"`:''}><span class="ci">${a.i}</span><div><div class="cn">${a.n}</div><div class="cm">${locked?'<span class="bad">Requires level '+a.lvl+'</span>':'Level '+a.lvl}</div></div></div>
- <div class="stats"><span><b>${(a.xp*(1+mod.xp)).toFixed(a.xp<20?1:0)}</b> XP</span><span><b>${iv.toFixed(1)}s</b></span>${kind==='gather'||kind==='thief'?`<span>double <b>${dc}%</b></span>`:kind==='art'?`<span>save <b>${dc}%</b></span>`:''}</div>${io}
- <div class="row" style="gap:6px"><span class="sub" style="color:var(--mast)">Mastery ${ml}</span><div class="sp">${bar(ml>=99?100:pc(mXp(sk,a.id)-m0,m1-m0),'mast thin')}</div></div>
+ <div class="stats"><span><b>${(a.xp*(1+mod.xp+mBonus(ml))).toFixed(a.xp<20?1:0)}</b> XP</span><span><b>${iv.toFixed(1)}s</b></span>${kind==='gather'||kind==='thief'?`<span>double <b>${dc}%</b></span>`:kind==='art'?`<span>save <b>${dc}%</b></span>`:''}</div>${io}
+ <div class="row" style="gap:6px"><span class="sub" style="color:var(--mast)">Mastery ${ml}</span><div class="sp">${bar(ml>=MMAX?100:pc(mXp(sk,a.id)-m0,m1-m0),'mast thin')}</div>${S.mast[sk]&&ml<MMAX?`<button class="tag" data-a="mspend" data-sk="${sk}" data-id="${a.id}" title="Spend mastery pool XP to raise this mastery">⬆ Spend</button>`:''}</div>${ml>99?`<div class="sub" style="color:var(--mast)">Beyond 99: +${(mBonus(ml)*100).toFixed(1)}% skill XP</div>`:''}
  ${on?bar(pct,'big'):''}</div>`;}
 
 
@@ -2397,6 +2404,8 @@ function handle(d){
   case'slotcancel':UI.modal.newN=null;UI.modal.delN=null;UI.modal.warn=null;break;
   case'slotauto':{const m=getMeta();m.auto=!m.auto;setMeta(m);}break;
   case'slots':saveLocal();UI.modal={type:'slots',boot:false,newN:null,delN:null,warn:null};break;
+  case'mspend':{const m=mSpend(d.sk,d.id,UI.mspn||1);if(m)toast(m,'warn');dirty.v=1;break;}
+  case'mspn':UI.mspn=+d.n;dirty.v=1;break;
   case'savenow':saveLocal();break;
   case'clnew':{const C=CL(),c=clHex(56);lsSet(CL_K,c);C.acc=clParse(c);C.show=1;C.list=[];C.loaded=1;C.msg='Cloud code created. Upload a save to start using it.';break;}
   case'clenter':{const C=CL(),a=clParse(UI.clc);if(!a){C.msg='That does not look like a cloud code.';break;}lsSet(CL_K,a.code);C.acc=a;C.show=0;C.msg='';C.loaded=0;UI.clc='';clRefresh();break;}
