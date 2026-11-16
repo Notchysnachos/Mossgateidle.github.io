@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-ObLZ62YkeV6/ZKP6usTYAjeMfjYqzFF8fBAIOL9BCE4=' 'sha256-3kUJRw3imQB4sILA6qP0rs8BsofKxtKoO8GylmTEh5U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; worker-src 'self'; connect-src https://fogoltmnmdabjimxsjnm.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="icons/icon-192.png"><meta name="theme-color" content="#e9eee8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121815" media="(prefers-color-scheme: dark)"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Mossgate"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-PXXlmjstVE/9R9difLtIbxXm5HK1IF5VRax3su7+rPM=' 'sha256-3kUJRw3imQB4sILA6qP0rs8BsofKxtKoO8GylmTEh5U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; worker-src 'self'; connect-src https://fogoltmnmdabjimxsjnm.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="icons/icon-192.png"><meta name="theme-color" content="#e9eee8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121815" media="(prefers-color-scheme: dark)"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Mossgate"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
 <title>Mossgate Idle</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -275,6 +275,12 @@ body.w3d{overflow:hidden;background:#a8d4ee}
 @media (prefers-reduced-motion:reduce){.w3d.winopen .app{animation:none}}
 
 .sl .hpw.you .bar{height:13px}.sl .hpw.you .bar>i{background:var(--good)}.sl .hpw.you em{font-size:10px}
+/* collection log */
+.clt{display:flex;flex-wrap:wrap;gap:6px}.clb{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:7px 12px;font-weight:600;cursor:pointer;color:var(--fg)}.clb small{display:block;font-weight:400;opacity:.7;font-size:11px}.clb.on{border-color:var(--accent);background:var(--panel)}
+.clw{display:grid;grid-template-columns:minmax(150px,230px) 1fr;gap:10px;align-items:start}.cll{display:flex;flex-direction:column;gap:4px;padding:8px}.cle{display:flex;align-items:center;gap:8px;background:transparent;border:1px solid transparent;border-radius:6px;padding:6px 8px;text-align:left;cursor:pointer;color:var(--fg)}.cle small{margin-left:auto;opacity:.7}.cle.on{background:var(--panel2);border-color:var(--line)}.cle.full small{color:#e0b030;opacity:1}
+.clr h4{margin:14px 0 6px;font-size:13px;opacity:.8}.clg{display:grid;grid-template-columns:repeat(auto-fill,minmax(52px,1fr));gap:6px}.cli{position:relative;aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:24px;background:var(--panel2);border:1px solid var(--line);border-radius:8px;filter:grayscale(1) brightness(.5);opacity:.45}.cli.got{filter:none;opacity:1}.cli b{position:absolute;right:3px;bottom:1px;font-size:10px}
+@media(max-width:700px){.clw{grid-template-columns:1fr}.cll{flex-direction:row;flex-wrap:wrap}}
+.dyt{display:flex;align-items:center;gap:8px;padding:5px 8px;border-radius:6px;background:var(--panel2);margin-bottom:4px}.dyt.ok{opacity:.65}.dyc{width:18px;text-align:center}.dyn{flex:1}.dyp{font-variant-numeric:tabular-nums;opacity:.8;font-size:12px}
 </style>
 <canvas id="wc"></canvas><div id="wlabels"></div><div id="wfx"></div><div id="hud"></div><div id="wbd" data-a="winclose"></div><div class="app" id="app"><aside class="rail" id="rail"></aside><div class="main"><header class="top" id="top"></header><main class="page" id="page"></main></div></div>
 <div class="toasts" id="toasts" aria-live="polite"></div><div id="evt"></div><div id="modal"></div><div id="ctx"></div>
@@ -744,6 +750,51 @@ const SUPC={s_gold:['Gilded','#e0b030'],s_aurora:['Aurora','#3fd0b0'],s_crimson:
 /* raid prayer blessings: one per raid, found on clears */
 const PRUP={amaskot:{n:'Undying Faith',d:'+25% Prayer points'},bloodfall:{n:'Bloodied Rite',d:'While a prayer is on, heal 4% of damage you deal'},derek:{n:"Chemist's Focus",d:'Prayers drain 20% slower'},arsenal:{n:'Fractured Vow',d:'Unlocks the Arsenal Vow prayer'}};
 PRAYERS.push({id:'vow',n:'Arsenal Vow',i:'⚔️',lvl:85,dr:.55,g:'all',up:'arsenal',e:{acc:.36,str:.36,def:.30},d:'+36% accuracy and max hit, +30% defence'});PRB.vow=PRAYERS[PRAYERS.length-1];
+
+/* ===== achievement diaries ===== */
+const DYT=[['Easy',500],['Medium',6000],['Hard',50000],['Elite',350000]];
+const DIARIES=[
+ {id:'gath',n:"Gatherer's Diary",i:'🪓',buff:'+6% XP in Woodcutting, Fishing and Mining',xp:['wc','fish','mine'],p:.06,t:[
+  [['Reach level 10 Woodcutting','lv','wc',10],['Reach level 10 Fishing','lv','fish',10],['Reach level 10 Mining','lv','mine',10]],
+  [['Reach level 30 Woodcutting','lv','wc',30],['Catch a trout','ob','fish_trout',1],['Mine iron ore','ob','ore_iron',1]],
+  [['Reach level 60 Woodcutting','lv','wc',60],['Reach level 60 Fishing','lv','fish',60],['Reach level 60 Mining','lv','mine',60]],
+  [['Reach level 90 Woodcutting','lv','wc',90],['Reach level 90 Fishing','lv','fish',90],['Reach level 90 Mining','lv','mine',90]]]},
+ {id:'art',n:"Artisan's Diary",i:'🔨',buff:'+6% XP in Firemaking, Cooking, Smithing, Fletching and Crafting',xp:['fm','cook','smith','fletch','craft'],p:.06,t:[
+  [['Reach level 10 Smithing','lv','smith',10],['Reach level 10 Cooking','lv','cook',10],['Reach level 10 Crafting','lv','craft',10]],
+  [['Smelt a steel bar','ob','bar_steel',1],['Cook a salmon','ob','food_salmon',1],['Reach level 30 Fletching','lv','fletch',30]],
+  [['Smelt a rune bar','ob','bar_rune',1],['Reach level 60 Firemaking','lv','fm',60],['Reach level 60 Crafting','lv','craft',60]],
+  [['Reach level 90 Smithing','lv','smith',90],['Reach level 90 Cooking','lv','cook',90],['Reach level 90 Fletching','lv','fletch',90]]]},
+ {id:'nat',n:"Naturalist's Diary",i:'🌱',buff:'+6% XP in Farming, Herblore and Runecrafting',xp:['farm','herb','rc'],p:.06,t:[
+  [['Reach level 10 Farming','lv','farm',10],['Reach level 10 Herblore','lv','herb',10],['Reach level 10 Runecrafting','lv','rc',10]],
+  [['Harvest a tomato','ob','crop_tomato',1],['Pick a mint herb','ob','herb_mint',1],['Reach level 30 Runecrafting','lv','rc',30]],
+  [['Reach level 60 Farming','lv','farm',60],['Reach level 60 Herblore','lv','herb',60],['Craft a death rune','ob','rune_death',1]],
+  [['Reach level 90 Farming','lv','farm',90],['Reach level 90 Herblore','lv','herb',90],['Reach level 90 Runecrafting','lv','rc',90]]]},
+ {id:'rog',n:"Rogue's Diary",i:'🗝️',buff:'+10% XP in Thieving and Agility',xp:['thief','agi'],p:.10,t:[
+  [['Reach level 10 Thieving','lv','thief',10],['Reach level 10 Agility','lv','agi',10],['Perform 100 actions','st','actions',100]],
+  [['Reach level 30 Thieving','lv','thief',30],['Reach level 30 Agility','lv','agi',30],['Earn 50,000 coins in total','st','coins',50000]],
+  [['Reach level 60 Thieving','lv','thief',60],['Reach level 60 Agility','lv','agi',60],['Perform 10,000 actions','st','actions',10000]],
+  [['Reach level 90 Thieving','lv','thief',90],['Reach level 90 Agility','lv','agi',90],['Earn 50,000,000 coins in total','st','coins',50000000]]]},
+ {id:'war',n:"Warrior's Diary",i:'⚔️',buff:'+5% maximum hitpoints and +4% combat XP',xp:['atk','str','def','hp','rng','mag'],p:.04,hp:.05,t:[
+  [['Defeat 50 monsters','st','kills',50],['Reach combat level 15','cmb','',15],['Reach level 10 Attack','lv','atk',10]],
+  [['Defeat 500 monsters','st','kills',500],['Reach combat level 40','cmb','',40],['Reach level 30 Defence','lv','def',30]],
+  [['Defeat 5,000 monsters','st','kills',5000],['Reach combat level 70','cmb','',70],['Defeat 25 bosses','bk','',25]],
+  [['Defeat 25,000 monsters','st','kills',25000],['Reach combat level 105','cmb','',105],['Defeat 250 bosses','bk','',250]]]},
+ {id:'del',n:"Delver's Diary",i:'🏰',buff:'+6% XP in Dungeoneering, Slayer and Prayer',xp:['dung','slayer','pray'],p:.06,t:[
+  [['Clear a dungeon or raid','clr','',1],['Defeat a boss','bk','',1],['Reach level 10 Dungeoneering','lv','dung',10]],
+  [['Clear dungeons or raids 10 times','clr','',10],['Defeat 20 bosses','bk','',20],['Reach level 30 Dungeoneering','lv','dung',30]],
+  [['Clear dungeons or raids 50 times','clr','',50],['Defeat 100 bosses','bk','',100],['Reach level 50 Slayer','lv','slayer',50]],
+  [['Clear dungeons or raids 200 times','clr','',200],['Defeat 500 bosses','bk','',500],['Reach level 90 Dungeoneering','lv','dung',90]]]},
+ {id:'wan',n:"Wanderer's Diary",i:'🧭',buff:'+3% XP in every skill',all:.03,t:[
+  [['Reach total level 60','tot','',60],['Finish a daily quest','dq','',1],['Perform 500 actions','st','actions',500]],
+  [['Reach total level 250','tot','',250],['Finish 10 daily quests','dq','',10],['Win 5 duels','duel','',5]],
+  [['Reach total level 1,000','tot','',1000],['Finish 50 daily quests','dq','',50],['Win 50 duels','duel','',50]],
+  [['Reach total level 1,800','tot','',1800],['Finish 200 daily quests','dq','',200],['Win 250 duels','duel','',250]]]},
+ {id:'col',n:"Collector's Diary",i:'📖',buff:'+5% coins from every source',coin:.05,t:[
+  [['Log 10 items in the Collection Log','clg','',10],['Find a pet','pets','',1],['Obtain a sapphire','ob','gem_sapphire',1]],
+  [['Log 60 items in the Collection Log','clg','',60],['Find 5 pets','pets','',5],['Obtain a diamond','ob','gem_diamond',1]],
+  [['Log 200 items in the Collection Log','clg','',200],['Find 15 pets','pets','',15],['Obtain a rune sword','ob','g_rune_sword',1]],
+  [['Log 400 items in the Collection Log','clg','',400],['Find 30 pets','pets','',30],['Obtain a dragon sword','ob','g_dragon_sword',1]]]}
+];
 'use strict';
 /* ===== Mossgate Idle: generated vector icons (replace every emoji so nothing renders as a blank box) ===== */
 function mix(h,t){const n=parseInt(h.slice(1),16);let r=n>>16,g=n>>8&255,b=n&255;const f=t>0?255:0,a=Math.abs(t);r=Math.round(r+(f-r)*a);g=Math.round(g+(f-g)*a);b=Math.round(b+(f-b)*a);return'#'+((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1);}
@@ -1444,6 +1495,8 @@ function ensure(s){
  if(!s.duel)s.duel={w:0,l:0,won:0,lost:0,streak:0,best:0};
  if(!s.pvp)s.pvp={w:0,l:0,won:0,lost:0,cd:{}};
  if(!s.pr)s.pr={on:[],pts:-1,alt:0};if(!s.pr.up)s.pr.up={};s.pr.on=(s.pr.on||[]).filter(id=>PRB[id]&&lvlOf(s.xp.pray)>=PRB[id].lvl&&(!PRB[id].up||s.pr.up[PRB[id].up]));
+ if(!s.clog){s.clog={};[s.bank,(s.bag&&s.bag.items)||{},s.equip||{}].forEach((o,k)=>{(k===2?Object.values(o):Object.keys(o)).forEach(id=>{if(id&&ITEMS[id]&&!s.clog[id])s.clog[id]=k===2?1:(o[id]||1);});});Object.keys(s.col||{}).forEach(id=>{if(ITEMS[id]&&!s.clog[id])s.clog[id]=1;});}
+ if(!s.dy)s.dy={done:{},tier:{},buff:{}};
  if(!s.sup)s.sup={on:false};if(s.cape&&SUPC[s.cape]&&!s.sup.on)s.cape='';
  if(!s.dq)s.dq={day:'',q:[],streak:0,lastAll:'',tot:0};if(!s.ev)s.ev={next:150,cur:null,done:0};
  if(!s.pets)s.pets={};if(s.pet==null)s.pet='';for(const k in s.pets)if(!PETB[k])delete s.pets[k];if(s.pet&&!PETB[s.pet])s.pet='';if(s.cape==null)s.cape='';
@@ -1462,7 +1515,7 @@ const perk=id=>S.perk[id]||0;
 const rfx=id=>{if(!S||!S.dg)return 0;let n=0;RELICS.forEach((r,i)=>{if(S.dg.relics[i]&&r[1]===id)n++;});return n*0.5;},pk=id=>perk(id)+rfx(id);
 const slotCount=()=>2,newSlots=()=>Array(slotCount()).fill(null),offCap=()=>OFFLINE_CAP+6*3600*perk('off');
 const cg=()=>1+.05*pk('gold'),cxm=()=>1+buff('xpc')/100+.02*pk('xp');
-const maxHp=()=>Math.floor(lvlOf(S.xp.hp)*10*(1+.05*pk('hp')));
+const maxHp=()=>Math.floor(lvlOf(S.xp.hp)*10*(1+.05*pk('hp'))*dyHp());
 const totalLevel=()=>ALLSK.reduce((a,id)=>a+lvlOf(S.xp[id]),0);
 function combatLevel(){const a=lv('atk'),s=lv('str'),d=lv('def'),h=lv('hp'),r=lv('rng'),m=lv('mag');return Math.floor(0.25*(d+h)+0.325*Math.max(a+s,1.5*r,1.5*m));}
 
@@ -1470,8 +1523,9 @@ function combatLevel(){const a=lv('atk'),s=lv('str'),d=lv('def'),h=lv('hp'),r=lv
 const cnt=id=>S.bank[id]||0;
 const bankSlots=()=>BANK_BASE+S.bankBuys*BANK_STEP;
 function addGain(k,id,q){if(!TRACK)return;const o=TRACK[k];o[id]=(o[id]||0)+q;}
+function clogNote(id,q){if(!S||!S.clog||!ITEMS[id])return;const it=ITEMS[id];if(!S.clog[id]){S.clog[id]=q||1;if(!TRACK&&(it.rar!=null||it.uniq||/^(dr_|cape_)/.test(id)))toast('Collection log: '+it.n+'!','boss');}else S.clog[id]+=q||1;}
 function add(id,q){
- if(q<=0)return;
+ if(q<=0)return;clogNote(id,q);
  if(S.bank[id]){S.bank[id]+=q;}
  else if(S.nb<bankSlots()){S.bank[id]=q;S.nb++;}
  else{const g=ITEMS[id].v*q;S.coins+=g;S.stats.coins+=g;if(TRACK)TRACK.coins+=g;if(TRACK)addGain('sold',id,q);dirty.v=1;return;}
@@ -1479,7 +1533,7 @@ function add(id,q){
 function take(id,q){const h=S.bank[id]||0;if(h<q)return false;if(h===q){delete S.bank[id];S.nb--;}else S.bank[id]=h-q;dirty.v=1;return true;}
 const bagCap=()=>BAG_CAP[Math.min(S.bag.up||0,BAG_CAP.length-1)];
 function lootAdd(id,q){if(q<=0)return;const B=S.bag,free=Math.max(0,bagCap()-B.n),st=Math.min(q,free);
- if(st>0){B.items[id]=(B.items[id]||0)+st;B.n+=st;addGain('items',id,st);}
+ if(st>0){clogNote(id,st);B.items[id]=(B.items[id]||0)+st;B.n+=st;addGain('items',id,st);}
  if(q>st)add(id,q-st);dirty.v=1;}
 const bagFits=id=>!!S.bank[id]||S.nb<bankSlots();
 function bagTake(id){const B=S.bag,q=B.items[id]||0;if(!q||!bagFits(id))return 0;add(id,q);delete B.items[id];B.n-=q;dirty.v=1;return q;}
@@ -1488,7 +1542,7 @@ function bagCollect(){let moved=0,left=0;for(const id of Object.keys(S.bag.items
 function bagSellAll(){let g=0;for(const id in S.bag.items)g+=ITEMS[id].v*S.bag.items[id];if(!g){toast('The bag is empty.','warn');return;}
  S.bag.items={};S.bag.n=0;addCoins(g);toast('Sold the bag contents for '+fmt(g)+' coins.','info');dirty.v=1;}
 function buyBag(){const n=S.bag.up||0;if(n>=BAG_CAP.length-1)return;const c=BAG_COST[n+1];if(S.coins<c){toast('Not enough coins','warn');return;}S.coins-=c;S.bag.up=n+1;toast('Loot bag upgraded to '+fmt(BAG_CAP[n+1])+' items','info');dirty.v=1;}
-function addCoins(n){S.coins+=n;S.stats.coins+=n;if(TRACK)TRACK.coins+=n;}
+function addCoins(n){n=Math.round(n*dyCoin());S.coins+=n;S.stats.coins+=n;if(TRACK)TRACK.coins+=n;}
 function sell(id,q){const h=cnt(id);q=Math.min(q,h);if(q<=0)return;
  for(const sl in S.equip){if((sl==='food'||sl==='ammo')&&S.equip[sl]===id&&h-q<=0){S.equip[sl]=null;}}
  take(id,q);S.coins+=ITEMS[id].v*q;dirty.v=1;}
@@ -1515,7 +1569,15 @@ function hsRand(n){const a=new Uint8Array(n);globalThis.crypto.getRandomValues(a
 function hsUuid(){const h=hsRand(16).split('');h[12]='4';h[16]='89ab'[parseInt(h[16],16)&3];const s=h.join('');return s.slice(0,8)+'-'+s.slice(8,12)+'-'+s.slice(12,16)+'-'+s.slice(16,20)+'-'+s.slice(20);}
 const hsReady=()=>HS.url.indexOf('__')!==0&&HS.url.length>8&&HS.key.indexOf('__')!==0&&HS.key.length>8;
 function hsPayload(){const sk={};let tx=0;ALLSK.forEach(k=>{if(k==='pray')return;sk[k]=Math.floor(S.xp[k]);tx+=sk[k];});return{p_id:S.hs.id,p_secret:S.hs.secret,p_name:S.hs.name,p_total_level:totalLevel()-lvlOf(S.xp.pray),p_total_xp:tx,p_combat:combatLevel(),p_prestige:totalPres(),p_play:Math.floor(S.play),p_skills:sk};}
-const prN=sk=>(S.pres&&S.pres[sk])||0,prB=sk=>1+PRES_B*prN(sk);
+const prN=sk=>(S.pres&&S.pres[sk])||0;
+function dyMul(sk){let m=1;if(!S||!S.dy)return m;DIARIES.forEach(d=>{if(!S.dy.buff[d.id])return;if(d.all)m*=1+d.all;if(d.xp&&d.xp.includes(sk))m*=1+d.p;});return m;}
+const dyHp=()=>{let m=1;if(S&&S.dy)DIARIES.forEach(d=>{if(d.hp&&S.dy.buff[d.id])m+=d.hp;});return m;},dyCoin=()=>{let m=1;if(S&&S.dy)DIARIES.forEach(d=>{if(d.coin&&S.dy.buff[d.id])m+=d.coin;});return m;};
+const prB=sk=>(1+PRES_B*prN(sk))*dyMul(sk);
+function dyVal(k,a){switch(k){case'lv':return lv(a);case'st':return S.stats[a]||0;case'ob':return (S.clog&&S.clog[a])||0;case'tot':return totalLevel();case'cmb':return combatLevel();case'clr':return Object.values(S.dg.clears||{}).reduce((x,y)=>x+y,0);case'bk':return Object.values(S.bk||{}).reduce((x,y)=>x+y,0);case'clg':return clogTotals().n;case'pets':return Object.keys(S.pets).length;case'dq':return S.dq.tot||0;case'duel':return S.duel.w||0;}return 0;}
+function diaryCheck(){if(!S||!S.dy||TRACK)return;const Y=S.dy;DIARIES.forEach(d=>{let allT=true;d.t.forEach((tasks,ti)=>{let all=true;tasks.forEach((t,i)=>{const id=d.id+'_'+ti+'_'+i;if(Y.done[id])return;if(dyVal(t[1],t[2])>=t[3]){Y.done[id]=1;addCoins(DYT[ti][1]);toast('Diary task: '+t[0]+' (+'+fmt(DYT[ti][1])+' coins)','boss');dirty.v=1;}else all=false;});
+  const tk=d.id+'_'+ti;if(all&&!Y.tier[tk]){Y.tier[tk]=1;const b=DYT[ti][1]*3;addCoins(b);toast(d.n+': '+DYT[ti][0]+' tier complete! +'+fmt(b)+' coins','boss');dirty.v=1;}if(!all)allT=false;});
+ if(allT&&!Y.buff[d.id]){Y.buff[d.id]=1;toast(d.n+' complete! Permanent buff: '+d.buff,'boss');dirty.v=1;}});}
+let dyAcc=0;
 function canPrestige(sk){return lv(sk)>=MAXL&&prN(sk)<PRES_MAX;}
 const totalPres=()=>ALLSK.reduce((a,k)=>a+prN(k),0);
 function prestige(sk){if(!canPrestige(sk))return false;
@@ -1761,7 +1823,8 @@ function buyItem(id,q){let cost;if(SUPPLY[id])cost=SUPPLY[id];else{const c=CROP.
  const tot=cost*q;if(S.coins<tot){toast('Not enough coins','warn');return;}S.coins-=tot;add(id,q);dirty.v=1;}
 
 /* ---------- main step ---------- */
-function step(dt){
+function step(dt){dyAcc+=dt;if(dyAcc>=1){dyAcc=0;try{diaryCheck();}catch(e){}}
+
  S.clock+=dt;S.play+=dt;
  if(S.sl&&S.sl.sw){const id=S.sl.sw;S.sl.sw=null;const m=MONS[id];if(m&&!(S.cb&&S.cb.mon===id))startCombat(m.area,id);}
  for(const k in S.buffs){const b=S.buffs[k];b.left-=dt;if(b.left<=0)delete S.buffs[k];}
@@ -1780,7 +1843,7 @@ const SK=n=>'mossgate-idle-slot-'+n;
 let SLOT=0;const SAVESTAT={ok:true,at:0,err:'',bak:0};
 
 /* ---------- save integrity: signed, tamper-evident saves ---------- */
-const BUILD_TS=1794853591000;
+const BUILD_TS=1794855084000;
 const SIGKEY=['mg','8f2c','-gate','Q7x','r0ot','5e1d','|idle','b9'].join('');
 const SHA_K=(()=>{const k=[];for(let n=2;k.length<64;n++){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)k.push(Math.floor((Math.cbrt(n)%1)*4294967296));}return k;})();
 const SHA_H=(()=>{const h=[];for(let n=2;h.length<8;n++){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)h.push(Math.floor((Math.sqrt(n)%1)*4294967296));}return h;})();
@@ -2366,9 +2429,29 @@ function drawChar(c,vis){const o=OUT[c.i],sk=hex(o.skin),LK=(c.i===0?W3.look:nul
   else if(tool==='pestle'){pb(tg,0,-.3,0,.12,.6,.12,[.84,.82,.76]);pi(tg,0,-.62,0,.18,.18,.18,[.84,.82,.76]);pi(lh,0,-.55,.14,.5,.26,.5,[.55,.52,.5]);pi(lh,0,-.46,.14,.38,.1,.38,[.35,.6,.3]);}
   else if(tool==='needle'){pb(tg,0,-.22,0,.02,.5,.02,[.88,.9,.94]);pb(tg,0,-.45,0,.015,.12,.015,[.9,.4,.4]);pb(lh,0,-.4,.2,.5,.04,.42,[.72,.28,.42]);pb(lh,0,-.4,.2,.34,.045,.26,[.88,.55,.62]);}
   else if(tool==='shovel'){pb(tg,0,-.65,0,.08,1.7,.08,WD);pb(tg,0,.18,0,.32,.06,.08,WD);pb(tg,0,-1.6,-.04,.32,.46,.06,ST2);pb(tg,0,-1.82,-.04,.2,.1,.05,DS);if(c.anim==='dig'&&(c._pk||0)>.45&&(c._pk||0)<.8)pi(tg,0,-1.58,-.12,.26,.12,.26,[.42,.3,.18]);}
-  else if(tool==='sword'){pb(tg,0,-.02,0,.09,.36,.09,WD);pb(tg,0,.18,0,.13,.1,.13,[.9,.72,.2]);pb(tg,0,-.24,0,.11,.07,.42,[.9,.72,.2]);pb(tg,0,-.9,0,.045,1.25,.15,[.86,.88,.94]);pb(tg,0,-.9,0,.06,1.2,.04,[.7,.73,.8]);part('cone',chain(tg,T(0,-1.52,0),RX(3.1416),Sc(.15,.2,.045)),[.9,.92,.96]);}
-  else if(tool==='staff'){pb(tg,0,-.2,.0,.08,2.1,.08,WD);pi(tg,0,.95,0,.34,.34,.34,LK.orb||hex('#6a9cff'),[.2,.25,.4]);}
-  else if(tool==='bow'){pb(tg,0,0,.4,.07,1.7,.07,WD);pb(tg,0,0,.4,.02,1.7,.02,[.9,.9,.85]);}
+  else if(tool==='sword'){const wc=LK.orb||[.7,.75,.8],rr=LK.wr||0,tr=Math.min(9,LK.wt||0),tm=c.t||0,mix=(a,b,k)=>[a[0]*(1-k)+b[0]*k,a[1]*(1-k)+b[1]*k,a[2]*(1-k)+b[2]*k],bl=mix(wc,[.9,.92,.97],.55),bd=mix(bl,[.3,.33,.4],.45),gd=rr>=2?[1,.78,.25]:mix(wc,[.6,.5,.3],.5),BW=.045+Math.min(.03,tr*.004),BL=1.15+Math.min(.45,tr*.05),GA=rr>=3?[.35,.22,.04]:null,RA=rr>=3?[.2+.15*Math.sin(tm*4),.3,.5]:null;
+   pb(tg,0,-.02,0,.09,.36,.09,WD);[.06,-.04].forEach(y=>pb(tg,0,y,0,.1,.04,.1,[.2,.14,.08]));
+   pi(tg,0,.22,0,.15,.15,.15,rr>=1?wc:gd,rr>=3?RA:null);pb(tg,0,-.22,0,.13,.08,.46,gd,GA);
+   [-1,1].forEach(sd=>{const wg=chain(tg,T(0,-.22,sd*.24),RX(sd*-.5));pb(wg,0,-.05,0,.1,.18,.06,gd,GA);if(rr>=2)pb(wg,0,-.14,0,.08,.1,.05,gd,GA);});
+   pb(tg,0,-.22,.0,.15,.14,.16,mix(wc,[.5,.1,.1],.5),rr>=3?RA:null);
+   pb(tg,0,-.3-BL/2,0,BW,BL,.15,bl,GA?[.06,.08,.12]:null);pb(tg,0,-.3-BL/2,.0,BW+.015,BL*.9,.04,bd);pb(tg,0,-.3-BL/2,.078,BW*.4,BL,.015,[1,1,1]);
+   part('cone',chain(tg,T(0,-.3-BL-.14,0),RX(3.1416),Sc(.15,.28,BW*1.05)),bl);
+   if(rr>=3)[.3,.5,.7].forEach((f,i)=>pb(tg,0,-.3-BL*f,.0,BW+.02,.07,.045,[.6,.9,1],[.2+.3*Math.sin(tm*5+i),.5,.7]));
+   if(rr>=4){const fl=.8+.3*Math.sin(tm*9);pb(tg,0,-.3-BL*.5,0,.07,BL*1.04,.2,[1,.6,.2],[.35,.15,.02]);pb(tg,0,-.3-BL-.1,0,.06,.3*fl,.06,[1,.7,.2],[.5,.3,0]);}}
+  else if(tool==='staff'){const oc=LK.orb||hex('#6a9cff'),rr=LK.wr||0,tr=Math.min(9,LK.wt||0),tm=c.t||0,gd=rr>=2?[1,.78,.25]:[.6,.5,.3],bob=Math.sin(tm*2)*.04,og=[oc[0]*.5,oc[1]*.5,oc[2]*.5];
+   pb(tg,0,-.2,0,.08,2.1,.08,WD);[-.9,-.3,.3,.8].forEach(y=>pb(tg,0,y,0,.115,.07,.115,gd));pb(tg,0,-1.3,0,.1,.18,.1,gd);part('cone',chain(tg,T(0,-1.5,0),RX(3.1416),Sc(.09,.22,.09)),gd);
+   [0,1,2,3].forEach(i=>{const a=i*1.5708+.4,cl=chain(tg,T(Math.sin(a)*.16,.88,Math.cos(a)*.16),RX(Math.cos(a)*.5),RZ(-Math.sin(a)*.5));pb(cl,0,.18,0,.06,.4,.06,gd);pb(cl,0,.4,0,.05,.12,.05,gd);});
+   pi(tg,0,1.1+bob,0,.3+tr*.012,.3+tr*.012,.3+tr*.012,oc,og);pi(tg,0,1.1+bob,0,.18,.18,.18,[1,1,1],[.4,.4,.4]);
+   if(rr>=1){const rg=chain(tg,T(0,1.1+bob,0),RY(tm*1.6),RX(.5));for(let i=0;i<6;i++){const a=i*1.0472;pi(rg,Math.cos(a)*.34,0,Math.sin(a)*.34,.07,.07,.07,gd,[.3,.25,.1]);}}
+   if(rr>=3)[0,1,2].forEach(i=>{const a=tm*2+i*2.094;pi(tg,Math.cos(a)*.42,1.1+bob+Math.sin(tm*3+i)*.08,Math.sin(a)*.42,.08,.08,.08,[1,1,1],[oc[0]*.6,oc[1]*.6,oc[2]*.6]);});
+   if(rr>=4)pb(tg,0,1.5+bob,0,.1,.3,.1,oc,og);}
+  else if(tool==='bow'){const wc=LK.orb||[.6,.4,.2],rr=LK.wr||0,tr=Math.min(9,LK.wt||0),tm=c.t||0,wd=rr>=1?[wc[0]*.8+.1,wc[1]*.8+.05,wc[2]*.7]:WD,gd=rr>=2?[1,.78,.25]:[.3,.22,.14],BH=.78+Math.min(.18,tr*.02);
+   pb(tg,0,0,.4,.09,.34,.1,[.25,.17,.1]);[.06,-.06].forEach(y=>pb(tg,0,y,.4,.1,.04,.11,gd));
+   const SL=.25;let yt=.17,zt=0,A=0;for(let i=0;i<4;i++){A+=.13*(i+1)*.8;yt+=SL*Math.cos(A);zt+=SL*Math.sin(A);}
+   [-1,1].forEach(sd=>{let m=chain(tg,T(0,sd*.17,.4));for(let i=0;i<4;i++){m=chain(m,RX(sd*-.13*(i+1)*.8));pb(m,0,sd*SL/2,0,.06-i*.006,SL*1.05,.07-i*.006,i%2?wd:[wd[0]*.8,wd[1]*.8,wd[2]*.8]);m=chain(m,T(0,sd*SL,0));}
+    pi(m,0,0,0,.09,.09,.09,gd,rr>=3?[.3,.25,.1]:null);if(rr>=3)pb(m,0,sd*.1,0,.03,.2,.03,rr>=4?[1,.6,.2]:[.6,.9,1],[.3,.3,.4]);});
+   pb(tg,0,0,.4-zt,.016,yt*2,.016,[.92,.92,.85]);pb(tg,0,0,.4-zt,.03,.06,.03,gd);
+   if(rr>=4)pb(tg,0,0,.4,.06,.5,.06,[1,.6,.2],[.4,.2,0]);}
   if(c.anim==='channel'){const g=1+Math.sin(t*5)*.12,cl=[[.5,.8,1],[.9,.5,1],[1,.8,.4]][Math.floor(t/2)%3];pi(b,0,hip+1.25,1.15,.42*g,.42*g,.42*g,cl,[.35,.35,.4]);for(let i=0;i<3;i++){const a=t*3+i*2.09;pb(chain(b,T(Math.cos(a)*.6,hip+1.25+Math.sin(a*1.3)*.2,1.15+Math.sin(a)*.6),RY(a)),0,0,0,.12,.12,.12,cl,[.3,.3,.35]);}}
   if(c.anim==='pray'){pi(hm,0,.95+Math.sin(t*2)*.03,0,.8,.06,.8,[1,.9,.45],[.5,.4,.1]);}
   if(c.anim==='fish'&&c._tip){const st=W3.ST.find(s=>s.id==='fish'),dd=st?Math.hypot(st.x-c.x,st.z-c.z):4,ln=Math.max(2.2,Math.min(4.2,dd-.5)),bxp=c.x+Math.sin(c.face)*ln,bzp=c.z+Math.cos(c.face)*ln,by=.09+Math.sin(t*2.4)*.035,tp=c._tip,pk=c._pk||0,pull=pk>.55&&pk<.68,cast=pk<.1?Math.min(1,pk/.1):1;
@@ -2644,7 +2727,7 @@ const TIER=[[.72,.45,.2],[.55,.57,.6],[.72,.76,.82],[.35,.47,.78],[.28,.66,.4],[
 function itCol(id){const it=ITEMS[id];if(!it)return null;if(it.col&&/^#/.test(it.col))return W3._hex(it.col);const k=(id+' '+it.n).toLowerCase();if(/leather|hide|d.?hide|wolf|bear/.test(k)&&!/dragon/.test(k))return[.55,.38,.2];if(/robe|mystic|wizard|cloth|mage|witch/.test(k))return[.5,.3,.7];return TIER[Math.min(it.tier||0,TIER.length-1)];}
 const CPK={cape_barrow:'rag',cape_troll:'fur',cape_frost:'ice',cape_temple:'wave',cape_inferno:'fire',cape_amaskot:'pharaoh',cape_bloodfall:'blood',cape_derek:'arc',cape_arsenal:'ban'};
 let lookSig='';function refreshLook(){const sg=JSON.stringify(S.equip)+'|'+S.cape;if(sg===lookSig)return;lookSig=sg;const e=S.equip,L={};L.helm=itCol(e.helmet);L.body=itCol(e.body);L.legs=itCol(e.legs);L.boots=itCol(e.boots);L.gloves=itCol(e.gloves);L.shield=itCol(e.shield);const MY={obs:[.14,.09,.2]};L.my={};{const id=S.cape||e.cape;if(id){const it=ITEMS[id];L.cape=SUPC[id]?{col:W3._hex(SUPC[id][1]),k:'sup'}:CAPEC[id]?{col:W3._hex(CAPEC[id]),k:'skill'}:it?{col:W3._hex(it.col||'#888888'),k:CPK[id]||'skill'}:null;}}['helmet:helm','body:body','legs:legs','boots:boots','gloves:gloves','shield:shield'].forEach(s=>{const[k,n]=s.split(':'),it=e[k]&&ITEMS[e[k]];if(it&&it.arm&&it.rar===4){L.my[n]=1;L[n]=MY.obs;L.mc=1;}});
- const wp=e.weapon&&ITEMS[e.weapon];L.wep=wp?(wp.wt==='ranged'?'bow':wp.wt==='magic'?'staff':'sword'):null;L.orb=wp?itCol(e.weapon):null;W3.look=L;}
+ const wp=e.weapon&&ITEMS[e.weapon];L.wep=wp?(wp.wt==='ranged'?'bow':wp.wt==='magic'?'staff':'sword'):null;L.orb=wp?itCol(e.weapon):null;L.wr=wp?(wp.rar||0):0;L.wt=wp?(wp.tier||0):0;W3.look=L;}
 function todParams(){const mode=(function(){try{return localStorage.getItem('mossgate-tod')||'auto';}catch(e){return'auto';}})();const d=new Date();let h=d.getHours()+d.getMinutes()/60;if(mode==='day')h=12;else if(mode==='night')h=0;else if(mode==='dusk')h=18.2;
  const t=(h-6)/24*Math.PI*2,e=Math.sin(t),sm=(a,b,x)=>{x=Math.max(0,Math.min(1,(x-a)/(b-a)));return x*x*(3-2*x);},day=sm(-.18,.32,e),dusk=Math.max(0,1-Math.abs(e-.02)*4.2);
  const mix=(a,b,k)=>a.map((v,i)=>v+(b[i]-v)*k);let sky=mix([.04,.07,.17],[.66,.83,.93],day),amb=mix([.46,.52,.8],[1,1,1],day),lc=mix([.4,.48,.85],[1,.97,.9],day);
@@ -2730,7 +2813,7 @@ function navHtml(){
  h+=it('home','🏠','Overview');h+=it('combat','⚔️','Combat','Lv '+combatLevel(),!!S.cb&&!S.cb.dg);h+=it('dungeons',P.gate('#6b7480'),'Dungeons',null,!!(S.cb&&S.cb.dg&&!DGB[S.cb.dg].raid));h+=it('raids',P.gate('#b03030'),'Raids',null,!!(S.cb&&S.cb.dg&&DGB[S.cb.dg].raid));h+=it('equip','🎒','Equipment');h+=it('bank','🏦','Bank',S.nb+'/'+bankSlots());h+=it('shop','🛒','Shop');h+=it('wheel',P.wheel(),'Daily Wheel',wheelLeft()===0?'<b class="gold">Ready</b>':'');
  h+='<div class="navh">Skills</div>';
  SKILLS.forEach(s=>{h+=it(s[0],s[2],s[1],lv(s[0])+(prN(s[0])?' ★'+prN(s[0]):''),S.acts.some(a=>a&&a.sk===s[0]));});
- h+='<div class="navh">Game</div>'+it('duel','🤺','Duel Arena')+it('pvp','⚔️','PvP Arena')+it('quests','📜','Daily Quests',dqBadge())+it('hiscores','🏆','Hiscores')+it('pets','🐾','Pets & Capes',Object.keys(S.pets).length+'/'+PETS.length)+it('prestige','🌟','Prestige',totalPres()?'★'+totalPres():'')+it('set','⚙️','Settings')+`<a class="ni" href="${DISCORD_URL}" target="_blank" rel="noopener"><span><img src="${DISCORD_ICON}" alt="" width="20" height="20" style="border-radius:5px;display:block"></span><span>Join our Discord</span></a>`;return h;}
+ h+='<div class="navh">Game</div>'+it('duel','🤺','Duel Arena')+it('pvp','⚔️','PvP Arena')+it('quests','📜','Daily Quests',dqBadge())+it('hiscores','🏆','Hiscores')+it('pets','🐾','Pets & Capes',Object.keys(S.pets).length+'/'+PETS.length)+it('clog','📖','Collection Log',clogTotals().n+'/'+clogTotals().t)+it('diary','🏅','Achievement Diaries',diaryDone()+'/'+DIARIES.length)+it('prestige','🌟','Prestige',totalPres()?'★'+totalPres():'')+it('set','⚙️','Settings')+`<a class="ni" href="${DISCORD_URL}" target="_blank" rel="noopener"><span><img src="${DISCORD_ICON}" alt="" width="20" height="20" style="border-radius:5px;display:block"></span><span>Join our Discord</span></a>`;return h;}
 
 /* ---------- hiscores (online leaderboard) ---------- */
 const hsEsc=t=>String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -2823,6 +2906,38 @@ function prestigePage(){
  ALLSK.forEach(k=>{const L=lv(k),n=prN(k),can=canPrestige(k);
   h+=`<div class="prr"><span class="ci">${SKN[k].i}</span><div class="prn"><b>${SKN[k].n}</b><div class="sub">Level ${L}${n?' · ★'+n+'/'+PRES_MAX+' · +'+Math.round(PRES_B*n*100)+'% XP':''}</div></div><div class="sp"></div>${n>=PRES_MAX?'<span class="pill">Max prestige</span>':can?`<button class="btn pri sm" data-a="presask" data-sk="${k}">Prestige</button>`:`<span class="sub">Needs level ${MAXL}</span>`}</div>`;});
  h+=Object.keys(SUPC).map(k=>{const o=capeOk(k);return`<button class="petc${o?'':' lock'}${S.cape===k?' on':''}" ${o?`data-a="capeset" data-sk="${k}"`:'disabled'}><span class="capechip big" style="background:${o?SUPC[k][1]:'#555'}"></span><b>${SUPC[k][0]} cape</b><span class="sub">${o?'Supporter':'Supporter only'}</span></button>`;}).join('');
+ return h+'</div></div>';}
+/* ---------- achievement diaries ---------- */
+const diaryDone=()=>DIARIES.filter(d=>S.dy.buff[d.id]).length;
+function diaryPage(){diaryCheck();const ei=Math.min(UI.dyE||0,DIARIES.length-1),D=DIARIES[ei],Y=S.dy;
+ let td=0,tt=0;DIARIES.forEach(d=>d.t.forEach((ts,ti)=>ts.forEach((t,i)=>{tt++;if(Y.done[d.id+'_'+ti+'_'+i])td++;})));
+ let h=`<div class="panel"><h2>🏅 Achievement Diaries</h2><div class="sub">Each task pays coins the moment you complete it, with a larger bonus for finishing a tier. Complete all four tiers of a diary for a permanent buff.</div><div class="sub" style="margin-top:6px">Tasks: <b>${td}/${tt}</b> · Diaries complete: <b>${diaryDone()}/${DIARIES.length}</b></div>${bar(pc(td,tt),'thin')}</div>`;
+ h+='<div class="clw"><div class="panel cll">'+DIARIES.map((d,i)=>{let n=0,t=0;d.t.forEach((ts,ti)=>ts.forEach((x,k)=>{t++;if(Y.done[d.id+'_'+ti+'_'+k])n++;}));return`<button class="cle${i===ei?' on':''}${Y.buff[d.id]?' full':''}" data-a="dyent" data-e="${i}"><span>${d.i}</span><span>${d.n.replace(' Diary','')}</span><small>${n}/${t}</small></button>`;}).join('')+'</div>';
+ h+=`<div class="panel clr"><h3>${D.i} ${D.n}</h3><div class="sub">Reward: <b class="${Y.buff[D.id]?'gold':''}">${D.buff}</b>${Y.buff[D.id]?' ✔ active':''}</div>`;
+ D.t.forEach((ts,ti)=>{const done=Y.tier[D.id+'_'+ti];h+=`<h4>${DYT[ti][0]} <span class="sub">(${fmt(DYT[ti][1])} coins per task, ${fmt(DYT[ti][1]*3)} bonus)</span>${done?' <span class="gold">✔</span>':''}</h4>`;
+  ts.forEach((t,i)=>{const ok=Y.done[D.id+'_'+ti+'_'+i],v=Math.min(t[3],dyVal(t[1],t[2]));h+=`<div class="dyt${ok?' ok':''}"><span class="dyc">${ok?'✔':'○'}</span><span class="dyn">${t[0]}</span><span class="dyp">${ok?'Done':fmt(v)+' / '+fmt(t[3])}</span></div>`;});});
+ return h+'</div></div>';}
+/* ---------- collection log ---------- */
+let CLG=null;
+function clogData(){if(CLG)return CLG;
+ const T=[],rid=['','','','',''].map((_,r)=>r),skip=id=>/^(bw_|ba_|dr_|cape_)/.test(id);
+ const bosses=BOSSDEF.map(b=>{const M=MONS[b[1]];const g=[];for(let r=4;r>=0;r--){const l=[];for(let t=0;t<3;t++)l.push('bw_'+b[1]+'_'+t+'_'+r);for(let p=0;p<6;p++)l.push('ba_'+b[1]+'_'+p+'_'+r);g.push([RAR[r][1]+' set (weapons, then armour)',l]);}
+  return{n:b[2],i:(M&&M.i)||'👹',g};});
+ const dg=DUNGEONS.map(d=>({n:d.n,i:d.i||'🏰',raid:!!d.raid,g:[['First clear',[d.cape.id]],['Rare drops',d.rares.map(r=>r.id)]]}));
+ const CN={log:['Logs','🪵'],fish:['Fish','🐟'],ore:['Ore','⛏️'],bar:['Bars','🧱'],hide:['Hides','🐄'],gem:['Gems','💎'],herb:['Herbs','🌿'],seed:['Seeds','🌱'],crop:['Crops','🌾'],food:['Cooked food','🍖'],potion:['Potions','🧪'],rune:['Runes','🔮'],ammo:['Ammo','🏹'],misc:['Miscellaneous','🦴']};
+ const sk=Object.keys(CN).map(c=>({n:CN[c][0],i:CN[c][1],g:[['Items',Object.keys(ITEMS).filter(id=>ITEMS[id].cat===c)]]})).filter(e=>e.g[0][1].length);
+ const SL={weapon:'Weapons',shield:'Shields',helmet:'Helmets',body:'Body armour',legs:'Leg armour',boots:'Boots',gloves:'Gloves',ring:'Rings',amulet:'Amulets',cape:'Capes'};
+ const gear=Object.keys(SL).map(s=>({n:SL[s],i:'🛡️',g:[['Items',Object.keys(ITEMS).filter(id=>ITEMS[id].cat==='gear'&&ITEMS[id].slot===s&&!skip(id))]]})).filter(e=>e.g[0][1].length);
+ CLG=[['bosses','Bosses',bosses],['dungeons','Dungeons & Raids',dg],['pets','Pets',[{n:'All pets',i:'🐾',pets:1,g:[['Pets',PETS.map(p=>p.id)]]}]],['skilling','Skilling',sk],['gear','Equipment',gear]];return CLG;}
+const clogHave=(e,id)=>e.pets?!!S.pets[id]:!!(S.clog&&S.clog[id]);
+function clogEntry(e){let n=0,t=0;e.g.forEach(g=>g[1].forEach(id=>{t++;if(clogHave(e,id))n++;}));return{n,t};}
+function clogTotals(){let n=0,t=0;clogData().forEach(T=>T[2].forEach(e=>{const c=clogEntry(e);n+=c.n;t+=c.t;}));return{n,t};}
+function clogPage(){const D=clogData(),tot=clogTotals();let ti=Math.max(0,D.findIndex(x=>x[0]===UI.clogTab));const tab=D[ti],ents=tab[2],ei=Math.min(UI.clogE||0,ents.length-1),en=ents[ei],ec=clogEntry(en);
+ let h=`<div class="panel"><h2>📖 Collection Log</h2><div class="sub">Every item you obtain is recorded here. Items you owned before the log existed were added when it first loaded.</div><div class="sub" style="margin-top:6px">Obtained: <b>${fmt(tot.n)}/${fmt(tot.t)}</b> (${Math.floor(tot.n/Math.max(1,tot.t)*100)}%)</div>${bar(pc(tot.n,tot.t),'thin')}</div>`;
+ h+='<div class="panel"><div class="clt">'+D.map(x=>{const c=x[2].reduce((a,e)=>{const q=clogEntry(e);return[a[0]+q.n,a[1]+q.t];},[0,0]);return`<button class="clb${x[0]===tab[0]?' on':''}" data-a="clogtab" data-t="${x[0]}">${x[1]}<small>${c[0]}/${c[1]}</small></button>`;}).join('')+'</div></div>';
+ h+='<div class="clw"><div class="panel cll">'+ents.map((e,i)=>{const c=clogEntry(e);return`<button class="cle${i===ei?' on':''}${c.n===c.t?' full':''}" data-a="clogent" data-e="${i}"><span>${e.i}</span><span>${e.n}</span><small>${c.n}/${c.t}</small></button>`;}).join('')+'</div>';
+ h+=`<div class="panel clr"><h3>${en.i} ${en.n}${en.raid?' <span class="sub">(raid)</span>':''}</h3><div class="sub">Obtained: <b class="${ec.n===ec.t?'gold':''}">${ec.n}/${ec.t}</b></div>`;
+ en.g.forEach(g=>{h+=`<h4>${g[0]}</h4><div class="clg">`+g[1].map(id=>{const it=en.pets?PETB[id]:ITEMS[id],o=clogHave(en,id),q=!en.pets&&S.clog[id];return`<span class="cli${o?' got':''}" ${en.pets?'':`data-tip="${id}"`} title="${it.n}"${it.rar!=null?` style="border-color:${RAR[it.rar][2]}"`:''}>${it.i}${o&&q>1?`<b>${fmt(q)}</b>`:''}</span>`;}).join('')+'</div>';});
  return h+'</div></div>';}
 function petsPage(){
  const own=Object.keys(S.pets).length;
@@ -3107,7 +3222,7 @@ function homePage(){
 
 function pageHtml(){
  const p=UI.page;
- if(p==='home')return homePage();if(p==='combat')return combatPage();if(p==='quests')return questsPage();if(p==='dungeons')return dungeonsPage(0);if(p==='raids')return dungeonsPage(1);if(p==='equip')return equipPage();if(p==='bank')return bankPage();if(p==='shop')return shopPage();if(p==='wheel')return wheelPage();if(p==='set'){const C_=CL();if(C_.acc&&!C_.loaded&&!C_.busy)clRefresh();return settingsPage();}if(p==='prestige')return prestigePage();if(p==='pets')return petsPage();if(p==='duel')return duelPage();if(p==='pvp'){const P=PV();if(S.hs&&S.hs.on&&hsReady()&&!P.list&&!P.busy&&!P.auto){P.auto=1;pvSync(true);}return pvpPage();}if(p==='hiscores')return hiscoresPage();
+ if(p==='home')return homePage();if(p==='combat')return combatPage();if(p==='quests')return questsPage();if(p==='dungeons')return dungeonsPage(0);if(p==='raids')return dungeonsPage(1);if(p==='equip')return equipPage();if(p==='bank')return bankPage();if(p==='shop')return shopPage();if(p==='wheel')return wheelPage();if(p==='set'){const C_=CL();if(C_.acc&&!C_.loaded&&!C_.busy)clRefresh();return settingsPage();}if(p==='prestige')return prestigePage();if(p==='pets')return petsPage();if(p==='clog')return clogPage();if(p==='diary')return diaryPage();if(p==='duel')return duelPage();if(p==='pvp'){const P=PV();if(S.hs&&S.hs.on&&hsReady()&&!P.list&&!P.busy&&!P.auto){P.auto=1;pvSync(true);}return pvpPage();}if(p==='hiscores')return hiscoresPage();
  return skillPage(p);}
 function ctxHtml(){const c=UI.ctx;if(!c)return'';let b='',t='';
  if(c.t==='item'){const it=ITEMS[c.id],n=cnt(c.id);if(!it||!n)return'';t=`<span${rc(it)}>${it.n}</span> ×${fmt(n)}`;
@@ -3162,7 +3277,7 @@ function hudHtml(){if(!W3.on||!S)return'';
  const B=(p,i,n)=>`<button class="hb${UI.win&&UI.page===p?' on':''}" data-a="nav" data-p="${p}" title="${n}"><span>${i}</span><em>${n}</em></button>`;
  return`<div class="hl"><div class="hbox"><b>${esc(S.name||'Adventurer')}${S.sup&&S.sup.on?' <span style="color:#e0b030">★</span>':''}</b><span>Combat ${combatLevel()} · Total ${totalLevel()}</span><span class="hhp">${bar(pc(S.hp,maxHp()),'hp')}<em>${Math.ceil(S.hp)}/${maxHp()}</em></span><span class="hc">🪙 ${fmt(S.coins)}</span></div></div>
  <div class="hs"><div class="tslots">${S.acts.map((a,i)=>slotHtml(i)).join('')}</div></div>
- <div class="hb-bar">${B('home','🏠','Overview')}${B('combat','⚔️','Combat')}${B('equip','🎒','Gear')}${B('bank','🏦','Bank')}${B('shop','🛒','Shop')}${B('quests','📜','Quests')}${B('pvp','🤺','PvP')}${B('hiscores','🏆','Ranks')}${B('pets','🐾','Pets')}${B('set','⚙️','Settings')}<button class="hb" data-a="recenter" title="Centre camera on hero"><span>🎯</span><em>Centre</em></button></div>`;}
+ <div class="hb-bar">${B('home','🏠','Overview')}${B('combat','⚔️','Combat')}${B('equip','🎒','Gear')}${B('bank','🏦','Bank')}${B('shop','🛒','Shop')}${B('quests','📜','Quests')}${B('pvp','🤺','PvP')}${B('hiscores','🏆','Ranks')}${B('pets','🐾','Pets')}${B('clog','📖','Log')}${B('diary','🏅','Diaries')}${B('set','⚙️','Settings')}<button class="hb" data-a="recenter" title="Centre camera on hero"><span>🎯</span><em>Centre</em></button></div>`;}
 function toastHtml(){const now=Date.now();return EV.filter(e=>now-e.at<5000).slice(-4).map(e=>`<div class="toast ${e.k}">${e.t}</div>`).join('');}
 
 function ago(t){if(!t)return'never';const s=(Date.now()-t)/1000;return s<10?'just now':fmtT(s)+' ago';}
@@ -3218,7 +3333,7 @@ function go(p){if(W3.on)UI.win=true;UI.page=p;UI.navOpen=false;window.scrollTo(0
 function nextSlot(){if(S.acts[UI.tgt]){const o=S.acts.findIndex((a,i)=>!a&&i!==UI.tgt);if(o>=0)UI.tgt=o;}}
 function handle(d){
  switch(d.a){
-  case'nav':go(d.p);break;case'winclose':UI.win=false;break;case'tod':try{localStorage.setItem('mossgate-tod',d.m);}catch(e){}break;case'recenter':W3.recenter();break;case'view3d':{const on=!W3.on;try{localStorage.setItem('mossgate-view',on?'3d':'classic');}catch(e){}if(on){if(!W3.start())UI.msgView='3D is not available on this device.';}else W3.stop();UI.win=false;}break;case'supredeem':{const U=UI.sup||(UI.sup={}),v=($('#supcode')||{}).value||'';if(U.busy)break;if(v.replace(/[^A-Za-z0-9]/g,'').length<8){U.msg='Enter your supporter code.';break;}U.busy=1;U.msg='Checking…';supRedeem(v).then(r=>{U.busy=0;U.msg=r==='ok'?'Unlocked. Thank you!':r==='invalid'?'That code is not valid or was already used.':r==='denied'?'This save already has a different supporter account.':'Could not redeem right now. Try again later.';dirty.v=1;}).catch(()=>{U.busy=0;U.msg='Could not reach the server. Try again later.';dirty.v=1;});}break;case'pray':prToggle(d.id);break;case'praytoggle':UI.prayOpen=!UI.prayOpen;break;case'altar':prAltar();break;case'dqclaim':dqClaim(+d.i);break;case'dqbonus':dqBonus();break;case'evclick':evClick(d,+d.i);break;case'evstop':{const bar=$('.evbar'),mk=$('.evmk');if(bar&&mk){const br=bar.getBoundingClientRect(),mr=mk.getBoundingClientRect();evStop((mr.left+mr.width/2-br.left)/br.width);}}break;case'navtoggle':UI.navOpen=!UI.navOpen;break;
+  case'nav':go(d.p);break;case'clogtab':UI.clogTab=d.t;UI.clogE=0;break;case'clogent':UI.clogE=+d.e;break;case'dyent':UI.dyE=+d.e;break;case'winclose':UI.win=false;break;case'tod':try{localStorage.setItem('mossgate-tod',d.m);}catch(e){}break;case'recenter':W3.recenter();break;case'view3d':{const on=!W3.on;try{localStorage.setItem('mossgate-view',on?'3d':'classic');}catch(e){}if(on){if(!W3.start())UI.msgView='3D is not available on this device.';}else W3.stop();UI.win=false;}break;case'supredeem':{const U=UI.sup||(UI.sup={}),v=($('#supcode')||{}).value||'';if(U.busy)break;if(v.replace(/[^A-Za-z0-9]/g,'').length<8){U.msg='Enter your supporter code.';break;}U.busy=1;U.msg='Checking…';supRedeem(v).then(r=>{U.busy=0;U.msg=r==='ok'?'Unlocked. Thank you!':r==='invalid'?'That code is not valid or was already used.':r==='denied'?'This save already has a different supporter account.':'Could not redeem right now. Try again later.';dirty.v=1;}).catch(()=>{U.busy=0;U.msg='Could not reach the server. Try again later.';dirty.v=1;});}break;case'pray':prToggle(d.id);break;case'praytoggle':UI.prayOpen=!UI.prayOpen;break;case'altar':prAltar();break;case'dqclaim':dqClaim(+d.i);break;case'dqbonus':dqBonus();break;case'evclick':evClick(d,+d.i);break;case'evstop':{const bar=$('.evbar'),mk=$('.evmk');if(bar&&mk){const br=bar.getBoundingClientRect(),mr=mk.getBoundingClientRect();evStop((mr.left+mr.width/2-br.left)/br.width);}}break;case'navtoggle':UI.navOpen=!UI.navOpen;break;
   case'start':startAction(d.sk,d.id,UI.tgt);nextSlot();break;case'stop':stopAll();break;case'dgn':startDungeon(d.id);if(S.cb&&S.cb.dg===d.id){if(W3.on){UI.page='combat';UI.win=false;}else go('combat');}break;case'bagall':bagCollect();break;case'bagsell':bagSellAll();break;case'bagmode':S.bag.mode=S.bag.mode==='stop'?'bank':'stop';break;case'bagtake':if(!bagTake(d.id))toast('Your bank has no room for that.','warn');break;case'buybag':buyBag();break;case'slot':{UI.tgt=+d.i;const A=S.acts[UI.tgt];if(!A)UI.modal={type:'pick',slot:UI.tgt};else go(A.sk==='combat'?'combat':A.sk);}break;case'pickgo':UI.modal=null;go(d.p);break;case'stopslot':clearSlot(+d.i);UI.tgt=+d.i;break;
   case'mon':startCombat(UI.area,d.id,UI.tgt);nextSlot();if(S.cb){S.cb.stance=UI.stance||0;S.cb.spell=UI.spell||0;}break;case'area':UI.area=d.id;break;
   case'stance':if(S.cb)S.cb.stance=+d.i;UI.stance=+d.i;break;
