@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-N0HWoG+kCMQ99CYrs7W6ccy/LQ/REHLJm/ShYSNtuTs=' 'sha256-3kUJRw3imQB4sILA6qP0rs8BsofKxtKoO8GylmTEh5U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; worker-src 'self'; connect-src https://fogoltmnmdabjimxsjnm.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="icons/icon-192.png"><meta name="theme-color" content="#e9eee8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121815" media="(prefers-color-scheme: dark)"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Mossgate"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-Y90zL+eIFXqWc2LeorpodHP3Esnte/7tLed6PhHlkMw=' 'sha256-3kUJRw3imQB4sILA6qP0rs8BsofKxtKoO8GylmTEh5U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; worker-src 'self'; connect-src https://fogoltmnmdabjimxsjnm.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="icons/icon-192.png"><meta name="theme-color" content="#e9eee8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121815" media="(prefers-color-scheme: dark)"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Mossgate"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
 <title>Mossgate Idle</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1976,7 +1976,7 @@ const SK=n=>'mossgate-idle-slot-'+n;
 let SLOT=0;const SAVESTAT={ok:true,at:0,err:'',bak:0};
 
 /* ---------- save integrity: signed, tamper-evident saves ---------- */
-const BUILD_TS=1794891666000;
+const BUILD_TS=1794894392000;
 const SIGKEY=['mg','8f2c','-gate','Q7x','r0ot','5e1d','|idle','b9'].join('');
 const SHA_K=(()=>{const k=[];for(let n=2;k.length<64;n++){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)k.push(Math.floor((Math.cbrt(n)%1)*4294967296));}return k;})();
 const SHA_H=(()=>{const h=[];for(let n=2;h.length<8;n++){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)h.push(Math.floor((Math.sqrt(n)%1)*4294967296));}return h;})();
@@ -2386,7 +2386,7 @@ function buildWorld(gl){ST.length=0;TREES.length=0;W3._trees=TREES;const B=new B
  const RTS=new Set(['bank','shop','quests','hiscores','cook','herb','thief','smith','fletch','craft','slayer','pray','wheel','dungeons','raids','fm','mine','rc']);
  const add=(id,x,z,spx,spz,face,page,name,emoji,fn,kind)=>{const N=NP[id];let dd0=Math.hypot(spx-x,spz-z);if(N){spx+=N[0]-x;spz+=N[1]-z;x=N[0];z=N[1];}let rot=null;if(RTS.has(id)){const l=Math.hypot(x,z)||1,ang=Math.atan2(-x,-z);spx=x-x/l*Math.max(3.2,dd0);spz=z-z/l*Math.max(3.2,dd0);face=Math.atan2(spx-x,spz-z)+3.14159;rot=chain(T(x,0,z),RY(ang),T(-x,0,-z));}const s=reg({id,x,z,sx:spx,sz:spz,face,page,name,emoji,kind:kind||'skill'});if(fn){const bs=[B,SH,WA,GL];if(rot)bs.forEach(b=>{const o=b.add;b.add=function(a,m,...r){return o.call(this,a,chain(rot,m),...r);};});const zr=[],w0=WAT.length;try{Batch.rec=zr;fn(x,z,s);}finally{Batch.rec=null;OCC.push(...zr);s.zone=zr;s.water=WAT.slice(w0);if(rot)bs.forEach(b=>{delete b.add;});}}P.push([x,z,id==='fish'?9.4:4]);return s;};
  add('wc',-21,-15,-17.6,-13.3,2.3,'wc','Woodcutting','🪓',(x,z)=>{for(let i=0;i<13;i++){const a=rnd()*6.28,d=rr(1.5,7);(i%3?tree:oak)(B,SH,x+Math.cos(a)*d-3,z+Math.sin(a)*d-1,rr(.9,1.4));}const m=base(x+4,z+4,0);bx(B,m,0,0,0,.9,.5,.9,'wood2');bx(B,m,.2,.5,0,.1,.3,1.0,'stone2');bx(B,m,1.3,0,.4,1.6,.3,.35,'wood');bx(B,m,1.3,.3,.4,1.5,.3,.35,'wood2');});
- add('mine',2,-27,2,-22,3.14,'mine','Mining','⛏️',(x,z)=>{const m=base(x,z,0);B.add('frus',chain(m,T(0,0,0),S(12,7,10)),C('stone2'),.1);B.add('frus',chain(m,T(-5,0,1),S(7,4.5,7)),C('stone'),.1);B.add('frus',chain(m,T(5,0,1),S(6,5,6)),C('stone'),.1);
+ add('mine',2,-27,2,-22.55,3.14,'mine','Mining','⛏️',(x,z)=>{const m=base(x,z,0);B.add('frus',chain(m,T(0,0,0),S(12,7,10)),C('stone2'),.1);B.add('frus',chain(m,T(-5,0,1),S(7,4.5,7)),C('stone'),.1);B.add('frus',chain(m,T(5,0,1),S(6,5,6)),C('stone'),.1);
   [[-1.5,2.2,4.6,'ore'],[2.2,1.5,4.2,'#e8d84a'],[0,3.8,3.2,'#5ec4e8'],[-3.6,1.2,4.2,'#9a5ad8']].forEach(o=>ic(B,m,o[0],o[1],o[2],.55,o[3]==='ore'?C('ore'):hex(o[3]),.9));bx(B,m,-2,0,5.5,1.8,.9,1.1,'wood');cy(B,m,-2.7,5.5,.4,.3,'dark');cy(B,m,-1.3,5.5,.4,.3,'dark');bx(B,m,1.5,0,6,.7,.4,.7,'stone2');for(let i=0;i<5;i++)rock(B,x+rr(-9,9),z+rr(2,8),rr(.6,1.2));});
  add('fish',-31,6,-31,13,3.14,'fish','Fishing','🎣',(x,z)=>{WA.add('disc',chain(T(x,.06,z),S(15,1,12)),C('water'));B.add('disc',chain(T(x,.045,z),S(16.2,1,13.1)),[.6,.53,.38]);B.add('disc',chain(T(x,.03,z),S(17,1,14)),C('sand'));
   const m=base(x,z+7.6,1.5708);for(let i=0;i<5;i++)bx(B,m,i*1.0,.3,0,1.0,.15,2.2,i%2?'wood':'wood2');post(B,m,.5,-1,.6);post(B,m,.5,1,.6);post(B,m,4.5,-1,.6);post(B,m,4.5,1,.6);
@@ -3343,10 +3343,16 @@ function updateCam(dt){refreshLook();const c=R.cam,h=chars[0];let tx=h.x,tz=h.z,
  {const sz=R.size,asp=sz[0]/sz[1];if(asp<1)td*=1+(1-asp)*1.1;}
  c.tx+=(tx-c.tx)*Math.min(1,dt*3);c.tz+=(tz-c.tz)*Math.min(1,dt*3);c.dist+=(td-c.dist)*Math.min(1,dt*6);}
 let pLast=0,pAcc=0;const PT=[],LF=[],MO=[];
+const DB=[];function debris(x,y,z,vx,vy,vz,sz,col,add){if(DB.length>=70)DB.shift();DB.push({x,y,z,vx,vy,vz,sz,col,add,l:6+Math.random()*3,rx:Math.random()*6,ry:Math.random()*6,wx:(Math.random()-.5)*16,wy:(Math.random()-.5)*16,sx:.7+Math.random()*.6,sy:.5+Math.random()*.5,sz2:.7+Math.random()*.6,rest:false});}
 function emit(x,y,z,vx,vy,vz,life,sz,col,add,g,shape){if(PT.length<260)PT.push({x,y,z,vx,vy,vz,l:life,L:life,sz,col,add:add||[0,0,0],g:g||0,sh:shape||'ico',r:Math.random()*6});}
 R.onHit=(c,a)=>{const r=()=>Math.random()-.5,fx_=c.x+Math.sin(c.face)*1.5,fz_=c.z+Math.cos(c.face)*1.5;
  if(a==='chop'){for(let k=0;k<6;k++)emit(fx_+r()*.3,1.2+r()*.3,fz_+r()*.3,r()*2.8,1.4+Math.random()*1.6,r()*2.8,.9,.1,k%3?[.66,.48,.28]:[.45,.62,.24],[.04,.03,.02],8,'box');}
- else if(a==='pick'){for(let k=0;k<7;k++)emit(fx_+r()*.3,.9+r()*.3,fz_+r()*.3,r()*3.2,1.4+Math.random()*1.6,r()*3.2,.75,.09,k%2?[.58,.58,.62]:[1,.85,.3],k%2?[.02,.02,.02]:[.6,.5,.12],9,'box');emit(fx_,1.0,fz_,0,.4,0,.18,.5,[1,.95,.6],[.7,.6,.2],0);}
+ else if(a==='pick'){const A=S.acts&&S.acts[c.i],oid=A&&String(A.id||''),OC={copper:[.8,.46,.24],tin:[.78,.78,.74],iron:[.56,.36,.28],coal:[.1,.1,.11],mithril:[.32,.38,.72],adamant:[.28,.56,.34],rune:[.32,.74,.86],dragon:[.8,.2,.22],ess:[.82,.84,.95],pure:[.92,.9,1],gold:[1,.8,.25],silver:[.86,.88,.92],clay:[.72,.55,.4]};let oc=[.9,.75,.3];for(const k in OC)if(oid.indexOf(k)>=0){oc=OC[k];break;}
+  const bx=c.x+Math.sin(c.face)*.95,bz=c.z+Math.cos(c.face)*.95,dx=-Math.sin(c.face),dz=-Math.cos(c.face),px=-dz,pz=dx;
+  const n=6+Math.floor(Math.random()*4);for(let k=0;k<n;k++){const g=.4+Math.random()*.24,isO=Math.random()<.4,col=isO?[oc[0]*(.85+Math.random()*.3),oc[1]*(.85+Math.random()*.3),oc[2]*(.85+Math.random()*.3)]:[g*1.02,g,g*.95],sp=1.2+Math.random()*2.2,sd=r()*2.4,sz=.06+Math.random()*.11;
+   debris(bx+r()*.25,.75+Math.random()*.35,bz+r()*.25,dx*sp+px*sd,1.2+Math.random()*2.4,dz*sp+pz*sd,sz,col,isO&&(oid.indexOf('rune')>=0||oid.indexOf('dragon')>=0||oid.indexOf('ess')>=0)?[oc[0]*.25,oc[1]*.25,oc[2]*.25]:[0,0,0]);}
+  for(let k=0;k<8;k++)emit(bx+r()*.3,.8+Math.random()*.3,bz+r()*.3,dx*1.2+r()*1.6,.8+Math.random()*1.2,dz*1.2+r()*1.6,.5+Math.random()*.3,.025+Math.random()*.02,[.6,.58,.55],[0,0,0],7,'box');
+  for(let k=0;k<4;k++)emit(bx,.95,bz,dx*2+r()*3,1.2+Math.random()*1.8,dz*2+r()*3,.28,.03,[1,.85,.45],[1,.7,.3],9,'box');}
  else if(a==='hammer'){for(let k=0;k<8;k++)emit(fx_,1.15,fz_,r()*3.4,1.0+Math.random()*2.2,r()*3.4,.6,.07,[1,.7,.2],[.9,.45,.05],9);emit(fx_,1.15,fz_,0,.2,0,.14,.45,[1,.9,.5],[.8,.6,.2],0);}
  else if(a==='dig'){for(let k=0;k<6;k++)emit(fx_,.15,fz_,r()*1.8,1.6+Math.random()*1.2,r()*1.8,.7,.12,[.42,.3,.18],[0,0,0],8,'box');}
  else if(a==='stoke'){for(let k=0;k<5;k++)emit(fx_,.6,fz_,r()*1.6,1.4+Math.random()*1.4,r()*1.6,.9,.07,[1,.6,.15],[.8,.35,.05],5);}
@@ -3380,6 +3386,10 @@ function particles(t,dt,P0){const c=chars[0],ST_=W3.ST,cx=R.cam.tx,cz=R.cam.tz,w
   else if((A.sk==='cook'||A.sk==='fm'||A.sk==='herb')&&ch._pt>.22){ch._pt=0;emit(fx_+r()*.6,1.2,fz_+r()*.6,r()*.3,.9,r()*.3,1.3,.32,A.sk==='fm'?[1,.55,.15]:[.82,.82,.85],A.sk==='fm'?[.6,.25,.05]:[.1,.1,.1],-.2);}
  });
  /* step + draw */
+ for(let i=DB.length-1;i>=0;i--){const q=DB[i];q.l-=dt;if(q.l<=0){DB.splice(i,1);continue;}
+  if(!q.rest){q.vy-=9.8*dt;q.x+=q.vx*dt;q.y+=q.vy*dt;q.z+=q.vz*dt;q.rx+=q.wx*dt;q.ry+=q.wy*dt;const gy=.04+q.sz*q.sy*.45;
+   if(q.y<gy){q.y=gy;if(Math.abs(q.vy)>1.1){q.vy=-q.vy*.32;q.vx*=.55;q.vz*=.55;q.wx*=.5;q.wy*=.5;}else{q.vy=0;q.vx*=.2;q.vz*=.2;if(Math.hypot(q.vx,q.vz)<.08)q.rest=true;q.wx*=.3;q.wy*=.3;}}}
+  const fd=Math.min(1,q.l/1.2),s=q.sz*fd;LB.part('ico',chain(T(q.x,q.y-(1-fd)*q.sz*.3,q.z),RY(q.ry),RX(q.rx),Sc(s*q.sx,s*q.sy,s*q.sz2)),q.col,q.add);}
  for(let i=PT.length-1;i>=0;i--){const q=PT[i];q.l-=dt;if(q.l<=0){PT.splice(i,1);continue;}q.vy-=q.g*dt;q.x+=q.vx*dt;q.y+=q.vy*dt;q.z+=q.vz*dt;if(q.y<.04&&q.g>0){q.y=.04;q.vx*=.6;q.vz*=.6;q.vy=0;}
   const a=q.l/q.L,s=q.g<0?q.sz*(1+(1-a)*1.6)*Math.min(1,a*3):q.sz*(.4+.6*a);LB.part(q.sh,chain(T(q.x,q.y,q.z),RY(q.r+t*3),RX(q.r*2),Sc(s,s,s)),q.col,q.add);}
 }
