@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-ZNlhQPJHWvnxRXjtMBfaHBOXVPdKDUxljRCm1kM08tw=' 'sha256-3kUJRw3imQB4sILA6qP0rs8BsofKxtKoO8GylmTEh5U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; worker-src 'self'; connect-src https://fogoltmnmdabjimxsjnm.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="icons/icon-192.png"><meta name="theme-color" content="#e9eee8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121815" media="(prefers-color-scheme: dark)"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Mossgate"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-IKJBKnDmwoAsw1oLjGfVOnUxYa5vw6ghKue7YltiRF4=' 'sha256-3kUJRw3imQB4sILA6qP0rs8BsofKxtKoO8GylmTEh5U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; worker-src 'self'; connect-src https://fogoltmnmdabjimxsjnm.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="icons/icon-192.png"><meta name="theme-color" content="#e9eee8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121815" media="(prefers-color-scheme: dark)"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Mossgate"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
 <title>Mossgate Idle</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -433,7 +433,7 @@ const SPELLS=[
 
 /* thieving */
 const THIEF=[
- ['man','Townsperson','🧍',1,8,[1,10],25,[['seed_potato',0.08,1,2],['seed_flax',0.05,1,2],['food_shrimp',0.06,1,2],['vial',0.05,1,1],['ore_copper',0.06,1,2],['ore_tin',0.06,1,2]]],
+ ['man','Townsperson','🧍',1,8,[1,10],25,[['seed_potato',0.08,1,2],['seed_flax',0.05,1,2],['food_shrimp',0.06,1,2],['vial',0.05,1,1],['herb_wild',0.1,1,2],['ore_copper',0.06,1,2],['ore_tin',0.06,1,2]]],
  ['farmer','Farmer','🧑‍🌾',10,16,[4,28],40,[['seed_potato',0.1,1,3],['seed_flax',0.08,1,3],['seed_onion',0.08,1,3],['seed_green',0.05,1,2],['seed_tree_oak',0.06,1,1],['seed_tree_willow',0.02,1,1],['food_sardine',0.08,1,2],['feather',0.15,2,6]]],
  ['warrior','Guard','💂',20,26,[20,70],70,[['bar_iron',0.08,1,2],['bar_steel',0.03,1,1],['ore_iron',0.1,1,3],['food_trout',0.08,1,2],['arrow_iron',0.1,5,15],['seed_cabbage',0.05,1,2],['seed_tomato',0.03,1,2]]],
  ['merchant','Merchant','🧔',30,38,[60,150],110,[['ore_coal',0.15,2,6],['bar_steel',0.06,1,2],['seed_tomato',0.08,1,3],['seed_sweetcorn',0.04,1,2],['seed_sun',0.05,1,2],['vial',0.08,1,3],['food_salmon',0.08,1,2],['gem_sapphire',0.02,1,1]]],
@@ -462,6 +462,9 @@ HERBS.forEach((h,k)=>{
   mk(id,pn[1]+' Draught '+RN[k],'🧪',R(30+k*k*18+k*24),'potion',{pot:{t:ty,v,d:420}});
   ACT.herb.push({id,n:pn[1]+' Draught '+RN[k],i:'🧪',lvl:h[2]+(side==='c'?2:0),xp:R(14+h[2]*1.6+(side==='c'?4:0)),t:3.5,in:{['herb_'+h[0]]:1,vial:1},out:{[id]:1}});});});
 
+mk('herb_wild','Wild Herb','🌿',4,'herb');mk('pot_wild','Novice Tonic','🧪',14,'potion',{pot:{t:'xp',v:3,d:300}});
+ACT.herb.unshift({id:'pot_wild',n:'Novice Tonic',i:'🧪',lvl:1,xp:10,t:3,in:{herb_wild:1,vial:1},out:{pot_wild:1}});
+
 /* farming */
 const CROPS=[
  ['potato','Potato','allot',1,60,300,10,2,[5,9]],['flax','Flax','allot',5,75,360,14,3,[6,10]],['onion','Onion','allot',10,120,480,22,5,[5,9]],
@@ -485,7 +488,7 @@ CROP.forEach(c=>c.mx=Math.max(8,c.t/12));
 const bonesD=[['bones',1,1,1]];
 const AREAS=[
  {id:'farm',n:'Greenfield Farm',i:'🌾',mons:[
-  ['chicken','Chicken','🐔',1,[['bones',1,1,1],['feather',0.8,3,8],['seed_potato',0.1,1,2]]],
+  ['chicken','Chicken','🐔',1,[['bones',1,1,1],['feather',0.8,3,8],['seed_potato',0.1,1,2],['herb_wild',0.12,1,2]]],
   ['cow','Cow','🐄',5,[['bones',1,1,1],['hide_cow',1,1,1],['seed_flax',0.08,1,2]]],
   ['farmhand','Rogue Farmhand','🧑‍🌾',9,[['bones',1,1,1],['seed_onion',0.1,1,3],['seed_tree_oak',0.05,1,1],['ore_copper',0.15,1,3],['vial',0.1,1,2]]]]},
  {id:'camp',n:'Goblin Camp',i:'⛺',mons:[
@@ -557,7 +560,7 @@ const PERKS=[
  {id:'eat',n:'Field Medic',d:'Eat food at a higher health level (+5% per tier, from 50%)',max:5,cost:[40000,180000,700000,2.5e6,9e6]},
  {id:'gold',n:"Merchant's Ledger",d:'+5% coins from monsters, thieving and agility',max:5,cost:[90000,450000,1.8e6,7e6,22e6]},
  {id:'off',n:'Camp Bed',d:'+6 hours of offline progress',max:5,cost:[100000,500000,2e6,8e6,25e6]}];
-const SUPPLY={rune_mind:6,rune_body:6,rune_cosmic:14,rune_chaos:26,rune_nature:40,log_willow:36,log_teak:55,vial:25,food_shrimp:20,food_trout:55,food_salmon:85,food_lobster:150,arrow_bronze:6,arrow_iron:14,arrow_steel:28,arrow_mithril:60,rune_air:6,rune_water:6,rune_earth:6,rune_fire:6,ore_ess:8,ore_pure:16,log_normal:8,log_oak:20,ore_copper:10,ore_tin:10,ore_coal:30,bones:6};
+const SUPPLY={herb_wild:8,rune_mind:6,rune_body:6,rune_cosmic:14,rune_chaos:26,rune_nature:40,log_willow:36,log_teak:55,vial:25,food_shrimp:20,food_trout:55,food_salmon:85,food_lobster:150,arrow_bronze:6,arrow_iron:14,arrow_steel:28,arrow_mithril:60,rune_air:6,rune_water:6,rune_earth:6,rune_fire:6,ore_ess:8,ore_pure:16,log_normal:8,log_oak:20,ore_copper:10,ore_tin:10,ore_coal:30,bones:6};
 
 /* ===== bosses and rarity weapons ===== */
 const RAR=[['Common','Rough','#9aa0a6'],['Uncommon','Fine','#4caf6a'],['Rare','Superior','#4a8be0'],['Epic','Exalted','#a855d6'],['Legendary','Mythic','#f0a030']];
@@ -1037,6 +1040,8 @@ const STG=['#8fd0ff','#7ae07a','#e0a0ff','#ffd060','#ff7a60','#60e0e0','#ff60a0'
   else if(id.startsWith('rune_'))s=P.rune(id.slice(5));
   else if(id.startsWith('seed_'))s=P.seed();
   else if(id.startsWith('crop_'))s=P.crop(CRC[id.slice(5)]);
+  else if(id==='herb_wild')s=P.herb('#7a9a4a');
+  else if(id==='pot_wild')s=P.potion('#9ac860');
   else if(id.startsWith('herb_'))s=P.herb(HC[HERBS.findIndex(h=>'herb_'+h[0]===id)]);
   else if(id.startsWith('pot_')){const k=HERBS.findIndex(h=>id.startsWith('pot_'+h[0]+'_'));s=P.potion(HC[k]);}
   else if(id.startsWith('hide_'))s=P.hide(HIC[id.slice(5)]);
@@ -1978,7 +1983,7 @@ const SK=n=>'mossgate-idle-slot-'+n;
 let SLOT=0;const SAVESTAT={ok:true,at:0,err:'',bak:0};
 
 /* ---------- save integrity: signed, tamper-evident saves ---------- */
-const BUILD_TS=1794962627000;
+const BUILD_TS=1794967700000;
 const SIGKEY=['mg','8f2c','-gate','Q7x','r0ot','5e1d','|idle','b9'].join('');
 const SHA_K=(()=>{const k=[];for(let n=2;k.length<64;n++){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)k.push(Math.floor((Math.cbrt(n)%1)*4294967296));}return k;})();
 const SHA_H=(()=>{const h=[];for(let n=2;h.length<8;n++){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)h.push(Math.floor((Math.sqrt(n)%1)*4294967296));}return h;})();
