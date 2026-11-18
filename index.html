@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-9r2M2mru6eBX0tZKxc68jNy5Ou0M/wcVBG0RiGgrZuk=' 'sha256-3kUJRw3imQB4sILA6qP0rs8BsofKxtKoO8GylmTEh5U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; worker-src 'self'; connect-src https://fogoltmnmdabjimxsjnm.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="icons/icon-192.png"><meta name="theme-color" content="#e9eee8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121815" media="(prefers-color-scheme: dark)"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Mossgate"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-V5QcvuWWWZ/Qgxid0wExBrRi/EFxYUdLtvH3GOJED3Y=' 'sha256-3kUJRw3imQB4sILA6qP0rs8BsofKxtKoO8GylmTEh5U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; worker-src 'self'; connect-src https://fogoltmnmdabjimxsjnm.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="icons/icon-192.png"><meta name="theme-color" content="#e9eee8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121815" media="(prefers-color-scheme: dark)"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Mossgate"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
 <title>Mossgate Idle</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -328,7 +328,7 @@ const SKILLS=[
  ['wc','Woodcutting','🪓','Chop trees to gather logs.'],
  ['fish','Fishing','🎣','Catch fish to cook or sell.'],
  ['mine','Mining','⛏️','Mine ore, coal, essence and gems.'],
- ['hunt','Hunter','🪤','Set traps and snares for birds, ChomChimpas and rare game. Feathers, pelts and explosive ChomChimpa ammo.'],
+ ['hunt','Hunter','🪤','Set traps and snares for birds, ChomChimpas and rare game. Feathers, pelts and ChomChimpas, explosive ranged weapons that need no ammo.'],
  ['fm','Firemaking','🔥','Burn logs for experience and ashes.'],
  ['cook','Cooking','🍳','Cook fish into food that heals you in combat. Every cook burns one log, and better fish need better logs.'],
  ['smith','Smithing','🔨','Smelt bars and forge weapons, armour and arrowtips.'],
@@ -379,7 +379,7 @@ const HUNT=[
  ['grey','Grey ChomChimpa','chomp',49,82,4.5,30,'#8d8f96',28],['red','Red ChomChimpa','chomp',59,108,4.8,50,'#c8443a',42],['black','Black ChomChimpa','chomp',69,140,5.2,85,'#2c2c34',56],
  ['kebbit','Snow Kebbit','fur',79,176,5.6,120,'#e8eef4','hide_wolf'],['stag','Ashen Stag','fur',87,230,6,190,'#9a9088','hide_bear'],['lynx','Dire Lynx','fur',95,300,6.5,300,'#c8a060','hide_drake']];
 HUNT.forEach(h=>{const k=h[2];
- if(k==='chomp')mk('chomp_'+h[0],h[1],'🐹',h[6],'ammo',{slot:'ammo',st:{rngS:h[8]},hk:k,col:h[7],tier:0});
+ if(k==='chomp'){const CS={grey:[52,33,50],red:[72,46,65],black:[100,63,80]}[h[0]];mk('chomp_'+h[0],h[1],'🐹',h[6],'gear',{slot:'weapon',wt:'ranged',thrown:true,sp:2.2,st:{rngA:CS[0],rngS:CS[1]},lr:['rng',CS[2]],hk:k,col:h[7],tier:0});}
  else mk('hunt_'+h[0],k==='bird'?'Raw '+h[1]:h[1]+' Pelt','🐦',h[6],'hunt',{hk:k,col:h[7]});
  const out=k==='chomp'?{['chomp_'+h[0]]:1}:k==='bird'?{['hunt_'+h[0]]:1,feather:2+Math.floor(h[3]/12)}:{['hunt_'+h[0]]:1,bones:1};
  ACT.hunt.push({id:'hunt_'+h[0],n:h[1],i:'🪤',lvl:h[3],xp:h[4],t:h[5],out});});
@@ -761,17 +761,17 @@ const QLINES=[
   {t:'Forging the Tomb Key',d:"The necropolis is sealed by a scarab lock. Bring runite and rubies so the Archive smith can forge a matching key.",k:'give',it:{bar_rune:5,gem_ruby:2},r:{c:80000,xp:['smith',15000]}},
   {t:'Trial by Fire',d:"The desert road passes the mouth of the Inferno. Hesper insists you prove your endurance there before you cross the sands.",k:'clear',a:'inferno',n:1,r:{c:120000}},
   {t:'Into the Sealed Tombs',d:"With key in hand, break the seal of the Tombs of Amaskot and push as far as the fifth chamber.",k:'wave',a:'amaskot',n:5,r:{c:150000,xp:['def',25000]}},
-  {t:'The Scarab Plague',d:"Something is breeding the scarabs. Crush the swarms in the first chamber so the Archive's diggers can follow you in.",k:'kill',a:'ama_1',n:20,r:{c:200000}},
+  {t:'The Scarab Plague',d:"Something is breeding the scarabs. Crush the swarms in the first chamber so the Archive's diggers can follow you in.",k:'kill',a:'ama_1',n:10,r:{c:200000}},
   {t:'Lay the Pharaoh to Rest',d:"The curse ends only with its source. Descend through every chamber and defeat Amaskot, the Undying Pharaoh.",k:'kill',a:'ama_pharaoh',n:1,r:{c:300000}}],
   fin:{c:750000,it:'ql_seal_scarab',sl:150}},
  {id:'ql_curtain',raid:'bloodfall',n:'Curtain Call',i:'🎭',col:'#9b1c2e',req:{ql:'ql_pharaoh'},title:'Curtain Caller',
   intro:"A blood-red invitation arrives at your door, sealed with a bat. Count Mortimer Bloodfall requests your presence at his theatre: as a performer, not a guest.",
   steps:[
-  {t:'Rehearsals',d:"Every performer must rehearse. The liches of the Haunted Crypt make a fitting audience for your opening act.",k:'kill',a:'lich',n:25,r:{c:80000,xp:['mag',15000]}},
+  {t:'Rehearsals',d:"Every performer must rehearse. The liches of the Haunted Crypt make a fitting audience for your opening act.",k:'kill',a:'lich',n:10,r:{c:80000,xp:['mag',15000]}},
   {t:'Costume Fittings',d:"A seamstress who escaped the theatre offers to sew you a disguise from cowhide, lined with rubies to fool the Count's eyes.",k:'give',it:{hide_cow:20,gem_ruby:3},r:{c:100000,xp:['craft',15000]}},
   {t:'A Steeled Soul',d:"The theatre feeds on fear. Train your Prayer until you can stand on that stage without flinching.",k:'lv',a:'pray',n:70,r:{c:120000}},
   {t:'Opening Night',d:"Take the stage at the Theatre of Bloodfall and survive until the sixth act.",k:'wave',a:'bloodfall',n:6,r:{c:180000,xp:['hp',30000]}},
-  {t:'Leeches in the Pit',d:"The orchestra pit swarms with blood leeches feeding the cast. Drain them before they drain you.",k:'kill',a:'blf_3',n:30,r:{c:220000}},
+  {t:'Leeches in the Pit',d:"The orchestra pit swarms with blood leeches feeding the cast. Drain them before they drain you.",k:'kill',a:'blf_3',n:10,r:{c:220000}},
   {t:'The Final Act',d:"Defeat Count Mortimer Bloodfall, the Crimson Director, on his own stage.",k:'kill',a:'blf_count',n:1,r:{c:300000}},
   {t:'Encore!',d:"The audience is not satisfied. Perform the whole show twice more and bring the curtain down for good.",k:'clear',a:'bloodfall',n:2,r:{c:350000}}],
   fin:{c:1100000,it:'ql_seal_crimson',sl:200}},
@@ -783,7 +783,7 @@ const QLINES=[
   {t:'Death and Sapphire',d:"The counter-ward needs death runes to break Derek's bindings and sapphires to focus them.",k:'give',it:{rune_death:50,gem_sapphire:10},r:{c:180000,xp:['mag',30000]}},
   {t:'Abyssal Ink',d:"Derek wrote his ward-scripts in ink drawn from the Abyss. Hunt the Nechryael that guard its source.",k:'kill',a:'nech',n:40,r:{c:220000,xp:['slayer',30000]}},
   {t:'The Chambers Open',d:"Enter the Chambers of Derek. Melee is weakened there, so bring a bow. Reach the fifth chamber.",k:'wave',a:'derek',n:5,r:{c:260000,xp:['rng',40000]}},
-  {t:'Too Many Mimics',d:"Derek's mimics have swallowed Pell's notes. Smash open the Mimic Chests until the pages are recovered.",k:'kill',a:'drk_6',n:25,r:{c:300000}},
+  {t:'Too Many Mimics',d:"Derek's mimics have swallowed Pell's notes. Smash open the Mimic Chests until the pages are recovered.",k:'kill',a:'drk_6',n:5,r:{c:300000}},
   {t:'Unmaking the Archmage',d:"Confront Derek, the Mad Archmage, at the heart of his chambers and end his experiments.",k:'kill',a:'drk_derek',n:1,r:{c:350000}}],
   fin:{c:1500000,it:'ql_seal_arcane',sl:250}},
  {id:'ql_legion',raid:'arsenal',n:'The Last Legion',i:'⚔️',col:'#8a8f98',req:{ql:'ql_archmage'},title:'Last Legionnaire',
@@ -848,6 +848,14 @@ const DISCORD_ICON='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAA
 const DISCORD_URL='https://discord.gg/ujKfNGkUjM';
 const KOFI_URL='https://ko-fi.com/mossgateidle';
 const SUPC={s_gold:['Gilded','#e0b030'],s_aurora:['Aurora','#3fd0b0'],s_crimson:['Crimson Banner','#b01830'],s_void:['Voidweave','#4a2a8a']};
+/* skill and supporter capes are equipable in the cape slot (virtual items: never in the bank, unlocked by level or supporter) */
+/* skill cape perks: [description, effect values]. Effects apply only while that cape is worn. */
+const CAPEP={wc:['Chops 10% faster',{ivl:.1}],fish:['Fishes 10% faster',{ivl:.1}],mine:['Mines 10% faster and finds gems 50% more often',{ivl:.1,gem:.5}],hunt:['Checks traps 10% faster',{ivl:.1}],agi:['10% more Agility XP',{xp:.1}],
+ fm:['15% chance to save logs',{pre:.15}],cook:['15% chance to save ingredients',{pre:.15}],smith:['15% chance to save ore and bars',{pre:.15}],fletch:['15% chance to save materials',{pre:.15}],craft:['15% chance to save materials',{pre:.15}],herb:['15% chance to save ingredients',{pre:.15}],rc:['15% chance to save essence',{pre:.15}],
+ thief:['Stuns last half as long',{stun:.5}],farm:['Crops grow 20% faster',{grow:.2}],pray:['Prayer points drain 20% slower',{drain:.2}],dung:['Take 15% less damage in delves',{delve:.15}],slayer:['Slayer tasks are 20% shorter',{task:.2}],
+ hp:['Food heals 15% more',{heal:.15}],def:['Take 5% less damage from foes',{dmg:.05}],atk:['5% better accuracy',{acc:.05}],str:['3% higher max hit',{str:.03}],rng:['20% chance to save each arrow',{save:.2}],mag:['20% chance to save each rune',{save:.2}]};
+ALLSK.forEach(k=>mk('cape_sk_'+k,SKN[k].n+' cape','🧣',0,'gear',{slot:'cape',st:{},tier:0,col:CAPEC[k],vsk:k,hidden:1,perk:CAPEP[k]?CAPEP[k][0]:''}));
+for(const k in SUPC)mk('cape_sk_'+k,SUPC[k][0]+' cape','🧣',0,'gear',{slot:'cape',st:{},tier:0,col:SUPC[k][1],vsk:k,hidden:1});
 
 /* raid prayer blessings: one per raid, found on clears */
 const PRUP={amaskot:{n:'Undying Faith',d:'+25% Prayer points'},bloodfall:{n:'Bloodied Rite',d:'While a prayer is on, heal 4% of damage you deal'},derek:{n:"Chemist's Focus",d:'Prayers drain 20% slower'},arsenal:{n:'Fractured Vow',d:'Unlocks the Arsenal Vow prayer'}};
@@ -1763,7 +1771,7 @@ const SLOTS=['weapon','shield','helmet','body','legs','boots','gloves','ring','a
 
 function newState(){
  const s={v:1,name:'Adventurer',saved:Date.now(),clock:0,play:0,coins:100,bank:{},nb:0,bankBuys:0,xp:{},pres:{},hs:null,mast:{},upg:{},equip:{},acts:[null,null],perk:{},wheel:{last:0,win:null,spins:0},cb:null,buffs:{},
-  farm:{plots:[],auto:true,allot:3,herb:2,tree:1},stats:{kills:0,deaths:0,actions:0,coins:0},bk:{},bpity:{},col:{},dg:{clears:{},relics:{},log:[]},hp:100,dgn:{},bag:{items:{},n:0,up:0,mode:'bank'},theme:'auto',pets:{},pet:'',cape:'',duel:{w:0,l:0,won:0,lost:0,streak:0,best:0},sl:{task:null,pts:0,streak:0,done:0,block:[],auto:0,autoOwn:0}};
+  farm:{plots:[],auto:false,autoV:1,allot:3,herb:2,tree:1},stats:{kills:0,deaths:0,actions:0,coins:0},bk:{},bpity:{},col:{},dg:{clears:{},relics:{},log:[]},hp:100,dgn:{},bag:{items:{},n:0,up:0,mode:'bank'},theme:'auto',pets:{},pet:'',cape:'',duel:{w:0,l:0,won:0,lost:0,streak:0,best:0},sl:{task:null,pts:0,streak:0,done:0,block:[],auto:0,autoOwn:0}};
  ALLSK.forEach(id=>s.xp[id]=0);s.xp.hp=XPT[9];s.hp=100;
  ensure(s);
  s.bank.food_shrimp=10;s.nb=1;s.equip={weapon:'g_bronze_sword',food:'food_shrimp'};
@@ -1778,10 +1786,10 @@ function ensure(s){
  if(!s.dy)s.dy={done:{},tier:{},buff:{}};
  if(!s.sup)s.sup={on:false};if(s.sup.fast==null)s.sup.fast=true;if(s.cape&&SUPC[s.cape]&&!s.sup.on)s.cape='';
  if(!s.dq)s.dq={day:'',q:[],streak:0,lastAll:'',tot:0};if(!s.ev)s.ev={next:150,cur:null,done:0};
- if(!s.pets)s.pets={};if(s.pet==null)s.pet='';for(const k in s.pets)if(!PETB[k])delete s.pets[k];if(s.pet&&!PETB[s.pet])s.pet='';if(s.cape==null)s.cape='';
+ if(!s.pets)s.pets={};if(s.pet==null)s.pet='';for(const k in s.pets)if(!PETB[k])delete s.pets[k];if(s.pet&&!PETB[s.pet])s.pet='';if(s.cape==null)s.cape='';if(s.cape){if(s.equip&&!s.equip.cape&&ITEMS['cape_sk_'+s.cape])s.equip.cape='cape_sk_'+s.cape;s.cape='';}if(s.equip&&/^cape_sk_s_/.test(s.equip.cape||'')&&!s.sup.on)s.equip.cape=null;
  ALLSK.forEach(id=>{if(s.xp[id]==null)s.xp[id]=0;});if(!s.pres)s.pres={};if(!s.hs)s.hs={id:hsUuid(),secret:hsRand(16),on:false,name:'',last:0};
  SKILLS.forEach(k=>{const id=k[0];if(!s.mast[id])s.mast[id]={pool:0,a:{}};if(s.mast[id].over==null)s.mast[id].over=0;});
- const f=s.farm;while(f.plots.filter(p=>p.cat==='allot').length<f.allot)f.plots.push({cat:'allot',crop:null,ready:0,start:0});
+ const f=s.farm;if(!f.autoV){f.autoV=1;f.auto=false;}while(f.plots.filter(p=>p.cat==='allot').length<f.allot)f.plots.push({cat:'allot',crop:null,ready:0,start:0});
  while(f.plots.filter(p=>p.cat==='herb').length<f.herb)f.plots.push({cat:'herb',crop:null,ready:0,start:0});
  if(f.tree==null)f.tree=1;while(f.plots.filter(p=>p.cat==='tree').length<f.tree)f.plots.push({cat:'tree',crop:null,ready:0,start:0});
  if(!s.bag)s.bag={items:{},n:0,up:0,mode:'bank'};if(!s.dgn)s.dgn={};if(s.inf){if(!s.dgn.inferno)s.dgn.inferno=s.inf;delete s.inf;}
@@ -1837,9 +1845,11 @@ const poolPct=sk=>Math.min(1,S.mast[sk].pool/poolMax(sk));
 const CPS=[[.1,'+5% skill XP'],[.25,'+5% double/preserve chance'],[.5,'-5% action time'],[.95,'+10% skill XP']];
 const buff=t=>S.buffs[t]?S.buffs[t].v:0;
 const agiB=k=>{if(!S)return 0;const L=lvlOf(S.xp.agi);let v=0;for(const b of AGB){if(L<b[0])break;for(let j=2;j<b.length;j+=2)if(b[j]===k)v+=b[j+1];}return v;};
+const cpv=(k,f)=>{const id=S&&S.equip&&S.equip.cape;if(id!=='cape_sk_'+k)return 0;const p=CAPEP[k];return(p&&p[1][f])||0;};
 function skMods(sk){const p=poolPct(sk),kind=SKKIND[sk],m={xp:0,dbl:0,pre:0,ivl:0};
  if(p>=.1)m.xp+=.05;if(p>=.25){if(kind==='art')m.pre+=.05;else m.dbl+=.05;}if(p>=.5)m.ivl+=.05;if(p>=.95)m.xp+=.1;
  m.ivl+=(S.upg[sk]||0)*.06+buff('speed')/100+agiB('spd');m.xp+=agiB('xp');m.dbl+=agiB('dbl');m.pre+=agiB('pre');m.xp+=buff('xp')/100;m.dbl+=buff('double')/100;m.pre+=buff('preserve')/100;m.xp+=.02*pk('xp');m.dbl+=.02*pk('luck');m.pre+=.02*pk('luck');
+ m.ivl+=cpv(sk,'ivl');m.xp+=cpv(sk,'xp');m.pre+=cpv(sk,'pre');
  return m;}
 function interval(sk,a){if(sk==='farm')return a.t;return Math.max(0.6,a.t*(1-Math.min(.6,skMods(sk).ivl)));}
 const mxpOf=(sk,a)=>sk==='farm'?a.mx:Math.max(1,a.t*0.9*(1+a.lvl/50));
@@ -1890,9 +1900,9 @@ function startAction(sk,id,slot){
  const i=cur>=0?cur:freeSlot(slot);clearSlot(i);S.acts[i]={sk,id,t:0};dirty.v=1;}
 function eatIfNeeded(){
  if(S.hp>=maxHp()*(0.5+.05*perk('eat')))return;const f=S.equip.food;if(!f||cnt(f)<1)return;
- const h=ITEMS[f].heal;take(f,1);S.hp=Math.min(maxHp(),S.hp+h);if(!cnt(f)&&TRACK==null)toast('Out of '+ITEMS[f].n,'warn');}
+ const h=Math.round(ITEMS[f].heal*(1+cpv('hp','heal')));take(f,1);S.hp=Math.min(maxHp(),S.hp+h);if(!cnt(f)&&TRACK==null)toast('Out of '+ITEMS[f].n,'warn');}
 function die(){if(S.cb&&S.cb.dg){const d=DGB[S.cb.dg];dgs(d.id).best=Math.max(dgs(d.id).best,S.cb.wave);if(!TRACK)toast(d.n+' claims you on wave '+S.cb.wave+'.','bad');}S.stats.deaths++;if(TRACK)TRACK.deaths++;S.acts=newSlots();S.cb=null;S.hp=Math.ceil(maxHp()*0.1);if(!TRACK)toast('You were knocked out and had to rest.','bad');dirty.v=1;}
-function hurt(d){if(S.cheat&&S.cheat.god)return false;S.hp-=d;eatIfNeeded();if(S.hp<=0){die();return true;}return false;}
+function hurt(d){if(S.cheat&&S.cheat.god)return false;if(d>0&&cpv('def','dmg'))d=Math.max(1,Math.round(d*(1-cpv('def','dmg'))));S.hp-=d;eatIfNeeded();if(S.hp<=0){die();return true;}return false;}
 
 function complete(sk,a,A){
  const kind=SKKIND[sk],mod=skMods(sk),ml=mLvl(sk,a.id);
@@ -1904,13 +1914,13 @@ function complete(sk,a,A){
  let ok=true;
  if(kind==='thief'){
   const ch=Math.min(.95,.5+(lv(sk)-a.lvl)*.012+ml*.004);
-  if(Math.random()>=ch){ok=false;const stun=3;A.t=-stun;toast("Caught! You are stunned","warn");S.stats.actions++;return true;}
+  if(Math.random()>=ch){ok=false;const stun=3*(1-cpv('thief','stun'));A.t=-stun;toast("Caught! You are stunned","warn");S.stats.actions++;return true;}
   addCoins(Math.round(rnd(a.coins[0],a.coins[1])*mult*cg()));
   (a.drops||[]).forEach(d=>{if(Math.random()<d[1])add(d[0],rnd(d[2],d[3])*mult);});
  }else{
   if(a.out)for(const k in a.out)add(k,a.out[k]*(kind==='gather'?mult:1));
   if(a.coins)addCoins(Math.round(rnd(a.coins[0],a.coins[1])*mult*cg()));
-  if(a.gem&&Math.random()<a.gem){const r=Math.random();add(r<.5?'gem_sapphire':r<.8?'gem_emerald':r<.95?'gem_ruby':'gem_diamond',1);}
+  if(a.gem&&Math.random()<a.gem*(1+cpv('mine','gem'))){const r=Math.random();add(r<.5?'gem_sapphire':r<.8?'gem_emerald':r<.95?'gem_ruby':'gem_diamond',1);}
  }
  gainXp(sk,a.xp*(1+mod.xp+mBonus(ml)));gainM(sk,a,mxpOf(sk,a));S.stats.actions++;dqProg('act',sk);qlProg('act',sk);return true;}
 
@@ -1921,7 +1931,7 @@ function runDungeon(sk,a,A,mod,ml){
  const ratio=Math.pow((a.rec+8)/(dpow()+8),1.25);let cleared=0,fled=false;
  for(let f=1;f<=a.floors;f++){
   const boss=f===a.floors,dm=Math.max(1,Math.round(a.fd*ratio*(boss?1.7:1)*(0.5+Math.random())));
-  if(hurt(dm))return true;
+  if(hurt(Math.max(1,Math.round(dm*(1-cpv('dung','delve'))))))return true;
   if(S.hp<maxHp()*0.2){fled=true;break;}
   cleared++;}
  const frac=cleared/a.floors,xp=a.xp*(1+mod.xp);
@@ -1953,17 +1963,22 @@ function equipStats(){const g={atk:0,str:0,def:0,rngA:0,rngS:0,magA:0,magD:0};
 function refreshPS(){
  const g=equipStats(),w=S.equip.weapon?ITEMS[S.equip.weapon]:null;
  const type=w?w.wt:'melee',sp=w?w.sp:3;
+ if(S.equip.ammo&&(!ITEMS[S.equip.ammo]||ITEMS[S.equip.ammo].slot!=='ammo'))S.equip.ammo=null;
  let ammo=S.equip.ammo&&ITEMS[S.equip.ammo]?ITEMS[S.equip.ammo].st.rngS:0;
+ if(w&&w.thrown)ammo=0;
  PS={g,type,sp,ammoS:ammo};dirty.v=1;}
 function lacks(it){if(it.req&&combatLevel()<it.req)return'combat level '+it.req;if(it.lr&&lv(it.lr[0])<it.lr[1])return SKN[it.lr[0]].n+' level '+it.lr[1];return'';}
 function equip(id){
- const it=ITEMS[id];if(!it||!it.slot||cnt(id)<1)return;
+ const it=ITEMS[id];if(!it||!it.slot)return;
+ if(it.vsk){if(!capeOk(it.vsk)){toast('That cape is not unlocked yet','warn');return;}const o=S.equip.cape;if(o&&ITEMS[o]&&!ITEMS[o].vsk){if(S.nb>=bankSlots()&&cnt(o)===0){toast('Bank is full','warn');return;}add(o,1);}S.equip.cape=id;refreshPS();return;}
+ if(cnt(id)<1)return;
  {const need=lacks(it);if(need){toast('Requires '+need,'warn');return;}}
  if(it.slot==='food'||it.slot==='ammo'){S.equip[it.slot]=id;refreshPS();return;}
  const old=S.equip[it.slot];
  if(old&&S.nb>=bankSlots()&&cnt(old)===0&&cnt(id)>1){toast('Bank is full','warn');return;}
- take(id,1);if(old)add(old,1);S.equip[it.slot]=id;refreshPS();}
+ take(id,1);if(old&&!(ITEMS[old]&&ITEMS[old].vsk))add(old,1);S.equip[it.slot]=id;refreshPS();}
 function unequip(slot){const id=S.equip[slot];if(!id)return;
+ if(ITEMS[id]&&ITEMS[id].vsk){S.equip[slot]=null;refreshPS();return;}
  if(slot==='food'||slot==='ammo'){S.equip[slot]=null;refreshPS();return;}
  if(!cnt(id)&&S.nb>=bankSlots()){toast('Bank is full','warn');return;}
  add(id,1);S.equip[slot]=null;refreshPS();}
@@ -2008,13 +2023,13 @@ function dungeonNext(C,M){
 function playerCombat(){
  const g=PS.g,t=PS.type;let lvl,atkB,defL=lv('def');
  if(t==='ranged'){lvl=lv('rng');atkB=g.rngA;}else if(t==='magic'){lvl=lv('mag');atkB=g.magA;}else{lvl=lv('atk');atkB=g.atk;}
- return{lvl,atkB,defRoll:(defL+8)*(g.def+64)*(1+buff('def')/100+agiB('def')+prE('def')),atkRoll:(lvl+8)*(atkB*GEARW+64)*(1+buff('acc')/100+agiB('acc')+prE('acc'))*ACC_BUFF};}
+ return{lvl,atkB,defRoll:(defL+8)*(g.def+64)*(1+buff('def')/100+agiB('def')+prE('def')),atkRoll:(lvl+8)*(atkB*GEARW+64)*(1+buff('acc')/100+agiB('acc')+prE('acc')+cpv('atk','acc'))*ACC_BUFF};}
 function maxHitPlayer(spell){
  const t=PS.type,g=PS.g;let mh;
  if(t==='melee')mh=Math.floor(10*(0.5+(lv('str')+8)*(g.str*GEARW+64)/640));
  else if(t==='ranged')mh=Math.floor(10*(0.5+(lv('rng')+8)*((g.rngS+PS.ammoS)*GEARW+64)/640));
  else mh=Math.floor(spell.max*(1+g.magD/100)*(1+Math.max(0,lv('mag')-spell.lvl)*0.005));
- return Math.floor(mh*(1+buff('str')/100+.03*pk('dmg')+prE('str'))*HIT_MULT[t]);}
+ return Math.floor(mh*(1+buff('str')/100+.03*pk('dmg')+prE('str')+cpv('str','str'))*HIT_MULT[t]);}
 const hitChance=(a,d)=>a>d?1-(d+2)/(2*(a+1)):a/(2*(d+1));
 function awardCombatXp(skills,x){const f=cxm();const list=skills.split('+');list.forEach(s=>gainXp(s,x/list.length*f));}
 /* ---------- enemy weaknesses ---------- */
@@ -2029,11 +2044,11 @@ function weakOf(M){if(!M)return null;const key=M.pt||M.id;if(WKC[M.id])return WK
  return WKC[M.id]=w;}
 function playerAttack(C,M){
  const t=PS.type;let spell=null;
- if(t==='ranged'){const am=S.equip.ammo;if(!am||cnt(am)<1){stopCombat('Out of arrows.');return false;}take(am,1);}
+ if(t==='ranged'&&!(S.equip.weapon&&ITEMS[S.equip.weapon]&&ITEMS[S.equip.weapon].thrown)){const am=S.equip.ammo;if(!am||cnt(am)<1){stopCombat('Out of arrows.');return false;}if(!(Math.random()<cpv('rng','save')))take(am,1);}
  if(t==='magic'){spell=SPELLS[C.spell]||SPELLS[0];if(lv('mag')<spell.lvl)spell=SPELLS[0];
   const wi=(S.equip.weapon&&ITEMS[S.equip.weapon]&&ITEMS[S.equip.weapon].inf)||[];
   for(const k in spell.cost)if(!wi.includes(k)&&cnt(k)<spell.cost[k]){stopCombat('Out of runes for '+spell.n+'.');return false;}
-  for(const k in spell.cost)if(!wi.includes(k))take(k,spell.cost[k]);}
+  if(!(Math.random()<cpv('mag','save')))for(const k in spell.cost)if(!wi.includes(k))take(k,spell.cost[k]);}
  const pc=playerCombat(),mx=maxHitPlayer(spell);
  let dmg=0;if(Math.random()<hitChance(pc.atkRoll,M.defRoll)){const lo=Math.max(1,Math.ceil(mx*DMG_MIN));dmg=lo+Math.floor(Math.random()*(mx-lo+1));}
  const st=STANCES[t][Math.min(C.stance,STANCES[t].length-1)][1];
@@ -2083,7 +2098,7 @@ function plant(i,cropId,free){
  const p=S.farm.plots[i],c=CROPBY[cropId];if(!p||!c||p.crop||c.cat!==p.cat)return false;
  if(lv('farm')<c.lvl){toast('Requires Farming level '+c.lvl,'warn');return false;}
  if(cnt(c.seed)>=1)take(c.seed,1);else if(c.noBuy){toast('Tree seeds only drop from monsters and thieving','warn');return false;}else if(S.coins>=c.seedCost){S.coins-=c.seedCost;}else{toast('No seeds and not enough coins','warn');return false;}
- p.crop=cropId;p.start=S.clock;p.ready=S.clock+c.t*(1-Math.min(.5,(S.upg.farm||0)*.06));dirty.v=1;return true;}
+ p.crop=cropId;p.start=S.clock;p.ready=S.clock+c.t*(1-Math.min(.5,(S.upg.farm||0)*.06))*(1-cpv('farm','grow'));dirty.v=1;return true;}
 function harvest(i){
  const p=S.farm.plots[i];if(!p||!p.crop||S.clock<p.ready)return false;
  const c=CROPBY[p.crop],ml=mLvl('farm',c.id),mod=skMods('farm');
@@ -2124,7 +2139,7 @@ const SK=n=>'mossgate-idle-slot-'+n;
 let SLOT=0;const SAVESTAT={ok:true,at:0,err:'',bak:0};
 
 /* ---------- save integrity: signed, tamper-evident saves ---------- */
-const BUILD_TS=1794985842000;
+const BUILD_TS=1795041757000;
 const SIGKEY=['mg','8f2c','-gate','Q7x','r0ot','5e1d','|idle','b9'].join('');
 const SHA_K=(()=>{const k=[];for(let n=2;k.length<64;n++){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)k.push(Math.floor((Math.cbrt(n)%1)*4294967296));}return k;})();
 const SHA_H=(()=>{const h=[];for(let n=2;h.length<8;n++){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)h.push(Math.floor((Math.sqrt(n)%1)*4294967296));}return h;})();
@@ -2262,7 +2277,7 @@ const slReq=m=>m.slv||Math.min(99,Math.max(1,Math.floor(m.cb*(m.boss?0.9:0.85)))
 function slayPool(){const cl=combatLevel(),L=lv('slayer');const all=Object.values(MONS).filter(m=>!m.dg&&!m.nosl&&m.cb<=cl+(m.boss?12:8)&&slReq(m)<=L&&!S.sl.block.includes(m.id));
  const hi=all.filter(m=>slReq(m)>=Math.floor(L*0.4));return hi.length>=3?hi:all;}
 function slayAssign(){const sl=S.sl;if(sl.task)return;const p=slayPool();if(!p.length){toast('The Slayer Master has no task you qualify for yet.','warn');return;}
- const m=p[rnd(0,p.length-1)],n=m.boss?rnd(3,7):Math.max(10,Math.round(rnd(18,42)*(1+Math.min(1,lv('slayer')/200))));
+ const m=p[rnd(0,p.length-1)],n=Math.max(m.boss?2:5,Math.round((m.boss?rnd(3,7):Math.max(10,Math.round(rnd(18,42)*(1+Math.min(1,lv('slayer')/200)))))*(1-cpv('slayer','task'))));
  sl.task={mon:m.id,n,got:0};dirty.v=1;if(!TRACK)toast('New slayer task: kill '+n+' '+m.n+'.','info');}
 function slayKill(M){const t=S.sl&&S.sl.task;if(!t||t.mon!==M.id)return;
  gainXp('slayer',Math.max(3,M.hp));t.got++;dirty.v=1;
@@ -2328,7 +2343,7 @@ function prToggle(id){const P=PRB[id];if(!P)return;const p=S.pr;
  if(prPts()<=0){toast('Out of Prayer points. Use the altar or bury bones.','warn');return;}
  p.on=p.on.filter(x=>{const o=PRB[x];return !(o.g===P.g||o.g==='all'||P.g==='all'&&['acc','str','def'].includes(o.g));});p.on.push(id);}
 function prStep(dt){const p=S.pr;if(!p)return;
- if(S.cb&&p.on.length&&!(S.cb.rs>0)){let d=0;p.on.forEach(id=>d+=PRB[id].dr);p.pts=Math.max(0,prPts()-d*dt*Math.max(.4,1-lv('pray')*.004)*(prUp('derek')?.8:1));
+ if(S.cb&&p.on.length&&!(S.cb.rs>0)){let d=0;p.on.forEach(id=>d+=PRB[id].dr);p.pts=Math.max(0,prPts()-d*dt*Math.max(.4,1-lv('pray')*.004)*(prUp('derek')?.8:1)*(1-cpv('pray','drain')));
   if(p.pts<=0){p.on=[];if(!TRACK)toast('Your prayer points ran out','warn');}}
  else if(prPts()<prMax())p.pts=Math.min(prMax(),p.pts+prMax()*0.0006*dt);}
 const prAltarLeft=()=>Math.max(0,(S.pr.alt||0)+300000-Date.now());
@@ -2412,8 +2427,9 @@ async function giftRedeem(code){const r=await hsCall('gift_redeem',{p_id:S.hs.id
 /* ---------- Supporter (verified online, cosmetics only) ---------- */
 async function supRedeem(code){const r=await hsCall('sup_redeem',{p_id:S.hs.id,p_secret:S.hs.secret,p_code:code});
  if(r==='ok'){S.sup.on=true;toast('Thank you for supporting Mossgate Idle!','boss');}return r;}
-async function supCheck(){if(!S||!S.sup||!S.sup.on)return;try{const r=await hsCall('sup_check',{p_id:S.hs.id,p_secret:S.hs.secret});
- if(r===false){S.sup.on=false;if(S.cape&&SUPC[S.cape])S.cape='';dirty.v=1;}}catch(e){}}
+async function supCheck(){if(!S||!S.sup||!hsReady()||!S.hs||!S.hs.id||!S.hs.secret)return;try{const r=await hsCall('sup_check',{p_id:S.hs.id,p_secret:S.hs.secret});
+ if(r===true&&!S.sup.on){S.sup.on=true;dirty.v=1;toast('Thank you for supporting Mossgate Idle!','boss');}
+ else if(r===false&&S.sup.on){S.sup.on=false;if(/^cape_sk_s_/.test(S.equip.cape||''))S.equip.cape=null;dirty.v=1;}}catch(e){}}
 /* ================= Mossgate 3D: tiny dependency-free low-poly WebGL engine ================= */
 const W3={ok:false,on:false,cv:null,gl:null,mobile:(()=>{try{return !!(window.matchMedia&&matchMedia('(hover:none) and (pointer:coarse)').matches)||Math.min(screen.width,screen.height)<600;}catch(e){return false;}})()};
 (function(){
@@ -2997,6 +3013,7 @@ const ANI={
  trap:{T:3.4,imp:.8,two:1,ap:[[0,-.3],[.12,-.75],[.3,-.6],[.5,-.72],[.7,-.65],[.8,-1.9,'i'],[.88,-1.2],[1,-.3]],ep:[[0,-.3],[.12,-.25],[.5,-.3],[.7,-.3],[.8,-1.4,'i'],[.9,-.8],[1,-.3]],az:[[0,-.05],[.12,-.1],[.5,.35],[.7,.3],[.8,.55],[1,-.05]],lean:[[0,.05],[.12,.5],[.72,.5],[.8,-.2,'i'],[.9,0],[1,.05]],kneel:[[0,0],[.12,.5],[.74,.5],[.85,.15],[1,0]],hp:[[0,.2],[.12,.45],[.72,.45],[.8,-.1],[1,.2]]},
  pray:{T:6,ap:-1.15,ep:-1.45,az:-.5,lp:-1.15,le:-1.45,lz:.5,kneel:.55,hp:[[0,.35],[.5,.5],[1,.35]],lean:.12},
  channel:{T:4,ap:t=>-1.3+Math.sin(t*2)*.1,ep:-.35,az:.3,lp:t=>-1.3+Math.sin(t*2+1)*.1,le:-.35,lz:-.3,lean:-.05,hp:-.1},
+ throw:{ap:[[0,-1.0],[.3,-2.95],[.45,-1.1,'i'],[.62,-.2],[1,-1.0]],ep:[[0,-.6],[.3,-.35],[.45,-.15,'i'],[1,-.6]],az:-.1,lp:-.9,le:-1.2,lz:.3,lean:[[0,.05],[.3,-.2],[.45,.4,'i'],[.7,.3],[1,.05]],twist:[[0,0],[.3,.4],[.45,-.35,'i'],[1,0]],L1:[[0,.1],[.3,.2],[.45,-.4],[1,.1]],L2:[[0,-.1],[.45,.3],[1,-.1]],hp:.1},
  swing:{ap:[[0,-1.1],[.45,-2.5],[.7,-.5,'i'],[.85,-.4],[1,-1.1]],ep:[[0,-.5],[.45,-.8],[.7,-.2,'i'],[1,-.5]],az:-.1,lp:-.9,le:-1.2,lz:.3,lean:[[0,.05],[.45,-.1],[.7,.35,'i'],[1,.05]],twist:[[0,0],[.45,.35],[.7,-.35,'i'],[1,0]],L1:[[0,.1],[.45,.15],[.7,-.4],[1,.1]],L2:[[0,-.1],[.7,.3],[1,-.1]],hp:.1}
 };
 const TOOL={wc:'axe',mine:'pick',smith:'hammer',fletch:null,fish:'rod',cook:'ladle',fm:null,herb:'ladle',craft:'needle',farm:'shovel',combat:'sword',slayer:'sword',dungeons:'sword',dung:'sword'};
@@ -3068,6 +3085,10 @@ function helmKind(hm,k,C,hid){const t=performance.now()/1000,cl=v=>Math.min(1,v)
   part('tube',chain(hm,T(0,.27,.1),RX(1.42),Sc(.36,.06,.46)),D);cn(chain(hm,T(0,.52,-.18),RX(-.9),Sc(.2,.22,.2)),C);[-1,1].forEach(sd=>ps(chain(hm,T(sd*.24,-.04,-.04),RZ(sd*.5)),0,0,0,.14,.24,.36,C));
   ps(hm,0,.03,-.08,.5,.16,.42,C);pb(hm,0,.0,-.2,.42,.26,.12,D);ps(hm,0,.42,.1,.3,.06,.1,L);}
 }
+function chompM(M,col,sc){const lt=[Math.min(1,col[0]*.5+.5),Math.min(1,col[1]*.5+.5),Math.min(1,col[2]*.5+.5)],dk=[col[0]*.6,col[1]*.6,col[2]*.6],B=chain(M,Sc(sc,sc,sc));
+ ps(B,0,0,0,.36,.32,.32,col);ps(B,0,-.03,.11,.22,.22,.14,lt);ps(B,0,.22,.07,.3,.25,.27,col);
+ [-1,1].forEach(sd=>{const E=chain(B,T(sd*.1,.34,.04),RZ(-sd*.22));ps(E,0,.11,0,.09,.3,.06,col);ps(E,0,.11,.02,.05,.22,.04,[.95,.65,.7]);ps(B,sd*.075,.25,.2,.075,.075,.06,[1,.95,.9]);ps(B,sd*.075,.25,.235,.035,.035,.03,[.12,.05,.05]);ps(B,sd*.13,-.15,.07,.12,.1,.17,dk);});
+ ps(B,0,.2,.22,.07,.05,.05,[.95,.6,.65]);pb(B,-.025,.15,.21,.035,.05,.02,[1,1,.95]);pb(B,.025,.15,.21,.035,.05,.02,[1,1,.95]);}
 function bearTrap(M,open){const IR=[.36,.36,.4],DK=[.2,.2,.23],TE=[.78,.78,.8],ang=(1-open)*1.5708*.97,r=.3;
  ps(M,0,.02,0,.62,.05,.62,DK);ps(M,0,.05,0,.26,.04,.26,IR);[-1,1].forEach(sd=>{ps(M,sd*.42,.05,0,.34,.08,.12,IR);ps(M,sd*.58,.06,0,.12,.12,.12,DK);});
  [-1,1].forEach(sd=>{const J=chain(M,T(0,.06,0),RX(-sd*ang));for(let i=0;i<=12;i++){const th=i/12*Math.PI;ps(J,Math.cos(th)*r,0,sd*Math.sin(th)*r,.075,.075,.075,IR);}
@@ -3086,9 +3107,9 @@ function drawChar(c,vis){const o=OUT[c.i],sk=hex(o.skin),LK=W3.look||{},SHC=LK.b
  else if(c.anim==='beam'){const s=Math.sin(t*4.5),w_=Math.sin(t*2.3);PO.L1=s*.35;PO.L2=-s*.35;PO.az=1.35+.25*w_;PO.lz=-1.35+.25*w_;PO.ap=-.1;PO.lp=-.1;PO.ep=-.1;PO.le=-.1;PO.twist=.12*w_;PO.lean=.05;PO.hp=.25;PO.bob=Math.abs(s)*.03;}
  else if(c.anim==='monkey'){const s=Math.sin(t*4.2);PO.ap=-2.95+.25*s;PO.lp=-2.95-.25*s;PO.ep=-.15+.15*s;PO.le=-.15-.15*s;PO.tk=.38;PO.L1=-.45+.35*s;PO.L2=-.45+.35*s;PO.lean=-.05;PO.hp=-.35;PO.bob=.02*s;}
  else if(c.anim==='run'){const s=Math.sin(t*10);PO.L1=s*.9;PO.L2=-s*.9;PO.ap=s*.9-.3;PO.lp=-s*.9-.3;PO.ep=-1.3;PO.le=-1.3;PO.bob=Math.abs(s)*.18;PO.lean=.22;}
- else if(c.anim==='swing'){const u=c.kick>0?1-c.kick/.4:((t*1.1)%1)*1.7;k=Math.min(u,1);imp=.7;ev(ANI.swing);}
+ else if(c.anim==='swing'){const u=c.kick>0?1-c.kick/.4:((t*1.1)%1)*1.7;k=Math.min(u,1);imp=c.tool==='chomp'?.72:.7;ev(c.tool==='chomp'?ANI.throw:ANI.swing);}
  else if(A_){k=(t%A_.T)/A_.T;c._k=k;c._cy=Math.floor(t/A_.T);imp=A_.imp==null?null:A_.imp;ev(A_);if(A_.two){PO.lp=PO.ap;PO.le=PO.ep;PO.lz=-PO.az;}}
- else{PO.ap=Math.sin(t*1.5)*.05;PO.lp=-Math.sin(t*1.5)*.05;PO.ep=-.15;PO.le=-.15;PO.hy=Math.sin(t*.45)*.3;PO.lean=Math.sin(t*1.5)*.01;if(c.tool==='sword'){PO.ap=-.35;PO.ep=-.95;PO.az=-.1;PO.twist=.12;}else if(c.tool==='staff'||c.tool==='bow'){PO.ap=-.5;PO.ep=-1.1;}}
+ else{PO.ap=Math.sin(t*1.5)*.05;PO.lp=-Math.sin(t*1.5)*.05;PO.ep=-.15;PO.le=-.15;PO.hy=Math.sin(t*.45)*.3;PO.lean=Math.sin(t*1.5)*.01;if(c.tool==='sword'){PO.ap=-.35;PO.ep=-.95;PO.az=-.1;PO.twist=.12;}else if(c.tool==='staff'||c.tool==='bow'||c.tool==='chomp'){PO.ap=-.5;PO.ep=-1.1;}}
  if(imp!=null){const pk=c._pk==null?k:c._pk;if((pk<imp&&k>=imp)||(pk>k+.3&&k>=imp)){if(W3._rt.onHit)W3._rt.onHit(c,c.anim);}c._pk=k;}else c._pk=k;
  const dt_=Math.max(0,Math.min(.1,t-(c._lt==null?t:c._lt)));c._lt=t;if(!c.P)c.P=Object.assign({},PO);else{const f=Math.min(1,dt_*16);PK.forEach(n=>{c.P[n]+=(PO[n]-c.P[n])*f;});}
  const P=c.P;bob=P.bob;la=P.lp;ra=P.ap;const lean=P.lean,twist=P.twist,crouch=Math.min(P.crouch,.11),kneel=P.kneel,L1=P.L1,L2=P.L2;
@@ -3297,6 +3318,9 @@ function drawChar(c,vis){const o=OUT[c.i],sk=hex(o.skin),LK=W3.look||{},SHC=LK.b
    if(ep>.75)for(let k=0;k<3;k++){let p=chain(tg,T(0,HY+bob,0),RY(tm*5+k*2.1),RZ(.2*k));for(let j=0;j<4;j++){const zz=Math.sin(tm*13+k*3+j*2)*.12;p=chain(p,T(.0,0,0));pb(p,OR+.12+j*.17,zz,0,.15,.04,.04,wh,[.7,.8,1]);}}
    if(ep>.8){const fl=.85+.25*Math.sin(tm*8);part('cone',chain(tg,T(0,HY+bob+OR+.15,0),Sc(.16,.5*fl,.16)),oc,og);}
    if(c.i===0){c._wt=[0,0,0];const tp=chain(tg,T(0,HY+bob,0));c._wt=[tp[12],tp[13],tp[14]];c._wg=oc;c._we=ep;c._wl=OR;}}
+  else if(tool==='chomp'){const cc=LK.orb||[.55,.55,.6],pk=c._pk||0,sw=c.anim==='swing',gone=sw&&pk>.45&&pk<.88;
+   if(!gone)chompM(chain(tg,T(0,.04,.24),RX(-.25)),cc,1);
+   if(sw&&pk>.45&&pk<.74){const f=(pk-.45)/.29,fp=chain(m,T(.2*(1-f),1.75+(1.15-1.75)*f+Math.sin(f*Math.PI)*.55,.45+f*3.3),RX(f*11));chompM(fp,cc,1.1);}}
   else if(tool==='bow'){const wc=LK.orb||[.6,.4,.2],ep=LK.ep||0,tm=c.t||0,Kb=1+.45*ep,wd=ep>.15?[wc[0]*.8+.1,wc[1]*.8+.05,wc[2]*.7]:WD,gd=ep>.4?[1,.78,.25]:[.3,.22,.14],gc=[Math.min(1,wc[0]*.6+.4),Math.min(1,wc[1]*.6+.4),Math.min(1,wc[2]*.6+.4)],GE=ep>.2?ep:0,ga=a=>GE?[gc[0]*a*GE,gc[1]*a*GE,gc[2]*a*GE]:null,pu=.65+.35*Math.sin(tm*5);
    pb(tg,0,0,.4,.1,.36,.11,[.25,.17,.1]);[.07,-.07].forEach(y=>pb(tg,0,y,.4,.11,.04,.12,gd,ga(.3)));
    const SL=.27*Kb;let yt=.18,zt=0,A=0;for(let i=0;i<4;i++){A+=.13*(i+1)*.8;yt+=SL*Math.cos(A);zt+=SL*Math.sin(A);}
@@ -4022,8 +4046,9 @@ function setTargets(dt){
   if(d>.18){const sp=Math.min(d,Math.max(6.5,d*1.2)*dt);c.x+=dx/d*sp;c.z+=dz/d*sp;c.mv=1;let want=Math.atan2(dx,dz);let df=want-c.face;df=Math.atan2(Math.sin(df),Math.cos(df));c.face+=df*Math.min(1,dt*12);c.anim='walk';}
   else{c.mv=0;let df=face-c.face;df=Math.atan2(Math.sin(df),Math.cos(df));c.face+=df*Math.min(1,dt*10);if(anim==='chop'&&CT[i]&&CT[i].ph!=='stand')anim='idle';c.anim=anim;}
   c.tool=tool||(!st&&W3.look?W3.look.wep:null);if(c.kick>0)c.kick-=dt;c.t+=dt;});}
+function fighter(){const i=S.acts.findIndex(a=>a&&a.sk==='combat');return chars[i>=0?i:0];}
 function detect(dt){
- const C=S.cb,hero=chars[0];
+ const C=S.cb,hero=fighter();
  /* skill xp pops */
  S.acts.forEach((A,i)=>{if(!A||A.sk==='combat')return;const x=S.xp[A.sk];const p=prev.xp[A.sk];if(p!=null&&x>p&&chars[i].mv===0)fx('+'+Math.max(1,Math.round(x-p))+' xp',chars[i].x,3.2,chars[i].z,'xp');prev.xp[A.sk]=x;});
  S.acts.forEach(A=>{if(A&&A.sk!=='combat')return;});
@@ -4037,7 +4062,7 @@ function detect(dt){
   if(S.hp<prev.hp-.01){fx('-'+Math.round(prev.hp-S.hp),hero.x,3.2,hero.z,'hurt');if(!(mn.strike>0)){mn.strike=.34;mn.hitDone=0;}mn.pendHit=1;}
  }else{if(R.mon.id){R.mon.ghost=null;R.mon.id=null;}}
  prev.hp=S.hp;
- const m=R.mon;if(m.flash>0)m.flash-=dt;if(m.lunge>0)m.lunge-=dt;if(m.strike>0){const was=m.strike;m.strike-=dt;if(!m.hitDone&&was>.17&&m.strike<=.17){m.hitDone=1;const h=chars[0],dx=h.x-m.x,dz=h.z-m.z,d=Math.hypot(dx,dz)||1;if(m.pendHit){h.hurt=.35;for(let k=0;k<9;k++)emit(h.x-dx/d*.3,1.4+Math.random()*.8,h.z-dz/d*.3,(Math.random()-.5)*2.4,1+Math.random()*1.6,(Math.random()-.5)*2.4,.5,.12,[1,.2,.15],[.5,.05,.03],3);m.pendHit=0;}else{for(let k=0;k<5;k++)emit(h.x-dx/d*.4,1.2+Math.random()*.6,h.z-dz/d*.4,(Math.random()-.5)*1.6,.5+Math.random(),(Math.random()-.5)*1.6,.4,.08,[.85,.88,.95],[.2,.2,.25],2);}}}chars.forEach(c=>{if(c.hurt>0)c.hurt-=dt;});m.pop=Math.min(1,m.pop+dt*3);m.t+=dt;if(m.ghost){m.ghost.t+=dt;if(m.ghost.t>.6)m.ghost=null;}}
+ const m=R.mon;if(m.flash>0)m.flash-=dt;if(m.lunge>0)m.lunge-=dt;if(m.strike>0){const was=m.strike;m.strike-=dt;if(!m.hitDone&&was>.17&&m.strike<=.17){m.hitDone=1;const h=fighter(),dx=h.x-m.x,dz=h.z-m.z,d=Math.hypot(dx,dz)||1;if(m.pendHit){h.hurt=.35;for(let k=0;k<9;k++)emit(h.x-dx/d*.3,1.4+Math.random()*.8,h.z-dz/d*.3,(Math.random()-.5)*2.4,1+Math.random()*1.6,(Math.random()-.5)*2.4,.5,.12,[1,.2,.15],[.5,.05,.03],3);m.pendHit=0;}else{for(let k=0;k<5;k++)emit(h.x-dx/d*.4,1.2+Math.random()*.6,h.z-dz/d*.4,(Math.random()-.5)*1.6,.5+Math.random(),(Math.random()-.5)*1.6,.4,.08,[.85,.88,.95],[.2,.2,.25],2);}}}chars.forEach(c=>{if(c.hurt>0)c.hurt-=dt;});m.pop=Math.min(1,m.pop+dt*3);m.t+=dt;if(m.ghost){m.ghost.t+=dt;if(m.ghost.t>.6)m.ghost=null;}}
 function updateCam(dt){refreshLook();const c=R.cam,h=chars[0];let tx=h.x,tz=h.z,td=c.tdist,ly=1,cbc=0;
  if(S.cb&&(S.acts[0]&&S.acts[0].sk==='combat'||S.acts.some(q=>q&&q.sk==='combat'))){const a=arena();tx=a.x;tz=a.z;const mn=R.mon,hg=Math.max(2.4,2.2*((mn&&mn.sc)||1)),asp=R.size[0]/R.size[1];{if(asp<1)td*=1+(1-asp)*1.1;}td=Math.max(Math.min(td,40),8+hg*2.4,asp<1?(3+hg*.6)*2.4/asp:0);ly=Math.min(2.4,.15+hg*.22);cbc=1;}
  
@@ -4216,8 +4241,8 @@ function draw(ts){
  {const dtp=Math.min(.05,Math.max(0,t-pLast));pLast=t;particles(t,dtp,P0);}
  /* monster */
  const mn=R.mon;
- if(C0&&mn.id){const add=mn.flash>0?[.55,.1,.1]:[0,0,0],hf=Math.atan2(chars[0].x-mn.x,chars[0].z-mn.z),ps=1-Math.pow(1-mn.pop,3);LB.drawMonster(null,mn.sc*(.3+.7*ps),0,mn.x,mn.z,mn.col,mn.col2,mn.shape,add,(()=>{const st=mn.strike>0?1-mn.strike/.34:-1;if(st>=0){const e=st<.5?Math.sin(st/.5*Math.PI/2):Math.cos((st-.5)/.5*Math.PI/2);return 1.9*e;}const w=Math.max(0,((mn.ph||0)-.6)/.4);return -.9*w*w;})(),mn.t,hf,mn.boss,mn.id);}
- if(mn.ghost){const g=mn.ghost;LB.drawMonster(null,g.sc,Math.min(1,g.t/.5),g.x,g.z,g.col,g.col2,g.shape,[.5,.1,.1],0,0,Math.atan2(chars[0].x-g.x,chars[0].z-g.z),false,g.id);}
+ if(C0&&mn.id){const add=mn.flash>0?[.55,.1,.1]:[0,0,0],hf=Math.atan2(fighter().x-mn.x,fighter().z-mn.z),ps=1-Math.pow(1-mn.pop,3);LB.drawMonster(null,mn.sc*(.3+.7*ps),0,mn.x,mn.z,mn.col,mn.col2,mn.shape,add,(()=>{const st=mn.strike>0?1-mn.strike/.34:-1;if(st>=0){const e=st<.5?Math.sin(st/.5*Math.PI/2):Math.cos((st-.5)/.5*Math.PI/2);return 1.9*e;}const w=Math.max(0,((mn.ph||0)-.6)/.4);return -.9*w*w;})(),mn.t,hf,mn.boss,mn.id);}
+ if(mn.ghost){const g=mn.ghost;LB.drawMonster(null,g.sc,Math.min(1,g.t/.5),g.x,g.z,g.col,g.col2,g.shape,[.5,.1,.1],0,0,Math.atan2(fighter().x-g.x,fighter().z-g.z),false,g.id);}
  LB.iflush();}
 function hud2d(){
  const [W,H]=R.size,dprr=R.size[2];const eyeD=(x,z)=>Math.hypot(x-R.camPos[0],z-R.camPos[2]);
@@ -4282,8 +4307,8 @@ function inputInit(){const cv=document.getElementById('wc');if(!cv||cv.dataset.i
 const TIER=[[.72,.45,.2],[.55,.57,.6],[.72,.76,.82],[.35,.47,.78],[.28,.66,.4],[.23,.72,.85],[.8,.25,.22],[.92,.78,.25],[.6,.35,.8],[.95,.5,.2]];
 function itCol(id){const it=ITEMS[id];if(!it)return null;if(it.col&&/^#/.test(it.col))return W3._hex(it.col);const k=(id+' '+it.n).toLowerCase();if(/leather|hide|d.?hide|wolf|bear/.test(k)&&!/dragon/.test(k))return[.55,.38,.2];if(/robe|mystic|wizard|cloth|mage|witch/.test(k))return[.5,.3,.7];return TIER[Math.min(it.tier||0,TIER.length-1)];}
 const CPK={cape_barrow:'rag',cape_troll:'fur',cape_frost:'ice',cape_temple:'wave',cape_inferno:'fire',cape_amaskot:'pharaoh',cape_bloodfall:'blood',cape_derek:'arc',cape_arsenal:'ban'};
-let lookSig='';function refreshLook(){const sg=JSON.stringify(S.equip)+'|'+S.cape;if(sg===lookSig)return;lookSig=sg;const e=S.equip,L={};L.helm=itCol(e.helmet);L.hid=e.helmet||null;L.hk=e.helmet?({dr_ars_helm:'fcrown',dr_temple_helm:'diadem',dr_ama_mask:'pharaoh',dr_blf_mask:'mask',dr_drk_hat:'wizhat'}[e.helmet]||(/^h_\w+_hood$/.test(e.helmet)?'hood':/^r_\w+_hat$/.test(e.helmet)?'wizhat':null)):null;L.body=itCol(e.body);L.legs=itCol(e.legs);L.boots=itCol(e.boots);L.gloves=itCol(e.gloves);L.shield=itCol(e.shield);const MY={obs:[.14,.09,.2]};L.my={};{const id=S.cape||e.cape;if(id){const it=ITEMS[id];L.cape=SUPC[id]?{col:W3._hex(SUPC[id][1]),k:'sup',id}:CAPEC[id]?{col:W3._hex(CAPEC[id]),k:'skill',id}:it?{col:W3._hex(it.col||'#888888'),k:CPK[id]||'skill'}:null;}}['helmet:helm','body:body','legs:legs','boots:boots','gloves:gloves','shield:shield'].forEach(s=>{const[k,n]=s.split(':'),it=e[k]&&ITEMS[e[k]];if(it&&it.arm&&it.rar===4){L.my[n]=1;L[n]=MY.obs;L.mc=1;}});
- const wp=e.weapon&&ITEMS[e.weapon];L.wep=wp?(wp.wt==='ranged'?'bow':wp.wt==='magic'?'staff':'sword'):null;L.orb=wp?itCol(e.weapon):null;L.wr=wp?(wp.rar||0):0;L.wt=wp?(wp.tier||0):0;const epf=it=>it?Math.min(1,(it.tier>=9?7:(it.tier||0))/7+(it.rar||0)*.18):0,sw=e.shield&&ITEMS[e.shield];L.ep=epf(wp);L.sep=epf(sw);L.tome=!!(sw&&((sw.lr&&sw.lr[0]==='mag')||/tome/i.test(sw.n||'')));W3.look=L;}
+let lookSig='';function refreshLook(){const sg=JSON.stringify(S.equip)+'|'+S.cape;if(sg===lookSig)return;lookSig=sg;const e=S.equip,L={};L.helm=itCol(e.helmet);L.hid=e.helmet||null;L.hk=e.helmet?({dr_ars_helm:'fcrown',dr_temple_helm:'diadem',dr_ama_mask:'pharaoh',dr_blf_mask:'mask',dr_drk_hat:'wizhat'}[e.helmet]||(/^h_\w+_hood$/.test(e.helmet)?'hood':/^r_\w+_hat$/.test(e.helmet)?'wizhat':null)):null;L.body=itCol(e.body);L.legs=itCol(e.legs);L.boots=itCol(e.boots);L.gloves=itCol(e.gloves);L.shield=itCol(e.shield);const MY={obs:[.14,.09,.2]};L.my={};{const id0=e.cape,id=(id0&&ITEMS[id0]&&ITEMS[id0].vsk)||id0;if(id){const it=ITEMS[id];L.cape=SUPC[id]?{col:W3._hex(SUPC[id][1]),k:'sup',id}:CAPEC[id]?{col:W3._hex(CAPEC[id]),k:'skill',id}:it?{col:W3._hex(it.col||'#888888'),k:CPK[id]||'skill'}:null;}}['helmet:helm','body:body','legs:legs','boots:boots','gloves:gloves','shield:shield'].forEach(s=>{const[k,n]=s.split(':'),it=e[k]&&ITEMS[e[k]];if(it&&it.arm&&it.rar===4){L.my[n]=1;L[n]=MY.obs;L.mc=1;}});
+ const wp=e.weapon&&ITEMS[e.weapon];L.wep=wp?(wp.thrown?'chomp':wp.wt==='ranged'?'bow':wp.wt==='magic'?'staff':'sword'):null;L.orb=wp?itCol(e.weapon):null;L.wr=wp?(wp.rar||0):0;L.wt=wp?(wp.tier||0):0;const epf=it=>it?Math.min(1,(it.tier>=9?7:(it.tier||0))/7+(it.rar||0)*.18):0,sw=e.shield&&ITEMS[e.shield];L.ep=epf(wp);L.sep=epf(sw);L.tome=!!(sw&&((sw.lr&&sw.lr[0]==='mag')||/tome/i.test(sw.n||'')));W3.look=L;}
 function todParams(){const mode=(function(){try{return localStorage.getItem('mossgate-tod')||'auto';}catch(e){return'auto';}})();const d=new Date();let h=d.getHours()+d.getMinutes()/60;if(mode==='day')h=12;else if(mode==='night')h=0;else if(mode==='dusk')h=18.2;
  const t=(h-6)/24*Math.PI*2,e=Math.sin(t),sm=(a,b,x)=>{x=Math.max(0,Math.min(1,(x-a)/(b-a)));return x*x*(3-2*x);},day=sm(-.18,.32,e),dusk=Math.max(0,1-Math.abs(e-.02)*4.2);
  const mix=(a,b,k)=>a.map((v,i)=>v+(b[i]-v)*k);let sky=mix([.04,.07,.17],[.66,.83,.93],day),amb=mix([.46,.52,.8],[1,1,1],day),lc=mix([.4,.48,.85],[1,.97,.9],day);
@@ -4335,6 +4360,7 @@ function tipHtml(id){const it=ITEMS[id];if(!it)return'';
   h+='<div class="tr">'+keys.map(k=>{const v=it.st[k]||0,d=cur?v-((cur.st&&cur.st[k])||0):0;return`<div><span>${STATN[k]||k}</span><b>${v>0?'+':''}${v}${cur&&d?` <i class="${d>0?'up':'dn'}">${d>0?'▲':'▼'}${Math.abs(d)}</i>`:''}</b></div>`;}).join('')+'</div>';
   if(cur)h+=`<div class="tk">Compared with your ${cur.n}</div>`;}
  if(it.heal)h+=`<div class="tr"><div><span>Heals</span><b>${it.heal} HP</b></div></div>`;
+ if(it.perk)h+=`<div class="tk" style="color:#e0b030">Perk: ${it.perk}</div>`;
  if(it.pot)h+=`<div class="tk">+${it.pot.v}% ${PDESC[it.pot.t]} for ${Math.round(it.pot.d/60)} min</div>`;
  const need=it.slot?lacks(it):'';
  const reqs=[];if(it.req)reqs.push('Combat level '+it.req);if(it.lr)reqs.push(SKN[it.lr[0]].n+' level '+it.lr[1]);
@@ -4462,7 +4488,7 @@ function prestigePage(){
  h+='<div class="panel"><div class="prl">';
  ALLSK.forEach(k=>{const L=lv(k),n=prN(k),can=canPrestige(k);
   h+=`<div class="prr"><span class="ci">${SKN[k].i}</span><div class="prn"><b>${SKN[k].n}</b><div class="sub">Level ${L}${n?' · ★'+n+'/'+PRES_MAX+' · +'+Math.round(PRES_B*n*100)+'% XP':''}</div></div><div class="sp"></div>${n>=PRES_MAX?'<span class="pill">Max prestige</span>':can?`<button class="btn pri sm" data-a="presask" data-sk="${k}">Prestige</button>`:`<span class="sub">Needs level ${MAXL}</span>`}</div>`;});
- h+=Object.keys(SUPC).map(k=>{const o=capeOk(k);return`<button class="petc${o?'':' lock'}${S.cape===k?' on':''}" ${o?`data-a="capeset" data-sk="${k}"`:'disabled'}><span class="capechip big" style="background:${o?SUPC[k][1]:'#555'}"></span><b>${SUPC[k][0]} cape</b><span class="sub">${o?'Supporter':'Supporter only'}</span></button>`;}).join('');
+ h+=Object.keys(SUPC).map(k=>{const o=capeOk(k);return`<button class="petc${o?'':' lock'}${S.equip.cape==='cape_sk_'+k?' on':''}" ${o?`data-a="capeset" data-sk="${k}"`:'disabled'}><span class="capechip big" style="background:${o?SUPC[k][1]:'#555'}"></span><b>${SUPC[k][0]} cape</b><span class="sub">${o?'Supporter':'Supporter only'}</span></button>`;}).join('');
  return h+'</div></div>';}
 /* ---------- achievement diaries ---------- */
 const diaryDone=()=>DIARIES.filter(d=>S.dy.buff[d.id]).length;
@@ -4498,11 +4524,11 @@ function clogPage(){const D=clogData(),tot=clogTotals();let ti=Math.max(0,D.find
  return h+'</div></div>';}
 function petsPage(){
  const own=Object.keys(S.pets).length;
- let h=`<div class="panel"><h2>🐾 Pets &amp; Capes</h2><div class="sub">Pets are rare drops: about 1 in ${fmt(PET_BASE-PET_LV*99)} to ${fmt(PET_BASE-PET_LV)} skilling actions (a little better at higher levels), 1 in ${Math.round(1/PET_DELVE)} delve clears, 1 in ${Math.round(1/PET_DG)} dungeon clears and 1 in ${Math.round(1/PET_RAID)} raid clears. Pick one to show in the top bar. Skill capes are cosmetic: unlock one by reaching level ${MAXL} (or prestiging) in a skill.</div><div class="sub" style="margin-top:6px">Pets found: <b>${own}/${PETS.length}</b></div></div>`;
+ let h=`<div class="panel"><h2>🐾 Pets &amp; Capes</h2><div class="sub">Pets are rare drops: about 1 in ${fmt(PET_BASE-PET_LV*99)} to ${fmt(PET_BASE-PET_LV)} skilling actions (a little better at higher levels), 1 in ${Math.round(1/PET_DELVE)} delve clears, 1 in ${Math.round(1/PET_DG)} dungeon clears and 1 in ${Math.round(1/PET_RAID)} raid clears. Pick one to show in the top bar. Skill capes are cosmetic: unlock one by reaching level ${MAXL} (or prestiging) in a skill, then click it to wear it in your cape slot. It replaces the cape you have on, which goes back to your bank, and you can swap back any time from the Equipment page.</div><div class="sub" style="margin-top:6px">Pets found: <b>${own}/${PETS.length}</b></div></div>`;
  h+='<div class="panel"><h3>Pets</h3><div class="petg">';
  PETS.forEach(p=>{const o=!!S.pets[p.id];h+=`<button class="petc${o?'':' lock'}${S.pet===p.id?' on':''}" ${o?`data-a="petset" data-id="${p.id}"`:'disabled'}><span class="pi">${o?p.i:'❔'}</span><b>${o?p.n:'???'}</b><span class="sub">${p.from}</span></button>`;});
  h+='</div></div><div class="panel"><h3>Skill capes</h3><div class="petg">';
- ALLSK.forEach(k=>{const o=capeOk(k);h+=`<button class="petc${o?'':' lock'}${S.cape===k?' on':''}" ${o?`data-a="capeset" data-sk="${k}"`:'disabled'}><span class="capechip big" style="background:${o?CAPEC[k]:'#555'}"></span><b>${SKN[k].n} cape</b><span class="sub">${o?'Unlocked':'Level '+MAXL+' needed'}</span></button>`;});
+ ALLSK.forEach(k=>{const o=capeOk(k);h+=`<button class="petc${o?'':' lock'}${S.equip.cape==='cape_sk_'+k?' on':''}" ${o?`data-a="capeset" data-sk="${k}"`:'disabled'}><span class="capechip big" style="background:${o?CAPEC[k]:'#555'}"></span><b>${SKN[k].n} cape</b><span class="sub">${o?(CAPEP[k]?CAPEP[k][0]:'Unlocked'):'Level '+MAXL+' needed'}</span></button>`;});
  return h+'</div></div>';}
 function duelPage(){
  if(UI.dstake==null)UI.dstake=Math.min(100,S.coins);
@@ -4678,7 +4704,7 @@ function combatPage(){
   h+='<div class="row" style="margin-top:8px"><b>Spell</b><div class="chips">'+SPELLS.map((s,i)=>[s,i]).sort((a,b)=>a[0].lvl-b[0].lvl).map(([s,i])=>`<button class="tag${cs===i?' on':''}${lv('mag')<s.lvl?' off':''}" data-a="spell" data-i="${i}" title="Level ${s.lvl}">${s.n} · ${s.max}</button>`).join('')+'</div></div>';
   {const sp0=SPELLS[cs]||SPELLS[0],wi=(S.equip.weapon&&ITEMS[S.equip.weapon].inf)||[];h+=`<div class="sub" style="margin-top:6px"><b>${sp0.n}</b> (level ${sp0.lvl}) uses ${Object.keys(sp0.cost).map(k=>(wi.includes(k)?'<s>':'')+sp0.cost[k]+' '+ITEMS[k].n+(wi.includes(k)?'</s> free':'')).join(', ')}${sp0.leech?' · heals you for '+Math.round(sp0.leech*100)+'% of the damage':''}</div>`;}
   h+='<div class="sub" style="margin-top:4px">Cost: '+Object.keys(sp.cost).map(k=>ic(k,0,sp.cost[k])).join(' ')+'</div>';}
- if(t==='ranged')h+='<div class="sub" style="margin-top:6px">Arrows: '+(S.equip.ammo?ic(S.equip.ammo,cnt(S.equip.ammo)):'<span class="bad">none equipped</span>')+'</div>';
+ if(t==='ranged'&&!(S.equip.weapon&&ITEMS[S.equip.weapon]&&ITEMS[S.equip.weapon].thrown))h+='<div class="sub" style="margin-top:6px">Arrows: '+(S.equip.ammo?ic(S.equip.ammo,cnt(S.equip.ammo)):'<span class="bad">none equipped</span>')+'</div>';
  const f=S.equip.food;const fl=Object.keys(S.bank).filter(id=>ITEMS[id]&&ITEMS[id].slot==='food'&&cnt(id)>0).sort((a,b)=>ITEMS[a].heal-ITEMS[b].heal);if(f&&!fl.includes(f))fl.push(f);
  h+=`<div class="row" style="margin-top:8px;gap:8px;flex-wrap:wrap"><label class="sub" for="foodsel">Food</label><select id="foodsel" aria-label="Food to eat in combat"><option value="">${fl.length?'None (do not eat)':'No food in your bank'}</option>${fl.map(id=>`<option value="${id}"${id===f?' selected':''}>${ITEMS[id].n} · heals ${ITEMS[id].heal} · ${fmt(cnt(id))} owned</option>`).join('')}</select>${f&&cnt(f)?'':'<span class="bad sub">no food equipped</span>'}</div><div class="sub" style="margin-top:4px">You eat automatically when your hitpoints drop low. Cook fish to stock up.</div></div>`;
  h+=bagPanel();
@@ -4777,6 +4803,7 @@ function settingsPage(){
  <div class="row" style="margin:8px 0"><button class="btn pri" data-a="export">Show backup text</button><button class="btn" data-a="import">Load from text below</button></div>
  <textarea id="imp" placeholder="Paste backup text here" aria-label="Backup text">${UI.imp}</textarea><div class="sub" style="margin-top:6px">${UI.msg}</div></div>
  ${cloudPanel()}
+ <div class="panel"><h2>Thank you, playtesters</h2><div class="sub">Mossgate Idle is better thanks to the people who tried it early, reported bugs and shared ideas. Thank you to our playtesters, <b>Winnehild</b> and <b>StSean</b>.</div></div>
  <div class="panel"><h2>Cheat codes</h2><div class="sub">Type a code and press Redeem. Cheats change your save permanently, so export a backup first if you care about a clean run.</div><div class="row" style="margin:8px 0"><input type="text" id="cheat" placeholder="Enter code" value="${UI.cheat||''}" autocomplete="off" autocapitalize="characters" aria-label="Cheat code"><button class="btn pri" data-a="cheat">Redeem</button><span class="sub">${UI.msg2||''}</span></div><div class="tw"><table>${CHEATS.map(c=>`<tr><td><b>${c[0]}</b></td><td>${c[1]}</td></tr>`).join('')}</table></div>${S.cheat.speed===5?'<div class="gold">Turbo is on.</div>':''}${S.cheat.god?'<div class="gold">God mode is on.</div>':''}</div>
  <div class="panel"><h2>Statistics</h2><div class="stats"><span>Time played <b>${fmtT(S.play)}</b></span><span>Actions <b>${fmt(S.stats.actions)}</b></span><span>Monsters killed <b>${fmt(S.stats.kills)}</b></span><span>Times knocked out <b>${S.stats.deaths}</b></span><span>Coins earned <b>${fmt(S.stats.coins)}</b></span></div></div>
  <div class="panel"><h2>Reset</h2><div class="sub">Restarts this slot from scratch. The previous save is kept as an automatic backup until the next one replaces it.</div><div class="row" style="margin-top:8px">${UI.confirm?'<button class="btn dng" data-a="reset">Yes, erase everything</button><button class="btn" data-a="resetno">Cancel</button>':'<button class="btn dng" data-a="resetask">Reset game</button>'}</div></div>`;}
@@ -4980,7 +5007,7 @@ function handle(d){
   case'switchslot':leaveSlot();break;
   case'hsjoin':{const el=$('#hsn'),v=(el?el.value:'').trim().replace(/\s+/g,' ');UI.hsn=v;if(!/^[A-Za-z0-9_ -]{3,16}$/.test(v)){UI.hsMsg=HS_ERR.bad_name;break;}S.hs.name=v;S.hs.on=true;UI.hsMsg='Joining...';hsSubmit().then(r=>{if(r!=='ok'){S.hs.on=false;}saveLocal();});break;}
   case'hssend':hsSubmit();break;case'hsleave':hsLeave().then(()=>saveLocal());break;case'hssort':UI.hsSort=d.s;break;
-  case'petset':if(S.pets[d.id]){S.pet=S.pet===d.id?'':d.id;dirty.v=1;}break;case'capeset':if(capeOk(d.sk)){S.cape=S.cape===d.sk?'':d.sk;dirty.v=1;}break;case'presask':if(canPrestige(d.sk))UI.modal={type:'prestige',sk:d.sk};break;case'presgo':prestige(d.sk);UI.modal=null;break;
+  case'petset':if(S.pets[d.id]){S.pet=S.pet===d.id?'':d.id;dirty.v=1;}break;case'capeset':if(capeOk(d.sk)){if(S.equip.cape==='cape_sk_'+d.sk)unequip('cape');else equip('cape_sk_'+d.sk);dirty.v=1;}break;case'presask':if(canPrestige(d.sk))UI.modal={type:'prestige',sk:d.sk};break;case'presgo':prestige(d.sk);UI.modal=null;break;
   case'closemodal':UI.modal=null;break;
   case'ctxsel':UI.bsel=d.id;UI.page='bank';break;
   case'spin':case'spinpaid':{if(UI.wspin&&Date.now()<UI.wspin)break;const r=spinWheel(d.a==='spinpaid');if(r){const seg=360/WHEEL.length,cur=UI.wrot||0;UI.wrot=Math.ceil(cur/360)*360+360*6+(360-(r.idx+.5)*seg)+(Math.random()-.5)*seg*.6;UI.wspin=Date.now()+4400;setTimeout(render,4500);if(r.idx>=6)setTimeout(()=>toast('Wheel prize: '+WHEEL[r.idx].n+'!','boss'),4400);}}break;
