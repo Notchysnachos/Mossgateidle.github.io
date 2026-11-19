@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-V5QcvuWWWZ/Qgxid0wExBrRi/EFxYUdLtvH3GOJED3Y=' 'sha256-3kUJRw3imQB4sILA6qP0rs8BsofKxtKoO8GylmTEh5U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; worker-src 'self'; connect-src https://fogoltmnmdabjimxsjnm.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="icons/icon-192.png"><meta name="theme-color" content="#e9eee8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121815" media="(prefers-color-scheme: dark)"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Mossgate"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-kX4TV/3BtKmbC131dpIxF/KoT44Ncn6gwWi3ovo8l4g=' 'sha256-3kUJRw3imQB4sILA6qP0rs8BsofKxtKoO8GylmTEh5U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; worker-src 'self'; connect-src https://fogoltmnmdabjimxsjnm.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="icons/icon-192.png"><meta name="theme-color" content="#e9eee8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121815" media="(prefers-color-scheme: dark)"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Mossgate"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
 <title>Mossgate Idle</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -305,6 +305,8 @@ body.w3d{overflow:hidden;background:#a8d4ee}
 }
 @media (max-width:900px) and (min-height:500px){.hs{bottom:calc(env(safe-area-inset-bottom,0px) + 76px)}}
 @media (max-width:900px){.w3d.winopen #hud{z-index:31}.w3d.winopen #hud>*:not(.hb-bar):not(.hb-more){display:none!important}.w3d.winopen .app{bottom:calc(65px + env(safe-area-inset-bottom,0px))}}
+
+.x2.slb{max-width:170px;overflow:hidden;text-overflow:ellipsis}
 </style>
 <canvas id="wc"></canvas><div id="wlabels"></div><div id="wfx"></div><div id="hud"></div><div id="wbd" data-a="winclose"></div><div class="app" id="app"><aside class="rail" id="rail"></aside><div class="main"><header class="top" id="top"></header><main class="page" id="page"></main></div></div>
 <div class="toasts" id="toasts" aria-live="polite"></div><div id="evt"></div><div id="modal"></div><div id="ctx"></div>
@@ -2139,7 +2141,7 @@ const SK=n=>'mossgate-idle-slot-'+n;
 let SLOT=0;const SAVESTAT={ok:true,at:0,err:'',bak:0};
 
 /* ---------- save integrity: signed, tamper-evident saves ---------- */
-const BUILD_TS=1795041757000;
+const BUILD_TS=1795046318000;
 const SIGKEY=['mg','8f2c','-gate','Q7x','r0ot','5e1d','|idle','b9'].join('');
 const SHA_K=(()=>{const k=[];for(let n=2;k.length<64;n++){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)k.push(Math.floor((Math.cbrt(n)%1)*4294967296));}return k;})();
 const SHA_H=(()=>{const h=[];for(let n=2;h.length<8;n++){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)h.push(Math.floor((Math.sqrt(n)%1)*4294967296));}return h;})();
@@ -2677,7 +2679,52 @@ function buildWorld(gl){ST.length=0;TREES.length=0;W3._trees=TREES;const B=new B
   for(let i=0;i<10;i++){bx(B,m,-6.4+i*1.4,0,-5.2,.12,.9,.12,'wood');bx(B,m,-6.4+i*1.4,0,4.4,.12,.9,.12,'wood');}bx(B,m,-6.4,.6,-5.2,13,.1,.1,'wood');bx(B,m,-6.4,.6,4.4,13,.1,.1,'wood');
   const sc=base(x+7,z-3,.5);bx(B,sc,0,0,0,.14,2.2,.14,'wood');bx(B,sc,0,1.5,0,1.7,.14,.14,'wood');bx(B,sc,0,1.9,0,.55,.55,.55,'#e8c860');B.add('cone',chain(sc,T(0,2.4,0),S(.9,.5,.9)),C('wood'));});
  add('herb',-1,25,-1,21,3.14,'herb','Herblore','🧪',(x,z)=>{const m=house(B,SH,x-3,z,0,3.4,3,2.2,'#d8c9a0','roof2');cy(B,m,3.8,.5,.9,.9,'dark');cy(B,m,3.8,.5,.7,.15,'#58d878',null,.9);for(let i=0;i<5;i++){B.add('cone5',chain(base(x+rr(-2,5),z+rr(-4,-2),0),T(0,0,0),S(.35,rr(.5,.9),.35)),[C('leaf3'),C('purple'),C('pink')][i%3]);}bx(B,base(x+5.4,z+1.6,0),0,0,0,.9,.7,.9,'wood');});
- add('rc',29,-14,25,-11,2.2,'rc','Runecrafting','🔮',(x,z)=>{const m=base(x,z,0);cy(B,m,0,0,3.4,.35,'stone2');for(let i=0;i<7;i++){const a=i/7*6.28;bx(B,m,Math.cos(a)*3,0,Math.sin(a)*3,.7,1.8+rnd()*.8,.7,'stone');}cy(B,m,0,0,.9,2.6,'stone2','frus');GL.add('ico',chain(m,T(0,3.6,0),S(1.1,1.5,1.1)),C('purple'));GL.add('ico',chain(m,T(0,3.6,0),RY(.8),S(.7,1.9,.7)),hex('#c8a0ff'));});
+ add('rc',29,-14,25,-11,2.2,'rc','Runecrafting','🔮',(x,z)=>{const m=base(x,z,0);
+  const RS=['#a070ff','#5ab4ff','#ff6a5a','#6ae08a','#ffd25a','#7af0e8'].map(hex),ST=hex('#8c8998'),ST2=hex('#6d6a7a'),ST3=hex('#a8a4b6'),DK=hex('#35333f'),MS=hex('#4f7f3a'),MS2=hex('#3d6a2c');
+  const gl=(sh,mm,col)=>GL.add(sh,mm,col);
+  // worn flagstone dais, three tiers, with a path of slabs to the front
+  cy(B,m,0,0,7.0,.14,hex('#5f5d6b'),null,0,.04);cy(B,m,0,0,6.3,.28,ST2,null,0,.04);cy(B,m,0,0,5.5,.42,ST,null,0,.03);
+  for(let k=0;k<14;k++){const a=k/14*6.283+.2,r=5.9;B.add('box',chain(m,T(Math.cos(a)*r,.3,Math.sin(a)*r),RY(-a),S(.9,.1,.7)),k%2?ST3:ST,.05);}
+  for(let k=0;k<4;k++)bx(B,m,(k%2?.5:-.4),0,5.4+k*1.0,1.5-k*.12,.1,.9,k%2?ST:ST2,.05);
+  // glowing rune circle inlaid in the floor
+  B.add('disc',chain(m,T(0,.46,0),S(9.4,1,9.4)),DK);
+  gl('disc',chain(m,T(0,.475,0),S(8.9,1,8.9)),hex('#6a3fc0'));
+  B.add('disc',chain(m,T(0,.49,0),S(8.3,1,8.3)),DK);
+  gl('disc',chain(m,T(0,.505,0),S(6.1,1,6.1)),hex('#5a35b0'));
+  B.add('disc',chain(m,T(0,.52,0),S(5.7,1,5.7)),hex('#2c2a36'));
+  // hexagram of glowing lines + glyph marks between the rings
+  for(let k=0;k<6;k++){const a=k/6*6.283+.5236,c=Math.cos(a+1.5708),s=Math.sin(a+1.5708);gl('box',chain(m,T(Math.cos(a)*1.45,.535,Math.sin(a)*1.45),RY(-(a+1.5708)),S(.14,.03,3.2)),hex('#8a5cff'));}
+  for(let k=0;k<12;k++){const a=k/12*6.283,r=3.9;gl('box',chain(m,T(Math.cos(a)*r,.52,Math.sin(a)*r),RY(-a),S(.16,.04,.5+(k%3)*.1)),RS[k%6]);}
+  for(let k=0;k<12;k++){const a=k/12*6.283+.26,r=4.4;B.add('box',chain(m,T(Math.cos(a)*r,.5,Math.sin(a)*r),RY(-a),S(.2,.05,.2)),ST3);}
+  // central altar: stepped plinth, glowing core, floating crystal and orbiting shards
+  cy(B,m,0,0,1.5,.3,ST,null,.5,.03);cy(B,m,0,0,1.1,.28,ST2,null,.8,.03);cy(B,m,0,0,.7,.7,ST3,'frus',1.05,.05);
+  B.add('disc',chain(m,T(0,1.77,0),S(1.5,1,1.5)),DK);gl('disc',chain(m,T(0,1.79,0),S(1.05,1,1.05)),hex('#9a6aff'));
+  gl('ico',chain(m,T(0,3.3,0),RY(.5),S(.9,1.9,.9)),hex('#b58aff'));gl('ico',chain(m,T(0,3.3,0),RY(1.3),S(.55,2.5,.55)),hex('#e2ccff'));gl('ico',chain(m,T(0,3.3,0),S(1.8,.12,1.8)),hex('#7a4fd8'));
+  for(let k=0;k<6;k++){const a=k/6*6.283,r=1.55;gl('pyr',chain(m,T(Math.cos(a)*r,2.4+((k*37)%5)*.22,Math.sin(a)*r),RY(-a),RZ(.3),S(.22,.5,.22)),RS[k]);}
+  // eight tall carved monoliths (gap at the front), leaning slightly, inward-facing rune slits, some topped by lintels
+  const mono=(a,r,h,lean,i)=>{const px=Math.cos(a)*r,pz=Math.sin(a)*r,mm=chain(m,T(px,0,pz),RY(-a+1.5708),RX(lean));
+    B.add('box',chain(mm,T(0,.1,0),S(1.35,.5,1.2)),ST2,.06);
+    B.add('frus',chain(mm,T(0,.35,0),S(.95,h,.75)),i%2?ST:ST3,.07);B.add('pyr',chain(mm,T(0,h+.35,0),RZ(.1*(i%3-1)),S(.9,.7,.7)),ST,.1);
+    for(let q=0;q<3;q++)gl('box',chain(mm,T(0,1.3+q*.9,.4-q*.02),S(.22-q*.04,.16,.05)),RS[(i+q)%6]);
+    gl('box',chain(mm,T(0,2.6,.37),S(.06,.9,.05)),RS[i%6]);
+    if(i%2)for(let q=0;q<5;q++)ic(B,mm,rr(-.5,.5),.3+q*.55,rr(.2,.5),.28,i%4===1?MS:MS2,.55,.15);return mm;};
+  const MA=[];for(let k=0;k<9;k++){const a=k/9*6.283+.35;if(Math.abs(Math.atan2(Math.sin(a-1.5708),Math.cos(a-1.5708)))<.5)continue;MA.push(a);}
+  MA.forEach((a,i)=>mono(a,5.0,3.0+(i%3)*.55,.03*((i%3)-1),i));
+  // two trilithon lintels linking neighbouring monoliths
+  for(let i=1;i+1<MA.length;i+=5){const a0=MA[i],a1=MA[i+1];if(Math.abs(a1-a0)>1)continue;const am=(a0+a1)/2,r=5.0,L=2*r*Math.sin((a1-a0)/2)+.6,hy=3.35+((i%3)+(i%3===2?0:0))*.0;B.add('box',chain(m,T(Math.cos(am)*r,hy+.1,Math.sin(am)*r),RY(-am+1.5708),S(L,.38,.8)),ST3,.05);gl('box',chain(m,T(Math.cos(am)*(r-.42),hy+.1,Math.sin(am)*(r-.42)),RY(-am+1.5708),S(L*.6,.07,.05)),hex('#8a5cff'));}
+  // rear portal arch with swirling glow
+  const pm=chain(m,T(0,0,-6.2),RY(3.14159));
+  [-1,1].forEach(sd=>{B.add('box',chain(pm,T(sd*2.1,2.6,0),S(1.0,5.2,1.1)),ST,.05);B.add('box',chain(pm,T(sd*2.1,.2,0),S(1.5,.5,1.5)),ST2,.05);for(let q=0;q<4;q++)gl('box',chain(pm,T(sd*2.1,1+q*1.1,.58),S(.3,.45,.05)),RS[(q+(sd>0?2:0))%6]);});
+  B.add('box',chain(pm,T(0,5.5,0),S(5.8,.9,1.2)),ST3,.04);B.add('box',chain(pm,T(0,6.2,0),S(3.2,.5,.9)),ST,.05);gl('box',chain(pm,T(0,5.5,.62),S(3.8,.18,.05)),hex('#9a6aff'));
+  gl('disc',chain(pm,T(0,2.7,.05),RX(1.5708),S(3.4,1,4.9)),hex('#4a2c9a'));gl('disc',chain(pm,T(0,2.7,.1),RX(1.5708),S(2.3,1,3.6)),hex('#7a4fe0'));gl('disc',chain(pm,T(0,2.7,.15),RX(1.5708),S(1.0,1,1.9)),hex('#d6c0ff'));
+  // braziers flanking the entry steps
+  [-1,1].forEach(sd=>{const bm=chain(m,T(sd*2.6,0,6.2));cy(B,bm,0,0,.34,.9,ST2,null,0,.05);cy(B,bm,0,0,.62,.3,DK,'frus',.9);gl('ico',chain(bm,T(0,1.45,0),S(.6,.8,.6)),hex('#ff9a30'));gl('ico',chain(bm,T(0,1.6,0),S(.3,.6,.3)),hex('#ffe070'));});
+  // fallen column drums, rubble and moss
+  [[-6.8,3.2,1.2,.7],[6.9,2.4,1.0,2.4],[7.2,-3.2,.9,.4]].forEach(([px,pz,ry,sc],i)=>{B.add('cyl',chain(m,T(px,.55,pz),RY(ry),RZ(1.5708),S(1.0,1.9,1.0),T(0,-.5,0)),ST,.06);B.add('cyl',chain(m,T(px+Math.sin(ry)*2.2,.45,pz+Math.cos(ry)*2.2),RY(ry+.7),RZ(1.5708),S(.9,1.1,.9),T(0,-.5,0)),ST2,.06);});
+  for(let k=0;k<22;k++){const a=k*2.399,r=6.6+((k*.37)%1)*2.6,px=Math.cos(a)*r,pz=Math.sin(a)*r;if(pz>4.2&&Math.abs(px)<3.3)continue;const s=.2+((k*.61)%1)*.4;B.add('rk'+(k%6),chain(m,T(px,s*.3,pz),RY(k),S(s*1.4,s,s*1.2)),[ST,ST2,ST3][k%3]);if(k%3===0)ic(B,m,px+.3,s*.2,pz,.35,MS,.35,.18);}
+  // loose rune essence: little glowing stone stacks by the altar
+  [[2.3,3.0,0],[-2.5,2.8,2],[-3.1,-1.6,4]].forEach(([px,pz,ci])=>{for(let q=0;q<4;q++)B.add('ico',chain(m,T(px+Math.cos(q*2.1)*.25,.55+(q>2?.3:0),pz+Math.sin(q*2.1)*.25),RY(q),S(.4,.3,.34)),hex('#d9d4e6'),.1);gl('ico',chain(m,T(px,.55,pz),S(.2,.2,.2)),RS[ci%6]);});
+ });
 add('hunt',45,28,41,26,1.57,'hunt','Hunter','🪤',(x,z)=>{const m=base(x,z,0),HD=hex('#b8946a'),HD2=hex('#9a7650'),HD3=hex('#d2b48a'),WD=C('wood'),WD2=C('wood2'),IR=[.34,.34,.38],DKI=[.2,.2,.23],RP=hex('#c9b27a');
   const sm=(sh,mm,col)=>B.addS(sh,mm,col);
   const sp=(x0,y0,z0,sx,sy,sz,col)=>sm('sph',chain(m,T(x0,y0,z0),S(sx,sy,sz)),col);
@@ -4583,7 +4630,7 @@ function slotHtml(i){const A=S.acts[i];let inner;
  else if(A.sk==='combat'){const M=MONS[A.id];const cb=S.cb,mh=cb&&cb.mon===A.id?Math.max(0,Math.ceil(cb.mhp)):M.hp;inner=`<span class="at">${M.i} ${M.n}</span><span class="hpw" title="Enemy health">${bar(pc(mh,M.hp),'hp')}<em>${fmt(mh)}/${fmt(M.hp)}</em></span><span class="hpw you" title="Your health">${bar(pc(S.hp,maxHp()),'you')}<em>You ${Math.ceil(S.hp)}/${maxHp()}</em></span>`;}
  else{const x=actBy(A.sk,A.id);inner=`<span class="at">${SKN[A.sk].i} ${x.n}</span>${bar(pc(Math.max(0,A.t),interval(A.sk,x)))}`;}
  return`<div class="sl${UI.tgt===i?' tgt':''}${A&&A.sk==='combat'?' cmb':''}" role="button" tabindex="0" data-a="slot" data-i="${i}" title="New actions start in the highlighted slot"><b class="sn">${'ABC'[i]}</b>${inner}${A?`<button class="btn sm" data-a="stopslot" data-i="${i}" aria-label="Stop">✕</button>`:''}</div>`;}
-function topHtml(){return`<button class="burger" data-a="navtoggle" aria-label="Menu">☰</button><div class="tslots">${S.acts.map((a,i)=>slotHtml(i)).join('')}</div>${supBtn()}${sndBtn()}${qBtn()}${S.pet?`<span class="cos" title="${PETB[S.pet].n}">${PETB[S.pet].i}</span>`:''}${S.cape?`<span class="capechip" style="background:${SUPC[S.cape]?SUPC[S.cape][1]:CAPEC[S.cape]}" title="${SUPC[S.cape]?SUPC[S.cape][0]:SKN[S.cape].n} cape"></span>`:''}<div class="coins">🪙 ${fmt(S.coins)}</div>${W3.on?'<button class="btn sm" data-a="winclose">✕ Close</button>':''}`;}
+function topHtml(){return`<button class="burger" data-a="navtoggle" aria-label="Menu">☰</button><div class="tslots">${S.acts.map((a,i)=>slotHtml(i)).join('')}</div>${slayBtn()}${supBtn()}${sndBtn()}${qBtn()}${S.pet?`<span class="cos" title="${PETB[S.pet].n}">${PETB[S.pet].i}</span>`:''}<div class="coins">🪙 ${fmt(S.coins)}</div>${W3.on?'<button class="btn sm" data-a="winclose">✕ Close</button>':''}`;}
 
 function skHead(sk){
  const L=lv(sk),x=S.xp[sk],cur=XPT[L-1],nx=L>=MAXL?cur:XPT[L];
@@ -4784,6 +4831,9 @@ function shopPage(){
 
 const qBtn=()=>`<button class="x2 snd${W3.q==='max'?'':' off'}" data-a="qtoggle" title="${W3.q==='max'?'Max quality ON (full resolution + extra surface detail). Click for Auto':'Auto quality. Click for Max quality'}" aria-label="Toggle max quality" style="font-weight:800;font-size:11px">HD</button>`;
 const sndBtn=()=>`<button class="x2 snd${SND.on&&SND.vol>0?'':' off'}" data-a="sndtoggle" title="${SND.on?'Sound on. Click to mute':'Sound muted. Click to unmute'}" aria-label="Toggle sound">${SND.on&&SND.vol>0?'🔊':'🔇'}</button>`;
+const slayBtn=()=>{const sl=S.sl,t=sl&&sl.task;if(!t||!MONS[t.mon])return`<button class="x2 slb" data-a="slaygo" title="You have no Slayer task. Click to open the Slayer Master">💀 No task</button>`;
+ const M=MONS[t.mon],left=Math.max(0,t.n-t.got),on=!!(S.cb&&S.cb.mon===t.mon);
+ return`<button class="x2 slb${on?' on':''}" data-a="slaygo" title="Slayer task: ${left} more ${M.n} to kill (${t.got}/${t.n}). ${on?'You are fighting them now. Click to open the Slayer Master.':'Click to go and fight them.'}">💀 ${left} ${M.n}</button>`;};
 const supBtn=()=>{const on=!!S.sup.on;return`<button class="x2${on&&S.sup.fast?' on':''}${on?'':' lock'}" data-a="${on?'supfast':'nav'}" data-p="set" title="${on?(S.sup.fast?'Supporter perk: 2x skill speed is ON':'Supporter perk: 2x skill speed is OFF'):'Support the game on Ko-fi to unlock 2x skill speed'}">⚡ 2x</button>`;};
 function supPanel(){const U=UI.sup||(UI.sup={});
  let h='<div class="panel"><h2>⭐ Support Mossgate Idle</h2>';
@@ -4898,7 +4948,7 @@ function hudHtml(){if(!W3.on||!S)return'';
  const B=(p,i,n,sec,bd)=>`<button class="hb${sec?' sec':''}${UI.win&&UI.page===p?' on':''}" data-a="nav" data-p="${p}" title="${n}"><span>${i}${bd?'<i class="hbd"></i>':''}</span><em>${n}</em></button>`,qb=!!qlBadge(),db=S.dq&&S.dq.q&&S.dq.q.some(q=>!q.c&&q.h>=q.need);
  const SEC=[['shop','🛒','Shop'],['quests','📜','Daily Quests',db],['pvp','🤺','PvP'],['hiscores','🏆','Ranks'],['pets','🐾','Pets'],['clog','📖','Log'],['diary','🏅','Diaries'],['set','⚙️','Settings']];
  return`<div class="hl"><div class="hbox"><b>${esc(S.name||'Adventurer')}${S.sup&&S.sup.on?' <span style="color:#e0b030">★</span>':''}</b><span>Combat ${combatLevel()} · Total ${totalLevel()}</span><span class="hhp">${bar(pc(S.hp,maxHp()),'hp')}<em>${Math.ceil(S.hp)}/${maxHp()}</em></span><span class="hc">🪙 ${fmt(S.coins)}</span></div></div>
- <div class="hs"><div class="tslots">${S.acts.map((a,i)=>slotHtml(i)).join('')}</div>${supBtn()}${sndBtn()}${qBtn()}</div>
+ <div class="hs"><div class="tslots">${S.acts.map((a,i)=>slotHtml(i)).join('')}</div>${slayBtn()}${supBtn()}${sndBtn()}${qBtn()}</div>
  ${UI.more?`<div class="hb-more"><div class="hbm-grid">${SEC.map(s=>B(s[0],s[1],s[2],0,s[3])).join('')}<button class="hb" data-a="recenter" title="Centre camera on hero"><span>🎯</span><em>Centre</em></button></div></div>`:''}<div class="hb-bar">${B('home','🏠','Overview')}${B('combat','⚔️','Combat')}${B('equip','🎒','Gear')}${B('bank','🏦','Bank')}${B('ql','🗺️','Raid Quests',0,qb)}${SEC.map(s=>B(s[0],s[1],s[2],1,s[3])).join('')}<button class="hb sec" data-a="recenter" title="Centre camera on hero"><span>🎯</span><em>Centre</em></button><button class="hb hbmore${UI.more?' on':''}" data-a="hbmore" title="More"><span>${UI.more?'✕':'☰'}${!UI.more&&db?'<i class="hbd"></i>':''}</span><em>More</em></button></div>`;}
 function toastHtml(){const now=Date.now();return EV.filter(e=>now-e.at<5000).slice(-4).map(e=>`<div class="toast ${e.k}">${e.t}</div>`).join('');}
 
@@ -4971,7 +5021,7 @@ function handle(d){
   case'stance':if(S.cb)S.cb.stance=+d.i;S.stance=UI.stance=+d.i;dirty.v=1;break;
   case'spell':if(lv('mag')>=SPELLS[+d.i].lvl){if(S.cb)S.cb.spell=+d.i;S.spell=UI.spell=+d.i;dirty.v=1;}break;
   case'eslot':UI.slot=UI.slot===d.s?null:d.s;break;case'equip':equip(d.id);break;case'unequip':unequip(d.s);break;
-  case'bsort':UI.bsort=(UI.bsort+1)%BSORT.length;break;case'rask':UI.rsel=+d.r;break;case'rcancel':UI.rsel=null;break;case'rsell':{const r=+d.r;let g=0;Object.keys(S.bank).forEach(id=>{const it=ITEMS[id];if(it.rar===r&&!it.uniq){const n=cnt(id);g+=n*it.v;sell(id,n);}});UI.rsel=null;UI.bsel=null;if(g)toast('Sold '+RAR[r][0]+' items for 🪙 '+fmt(g),'info');break;}case'pvsync':pvSync(true);break;case'pvgo':pvStart(d.id,UI.dstake);break;case'duelgo':duelStart(d.t,UI.dstake);break;case'dstk':UI.dstake=d.v==='all'?S.coins:d.v==='half'?Math.floor(S.coins/2):+d.v;break;case'duelclr':UI.duel=null;break;case'slaybuyauto':slayBuyAuto();break;case'slayauto':slayToggleAuto();break;case'slayget':slayAssign();break;case'slayreroll':slayReroll();break;case'slayblock':slayBlock();break;case'slayunblock':slayUnblock(d.id);break;case'slayfight':{const t=S.sl.task;if(t&&!(S.cb&&S.cb.mon===t.mon)){const m=MONS[t.mon];startCombat(m.area,t.mon);}break;}case'bsel':UI.bsel=d.id;break;case'bcat':UI.bcat=d.c;break;
+  case'bsort':UI.bsort=(UI.bsort+1)%BSORT.length;break;case'rask':UI.rsel=+d.r;break;case'rcancel':UI.rsel=null;break;case'rsell':{const r=+d.r;let g=0;Object.keys(S.bank).forEach(id=>{const it=ITEMS[id];if(it.rar===r&&!it.uniq){const n=cnt(id);g+=n*it.v;sell(id,n);}});UI.rsel=null;UI.bsel=null;if(g)toast('Sold '+RAR[r][0]+' items for 🪙 '+fmt(g),'info');break;}case'pvsync':pvSync(true);break;case'pvgo':pvStart(d.id,UI.dstake);break;case'duelgo':duelStart(d.t,UI.dstake);break;case'dstk':UI.dstake=d.v==='all'?S.coins:d.v==='half'?Math.floor(S.coins/2):+d.v;break;case'duelclr':UI.duel=null;break;case'slaybuyauto':slayBuyAuto();break;case'slayauto':slayToggleAuto();break;case'slayget':slayAssign();break;case'slayreroll':slayReroll();break;case'slayblock':slayBlock();break;case'slayunblock':slayUnblock(d.id);break;case'slaygo':{const t=S.sl.task;if(t&&MONS[t.mon]&&!(S.cb&&S.cb.mon===t.mon)){const m=MONS[t.mon];startCombat(m.area,t.mon);}else{UI.more=false;go('slayer');}break;}case'slayfight':{const t=S.sl.task;if(t&&!(S.cb&&S.cb.mon===t.mon)){const m=MONS[t.mon];startCombat(m.area,t.mon);}break;}case'bsel':UI.bsel=d.id;break;case'bcat':UI.bcat=d.c;break;
   case'sell':sell(d.id,+d.q);break;case'drink':usePotion(d.id);break;
   case'upg':buyUpg(d.sk);break;case'buybank':buyBank();break;case'buyplot':buyPlot(d.c);break;case'buyi':buyItem(d.id,+d.q);break;case'buyperk':buyPerk(d.id);break;
   case'pick':UI.pick=+d.i;break;case'pickclose':UI.pick=null;break;
