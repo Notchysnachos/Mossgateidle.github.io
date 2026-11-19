@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-kqoz1/MO1pb10wdMS8B3qf9RyJx/sRX6u1yoyWq7VNg=' 'sha256-3kUJRw3imQB4sILA6qP0rs8BsofKxtKoO8GylmTEh5U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; worker-src 'self'; connect-src https://fogoltmnmdabjimxsjnm.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="icons/icon-192.png"><meta name="theme-color" content="#e9eee8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121815" media="(prefers-color-scheme: dark)"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Mossgate"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-txmYGjcAqtt35pB6fz3T2ku/q+Tmr3rw2jOpngWyqhs=' 'sha256-3kUJRw3imQB4sILA6qP0rs8BsofKxtKoO8GylmTEh5U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; worker-src 'self'; connect-src https://fogoltmnmdabjimxsjnm.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="icons/icon-192.png"><meta name="theme-color" content="#e9eee8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121815" media="(prefers-color-scheme: dark)"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Mossgate"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
 <title>Mossgate Idle</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1968,7 +1968,7 @@ function complete(sk,a,A){
  let ok=true;
  if(kind==='thief'){
   const ch=Math.min(.95,.5+(lv(sk)-a.lvl)*.012+ml*.004);
-  if(Math.random()>=ch){ok=false;const stun=3*(1-cpv('thief','stun'));A.t=-stun;toast("Caught! You are stunned","warn");S.stats.actions++;return true;}
+  if(Math.random()>=ch){ok=false;const stun=3*(1-cpv('thief','stun'));A.t=-stun;let dd=rnd(Math.max(1,Math.ceil((a.dmg||0)*.25)),Math.max(1,a.dmg||1));if(S.cheat&&S.cheat.god)dd=0;else if(cpv('def','dmg'))dd=Math.max(1,Math.round(dd*(1-cpv('def','dmg'))));if(dd>0){S.hp=Math.max(1,S.hp-dd);eatIfNeeded();}toast(dd>0?'Caught! You take '+dd+' damage and are stunned':'Caught! You are stunned','warn');S.stats.actions++;return true;}
   addCoins(Math.round(rnd(a.coins[0],a.coins[1])*mult*cg()));
   (a.drops||[]).forEach(d=>{if(Math.random()<d[1])add(d[0],rnd(d[2],d[3])*mult);});
  }else{
@@ -2197,7 +2197,7 @@ const SK=n=>'mossgate-idle-slot-'+n;
 let SLOT=0;const SAVESTAT={ok:true,at:0,err:'',bak:0};
 
 /* ---------- save integrity: signed, tamper-evident saves ---------- */
-const BUILD_TS=1795125488000;
+const BUILD_TS=1795126767000;
 const SIGKEY=['mg','8f2c','-gate','Q7x','r0ot','5e1d','|idle','b9'].join('');
 const SHA_K=(()=>{const k=[];for(let n=2;k.length<64;n++){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)k.push(Math.floor((Math.cbrt(n)%1)*4294967296));}return k;})();
 const SHA_H=(()=>{const h=[];for(let n=2;h.length<8;n++){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)h.push(Math.floor((Math.sqrt(n)%1)*4294967296));}return h;})();
@@ -4956,9 +4956,11 @@ function dungPanel(){
  const L=S.dg.log;
  h+=`<div class="panel"><h3>Recent runs</h3><div class="log">${L.length?L.map(l=>{const a=actBy('dung',l.id);if(!a)return'';return l.res==='clear'?`<div>✔ ${a.n} cleared · +${fmt(l.xp)} XP${l.relic?' · relic!':''}</div>`:l.res==='flee'?`<div>↩ Retreated from ${a.n} after ${l.cleared} of ${l.floors} floors</div>`:`<div>💤 Resting before ${a.n}…</div>`;}).join(''):'<div>No runs yet.</div>'}</div></div>`;
  return h;}
+function foodPicker(note){const f=S.equip.food;const fl=Object.keys(S.bank).filter(id=>ITEMS[id]&&ITEMS[id].slot==='food'&&cnt(id)>0).sort((a,b)=>ITEMS[a].heal-ITEMS[b].heal);if(f&&!fl.includes(f))fl.push(f);
+ return `<div class="row" style="margin-top:8px;gap:8px;flex-wrap:wrap"><label class="sub" for="foodsel">Food</label><select id="foodsel" aria-label="Food to eat automatically"><option value="">${fl.length?'None (do not eat)':'No food in your bank'}</option>${fl.map(id=>`<option value="${id}"${id===f?' selected':''}>${ITEMS[id].n} · heals ${ITEMS[id].heal} · ${fmt(cnt(id))} owned</option>`).join('')}</select>${f&&cnt(f)?'':'<span class="bad sub">no food equipped</span>'}</div><div class="sub" style="margin-top:4px">${note}</div>`;}
 function skillPage(sk){
  if(sk==='pray')return prayPage();if(sk==='farm')return farmPage();if(sk==='slayer')return slayerPage();
- let h=skHead(sk)+(sk==='dung'?dungPanel():'')+'<div class="grid">';
+ let h=skHead(sk)+(sk==='dung'?dungPanel():'')+(sk==='thief'?'<div class="panel"><b>🍖 Food</b>'+foodPicker('If a guard catches you, you take damage and are stunned. You eat automatically when your hitpoints drop low, so keep some food equipped. Thieving never knocks you out: you stop at 1 hitpoint.')+'</div>':'')+'<div class="grid">';
  ACT[sk].forEach(a=>{h+=actCard(sk,a);});
  return h+'</div>';}
 
@@ -5034,7 +5036,7 @@ function combatPage(){
   h+='<div class="sub" style="margin-top:4px">Cost: '+Object.keys(sp.cost).map(k=>ic(k,0,sp.cost[k])).join(' ')+'</div>';}
  if(t==='ranged'&&!(S.equip.weapon&&ITEMS[S.equip.weapon]&&ITEMS[S.equip.weapon].thrown))h+='<div class="sub" style="margin-top:6px">Arrows: '+(S.equip.ammo?ic(S.equip.ammo,cnt(S.equip.ammo)):'<span class="bad">none equipped</span>')+'</div>';
  const f=S.equip.food;const fl=Object.keys(S.bank).filter(id=>ITEMS[id]&&ITEMS[id].slot==='food'&&cnt(id)>0).sort((a,b)=>ITEMS[a].heal-ITEMS[b].heal);if(f&&!fl.includes(f))fl.push(f);
- h+=`<div class="row" style="margin-top:8px;gap:8px;flex-wrap:wrap"><label class="sub" for="foodsel">Food</label><select id="foodsel" aria-label="Food to eat in combat"><option value="">${fl.length?'None (do not eat)':'No food in your bank'}</option>${fl.map(id=>`<option value="${id}"${id===f?' selected':''}>${ITEMS[id].n} · heals ${ITEMS[id].heal} · ${fmt(cnt(id))} owned</option>`).join('')}</select>${f&&cnt(f)?'':'<span class="bad sub">no food equipped</span>'}</div><div class="sub" style="margin-top:4px">You eat automatically when your hitpoints drop low. Cook fish to stock up.</div></div>`;
+ h+=foodPicker('You eat automatically when your hitpoints drop low. Cook fish to stock up.')+'</div>';
  h+=bagPanel();
  /* fight */
  if(S.cb){const C=S.cb;
