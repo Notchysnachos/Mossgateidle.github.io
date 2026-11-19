@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-1bThDxDdKc+a/MPggN7oPfL+2HP9FZFG+ecOQAR6X5A=' 'sha256-3kUJRw3imQB4sILA6qP0rs8BsofKxtKoO8GylmTEh5U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; worker-src 'self'; connect-src https://fogoltmnmdabjimxsjnm.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="icons/icon-192.png"><meta name="theme-color" content="#e9eee8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121815" media="(prefers-color-scheme: dark)"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Mossgate"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-gO7X7lk+Mdg4EKyKuMjLT7JgTKU2DOpYbMe411FStGg=' 'sha256-3kUJRw3imQB4sILA6qP0rs8BsofKxtKoO8GylmTEh5U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; worker-src 'self'; connect-src https://fogoltmnmdabjimxsjnm.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="icons/icon-192.png"><meta name="theme-color" content="#e9eee8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121815" media="(prefers-color-scheme: dark)"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Mossgate"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
 <title>Mossgate Idle</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -568,17 +568,17 @@ const AREAS=[
  A('frost').mons.push(['fdragon','Frost Dragon','🐲',97,[['dragon_bone',1,1,1],['hide_drake',0.6,1,2],['rune_water',0.5,12,30],['gem_diamond',0.025,1,1]]]);
  A('isle').mons.push(['rdragon','Red Dragon','🐲',106,[['dragon_bone',1,1,1],['hide_drake',0.8,1,3],['bar_rune',0.12,1,2],['gem_diamond',0.03,1,1]]],['blkdragon','Black Dragon','🐲',112,[['dragon_bone',1,1,2],['hide_drake',0.9,1,3],['bar_rune',0.15,1,2],['gem_diamond',0.04,1,1],['dragon_scale',0.03,1,1]]]);
  AREAS.splice(AREAS.findIndex(a=>a.id==='isle')+1,0,{id:'abyss',n:'The Abyss',i:'🕳️',mons:[
-  ['gdemon','Greater Demon','👿',96,[['bones',1,1,1],['rune_fire',0.5,12,30],['gem_ruby',0.07,1,1],['ore_rune',0.1,1,2]]],
-  ['abdemon','Abyssal Demon','😈',103,[['bones',1,1,1],['rune_fire',0.5,14,34],['bar_rune',0.1,1,2],['gem_diamond',0.03,1,1]]],
-  ['nech','Nechryael','💀',108,[['bones',1,1,2],['bar_rune',0.12,1,2],['gem_diamond',0.035,1,1],['herb_thistle',0.12,1,2]]],
-  ['dkbeast','Dark Beast','🦇',113,[['bones',1,1,2],['bar_rune',0.15,1,3],['gem_diamond',0.045,1,1],['herb_thistle',0.14,1,2],['dragon_scale',0.02,1,1]]]]});
+  ['gdemon','Greater Demon','👿',96,[['bones',1,1,1],['rune_fire',0.5,12,30],['gem_ruby',0.1,1,2],['ore_rune',0.2,1,3],['rune_blood',0.2,2,6],['rune_soul',0.15,2,5],['bar_dragon',0.05,1,1],['gem_diamond',0.04,1,1]]],
+  ['abdemon','Abyssal Demon','😈',103,[['bones',1,1,1],['rune_fire',0.5,14,34],['bar_rune',0.2,1,3],['rune_blood',0.25,3,8],['rune_soul',0.2,3,8],['ore_dragon',0.12,1,2],['bar_dragon',0.08,1,1],['gem_diamond',0.06,1,2],['dragon_scale',0.01,1,1]]],
+  ['nech','Nechryael','💀',108,[['dragon_bone',1,1,2],['bar_rune',0.22,1,3],['rune_soul',0.25,3,9],['rune_blood',0.25,3,9],['ore_dragon',0.15,1,3],['bar_dragon',0.1,1,2],['gem_diamond',0.07,1,2],['herb_thistle',0.2,1,3],['dragon_scale',0.015,1,1]]],
+  ['dkbeast','Dark Beast','🦇',113,[['dragon_bone',1,1,2],['bar_rune',0.25,1,3],['bar_dragon',0.15,1,2],['ore_dragon',0.15,1,3],['rune_soul',0.25,3,9],['gem_diamond',0.09,1,2],['herb_thistle',0.2,1,3],['dragon_scale',0.03,1,1],['dk_blade',0.012,1,1],['dk_bow',0.012,1,1],['dk_staff',0.012,1,1],['dk_shield',0.012,1,1],['dk_helmet',0.012,1,1],['dk_body',0.012,1,1],['dk_legs',0.012,1,1],['dk_boots',0.012,1,1],['dk_gloves',0.012,1,1]]]]});
  AREAS.forEach(a=>a.mons.sort((x,y)=>x[3]-y[3]));})();
 const MONS={};
 AREAS.forEach(a=>{a.mons=a.mons.map(m=>{const cb=m[3],boss=!!m[5];
  const o={id:m[0],n:m[1],i:m[2],cb,area:a.id,boss,hp:R((15+cb*8+cb*cb*0.05)*(boss?1.3:1)),
   maxHit:R((3+cb*1.4+cb*cb*0.01)*(boss?1.4:1)),sp:boss?3:2.4,atkRoll:(cb+8)*(64+cb*1.2),defRoll:(cb+8)*(64+cb*0.6),
   coins:[0,0],drops:m[4]};
- const avg=4+cb*5+cb*cb*0.08;o.coins=[R(avg*0.6),R(avg*1.4)];MONS[o.id]=o;return o;});});
+ const avg=(4+cb*5+cb*cb*0.08)*(a.id==='abyss'?1.7:1);o.coins=[R(avg*0.6),R(avg*1.4)];MONS[o.id]=o;return o;});});
 MONS.druid.slv=50; /* Chaos Druids need 50 Slayer to fight */
 
 /* shop */
@@ -622,6 +622,13 @@ const BAP=[['shield','Aegis','shield',5],['helmet','Helm','helmet',3],['body','C
 const BAN=['Scarecrow','Grukk','Direwolf','Tyrant','Garron','Wyrm','Elder'];
 BOSSDEF.forEach((b,bi)=>{for(let pi=0;pi<6;pi++)for(let r=0;r<5;r++){const p=b[4],m=RARM[r],pc=BAP[pi];
  mk('ba_'+b[1]+'_'+pi+'_'+r,RAR[r][1]+' '+BAN[bi]+' '+pc[1],'',R(8*pc[3]*p*RARV[r]+20),'gear',{slot:pc[2],st:{def:R(pc[3]*p*1.15*m)},rar:r,arm:1,boss:b[1],tier:r,req:R(b[3]*0.6)+r*3,lr:['def',Math.min(99,R(b[3]*0.55)+r*3)]});}});
+
+/* ===== Duskgold set: purple and gold gear dropped by Dark Beasts ===== */
+(function(){const col='#7b3fd0',p=11,m=1.6,LV={shield:60,helmet:56,body:62,legs:60,boots:54,gloves:54},NM={shield:'Aegis',helmet:'Helm',body:'Cuirass',legs:'Greaves',boots:'Treads',gloves:'Gauntlets'};
+ BAP.forEach(pc=>{const id='dk_'+pc[0];mk(id,'Duskgold '+NM[pc[0]],'',R(8*pc[3]*p*12+20),'gear',{slot:pc[2],st:{def:R(pc[3]*p*1.15*m)},arm:1,tier:6,col,gold:1,req:90,lr:['def',LV[pc[0]]]});});
+ mk('dk_blade','Duskgold Blade','',R(40*p*12),'gear',{slot:'weapon',wt:'melee',sp:2.4,st:{atk:R(7*p*m),str:R(6*p*m)},tier:6,col,gold:1,req:90,lr:['atk',62]});
+ mk('dk_bow','Duskgold Bow','',R(40*p*12),'gear',{slot:'weapon',wt:'ranged',sp:2.4,st:{rngA:R(9*p*m),rngS:R(6*p*m)},tier:6,col,gold:1,req:90,lr:['rng',62]});
+ mk('dk_staff','Duskgold Staff','',R(40*p*12),'gear',{slot:'weapon',wt:'magic',sp:2.8,st:{magA:R(9*p*m),magD:R(5*p*m)},tier:6,col,gold:1,req:90,lr:['mag',62]});})();
 /* skill requirements on tiered gear (OSRS style) */
 Object.keys(ITEMS).forEach(id=>{const it=ITEMS[id];
  if(id.startsWith('g_'))it.lr=[it.slot==='weapon'?'atk':'def',T[it.tier].lv];
@@ -1156,6 +1163,27 @@ const NIVAMB=c=>SV(`<path d="M8.500 3.500h15l-2.300 25h-10.400z" fill="${c}"/><p
 P.bird=c=>SV(`<path d="M4 20c0-8 6-13 13-13 3 0 5 1 6 3l5 1-4 3c0 8-5 14-13 14-4 0-7-3-7-8z" fill="${c}"/><path d="M9 18c5-1 9 2 10 8-6 1-10-2-10-8z" fill="${mix(c,-.28)}"/><path d="M4 20l-3 3 6 1z" fill="${mix(c,-.4)}"/><circle cx="19.500" cy="12" r="1.600" fill="#23201f" stroke="none"/><path d="M23 10l7 2-6 3z" fill="#f0a030"/>`);
 P.chomp=c=>SV(`<circle cx="7.500" cy="10" r="4.600" fill="${c}"/><circle cx="24.500" cy="10" r="4.600" fill="${c}"/><circle cx="7.500" cy="10" r="2.300" fill="#f0b0b8" stroke="none"/><circle cx="24.500" cy="10" r="2.300" fill="#f0b0b8" stroke="none"/><path d="M26 27c5 0 6-6 3-9" fill="none" stroke="${c}" stroke-width="3.200"/><circle cx="16" cy="19" r="11.200" fill="${c}"/><ellipse cx="16" cy="23" rx="6.500" ry="5" fill="${mix(c,.38)}" stroke="none"/><circle cx="11.500" cy="17" r="2" fill="#23201f" stroke="none"/><circle cx="20.500" cy="17" r="2" fill="#23201f" stroke="none"/><circle cx="11" cy="16.300" r=".7" fill="#fff" stroke="none"/><circle cx="20" cy="16.300" r=".7" fill="#fff" stroke="none"/><ellipse cx="16" cy="21" rx="2" ry="1.500" fill="#2a2024" stroke="none"/><path d="M16 8.500l1.500-3.500" stroke="#c8a040" stroke-width="1.400" fill="none"/><circle cx="17.800" cy="3.600" r="1.900" fill="#ff8a1a" stroke="none"/><circle cx="17.800" cy="3.600" r=".8" fill="#ffe070" stroke="none"/>`);
 P.hunter=()=>SV(`<path d="M4 29L16 15" stroke="#8a5a2b" stroke-width="2.600" fill="none"/><ellipse cx="21" cy="10" rx="9.500" ry="7.800" fill="#cfe8d0" fill-opacity=".6" stroke="#4a7a4a"/><path d="M13 7l16 6M13 10l16 0M14 13l14-6M17 4.500l5 11M22 3l1 14M26.500 4.500l-5 11" stroke="#4a7a4a" stroke-width=".7" fill="none"/>`);
+
+/* ---- seed packets: every seed has its own colour and emblem ---- */
+const SEEDEM={
+ potato:c=>`<ellipse cx="16" cy="19" rx="5" ry="3.6" fill="${c}"/><circle cx="14.500" cy="18.500" r=".7" fill="${DK(c)}"/><circle cx="17.500" cy="20" r=".7" fill="${DK(c)}"/>`,
+ flax:c=>`<path d="M16 25V15" stroke="#4a7a3a" stroke-width="1.200"/><circle cx="16" cy="14" r="2.600" fill="${c}"/><circle cx="13" cy="17" r="1.800" fill="${c}"/><circle cx="19" cy="17" r="1.800" fill="${c}"/>`,
+ onion:c=>`<path d="M16 14c4 2 6 5 6 8-2 2-10 2-12 0 0-3 2-6 6-8z" fill="${c}"/><path d="M16 14v-3" stroke="#4a7a3a" stroke-width="1.400"/>`,
+ cabbage:c=>`<circle cx="16" cy="19" r="5.500" fill="${c}"/><path d="M12 17c3 1 5 3 5 7M20 17c-3 1-4 2-4 5" stroke="${DK(c)}" fill="none"/>`,
+ tomato:c=>`<circle cx="16" cy="19.500" r="5.200" fill="${c}"/><path d="M13 15l3 2 3-2-1 3h-4z" fill="#3a8a3a"/>`,
+ sweetcorn:c=>`<ellipse cx="16" cy="19" rx="3.600" ry="6" fill="${c}"/><path d="M13 16h6M13 19h6M13 22h6M16 13v12" stroke="${DK(c)}" stroke-width=".7"/>`,
+ silkweed:c=>`<path d="M16 25c-6-2-6-8 0-10 6 2 6 8 0 10z" fill="${c}"/><path d="M16 25V15M13 21c2-1 4-1 6 0" stroke="${DK(c)}" fill="none" stroke-width=".8"/>`,
+ strawberry:c=>`<path d="M16 25c-6-3-6-8-5-9h10c1 1 1 6-5 9z" fill="${c}"/><path d="M13 16l3-2 3 2z" fill="#3a8a3a"/><circle cx="14" cy="19" r=".6" fill="#ffe7a0"/><circle cx="18" cy="19" r=".6" fill="#ffe7a0"/><circle cx="16" cy="22" r=".6" fill="#ffe7a0"/>`,
+ watermelon:c=>`<path d="M9 17a7 7 0 0 0 14 0z" fill="#e8445a"/><path d="M9 17a7 7 0 0 0 14 0" fill="none" stroke="${c}" stroke-width="2"/><circle cx="14" cy="19.500" r=".7" fill="#222"/><circle cx="18" cy="19.500" r=".7" fill="#222"/>`,
+ moonthread:c=>`<path d="M19 14a6 6 0 1 0 0 11 5 5 0 0 1 0-11z" fill="${c}"/><circle cx="21" cy="16" r=".8" fill="#fff"/>`
+};
+const SEEDKIND=(id)=>{const k=id.slice(5);if(k.startsWith('tree_')){const i=['oak','willow','teak','maple','mahog','yew','magic','redwood'].indexOf(k.slice(5));return['tree',LC[Math.max(0,i)+1],k.slice(5)];}
+ const hi=HERBS.findIndex(h=>h[0]===k);if(hi>=0)return['herb',HC[hi],k];return['crop',CRC[k]||'#8ccf7a',k];};
+P.seedpk=id=>{const[kind,c,k]=SEEDKIND(id),paper=kind==='tree'?'#b8956a':kind==='herb'?'#cfe3b4':'#efe2bf';
+ let em='';if(kind==='crop')em=(SEEDEM[k]||SEEDEM.potato)(c);
+ else if(kind==='herb')em=`<path d="M16 25V15" stroke="#2f6e2f" stroke-width="1.300"/><path d="M16 22c-5 0-6-3-6-6 4 0 6 2 6 6zM16 19c5 0 6-3 6-6-4 0-6 2-6 6z" fill="${c}"/>`;
+ else{em=`<ellipse cx="16" cy="20" rx="4" ry="4.800" fill="${c}"/><path d="M11.500 17c0-3 9-3 9 0z" fill="${DK(c)}"/><path d="M16 14v-2" stroke="${DK(c)}" stroke-width="1.300"/>`;if(k==='magic')em+='<path d="M24 14l.8 1.800 1.800.8-1.800.8L24 19l-.8-1.800-1.800-.8 1.800-.8z" fill="#ffe27a"/><path d="M8 22l.6 1.300 1.300.6-1.300.6L8 25.800l-.6-1.300-1.300-.6 1.300-.6z" fill="#ffe27a"/>';}
+ return SV(`<path d="M6 7h20l1 22H5z" fill="${paper}"/><path d="M6 7h4l-1 22H5z" fill="#fff" opacity=".25"/><path d="M26 7l1 22h-5l1-22z" fill="#000" opacity=".12"/><path d="M5 5h22v5H5z" fill="${c}"/><path d="M5 5h22v1.800H5z" fill="#fff" opacity=".3"/><path d="M5 7.500l2 1.500 2-1.500 2 1.500 2-1.500 2 1.500 2-1.500 2 1.500 2-1.500 2 1.500 2-1.500" fill="none" stroke="${DK(c)}" stroke-width=".8"/><rect x="8" y="11.500" width="16" height="14" rx="2" fill="#fffaf0" stroke="${DK(paper)}" stroke-width=".8"/>${em}<rect x="6" y="26" width="20" height="2.500" fill="${c}"/>`);};
 /* ---- apply to the game data ---- */
 (function(){
  const tierOf=id=>{const m=id.match(/^g_(\w+?)_/);return m?T.findIndex(t=>t.id===m[1]):0;};
@@ -1173,6 +1201,7 @@ P.hunter=()=>SV(`<path d="M4 29L16 15" stroke="#8a5a2b" stroke-width="2.600" fil
   else if(id.startsWith('tip_'))s=P.tip(TC[T.findIndex(t=>'tip_'+t.id===id)]);
   else if(id.startsWith('arrow_'))s=P.arrow(TC[T.findIndex(t=>'arrow_'+t.id===id)]);
   else if(id.startsWith('g_')){const k=tierOf(id),c=TC[k],sl=it.slot;s=sl==='weapon'?W[TIERW[k]](c):P[sl==='ammo'?'arrow':sl](c);}
+  else if(id.startsWith('dk_')){const c='#7b3fd0',g='#e8b830';s=it.slot==='weapon'?tagItem(id==='dk_blade'?W.long(c,g):id==='dk_bow'?W.wingbow(g):W.moon(c,g),g,'crown'):tagItem(P[it.slot](c),g,'crown');}
   else if(id.startsWith('ba_')){const q=id.split('_'),r=+q[3],c=RAR[r][2];s=tagItem(P[it.slot](c),c,'skull');}
   else if(id.startsWith('bw_')){const q=id.split('_'),r=+q[3],c=RAR[r][2],t=+q[2],sh=BOSSW[q[1]][t];s=tagItem(W[sh](c,mix(c,.35)),c,'skull');}
   else if(id.startsWith('bow_')){const k=+id.slice(4);s=W[BOWS[k]](LC[BOWL[k]]);}
@@ -1191,7 +1220,7 @@ P.hunter=()=>SV(`<path d="M4 29L16 15" stroke="#8a5a2b" stroke-width="2.600" fil
   else if(id.startsWith('amu_'))s=P.amulet(GC[id.slice(4)]);
   else if(id.startsWith('gem_'))s=P.gem(GC[id.slice(4)]);
   else if(id.startsWith('rune_'))s=P.rune(id.slice(5));
-  else if(id.startsWith('seed_'))s=P.seed();
+  else if(id.startsWith('seed_'))s=P.seedpk(id);
   else if(id.startsWith('crop_'))s=P.crop(CRC[id.slice(5)]);
   else if(id==='herb_wild')s=P.herb('#7a9a4a');
   else if(id==='pot_wild')s=P.potion('#9ac860');
@@ -2149,7 +2178,7 @@ const SK=n=>'mossgate-idle-slot-'+n;
 let SLOT=0;const SAVESTAT={ok:true,at:0,err:'',bak:0};
 
 /* ---------- save integrity: signed, tamper-evident saves ---------- */
-const BUILD_TS=1795065799000;
+const BUILD_TS=1795121694000;
 const SIGKEY=['mg','8f2c','-gate','Q7x','r0ot','5e1d','|idle','b9'].join('');
 const SHA_K=(()=>{const k=[];for(let n=2;k.length<64;n++){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)k.push(Math.floor((Math.cbrt(n)%1)*4294967296));}return k;})();
 const SHA_H=(()=>{const h=[];for(let n=2;h.length<8;n++){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)h.push(Math.floor((Math.sqrt(n)%1)*4294967296));}return h;})();
@@ -2643,7 +2672,7 @@ function buildWorld(gl){ST.length=0;TREES.length=0;W3._trees=TREES;const B=new B
   [[-3.3,-2.4],[3.3,-2.4],[-3.3,2.4],[3.3,2.4],[0,2.4]].forEach(([px,pz])=>B.add('box',chain(m,T(px,1.65,pz),S(.28,3.3,.28)),TB,.06));
   [[-3.3,.0],[3.3,0]].forEach(([px])=>B.add('box',chain(m,T(px,2.0,1.2),RX(.6),S(.12,1.4,.12)),TB2));
   B.add('box',chain(m,T(0,3.32,2.4),S(7.0,.28,.3)),TB);B.add('box',chain(m,T(0,3.32,-2.4),S(7.0,.28,.3)),TB);[-3.3,3.3].forEach(px=>B.add('box',chain(m,T(px,3.32,0),S(.3,.28,5.1)),TB));
-  B.add('roof',chain(m,T(0,3.45,0),RY(1.5708),S(6.0,1.8,7.8)),SH,.08);for(let k=0;k<8;k++)B.add('box',chain(m,T(0,3.45+.22*k,2.95-k*.36),RX(-.45),S(7.7,.05,.05)),hex('#4a3c36'));
+  B.add('roof',chain(m,T(0,3.45,0),RY(1.5708),S(6.0,1.8,7.8)),SH,.08);
   const fh=chain(m,T(-1.9,0,-1.75));B.add('box',chain(fh,T(0,.55,0),S(2.0,1.1,1.3)),ST2,.1);B.add('box',chain(fh,T(0,1.12,0),S(2.1,.08,1.4)),ST);GL.add('box',chain(fh,T(0,1.14,.1),S(1.2,.06,.8)),FIRE);GL.add('ico',chain(fh,T(-.2,1.2,.1),S(.3,.18,.3)),hex('#ffb040'));GL.add('ico',chain(fh,T(.25,1.2,0),S(.25,.15,.25)),hex('#ff5a10'));
   B.add('frus',chain(fh,T(0,1.15,-.1),S(2.0,1.5,1.2)),ST,.1);B.add('box',chain(fh,T(0,3.4,-.25),S(.9,3.4,.8)),ST,.1);B.add('box',chain(fh,T(0,5.15,-.25),S(1.05,.15,.95)),ST2);
   const bl=chain(m,T(-3.0,0,-.7));B.add('box',chain(bl,T(0,.9,0),RZ(.15),S(.5,.1,1.1)),hex('#4a3a2a'));B.add('box',chain(bl,T(0,1.05,0),RZ(-.1),S(.5,.1,1.1)),hex('#4a3a2a'));B.add('box',chain(bl,T(0,.98,0),S(.48,.14,1.0)),hex('#6b4a2a'));B.add('box',chain(bl,T(0,.5,0),S(.1,1.0,.1)),TB2);B.add('box',chain(bl,T(.25,.98,-.35),RZ(1.5708),S(.08,.6,.08)),IR);
