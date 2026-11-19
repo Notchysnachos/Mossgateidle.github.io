@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-gO7X7lk+Mdg4EKyKuMjLT7JgTKU2DOpYbMe411FStGg=' 'sha256-3kUJRw3imQB4sILA6qP0rs8BsofKxtKoO8GylmTEh5U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; worker-src 'self'; connect-src https://fogoltmnmdabjimxsjnm.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="icons/icon-192.png"><meta name="theme-color" content="#e9eee8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121815" media="(prefers-color-scheme: dark)"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Mossgate"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-XAY6aRwAx647Zo+oHN9rWvrREyZiC1/HK4v1rZk9tDY=' 'sha256-3kUJRw3imQB4sILA6qP0rs8BsofKxtKoO8GylmTEh5U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; worker-src 'self'; connect-src https://fogoltmnmdabjimxsjnm.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="icons/icon-192.png"><meta name="theme-color" content="#e9eee8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121815" media="(prefers-color-scheme: dark)"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Mossgate"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
 <title>Mossgate Idle</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1665,6 +1665,25 @@ function demon(id,o){const B=mkB(id),c=o.c,h=o.horn||'#2a1a1a';let s='';
  else{s+=PA('M20 44Q32 54 44 44Q32 48 20 44z','#2a0a08');for(let i=0;i<5;i++)s+=PA(`M${24+i*4} 45l1.2 3 1.2 -3z`,'#f6f0e0');}
  if(o.tent)for(let i=0;i<4;i++){const x=22+i*7;s+=LN(`M${x} 52Q${x+(i%2?4:-4)} 58 ${x+(i%2?-2:2)} 63`,mix(c,.1),2.6)+LN(`M${x} 52Q${x+(i%2?4:-4)} 58 ${x+(i%2?-2:2)} 63`,mix(c,.5),.7,'opacity=".5"');}
  return wrap(B,o.bg||mix(c,-.2),s);}
+function darkbeast(id){const B=mkB(id),c='#2b1f3d',c2='#4d3a6a';let s='';
+ s+=B.glow(32,36,30,'#8a2aff',.45);
+ s+=PA('M2 64Q4 46 20 42H44Q60 46 62 64z',B.g(mix(c,-.2),{dark:.6}));
+ s+=PA('M8 50l-3-8 7 4zM18 44l-2-9 6 6zM46 44l2-9 -6 6zM56 50l3-8 -7 4z',mix(c2,-.1));
+ s+=LN('M14 62L20 50M50 62L44 50','#000',.9,'opacity=".4"');
+ const hn='M22 22Q6 22 2 4Q0 -4 6 -2Q10 12 26 16z',hl='M22 22Q6 22 2 4';
+ s+=PA(hn,B.g('#e4d8bc',{dark:.45,lite:.4}))+mir(PA(hn,B.g('#e4d8bc',{dark:.45,lite:.4})));
+ s+=LN('M12 17Q6 12 5 4M52 17Q58 12 59 4','#8a7a5a',.8,'opacity=".6"');
+ s+=PA('M18 16L12 4 24 12zM46 16L52 4 40 12z',B.g(c2,{dark:.5}));
+ s+=PA('M32 8C46 8 52 18 51 30C50 38 47 42 44 47Q38 55 32 55Q26 55 20 47C17 42 14 38 13 30C12 18 18 8 32 8z',B.g(c,{cx:.4,cy:.22,lite:.42,dark:.7}));
+ s+=PA('M32 6Q35 14 32 22Q29 14 32 6z',mix(c2,.1))+PA('M28 9Q30 14 29 19Q26 14 28 9zM36 9Q34 14 35 19Q38 14 36 9z',c2);
+ s+=scat(id,32,30,16,20,22,(x,y)=>LN(`M${x} ${y}q1 2 2 0`,mix(c,-.55),.5,'opacity=".55"'))+B.hl(26,18,6,3,.25);
+ s+=PA('M14 27Q24 21 31 31L29 34Q23 28 15 33z',mix(c,-.7))+PA('M50 27Q40 21 33 31L35 34Q41 28 49 33z',mix(c,-.7));
+ s+=eye(B,23,31,4.2,'#ff2a4a',{glow:1,round:1})+eye(B,41,31,4.2,'#ff2a4a',{glow:1,round:1});
+ s+=PA('M22 38Q32 34 42 38L40 48Q32 54 24 48z',B.g(mix(c,.08),{cy:.2}))+E(29,42,1.2,.9,'#0a0410')+E(35,42,1.2,.9,'#0a0410');
+ s+=PA('M20 48Q32 60 44 48Q32 52 20 48z','#14040c')+B.glow(32,52,7,'#ff2a4a',.35);
+ for(let i=0;i<6;i++)s+=PA(`M${22+i*3.6} ${49+Math.sin(i/5*Math.PI)*.9}l1.2 4.2 1.2 -4.2z`,'#f4eedc');
+ s+=PA('M22 50l-1.5 6 3.5-4zM42 50l1.5 6 -3.5-4z','#f4eedc');
+ return wrap(B,'#2a1a40',s);}
 function nechryael(id){const B=mkB(id),c='#9a8a9e';let s='';
  s+=B.glow(32,34,28,'#b04aff',.4);
  s+=PA('M4 64Q8 44 24 40H40Q56 44 60 64z',B.g('#5a4a62',{dark:.6}));
@@ -1709,7 +1728,7 @@ const D={
  gdemon:id=>demon(id,{c:'#8a1a2a',eye:'#ffcf3a',horn:'#1a1214',big:1,wings:1,runes:1,glow:'#ff3a1a'}),
  abdemon:id=>demon(id,{c:'#5a2a8a',eye:'#7affb0',horn:'#1a1224',big:1,wings:1,maw:1,tent:1,glow:'#8a3aff',bg:'#3a1a5a'}),
  nech:id=>nechryael(id),
- dkbeast:id=>canine(id,{c:'#241c34',c2:'#4a3a62',eye:'#ff4a6a',slit:1,scar:1,cloud:0,bg:'#2a1a40'}),
+ dkbeast:id=>darkbeast(id),
  imp:id=>imp(id),brute:id=>brute(id),scarecrow:id=>scarecrow(id),
  drake:id=>dragon(id,{c:'#c8402e',eye:'#ffb02a',smoke:1,flame:'#ff7a20'}),
  wyvern:id=>dragon(id,{c:'#2f8c8c',eye:'#ffe14a',horn:'#e8e0c8'}),
@@ -2178,7 +2197,7 @@ const SK=n=>'mossgate-idle-slot-'+n;
 let SLOT=0;const SAVESTAT={ok:true,at:0,err:'',bak:0};
 
 /* ---------- save integrity: signed, tamper-evident saves ---------- */
-const BUILD_TS=1795121694000;
+const BUILD_TS=1795124046000;
 const SIGKEY=['mg','8f2c','-gate','Q7x','r0ot','5e1d','|idle','b9'].join('');
 const SHA_K=(()=>{const k=[];for(let n=2;k.length<64;n++){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)k.push(Math.floor((Math.cbrt(n)%1)*4294967296));}return k;})();
 const SHA_H=(()=>{const h=[];for(let n=2;h.length<8;n++){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)h.push(Math.floor((Math.sqrt(n)%1)*4294967296));}return h;})();
@@ -4968,9 +4987,9 @@ function farmPage(){
 function monCard(M){
  const on=S.cb&&S.cb.mon===M.id;
  let bw='';if(M.boss){const col=Object.keys(S.col).filter(k=>k.startsWith('bw_'+M.id+'_')).length;bw=`<div class="io"><b>Weapons</b>${[0,1,2].map(t=>ITEMS['bw_'+M.id+'_'+t+'_4'].i).join('')}<span class="sub">${Math.round(M.wch*100)}% per kill (guaranteed every 8)</span></div><div class="io">${RAR.map((r,i)=>`<span style="color:${r[2]};font-size:12px">${r[0]} ${RARW[i]}%</span>`).join(' · ')}</div><div class="io"><b>Armour</b>${[0,1,2,3,4,5].map(p=>ITEMS['ba_'+M.id+'_'+p+'_4'].i).join('')}<span class="sub">25% per kill (guaranteed every 10), same rarities</span></div><div class="io"><b>Collected</b>weapons ${col}/15 · armour ${Object.keys(S.col).filter(k=>k.startsWith('ba_'+M.id+'_')).length}/30 · <b>Kills</b>${S.bk[M.id]||0}</div>`;}
- const dr=M.drops.filter(d=>d[0]!=='bones').slice(0,5).map(d=>ITEMS[d[0]].i).join(' ');
+ const dr=M.drops.filter(d=>d[0]!=='bones'&&!ITEMS[d[0]].slot).slice(0,6).map(d=>ITEMS[d[0]].i).join(' '),gd=M.drops.filter(d=>ITEMS[d[0]].slot),gr=gd.length?`<div class="io"><b>Gear drops</b>${gd.map(d=>`<span title="${ITEMS[d[0]].n} · ${+(d[1]*100).toFixed(2)}% per kill">${ITEMS[d[0]].i}</span>`).join('')}<span class="sub">${+(Math.min(...gd.map(d=>d[1]))*100).toFixed(2)}% each per kill</span></div>`:'';
  return`<div class="card${on?' on':''}" role="button" tabindex="0" data-a="mon" data-id="${M.id}"><div class="ch"><span class="ci">${M.i}</span><div><div class="cn">${M.n}${M.boss?' <span class="pill">Boss</span>':''}</div><div class="cm">Combat level ${M.cb}${M.slv?` · <b style="color:${lv('slayer')>=M.slv?'inherit':'#d6453a'}">Slayer ${M.slv}</b>`:''}</div></div></div>
- <div class="stats"><span>HP <b>${M.hp}</b></span><span>Max hit <b>${M.maxHit}</b></span><span>🪙 <b>${M.coins[0]}–${M.coins[1]}</b></span></div><div style="margin:6px 0 2px">${wkTag(M,0)}</div>${bw}<div class="io"><b>Drops</b> ${dr||'—'}</div>
+ <div class="stats"><span>HP <b>${M.hp}</b></span><span>Max hit <b>${M.maxHit}</b></span><span>🪙 <b>${M.coins[0]}–${M.coins[1]}</b></span></div><div style="margin:6px 0 2px">${wkTag(M,0)}</div>${bw}<div class="io"><b>Drops</b> ${dr||'—'}</div>${gr}
  <button class="btn ${on?'dng':'pri'} sm" style="align-self:flex-start">${on?'Stop fighting':'Fight'}</button></div>`;}
 
 function dungeonsPage(raid){
