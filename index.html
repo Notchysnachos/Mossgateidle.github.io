@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-WLWSTNO2NjO+MFmxcc+j5wyUh780YCEitFxUUrQeqV4=' 'sha256-3kUJRw3imQB4sILA6qP0rs8BsofKxtKoO8GylmTEh5U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; worker-src 'self'; connect-src https://fogoltmnmdabjimxsjnm.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="icons/icon-192.png"><meta name="theme-color" content="#e9eee8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121815" media="(prefers-color-scheme: dark)"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Mossgate"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-a1Wvpy1GmoyBSWy9OdvRJWF9EbznL6+QQPC3ZlgX0/g=' 'sha256-3kUJRw3imQB4sILA6qP0rs8BsofKxtKoO8GylmTEh5U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; worker-src 'self'; connect-src https://fogoltmnmdabjimxsjnm.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="icons/icon-192.png"><meta name="theme-color" content="#e9eee8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121815" media="(prefers-color-scheme: dark)"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Mossgate"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
 <title>Mossgate Idle</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2147,7 +2147,7 @@ const SK=n=>'mossgate-idle-slot-'+n;
 let SLOT=0;const SAVESTAT={ok:true,at:0,err:'',bak:0};
 
 /* ---------- save integrity: signed, tamper-evident saves ---------- */
-const BUILD_TS=1795053473000;
+const BUILD_TS=1795055183000;
 const SIGKEY=['mg','8f2c','-gate','Q7x','r0ot','5e1d','|idle','b9'].join('');
 const SHA_K=(()=>{const k=[];for(let n=2;k.length<64;n++){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)k.push(Math.floor((Math.cbrt(n)%1)*4294967296));}return k;})();
 const SHA_H=(()=>{const h=[];for(let n=2;h.length<8;n++){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)h.push(Math.floor((Math.sqrt(n)%1)*4294967296));}return h;})();
@@ -3162,6 +3162,7 @@ function drawChar(c,vis){const o=OUT[c.i],sk=hex(o.skin),LK=W3.look||{},SHC=LK.b
  else if(c.anim==='beam'){const s=Math.sin(t*4.5),w_=Math.sin(t*2.3);PO.L1=s*.35;PO.L2=-s*.35;PO.az=1.35+.25*w_;PO.lz=-1.35+.25*w_;PO.ap=-.1;PO.lp=-.1;PO.ep=-.1;PO.le=-.1;PO.twist=.12*w_;PO.lean=.05;PO.hp=.25;PO.bob=Math.abs(s)*.03;}
  else if(c.anim==='monkey'){const s=Math.sin(t*4.2);PO.ap=-2.95+.25*s;PO.lp=-2.95-.25*s;PO.ep=-.15+.15*s;PO.le=-.15-.15*s;PO.tk=.38;PO.L1=-.45+.35*s;PO.L2=-.45+.35*s;PO.lean=-.05;PO.hp=-.35;PO.bob=.02*s;}
  else if(c.anim==='run'){const s=Math.sin(t*10);PO.L1=s*.9;PO.L2=-s*.9;PO.ap=s*.9-.3;PO.lp=-s*.9-.3;PO.ep=-1.3;PO.le=-1.3;PO.bob=Math.abs(s)*.18;PO.lean=.22;}
+ else if(c.anim==='swing'&&!(c.kick>0)){c._k=0;PO.ap=-.12;PO.ep=-.45;PO.lp=.1;PO.le=-.3;PO.lean=.03;PO.L1=.08;PO.L2=-.08;}
  else if(c.anim==='swing'){const bw=c.tool==='bow',u=c.kick>0?1-c.kick/(bw?.95:.4):bw?((t*.55)%1)*1.35:((t*1.1)%1)*1.7;k=Math.min(u,1);imp=c.tool==='chomp'?.72:bw?.8:.7;c._k=k;ev(c.tool==='chomp'?ANI.throw:bw?ANI.shoot:ANI.swing);}
  else if(A_){k=(t%A_.T)/A_.T;c._k=k;c._cy=Math.floor(t/A_.T);imp=A_.imp==null?null:A_.imp;ev(A_);if(A_.two){PO.lp=PO.ap;PO.le=PO.ep;PO.lz=-PO.az;}}
  else{PO.ap=Math.sin(t*1.5)*.05;PO.lp=-Math.sin(t*1.5)*.05;PO.ep=-.15;PO.le=-.15;PO.hy=Math.sin(t*.45)*.3;PO.lean=Math.sin(t*1.5)*.01;if(c.tool==='sword'){PO.ap=-.35;PO.ep=-.95;PO.az=-.1;PO.twist=.12;}else if(c.tool==='staff'||c.tool==='bow'||c.tool==='chomp'){PO.ap=-.5;PO.ep=-1.1;}}
@@ -4331,10 +4332,11 @@ function detect(dt){
  S.acts.forEach((A,i)=>{if(!A||A.sk==='combat')return;const x=S.xp[A.sk];const p=prev.xp[A.sk];if(p!=null&&x>p&&chars[i].mv===0)fx('+'+Math.max(1,Math.round(x-p))+' xp',chars[i].x,3.2,chars[i].z,'xp');prev.xp[A.sk]=x;});
  S.acts.forEach(A=>{if(A&&A.sk!=='combat')return;});
  if(C&&MONS[C.mon]){const M=MONS[C.mon],mn=R.mon,a=arena();
+  {const bw_=hero.tool==='bow',lead=bw_?.76:.28,sp_=(typeof PS!=='undefined'&&PS&&PS.sp)||2.4;if(C.rs<=0&&C.pt>=sp_-lead&&C.pt<sp_&&!(hero.kick>0)&&!hero._pre){hero.kick=bw_?.95:.4;hero._pre=1;}if(C.pt<sp_-lead-.05)hero._pre=0;}
   if(mn.id!==C.mon){if(mn.id)mn.ghost={col:mn.col,col2:mn.col2,shape:mn.shape,sc:mn.sc,t:0,x:mn.x,z:mn.z,id:mn.id};LB.monSetup(M);mn.x=a.x+2.4;mn.z=a.z+.7;prev.mh=C.mhp;}
   if(C.mhp>prev.mh+.5&&prev.mh<=.01){mn.ghost={col:mn.col,col2:mn.col2,shape:mn.shape,sc:mn.sc,t:0,x:mn.x,z:mn.z,id:mn.id};mn.pop=0;mn.t=0;}
   else if(C.mhp>prev.mh+.5){}
-  else if(C.mhp<prev.mh-.01){const dm=Math.round(prev.mh-C.mhp);fx('-'+dm,mn.x,2.6*mn.sc,mn.z,'dmg');mn.flash=.16;hero.kick=hero.tool==='bow'?.95:.4;}
+  else if(C.mhp<prev.mh-.01){const dm=Math.round(prev.mh-C.mhp);fx('-'+dm,mn.x,2.6*mn.sc,mn.z,'dmg');mn.flash=.16;if(!(hero.kick>0))hero.kick=hero.tool==='bow'?.95:.4;}
   prev.mh=C.mhp;
   {const msp=M.enr&&C.mhp<M.hp*.5?M.sp*.7:M.sp,ph=C.rs>0?0:Math.min(1,(C.mt||0)/msp);if(mn.ph!=null&&ph<mn.ph-.4&&!(C.rs>0)){mn.strike=.34;mn.hitDone=0;mn.pendHit=S.hp<prev.hp-.01;}mn.ph=ph;}
   if(S.hp<prev.hp-.01){fx('-'+Math.round(prev.hp-S.hp),hero.x,3.2,hero.z,'hurt');if(!(mn.strike>0)){mn.strike=.34;mn.hitDone=0;}mn.pendHit=1;}
