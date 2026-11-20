@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-txmYGjcAqtt35pB6fz3T2ku/q+Tmr3rw2jOpngWyqhs=' 'sha256-3kUJRw3imQB4sILA6qP0rs8BsofKxtKoO8GylmTEh5U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; worker-src 'self'; connect-src https://fogoltmnmdabjimxsjnm.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="icons/icon-192.png"><meta name="theme-color" content="#e9eee8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121815" media="(prefers-color-scheme: dark)"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Mossgate"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-oIYrEv9MiK3t30EOqB3c8X+rHKY53M8FLHG5ls3o6tA=' 'sha256-3kUJRw3imQB4sILA6qP0rs8BsofKxtKoO8GylmTEh5U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; worker-src 'self'; connect-src https://fogoltmnmdabjimxsjnm.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="icons/icon-192.png"><meta name="theme-color" content="#e9eee8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121815" media="(prefers-color-scheme: dark)"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Mossgate"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
 <title>Mossgate Idle</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -381,7 +381,7 @@ const HUNT=[
  ['sparrow','Sparrow','bird',1,8,3,3,'#a8855a'],['starling','Starling','bird',9,14,3.2,6,'#3a3d4a'],['pigeon','Pigeon','bird',17,22,3.4,10,'#8e949e'],
  ['quail','Quail','bird',25,32,3.6,16,'#b08850'],['pheasant','Pheasant','bird',33,46,3.9,26,'#b5542a'],['grouse','Grouse','bird',41,62,4.2,40,'#7a6a4a'],
  ['grey','Grey ChomChimpa','chomp',49,82,4.5,30,'#8d8f96',28],['red','Red ChomChimpa','chomp',59,108,4.8,50,'#c8443a',42],['black','Black ChomChimpa','chomp',69,140,5.2,85,'#2c2c34',56],
- ['kebbit','Snow Kebbit','fur',79,176,5.6,3000,'#e8eef4','hide_wolf'],['stag','Ashen Stag','fur',87,230,6,3000,'#9a9088','hide_bear'],['lynx','Dire Lynx','fur',95,300,6.5,3000,'#c8a060','hide_drake']];
+ ['kebbit','Snow Kebbit','fur',79,176,5.6,3000,'#e8eef4','hide_wolf'],['stag','Ashen Stag','fur',87,230,6,5000,'#9a9088','hide_bear'],['lynx','Dire Lynx','fur',95,300,6.5,8000,'#c8a060','hide_drake']];
 HUNT.forEach(h=>{const k=h[2];
  if(k==='chomp'){const CS={grey:[52,33,50],red:[72,46,65],black:[100,63,80]}[h[0]];mk('chomp_'+h[0],h[1],'🐹',h[6],'gear',{slot:'weapon',wt:'ranged',thrown:true,sp:2.2,st:{rngA:CS[0],rngS:CS[1]},lr:['rng',CS[2]],hk:k,col:h[7],tier:0});}
  else mk('hunt_'+h[0],k==='bird'?'Raw '+h[1]:h[1]+' Pelt','🐦',h[6],'hunt',{hk:k,col:h[7]});
@@ -2197,7 +2197,7 @@ const SK=n=>'mossgate-idle-slot-'+n;
 let SLOT=0;const SAVESTAT={ok:true,at:0,err:'',bak:0};
 
 /* ---------- save integrity: signed, tamper-evident saves ---------- */
-const BUILD_TS=1795126767000;
+const BUILD_TS=1795134697000;
 const SIGKEY=['mg','8f2c','-gate','Q7x','r0ot','5e1d','|idle','b9'].join('');
 const SHA_K=(()=>{const k=[];for(let n=2;k.length<64;n++){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)k.push(Math.floor((Math.cbrt(n)%1)*4294967296));}return k;})();
 const SHA_H=(()=>{const h=[];for(let n=2;h.length<8;n++){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)h.push(Math.floor((Math.sqrt(n)%1)*4294967296));}return h;})();
