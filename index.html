@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-yYARK96Q+SqjstYOYxUTXGRTsnd5VE85E2jADvnc0FY=' 'sha256-3kUJRw3imQB4sILA6qP0rs8BsofKxtKoO8GylmTEh5U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; worker-src 'self'; connect-src https://fogoltmnmdabjimxsjnm.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="icons/icon-192.png"><meta name="theme-color" content="#e9eee8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121815" media="(prefers-color-scheme: dark)"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Mossgate"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-plA0iA643GEu0IAFs3p8K1+sZ9FBKLuVFyn1tPpDEfk=' 'sha256-3kUJRw3imQB4sILA6qP0rs8BsofKxtKoO8GylmTEh5U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; worker-src 'self'; connect-src https://fogoltmnmdabjimxsjnm.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="icons/icon-192.png"><meta name="theme-color" content="#e9eee8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121815" media="(prefers-color-scheme: dark)"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Mossgate"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
 <title>Mossgate Idle</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1939,7 +1939,7 @@ const lv=id=>lvlOf(S.xp[id]);
 const perk=id=>S.perk[id]||0;
 const rfx=id=>{if(!S||!S.dg)return 0;let n=0;RELICS.forEach((r,i)=>{if(S.dg.relics[i]&&r[1]===id)n++;});return n*0.5;},pk=id=>perk(id)+rfx(id);
 const slotCount=()=>2,newSlots=()=>Array(slotCount()).fill(null),offCap=()=>OFFLINE_CAP+6*3600*perk('off');
-const cg=()=>1+.05*pk('gold'),cxm=()=>1+buff('xpc')/100+.02*pk('xp');
+const cg=()=>1+.05*pk('gold'),CXP_BASE=1.3,cxm=()=>CXP_BASE*(1+buff('xpc')/100+.02*pk('xp'));
 const maxHp=()=>Math.floor(lvlOf(S.xp.hp)*10*(1+.05*pk('hp'))*dyHp());
 const totalLevel=()=>ALLSK.reduce((a,id)=>a+lvlOf(S.xp[id]),0);
 function combatLevel(){const a=lv('atk'),s=lv('str'),d=lv('def'),h=lv('hp'),r=lv('rng'),m=lv('mag');return Math.floor(0.25*(d+h)+0.325*Math.max(a+s,1.5*r,1.5*m));}
@@ -2281,7 +2281,7 @@ const SK=n=>'mossgate-idle-slot-'+n;
 let SLOT=0;const SAVESTAT={ok:true,at:0,err:'',bak:0};
 
 /* ---------- save integrity: signed, tamper-evident saves ---------- */
-const BUILD_TS=1795202065000;
+const BUILD_TS=1795205038000;
 const SIGKEY=['mg','8f2c','-gate','Q7x','r0ot','5e1d','|idle','b9'].join('');
 const SHA_K=(()=>{const k=[];for(let n=2;k.length<64;n++){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)k.push(Math.floor((Math.cbrt(n)%1)*4294967296));}return k;})();
 const SHA_H=(()=>{const h=[];for(let n=2;h.length<8;n++){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)h.push(Math.floor((Math.sqrt(n)%1)*4294967296));}return h;})();
@@ -3846,6 +3846,7 @@ function famOf(M){const s=(M.id+' '+M.n).toLowerCase();
  if(T(/priest|shaman|acolyte|scribe|tenor|alchemist|mage|archmage|choir|orchestra|sphinx/))return'mage';
  if(T(/imp\b|demon|gargoyle|abyssal|zook|tyrant|count|cinder imp|dark beast/))return'demon';
  if(T(/golem|colossus|hulk|titan|giant|ogre|troll|cyclops|brute|guardian|glacor|warden|knight|halberd|hammer|engine|blade|shield/))return'brute';
+ if(T(/\bbears?\b|grizzly/))return'bear';
  if(T(/wolf|hound|bear|cow|boar|rat\b|beast|lion|direwolf|alpha/))return'beast';
  if(T(/slime|blob|jelly|elemental|mimic|chest/))return'blob';
  if(T(/goblin|bandit|farmhand|chief|warlord|scarecrow|hobgob|archer|butcher|understudy|bone archer/))return'biped';
@@ -3860,6 +3861,7 @@ function monSetup(M){mon.id=M.id;const h=[...M.id].reduce((a,ch)=>a*31+ch.charCo
  else if(/red/.test(NM)){mon.col=hsl(.0,.65,.45);mon.col2=hsl(.0,.6,.26);}
  else if(/black|dark|abyssal|nechryael/.test(NM)){mon.col=hsl(.75,.2,.26);mon.col2=hsl(.75,.25,.14);}
  else if(/chicken/.test(NM)){mon.col=[.96,.95,.9];mon.col2=[.9,.25,.2];}
+ else if(mon.shape==='bear'){mon.col=[.4,.26,.15];mon.col2=[.26,.16,.09];}
  else{mon.col=hsl(hue,.5,.52);mon.col2=hsl((hue+.08)%1,.55,.32);}
  mon.sc=Math.max(.8,Math.min(3,Math.pow(Math.max(M.hp||20,10),.3)*.38));if(mon.shape==='bird')mon.sc=1.4;mon.boss=!!(M.boss||M.wn||M.wp||M.hp>2500);if(mon.boss)mon.sc*=1.25;mon.pop=0;mon.die=0;mon.t=Math.random()*4;}
 const BONE=[.92,.9,.8],EYE=[.08,.08,.1],GLOW=[1,.85,.25];
@@ -4255,6 +4257,21 @@ V3N.beast=(k)=>{const{m,add,tt,sw,sw2,col,col2,dk,lt,sp,tb,cn,bx,ring,lg}=k;
  for(let i=-1;i<=1;i+=2){cn(sn,i*.14,-.2,.28,.07,.2,[.97,.96,.88],Math.PI,0);cn(sn,i*.2,-.18,.1,.06,.16,[.97,.96,.88],Math.PI,0);}
  [-1,1].forEach(sd=>{k.eye(hd,sd*.24,.16,.34,.075,[1,.8,.2]);cn(hd,sd*.32,.38,-.08,.3,.3,col,.1,-sd*.4);cn(hd,sd*.32,.37,-.04,.18,.2,PW,.1,-sd*.4);});
  const tl=chain(m,T(0,1.45,-1.3),RX(-1.0+Math.sin(tt*3)*.15));sp(tl,0,.1,-.2,.34,.34,.55,col);const t2=chain(tl,T(0,.1,-.5),RX(.4+Math.sin(tt*3+1)*.2));sp(t2,0,0,-.2,.3,.3,.5,col2);sp(t2,0,.02,-.55,.28,.26,.4,lt(col,.3));};
+V3N.bear=(k)=>{const{m,add,tt,sw,sw2,col,col2,dk,lt,sp,tb,cn,lg}=k;
+ const FR=dk(col,.78),MZ=[Math.min(1,col[0]*1.55+.08),Math.min(1,col[1]*1.5+.06),Math.min(1,col[2]*1.45+.04)],BL=[.06,.05,.05],CL=[.9,.88,.8],br=Math.sin(tt*1.6)*.03;
+ /* thick pillar legs on wide flat paws */
+ [[-.55,.78,0],[.55,.78,0],[-.58,-.85,1],[.58,-.85,1]].forEach((p,i)=>{const a=(i%3?1:-1)*(i<2?sw:sw2)*.8,e=lg(m,p[0],1.1,p[1],a,p[2]?-.25-Math.max(0,a)*.5:-.05-Math.min(0,a)*.4,.5,.48,.46,col,col2);
+  sp(e,0,.06,.12,.46,.2,.62,col2);for(let c=-1;c<=1;c++)cn(e,c*.13,.0,.46,.055,.2,CL,1.6,0);});
+ /* heavy barrel body with the shoulder hump that makes it read as a bear */
+ const bd=chain(m,T(0,br,0));sp(bd,0,1.35,-.2,1.45,1.3,2.25,col);sp(bd,0,1.5,.55,1.4,1.4,1.25,col);sp(bd,0,1.95,.45,.95,.7,.95,col);sp(bd,0,1.32,-.95,1.3,1.2,1.0,col);sp(bd,0,.98,.05,1.1,.55,1.9,dk(col,.88));
+ for(let i=0;i<10;i++){const a=i/9*Math.PI-Math.PI/2;sp(bd,Math.sin(a)*.62,1.5+Math.cos(a)*.44,1.0,.26,.24,.3,col);}sp(bd,0,2.2,.4,.7,.25,.7,FR);
+ sp(bd,0,1.45,-1.42,.24,.22,.2,col2);
+ /* broad round head, short heavy muzzle, small round ears */
+ const hd=chain(bd,T(0,1.62,1.45),RX(.18+Math.sin(tt*1.3)*.04));sp(hd,0,0,0,1.0,.88,.9,col);sp(hd,0,.12,-.15,1.05,.8,.75,col);
+ [-1,1].forEach(sd=>{sp(hd,sd*.44,.46,-.12,.3,.3,.16,col);sp(hd,sd*.44,.46,-.07,.17,.17,.08,col2);sp(hd,sd*.4,-.05,.05,.32,.38,.4,col);sp(hd,sd*.25,.14,.4,.075,.075,.05,[.04,.03,.03]);sp(hd,sd*.25-.02,.16,.43,.02,.02,.01,[.9,.9,.9]);});
+ const mz=chain(hd,T(0,-.14,.42));sp(mz,0,0,.12,.56,.42,.6,MZ);sp(mz,0,.12,.4,.3,.2,.2,BL);sp(mz,0,.05,.44,.16,.06,.06,[.2,.18,.18]);
+ const jw=chain(mz,T(0,-.17,.06),RX(.08+Math.max(0,sw)*.45));sp(jw,0,-.04,.18,.42,.2,.48,MZ);sp(jw,0,.04,.24,.32,.06,.36,[.55,.16,.16]);
+ [-1,1].forEach(sd=>{cn(mz,sd*.13,-.12,.32,.04,.13,CL,Math.PI,0);cn(jw,sd*.12,.06,.34,.035,.11,CL,0,0);});};
 V3N.blob=(k)=>{const{m,add,tt,sw,sw2,col,col2,dk,lt,sp,tb,cn}=k;
  const q=1+Math.sin(tt*2.6)*.05,w=1-Math.sin(tt*2.6)*.03,GL=lt(col,.5);
  sp(m,0,.85*q,0,2.1*w,1.65*q,2.1*w,col);sp(m,0,.28,0,2.3,.55,2.3,dk(col,.85));sp(m,0,.9,.02,1.4,1.0,1.4,dk(col,.7),[.04,.05,.06]);
