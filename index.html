@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-0RLlU8VY8Gz4/y9isi7+VePJYdWQTmGnyElhSubUPoI=' 'sha256-3kUJRw3imQB4sILA6qP0rs8BsofKxtKoO8GylmTEh5U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; worker-src 'self'; connect-src https://fogoltmnmdabjimxsjnm.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="icons/icon-192.png"><meta name="theme-color" content="#e9eee8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121815" media="(prefers-color-scheme: dark)"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Mossgate"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-oifuk4gxfyYXQKggDHW7AyFqG+zex4fhZtxyDPQ2Yw8=' 'sha256-3kUJRw3imQB4sILA6qP0rs8BsofKxtKoO8GylmTEh5U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; worker-src 'self'; connect-src https://fogoltmnmdabjimxsjnm.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="icons/icon-192.png"><meta name="theme-color" content="#e9eee8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121815" media="(prefers-color-scheme: dark)"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Mossgate"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
 <title>Mossgate Idle</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -334,7 +334,7 @@ const SKILLS=[
  ['mine','Mining','⛏️','Mine ore, coal, essence and gems.'],
  ['hunt','Hunter','🪤','Set traps and snares for birds, ChomChimpas and rare game. Feathers, pelts and ChomChimpas, explosive ranged weapons that need no ammo.'],
  ['fm','Firemaking','🔥','Burn logs for experience and ashes.'],
- ['cook','Cooking','🍳','Cook fish into food that heals you in combat. Every cook burns one log, and better fish need better logs.'],
+ ['cook','Cooking','🍳','Cook fish and farm crops into food that heals you in combat. Every cook burns one log, and better recipes need better logs.'],
  ['smith','Smithing','🔨','Smelt bars and forge weapons, armour and arrowtips.'],
  ['fletch','Fletching','🪶','Make bows, staves and arrows.'],
  ['craft','Crafting','🧵','Craft hide armour, robes and jewellery.'],
@@ -518,6 +518,22 @@ const CROP=CROPS.map(c=>{const isH=c[2]==='herb',isT=c[2]==='tree';
  if(!isH&&!isT)mk(o.item,c[1],'🥬',c[7],'crop');
  return o;});
 const CROPBY={};CROP.forEach(c=>CROPBY[c.id]=c);
+/* cooking with farm crops: hearty dishes that heal more than fish of the same level */
+const DISH=[
+ ['potato','Baked Potato',5,12,45,{crop_potato:1},'potato','#c89a5a'],
+ ['onionsoup','Onion Soup',12,20,60,{crop_onion:2},'bowl','#c8924a'],
+ ['cabstew','Cabbage Stew',22,34,90,{crop_cabbage:2,crop_potato:1},'bowl','#6a9a3a'],
+ ['tomsoup','Tomato Soup',32,48,120,{crop_tomato:2,crop_onion:1},'bowl','#c8402a'],
+ ['fishpie','Fish Pie',38,60,150,{fish_trout:1,crop_potato:2,crop_onion:1},'pie','#d8a85a'],
+ ['chowder','Sweetcorn Chowder',46,76,185,{crop_sweetcorn:2,crop_potato:1,fish_salmon:1},'bowl','#e8c84a'],
+ ['tart','Strawberry Tart',54,92,210,{crop_strawberry:3},'pie','#d8384a'],
+ ['gstew','Garden Stew',62,112,250,{crop_cabbage:1,crop_tomato:1,crop_onion:1,crop_potato:1,crop_sweetcorn:1},'bowl','#a85a2a'],
+ ['msalad','Melon Salad',70,130,290,{crop_watermelon:1,crop_strawberry:2},'bowl','#e85a6a'],
+ ['feast','Harvest Feast Pie',84,175,400,{crop_sweetcorn:2,crop_tomato:2,crop_potato:2,fish_shark:1},'pie','#c8782a']];
+DISH.forEach(d=>{const id='dish_'+d[0];mk(id,d[1],'🍲',R(d[4]*.6),'food',{heal:d[4],slot:'food'});ITEMS[id].dk=d[6];ITEMS[id].dc=d[7];
+ let lg=LOGS[0];LOGS.forEach(l=>{if(l[2]<=d[2])lg=l;});
+ ACT.cook.push({id:'cook_'+d[0],n:'Cook '+d[1],i:'🍲',lvl:d[2],xp:d[3],t:3.5,in:Object.assign({},d[5],{['log_'+lg[0]]:1}),out:{[id]:1}});});
+ACT.cook.sort((a,b)=>a.lvl-b.lvl);
 CROP.forEach(c=>c.mx=Math.max(8,c.t/12));
 
 /* monsters */
@@ -582,20 +598,20 @@ AREAS.forEach(a=>{a.mons=a.mons.map(m=>{const cb=m[3],boss=!!m[5];
 MONS.druid.slv=50; /* Chaos Druids need 50 Slayer to fight */
 
 /* shop */
-const UPG_COST=[400,3500,22000,140000,900000,5e6,3e7,1.5e8],UPG_LV=[5,20,40,60,80,90,95,99],UPG_N=['Iron','Steel','Mithril','Adamant','Rune','Dragon','Celestial','Mythic'],UPG_MAX=8;
+const UPG_COST=[400,3500,22000,120000,600000,2.5e6,1.2e7,5e7],UPG_LV=[5,20,40,60,80,90,95,99],UPG_N=['Iron','Steel','Mithril','Adamant','Rune','Dragon','Celestial','Mythic'],UPG_MAX=8;
 const TOOLS={farm:'Watering Can',wc:'Axe',fish:'Fishing Rod',mine:'Pickaxe',fm:'Tinderbox',cook:'Cooking Pot',smith:'Hammer',fletch:'Carving Knife',craft:'Needle Set',thief:'Lockpicks',hunt:'Trap Kit',herb:'Mortar',rc:'Talisman',dung:'Delver Kit',agi:'Climbing Gear'};
 const BANK_BASE=60,BANK_STEP=10,bankCost=n=>Math.round(1500*Math.pow(1.45,n)),BANK_MAXBUY=20;
 const plotCost=(cat,owned)=>cat==='tree'?Math.round(8000*Math.pow(3,owned-1)):cat==='allot'?Math.round(1500*Math.pow(2.3,owned-3)):Math.round(3500*Math.pow(2.6,owned-2));
 const PLOT_MAX={allot:8,herb:5,tree:5};
 const OFFLINE_CAP=12*3600;
 const PERKS=[
- {id:'xp',n:"Scholar's Tome",d:'+2% experience in every skill',max:5,cost:[50000,250000,1e6,4e6,15e6]},
- {id:'luck',n:'Lucky Charm',d:'+2% chance to double gathered items and to save materials',max:5,cost:[60000,300000,1.2e6,5e6,18e6]},
- {id:'dmg',n:'Battle Training',d:'+3% damage in combat',max:5,cost:[80000,400000,1.6e6,6e6,20e6]},
- {id:'hp',n:'Iron Will',d:'+5% maximum health',max:5,cost:[70000,350000,1.4e6,5e6,17e6]},
- {id:'eat',n:'Field Medic',d:'Eat food at a higher health level (+5% per tier, from 50%)',max:5,cost:[40000,180000,700000,2.5e6,9e6]},
- {id:'gold',n:"Merchant's Ledger",d:'+5% coins from monsters, thieving and agility',max:5,cost:[90000,450000,1.8e6,7e6,22e6]},
- {id:'off',n:'Camp Bed',d:'+6 hours of offline progress',max:5,cost:[100000,500000,2e6,8e6,25e6]}];
+ {id:'xp',n:"Scholar's Tome",d:'+2% experience in every skill',max:5,cost:[50000,250000,1000000,2400000,7500000]},
+ {id:'luck',n:'Lucky Charm',d:'+2% chance to double gathered items and to save materials',max:5,cost:[60000,300000,1200000,3000000,9000000]},
+ {id:'dmg',n:'Battle Training',d:'+3% damage in combat',max:5,cost:[80000,400000,1600000,3600000,10000000]},
+ {id:'hp',n:'Iron Will',d:'+5% maximum health',max:5,cost:[70000,350000,1400000,3000000,8500000]},
+ {id:'eat',n:'Field Medic',d:'Eat food at a higher health level (+5% per tier, from 50%)',max:5,cost:[40000,180000,700000,1500000,4500000]},
+ {id:'gold',n:"Merchant's Ledger",d:'+5% coins from monsters, thieving and agility',max:5,cost:[90000,450000,1800000,4200000,11000000]},
+ {id:'off',n:'Camp Bed',d:'+6 hours of offline progress',max:5,cost:[100000,500000,2000000,4800000,12500000]}];
 const SUPPLY={herb_wild:8,rune_mind:6,rune_body:6,rune_cosmic:14,rune_chaos:26,rune_nature:40,log_willow:36,log_teak:55,vial:25,food_shrimp:20,food_trout:55,food_salmon:85,food_lobster:150,arrow_bronze:6,arrow_iron:14,arrow_steel:28,arrow_mithril:60,staff_app:40,rune_air:6,rune_water:6,rune_earth:6,rune_fire:6,ore_ess:8,ore_pure:16,log_normal:8,log_oak:20,ore_copper:10,ore_tin:10,ore_coal:30,bones:6};
 
 /* ===== bosses and rarity weapons ===== */
@@ -1222,6 +1238,10 @@ P.seedpk=id=>{const[kind,c,k]=SEEDKIND(id),paper=kind==='tree'?'#b8956a':kind===
   else if(id.startsWith('rune_'))s=P.rune(id.slice(5));
   else if(id.startsWith('seed_'))s=P.seedpk(id);
   else if(id.startsWith('crop_'))s=P.crop(CRC[id.slice(5)]);
+  else if(id.startsWith('dish_')){const it=ITEMS[id],c=it.dc||'#c89a5a';
+   s=it.dk==='pie'?SV(`<ellipse cx="16" cy="21" rx="13" ry="6" fill="#e8e4dc"/><path d="M5 18c0-5 5-8 11-8s11 3 11 8c0 3-5 5-11 5S5 21 5 18z" fill="#d8a050"/><path d="M8 16c3-3 13-3 16 0" fill="none" stroke="#a86a2a"/><path d="M11 13l2 3M16 12v3M21 13l-2 3" stroke="${c}" stroke-width="2"/><ellipse cx="16" cy="17.500" rx="3" ry="1.500" fill="${c}"/>`)
+   :it.dk==='potato'?SV(`<ellipse cx="16" cy="22" rx="13" ry="5.500" fill="#e8e4dc"/><ellipse cx="16" cy="17" rx="10" ry="6.500" fill="${c}"/><path d="M10 15c4 2 8 2 12 0" fill="none" stroke="#7a5a2a"/><path d="M13 14l6 1" stroke="#f8f0c0" stroke-width="2.400"/><ellipse cx="16" cy="13.600" rx="2.400" ry="1.200" fill="#f8e070"/>`)
+   :SV(`<path d="M4 15h24c0 7-5 12-12 12S4 22 4 15z" fill="#8a5a34"/><ellipse cx="16" cy="15" rx="12" ry="3.500" fill="${c}"/><circle cx="12" cy="14.500" r="1.300" fill="${mix(c,.35)}"/><circle cx="19" cy="15.500" r="1.100" fill="${mix(c,-.25)}"/><path d="M11 10c0-2 2-2 2-4M16 10c0-2 2-2 2-4M21 10c0-2 2-2 2-4" fill="none" stroke="rgba(200,200,200,.8)"/>`);}
   else if(id==='herb_wild')s=P.herb('#7a9a4a');
   else if(id==='pot_wild')s=P.potion('#9ac860');
   else if(id.startsWith('herb_'))s=P.herb(HC[HERBS.findIndex(h=>'herb_'+h[0]===id)]);
@@ -2260,7 +2280,7 @@ const SK=n=>'mossgate-idle-slot-'+n;
 let SLOT=0;const SAVESTAT={ok:true,at:0,err:'',bak:0};
 
 /* ---------- save integrity: signed, tamper-evident saves ---------- */
-const BUILD_TS=1795156601000;
+const BUILD_TS=1795200221000;
 const SIGKEY=['mg','8f2c','-gate','Q7x','r0ot','5e1d','|idle','b9'].join('');
 const SHA_K=(()=>{const k=[];for(let n=2;k.length<64;n++){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)k.push(Math.floor((Math.cbrt(n)%1)*4294967296));}return k;})();
 const SHA_H=(()=>{const h=[];for(let n=2;h.length<8;n++){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)h.push(Math.floor((Math.sqrt(n)%1)*4294967296));}return h;})();
@@ -2701,7 +2721,7 @@ function buildWorld(gl){ST.length=0;TREES.length=0;W3._trees=TREES;const B=new B
  /* fountain */cy(B,T(0,0,0),0,0,2.2,.7,'stone2');cy(WA,T(0,0,0),0,0,1.8,.8,'water',null,.01);cy(B,T(0,0,0),0,0,.5,2.0,'stone');cy(B,T(0,0,0),0,0,1.0,.2,'stone2',null,1.95);cy(B,T(0,0,0),0,0,.62,.12,'stone',null,1.86);cy(B,T(0,0,0),0,0,.16,.22,'stone2',null,2.1);
  const NP={combat:[0,48],thief:[9.5,27.8],hunt:[45,28],farm:[24,30.8],craft:[25.6,16.8],slayer:[44.6,11.3],rc:[46.3,-3.8],smith:[23.8,-10.4],raids:[39.6,-36.4],fletch:[13.9,-25.7],dungeons:[7.6,-45.6],mine:[-6.4,-38.6],pray:[-21.5,-39.8],wc:[-27.3,-25.2],agi:[-45.3,-19.9],fish:[-43.8,-3.6],fm:[-25.2,6.4],cook:[-27.8,18.2],pvp:[-33.5,43],herb:[-11.7,34.1],quests:[0,-11.8],bank:[-11.1,-4],hiscores:[-2,11.6],wheel:[9.7,6.8],shop:[9.7,-6.8]};
  const HSEG=[[29.1,7.4],[42.2,27]],segD=(x,z,a,b)=>{const vx=b[0]-a[0],vz=b[1]-a[1],L2=vx*vx+vz*vz,u=Math.max(0,Math.min(1,((x-a[0])*vx+(z-a[1])*vz)/L2));return Math.hypot(a[0]+vx*u-x,a[1]+vz*u-z);};
- BLK=(x,z)=>{if(segD(x,z,HSEG[0],HSEG[1])<3.1)return true;for(const k in NP){if(k==='combat'||k==='pvp'||k==='hunt')continue;const p=NP[k],d=Math.hypot(p[0],p[1]);if(d<14)continue;const ux=p[0]/d,uz=p[1]/d,t=x*ux+z*uz,c=Math.abs(x*uz-z*ux);if(t>13&&t<d-1.5&&c<3.1)return true;}return false;};
+ BLK=(x,z)=>{if(segD(x,z,HSEG[0],HSEG[1])<3.4)return true;for(const k in NP){if(k==='hunt')continue;const p=NP[k],d=Math.hypot(p[0],p[1]);if(d<14)continue;const ux=p[0]/d,uz=p[1]/d,t=x*ux+z*uz,c=Math.abs(x*uz-z*ux),end=k==='combat'?d-12:k==='fish'?d-9:d-1.5;if(t>12&&t<end&&c<3.4)return true;}return false;};
  const NPV=Object.values(NP),nearSt=(x,z,r)=>NPV.some(p=>Math.hypot(p[0]-x,p[1]-z)<r+12);
  /* terrain: patches, rolling mounds, mountains */
  const vn2=(x,y)=>{const ix=Math.floor(x),iy=Math.floor(y),fx=x-ix,fy=y-iy,h=(a,b)=>{const s=Math.sin(a*127.1+b*311.7)*43758.5453;return s-Math.floor(s);},u=fx*fx*(3-2*fx),v=fy*fy*(3-2*fy);return h(ix,iy)*(1-u)*(1-v)+h(ix+1,iy)*u*(1-v)+h(ix,iy+1)*(1-u)*v+h(ix+1,iy+1)*u*v;},fbm=(x,y)=>vn2(x,y)*.55+vn2(x*2.1+5,y*2.1)*.28+vn2(x*4.3,y*4.3+9)*.17;
@@ -5269,7 +5289,7 @@ function shopPage(){
  ['allot','herb','tree'].forEach(cat=>{const own=S.farm[cat],c=own>=PLOT_MAX[cat]?null:plotCost(cat,own);
   h+=`<div class="card static"><div class="ch"><span class="ci">🟫</span><div><div class="cn">${cat==='allot'?'Allotment plot':cat==='herb'?'Herb patch':'Tree patch'}</div><div class="cm">${own}/${PLOT_MAX[cat]} owned</div></div></div>${c==null?'<div class="good">Maximum</div>':`<button class="btn pri sm${S.coins<c?' off':''}" data-a="buyplot" data-c="${cat}" style="align-self:flex-start">Buy · 🪙 ${fmt(c)}</button>`}</div>`;});
  h+='</div><div class="panel"><h2>Supplies and seeds</h2><div class="tw"><table><tr><th>Item</th><th>Price</th><th>Owned</th><th></th></tr>';
- const row=(id,n,i,cost,lock)=>`<tr><td>${i} ${n}</td><td>🪙 ${fmt(cost)}</td><td>${fmt(cnt(id))}</td><td><button class="btn sm${lock||S.coins<cost?' off':''}" data-a="buyi" data-id="${id}" data-q="1">Buy 1</button> <button class="btn sm${lock||S.coins<cost*10?' off':''}" data-a="buyi" data-id="${id}" data-q="10">Buy 10</button></td></tr>`;
+ const row=(id,n,i,cost,lock)=>`<tr><td>${i} ${n}</td><td>🪙 ${fmt(cost)}</td><td>${fmt(cnt(id))}</td><td><button class="btn sm${lock||S.coins<cost?' off':''}" data-a="buyi" data-id="${id}" data-q="1">Buy 1</button> <button class="btn sm${lock||S.coins<cost*10?' off':''}" data-a="buyi" data-id="${id}" data-q="10">Buy 10</button> <button class="btn sm${lock||S.coins<cost*1000?' off':''}" data-a="buyi" data-id="${id}" data-q="1000">Buy 1000</button></td></tr>`;
  Object.keys(SUPPLY).forEach(id=>{h+=row(id,ITEMS[id].n,ITEMS[id].i,SUPPLY[id],false);});
  CROP.filter(c=>!c.noBuy).forEach(c=>{h+=row(c.seed,c.n+' Seed','🌱',c.seedCost,lv('farm')<c.lvl);});
  return h+'</table></div></div>';}
