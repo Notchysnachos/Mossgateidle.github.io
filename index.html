@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-OpxZcf7Ak9pHrFCxJFvKKEp792NYGmWliLuAV5MOne0=' 'sha256-3kUJRw3imQB4sILA6qP0rs8BsofKxtKoO8GylmTEh5U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; worker-src 'self'; connect-src https://fogoltmnmdabjimxsjnm.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="icons/icon-192.png"><meta name="theme-color" content="#e9eee8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121815" media="(prefers-color-scheme: dark)"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Mossgate"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-udvqivoi5PvBQj6+0rE81v/qgFMYnsgLQaUAL0EX3g0=' 'sha256-3kUJRw3imQB4sILA6qP0rs8BsofKxtKoO8GylmTEh5U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; worker-src 'self'; connect-src https://fogoltmnmdabjimxsjnm.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="icons/icon-192.png"><meta name="theme-color" content="#e9eee8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121815" media="(prefers-color-scheme: dark)"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Mossgate"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
 <title>Mossgate Idle</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1925,7 +1925,7 @@ function ensure(s){
  if(!s.sup)s.sup={on:false};if(s.sup.fast==null)s.sup.fast=true;if(s.cape&&SUPC[s.cape]&&!s.sup.on)s.cape='';
  if(!s.dq)s.dq={day:'',q:[],streak:0,lastAll:'',tot:0};if(!s.ev)s.ev={next:150,cur:null,done:0};
  if(!s.pets)s.pets={};if(s.pet==null)s.pet='';for(const k in s.pets)if(!PETB[k])delete s.pets[k];if(s.pet&&!PETB[s.pet])s.pet='';if(s.cape==null)s.cape='';if(s.cape){if(s.equip&&!s.equip.cape&&ITEMS['cape_sk_'+s.cape])s.equip.cape='cape_sk_'+s.cape;s.cape='';}if(s.equip&&/^cape_sk_s_/.test(s.equip.cape||'')&&!s.sup.on)s.equip.cape=null;
- ALLSK.forEach(id=>{if(s.xp[id]==null)s.xp[id]=0;});if(!s.magStart){s.magStart=1;const g=(id,q)=>{s.bank[id]=(s.bank[id]||0)+q;};g('staff_app',1);g('rune_air',100);g('rune_mind',30);}if(!s.pres)s.pres={};if(!s.hs)s.hs={id:hsUuid(),secret:hsRand(16),on:false,name:'',last:0};
+ ALLSK.forEach(id=>{if(s.xp[id]==null)s.xp[id]=0;});if(!s.magStart){s.magStart=1;const g=(id,q)=>{s.bank[id]=(s.bank[id]||0)+q;};g('staff_app',1);g('rune_air',100);g('rune_mind',30);}if(!s.pxp){s.pxp={};ALLSK.forEach(k=>{const n=(s.pres&&s.pres[k])||0;if(n)s.pxp[k]=n*(XPT[MAXL-1]-(k==='hp'?XPT[9]:0));});}if(!s.pres)s.pres={};if(!s.hs)s.hs={id:hsUuid(),secret:hsRand(16),on:false,name:'',last:0};
  SKILLS.forEach(k=>{const id=k[0];if(!s.mast[id])s.mast[id]={pool:0,a:{}};if(s.mast[id].over==null)s.mast[id].over=0;});
  const f=s.farm;if(!f.autoV){f.autoV=1;f.auto=false;}while(f.plots.filter(p=>p.cat==='allot').length<f.allot)f.plots.push({cat:'allot',crop:null,ready:0,start:0});
  while(f.plots.filter(p=>p.cat==='herb').length<f.herb)f.plots.push({cat:'herb',crop:null,ready:0,start:0});
@@ -1995,7 +1995,8 @@ const mxpOf=(sk,a)=>sk==='farm'?a.mx:Math.max(1,a.t*0.9*(1+a.lvl/50));
 function hsRand(n){const a=new Uint8Array(n);globalThis.crypto.getRandomValues(a);return Array.from(a,b=>b.toString(16).padStart(2,'0')).join('');}
 function hsUuid(){const h=hsRand(16).split('');h[12]='4';h[16]='89ab'[parseInt(h[16],16)&3];const s=h.join('');return s.slice(0,8)+'-'+s.slice(8,12)+'-'+s.slice(12,16)+'-'+s.slice(16,20)+'-'+s.slice(20);}
 const hsReady=()=>HS.url.indexOf('__')!==0&&HS.url.length>8&&HS.key.indexOf('__')!==0&&HS.key.length>8;
-function hsPayload(){const sk={};let tx=0;ALLSK.forEach(k=>{if(k==='pray'||k==='hunt')return;sk[k]=Math.floor(S.xp[k]);tx+=sk[k];});return{p_id:S.hs.id,p_secret:S.hs.secret,p_name:S.hs.name,p_total_level:totalLevel()-lvlOf(S.xp.pray)-lvlOf(S.xp.hunt),p_total_xp:tx,p_combat:combatLevel(),p_prestige:totalPres(),p_play:Math.floor(S.play),p_skills:sk};}
+/* hiscores use lifetime XP: XP banked when a skill is prestiged still counts, and a prestiged skill counts at max level */
+function hsPayload(){const sk={};let tx=0,tl=0;ALLSK.forEach(k=>{if(k==='pray'||k==='hunt')return;sk[k]=Math.floor(S.xp[k]+((S.pxp&&S.pxp[k])||0));tx+=sk[k];tl+=prN(k)?MAXL:lvlOf(S.xp[k]);});return{p_id:S.hs.id,p_secret:S.hs.secret,p_name:S.hs.name,p_total_level:tl,p_total_xp:tx,p_combat:combatLevel(),p_prestige:totalPres(),p_play:Math.floor(S.play),p_skills:sk};}
 const prN=sk=>(S.pres&&S.pres[sk])||0;
 function dyMul(sk){let m=1;if(!S||!S.dy)return m;DIARIES.forEach(d=>{if(!S.dy.buff[d.id])return;if(d.all)m*=1+d.all;if(d.xp&&d.xp.includes(sk))m*=1+d.p;});return m;}
 const dyHp=()=>{let m=1;if(S&&S.dy)DIARIES.forEach(d=>{if(d.hp&&S.dy.buff[d.id])m+=d.hp;});return m;},dyCoin=()=>{let m=1;if(S&&S.dy)DIARIES.forEach(d=>{if(d.coin&&S.dy.buff[d.id])m+=d.coin;});return m;};
@@ -2008,7 +2009,8 @@ let dyAcc=0;
 function canPrestige(sk){return lv(sk)>=MAXL&&prN(sk)<PRES_MAX;}
 const totalPres=()=>ALLSK.reduce((a,k)=>a+prN(k),0);
 function prestige(sk){if(!canPrestige(sk))return false;
- S.xp[sk]=sk==='hp'?XPT[9]:0;S.pres[sk]=prN(sk)+1;
+ const base=sk==='hp'?XPT[9]:0;if(!S.pxp)S.pxp={};S.pxp[sk]=(S.pxp[sk]||0)+Math.max(0,S.xp[sk]-base);
+ S.xp[sk]=base;S.pres[sk]=prN(sk)+1;
  for(let i=0;i<S.acts.length;i++){const a=S.acts[i];if(a&&a.sk===sk)S.acts[i]=null;}
  if(sk==='hp')S.hp=Math.min(S.hp,maxHp());
  refreshPS();dirty.v=1;toast(SKN[sk].i+' '+SKN[sk].n+' prestiged! Now prestige '+S.pres[sk]+': +'+Math.round(PRES_B*S.pres[sk]*100)+'% XP','boss');return true;}
@@ -2284,7 +2286,7 @@ const SK=n=>'mossgate-idle-slot-'+n;
 let SLOT=0;const SAVESTAT={ok:true,at:0,err:'',bak:0};
 
 /* ---------- save integrity: signed, tamper-evident saves ---------- */
-const BUILD_TS=1795206118000;
+const BUILD_TS=1795222427000;
 const SIGKEY=['mg','8f2c','-gate','Q7x','r0ot','5e1d','|idle','b9'].join('');
 const SHA_K=(()=>{const k=[];for(let n=2;k.length<64;n++){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)k.push(Math.floor((Math.cbrt(n)%1)*4294967296));}return k;})();
 const SHA_H=(()=>{const h=[];for(let n=2;h.length<8;n++){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)h.push(Math.floor((Math.sqrt(n)%1)*4294967296));}return h;})();
