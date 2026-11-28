@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-qUATedENQakUge0zs0B2pk/pengdTASzqz21HXX8Ijc=' 'sha256-3kUJRw3imQB4sILA6qP0rs8BsofKxtKoO8GylmTEh5U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; worker-src 'self'; connect-src https://fogoltmnmdabjimxsjnm.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="icons/icon-192.png"><meta name="theme-color" content="#e9eee8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121815" media="(prefers-color-scheme: dark)"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Mossgate"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-5fOaRXw/J1DI0kMYI7lkxWGeW9icy211IKMh5ztHSIE=' 'sha256-3kUJRw3imQB4sILA6qP0rs8BsofKxtKoO8GylmTEh5U='; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; manifest-src 'self'; worker-src 'self'; connect-src https://fogoltmnmdabjimxsjnm.supabase.co; object-src 'none'; base-uri 'none'; form-action 'none'"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><link rel="icon" type="image/png" href="icons/icon-192.png"><meta name="theme-color" content="#e9eee8" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#121815" media="(prefers-color-scheme: dark)"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Mossgate"><meta name="apple-mobile-web-app-status-bar-style" content="default"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light}body{margin:0;font:14px system-ui}[hidden]{display:none!important}</style></head><body>
 <title>Mossgate Idle</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -309,6 +309,7 @@ body.w3d{overflow:hidden;background:#a8d4ee}
 .x2.slb{max-width:170px;overflow:hidden;text-overflow:ellipsis}
 
 .tut{display:flex;flex-direction:column;gap:10px;font-size:14px;line-height:1.5;overflow:auto;max-height:58vh}.tut p{margin:0}.tut .tb{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px}.tdot{width:10px;height:10px;border-radius:50%;border:1px solid var(--mute);background:transparent;padding:0;cursor:pointer;flex:none}.tdot.on{background:var(--accent);border-color:var(--accent)}
+.mms{margin-top:3px;font-size:11px}.mms span{opacity:.55;margin-right:2px}.mms span.got{opacity:1;color:var(--mast);font-weight:600}
 </style>
 <canvas id="wc"></canvas><div id="wlabels"></div><div id="wfx"></div><div id="hud"></div><div id="wbd" data-a="winclose"></div><div class="app" id="app"><aside class="rail" id="rail"></aside><div class="main"><header class="top" id="top"></header><main class="page" id="page"></main></div></div>
 <div class="toasts" id="toasts" aria-live="polite"></div><div id="evt"></div><div id="modal"></div><div id="ctx"></div>
@@ -1926,7 +1927,7 @@ function ensure(s){
  if(!s.dq)s.dq={day:'',q:[],streak:0,lastAll:'',tot:0,n:0};if(s.dq.n==null)s.dq.n=(s.dq.tot||0)*3+(s.dq.bonus?0:(s.dq.q||[]).filter(q=>q.c).length);if(!s.ev)s.ev={next:150,cur:null,done:0};
  if(!s.pets)s.pets={};if(s.pet==null)s.pet='';for(const k in s.pets)if(!PETB[k])delete s.pets[k];if(s.pet&&!PETB[s.pet])s.pet='';if(s.cape==null)s.cape='';if(s.cape){if(s.equip&&!s.equip.cape&&ITEMS['cape_sk_'+s.cape])s.equip.cape='cape_sk_'+s.cape;s.cape='';}if(s.equip&&/^cape_sk_s_/.test(s.equip.cape||'')&&!s.sup.on)s.equip.cape=null;
  ALLSK.forEach(id=>{if(s.xp[id]==null)s.xp[id]=0;});if(!s.magStart){s.magStart=1;const g=(id,q)=>{s.bank[id]=(s.bank[id]||0)+q;};g('staff_app',1);g('rune_air',100);g('rune_mind',30);}if(!s.pxp){s.pxp={};ALLSK.forEach(k=>{const n=(s.pres&&s.pres[k])||0;if(n)s.pxp[k]=n*(XPT[MAXL-1]-(k==='hp'?XPT[9]:0));});}if(!s.pres)s.pres={};if(!s.hs)s.hs={id:hsUuid(),secret:hsRand(16),on:false,name:'',last:0};
- SKILLS.forEach(k=>{const id=k[0];if(!s.mast[id])s.mast[id]={pool:0,a:{}};if(s.mast[id].over==null)s.mast[id].over=0;});
+ SKILLS.forEach(k=>{const id=k[0];if(!s.mast[id])s.mast[id]={pool:0,a:{}};if(s.mast[id].over==null)s.mast[id].over=0;if(s.mast[id].peak==null)s.mast[id].peak=s.mast[id].pool||0;});
  const f=s.farm;if(!f.autoV){f.autoV=1;f.auto=false;}while(f.plots.filter(p=>p.cat==='allot').length<f.allot)f.plots.push({cat:'allot',crop:null,ready:0,start:0});
  while(f.plots.filter(p=>p.cat==='herb').length<f.herb)f.plots.push({cat:'herb',crop:null,ready:0,start:0});
  if(f.tree==null)f.tree=1;while(f.plots.filter(p=>p.cat==='tree').length<f.tree)f.plots.push({cat:'tree',crop:null,ready:0,start:0});
@@ -1980,17 +1981,33 @@ const mXp=(sk,id)=>S.mast[sk].a[id]||0;
 const mLvl=(sk,id)=>mLvlFromXp(mXp(sk,id));
 const poolMax=sk=>sk==='farm'?CROP.length*400:ACT[sk].length*3000;
 const poolPct=sk=>Math.min(1,S.mast[sk].pool/poolMax(sk));
+/* checkpoints are unlocked by the highest the pool has ever been, so spending pool XP on masteries never takes a checkpoint away */
+const peakPct=sk=>Math.min(1,Math.max(S.mast[sk].pool,S.mast[sk].peak||0)/poolMax(sk));
+/* per-action mastery milestones: each one is a real bonus for that action */
+const MMS=[10,25,50,75,90,99];
+function mmText(sk,l){const k=SKKIND[sk];switch(l){case 10:case 90:return sk==='farm'?'−5% grow time':'−5% action time';case 25:return'+5% XP';case 75:return'+10% XP';
+ case 50:return sk==='farm'?'+1 crop per harvest':k==='thief'?'+10% coins':k==='gather'||k==='art'?'10% chance of +1 extra item':'−5% action time';
+ case 99:return sk==='farm'?'+2 more crops per harvest':k==='thief'?'+25% coins':k==='gather'||k==='art'?'+1 extra item every action':'+10% XP';}return'';}
+function mPerk(sk,ml){const k=SKKIND[sk],o={ivl:0,xp:mBonus(ml),bonus:0,extra:0,coin:0,crop:0};
+ if(ml>=10)o.ivl+=.05;if(ml>=90)o.ivl+=.05;if(ml>=25)o.xp+=.05;if(ml>=75)o.xp+=.1;
+ if(ml>=50){if(sk==='farm')o.crop+=1;else if(k==='thief')o.coin+=.1;else if(k==='gather'||k==='art')o.bonus=.1;else o.ivl+=.05;}
+ if(ml>=99){if(sk==='farm')o.crop+=2;else if(k==='thief')o.coin+=.25;else if(k==='gather'||k==='art')o.extra=1;else o.xp+=.1;}
+ return o;}
+const mNext=(ml)=>MMS.find(x=>x>ml)||0;
 const CPS=[[.1,'+5% skill XP'],[.25,'+5% double/preserve chance'],[.5,'-5% action time'],[.95,'+10% skill XP']];
 const buff=t=>S.buffs[t]?S.buffs[t].v:0;
 const agiB=k=>{if(!S)return 0;const L=lvlOf(S.xp.agi);let v=0;for(const b of AGB){if(L<b[0])break;for(let j=2;j<b.length;j+=2)if(b[j]===k)v+=b[j+1];}return v;};
 const cpv=(k,f)=>{const id=S&&S.equip&&S.equip.cape;if(id!=='cape_sk_'+k)return 0;const p=CAPEP[k];return(p&&p[1][f])||0;};
-function skMods(sk){const p=poolPct(sk),kind=SKKIND[sk],m={xp:0,dbl:0,pre:0,ivl:0};
+function skMods(sk){const p=peakPct(sk),kind=SKKIND[sk],m={xp:0,dbl:0,pre:0,ivl:0};
  if(p>=.1)m.xp+=.05;if(p>=.25){if(kind==='art')m.pre+=.05;else m.dbl+=.05;}if(p>=.5)m.ivl+=.05;if(p>=.95)m.xp+=.1;
  m.ivl+=(S.upg[sk]||0)*.06+buff('speed')/100+agiB('spd');m.xp+=agiB('xp');m.dbl+=agiB('dbl');m.pre+=agiB('pre');m.xp+=buff('xp')/100;m.dbl+=buff('double')/100;m.pre+=buff('preserve')/100;m.xp+=.02*pk('xp');m.dbl+=.02*pk('luck');m.pre+=.02*pk('luck');
  m.ivl+=cpv(sk,'ivl');m.xp+=cpv(sk,'xp');m.pre+=cpv(sk,'pre');
  return m;}
-function interval(sk,a){if(sk==='farm')return a.t;return Math.max(0.6,a.t*(1-Math.min(.6,skMods(sk).ivl)));}
-const mxpOf=(sk,a)=>sk==='farm'?a.mx:Math.max(1,a.t*0.9*(1+a.lvl/50));
+function interval(sk,a){if(sk==='farm')return a.t;const mp=S.mast[sk]&&a.id?mPerk(sk,mLvl(sk,a.id)).ivl:0;return Math.max(0.6,a.t*(1-Math.min(.6,skMods(sk).ivl))*(1-mp));}
+/* mastery XP per action scales only with the action's base time, so every action takes about the same time (~120h) to reach mastery 99.
+   Farming divides by the starting number of plots in that patch type, since several crops grow at once. */
+const MXK=1.8,FPL={allot:3,herb:2,tree:1};
+const mxpOf=(sk,a)=>sk==='farm'?a.t*MXK/(FPL[a.cat]||1):Math.max(.5,a.t*MXK);
 /* ---------- hiscores helpers ---------- */
 function hsRand(n){const a=new Uint8Array(n);globalThis.crypto.getRandomValues(a);return Array.from(a,b=>b.toString(16).padStart(2,'0')).join('');}
 function hsUuid(){const h=hsRand(16).split('');h[12]='4';h[16]='89ab'[parseInt(h[16],16)&3];const s=h.join('');return s.slice(0,8)+'-'+s.slice(8,12)+'-'+s.slice(12,16)+'-'+s.slice(16,20)+'-'+s.slice(20);}
@@ -2020,12 +2037,12 @@ function gainXp(sk,x){if(PETB['p_'+sk]&&!S.pets['p_'+sk]&&Math.random()<1/(PET_B
  const after=lvlOf(S.xp[sk]);if(after>before){toast(SKN[sk].i+' '+SKN[sk].n+' reached level '+after+'!','lvl');if(sk==='hp')S.hp+=(after-before)*10;if(!TRACK)dirty.lvl=sk;}}
 function mSpend(sk,id,n){const M=S.mast[sk];if(!M)return'No mastery here.';const a=(sk==='farm'?CROPBY[id]:ACT[sk].find(x=>x.id===id));if(!a)return'';
  const cur=M.a[id]||0,lvl=mLvlFromXp(cur);if(lvl>=MMAX)return'This is already at the maximum mastery level.';
- const tgt=Math.min(MMAX,lvl+n),need=Math.max(0,MXP(tgt)-cur);
+ const tgt=n==='M'?(mNext(lvl)||Math.min(MMAX,lvl+10)):Math.min(MMAX,lvl+n),need=Math.max(0,MXP(tgt)-cur);
  const avail=M.pool+(M.over||0);if(avail<need)return'Not enough mastery XP stored. You need '+fmt(need)+' and have '+fmt(avail)+'.';
- const fromO=Math.min(M.over||0,need);M.over=(M.over||0)-fromO;M.pool-=need-fromO;M.a[id]=cur+need;toast(SKN[sk].n+': '+a.n+' mastery raised to '+tgt+' (-'+fmt(need)+' stored XP)','mast');return'';}
+ const fromO=Math.min(M.over||0,need);M.over=(M.over||0)-fromO;M.pool-=need-fromO;M.a[id]=cur+need;const ms=MMS.filter(l=>lvl<l&&tgt>=l);toast(SKN[sk].n+': '+a.n+' mastery raised to '+tgt+(ms.length?' — unlocked '+ms.map(l=>mmText(sk,l)).join(', '):'')+' (-'+fmt(need)+' stored XP)','mast');return'';}
 function gainM(sk,a,x){const M=S.mast[sk];const before=mLvlFromXp(M.a[a.id]||0);M.a[a.id]=(M.a[a.id]||0)+x;
- const pb=poolPct(sk);const pt=M.pool+x*0.5,pm=poolMax(sk);M.pool=Math.min(pm,pt);if(pt>pm)M.over=(M.over||0)+(pt-pm);const pa=poolPct(sk);
- const after=mLvlFromXp(M.a[a.id]);if(after>before&&!TRACK&&after%5===0)toast(SKN[sk].n+': '+a.n+' mastery '+after,'mast');
+ const pb=peakPct(sk);const pt=M.pool+x*0.5,pm=poolMax(sk);M.pool=Math.min(pm,pt);if(pt>pm)M.over=(M.over||0)+(pt-pm);M.peak=Math.max(M.peak||0,M.pool);const pa=peakPct(sk);
+ const after=mLvlFromXp(M.a[a.id]);if(after>before&&!TRACK){const ms=MMS.find(l=>before<l&&after>=l);if(ms)toast(SKN[sk].n+': '+a.n+' mastery '+ms+' — '+mmText(sk,ms)+'!','mast');else if(after%5===0)toast(SKN[sk].n+': '+a.n+' mastery '+after,'mast');}
  CPS.forEach(c=>{if(pb<c[0]&&pa>=c[0])toast(SKN[sk].n+' mastery pool checkpoint: '+c[1],'mast');});}
 
 /* ---------- activity ---------- */
@@ -2045,7 +2062,7 @@ function die(){if(S.cb&&S.cb.dg){const d=DGB[S.cb.dg];dgs(d.id).best=Math.max(dg
 function hurt(d){if(S.cheat&&S.cheat.god)return false;if(d>0&&cpv('def','dmg'))d=Math.max(1,Math.round(d*(1-cpv('def','dmg'))));S.hp-=d;eatIfNeeded();if(S.hp<=0){die();return true;}return false;}
 
 function complete(sk,a,A){
- const kind=SKKIND[sk],mod=skMods(sk),ml=mLvl(sk,a.id);
+ const kind=SKKIND[sk],mod=skMods(sk),ml=mLvl(sk,a.id),mp=mPerk(sk,ml);
  if(a.in){for(const k in a.in)if(cnt(k)<a.in[k]){if(!TRACK)toast('Out of materials: '+ITEMS[k].n,'warn');return false;}
   const pre=Math.min(.9,mod.pre+ml*.0025);if(!(Math.random()<pre))for(const k in a.in)take(k,a.in[k]);}
  if(kind==='dungeon')return runDungeon(sk,a,A,mod,ml);
@@ -2055,14 +2072,15 @@ function complete(sk,a,A){
  if(kind==='thief'){
   const ch=Math.min(.95,.5+(lv(sk)-a.lvl)*.012+ml*.004);
   if(Math.random()>=ch){ok=false;const stun=3*(1-cpv('thief','stun'));A.t=-stun;let dd=rnd(Math.max(1,Math.ceil((a.dmg||0)*.25)),Math.max(1,a.dmg||1));if(S.cheat&&S.cheat.god)dd=0;else if(cpv('def','dmg'))dd=Math.max(1,Math.round(dd*(1-cpv('def','dmg'))));if(dd>0){S.hp=Math.max(1,S.hp-dd);eatIfNeeded();}toast(dd>0?'Caught! You take '+dd+' damage and are stunned':'Caught! You are stunned','warn');S.stats.actions++;return true;}
-  addCoins(Math.round(rnd(a.coins[0],a.coins[1])*mult*cg()));
+  addCoins(Math.round(rnd(a.coins[0],a.coins[1])*mult*cg()*(1+mp.coin)));
   (a.drops||[]).forEach(d=>{if(Math.random()<d[1])add(d[0],rnd(d[2],d[3])*mult);});
  }else{
-  if(a.out)for(const k in a.out)add(k,a.out[k]*(kind==='gather'?mult:1));
+  const ext=(kind==='gather'||kind==='art')?mp.extra+(mp.bonus&&Math.random()<mp.bonus?1:0):0;
+  if(a.out)for(const k in a.out)add(k,a.out[k]*(kind==='gather'?mult:1)+ext);
   if(a.coins)addCoins(Math.round(rnd(a.coins[0],a.coins[1])*mult*cg()));
   if(a.gem&&Math.random()<a.gem*(1+cpv('mine','gem'))){const r=Math.random();add(r<.5?'gem_sapphire':r<.8?'gem_emerald':r<.95?'gem_ruby':'gem_diamond',1);}
  }
- gainXp(sk,a.xp*(1+mod.xp+mBonus(ml)));gainM(sk,a,mxpOf(sk,a));S.stats.actions++;dqProg('act',sk);qlProg('act',sk);return true;}
+ gainXp(sk,a.xp*(1+mod.xp+mp.xp));gainM(sk,a,mxpOf(sk,a));S.stats.actions++;dqProg('act',sk);qlProg('act',sk);return true;}
 
 const dpow=()=>{const g=(PS&&PS.g)||{};return combatLevel()+Math.min(45,((g.atk||0)+(g.str||0)+(g.def||0)+Math.max(g.rngA||0,g.magA||0))/14);};
 function dlog(o){if(TRACK)return;const L=S.dg.log;L.unshift(o);if(L.length>6)L.pop();}
@@ -2245,12 +2263,12 @@ function plant(i,cropId,free){
  const p=S.farm.plots[i],c=CROPBY[cropId];if(!p||!c||p.crop||c.cat!==p.cat)return false;
  if(lv('farm')<c.lvl){toast('Requires Farming level '+c.lvl,'warn');return false;}
  if(cnt(c.seed)>=1)take(c.seed,1);else if(c.noBuy){toast('Tree seeds only drop from monsters and thieving','warn');return false;}else if(S.coins>=c.seedCost){S.coins-=c.seedCost;}else{toast('No seeds and not enough coins','warn');return false;}
- p.crop=cropId;p.start=S.clock;p.ready=S.clock+c.t*(1-Math.min(.5,(S.upg.farm||0)*.06))*(1-cpv('farm','grow'));dirty.v=1;return true;}
+ p.crop=cropId;p.start=S.clock;p.ready=S.clock+c.t*(1-Math.min(.5,(S.upg.farm||0)*.06))*(1-cpv('farm','grow'))*(1-mPerk('farm',mLvl('farm',cropId)).ivl);dirty.v=1;return true;}
 function harvest(i){
  const p=S.farm.plots[i];if(!p||!p.crop||S.clock<p.ready)return false;
  const c=CROPBY[p.crop],ml=mLvl('farm',c.id),mod=skMods('farm');
- let q=rnd(c.q[0],c.q[1]);if(Math.random()<Math.min(.95,mod.dbl+ml*.0025))q*=2;
- add(c.item,q);gainXp('farm',c.xp*(1+mod.xp+mBonus(ml)));gainM('farm',c,c.mx);S.stats.actions++;
+ const mp=mPerk('farm',ml);let q=rnd(c.q[0],c.q[1]);if(Math.random()<Math.min(.95,mod.dbl+ml*.0025))q*=2;q+=mp.crop;
+ add(c.item,q);gainXp('farm',c.xp*(1+mod.xp+mp.xp));gainM('farm',c,mxpOf('farm',c));S.stats.actions++;
  const again=S.farm.auto&&(cnt(c.seed)>=1||(!c.noBuy&&S.coins>=c.seedCost*3));
  p.crop=null;p.ready=0;if(again&&lv('farm')>=c.lvl)plant(i,c.id);dirty.v=1;return true;}
 function harvestAll(){let n=0;S.farm.plots.forEach((p,i)=>{if(p.crop&&S.clock>=p.ready&&harvest(i))n++;});return n;}
@@ -2286,7 +2304,7 @@ const SK=n=>'mossgate-idle-slot-'+n;
 let SLOT=0;const SAVESTAT={ok:true,at:0,err:'',bak:0};
 
 /* ---------- save integrity: signed, tamper-evident saves ---------- */
-const BUILD_TS=1795713804000;
+const BUILD_TS=1795799588000;
 const SIGKEY=['mg','8f2c','-gate','Q7x','r0ot','5e1d','|idle','b9'].join('');
 const SHA_K=(()=>{const k=[];for(let n=2;k.length<64;n++){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)k.push(Math.floor((Math.cbrt(n)%1)*4294967296));}return k;})();
 const SHA_H=(()=>{const h=[];for(let n=2;h.length<8;n++){let p=true;for(let d=2;d*d<=n;d++)if(n%d===0){p=false;break;}if(p)h.push(Math.floor((Math.sqrt(n)%1)*4294967296));}return h;})();
@@ -2612,12 +2630,26 @@ function prism(){/* gable roof: base 1x1, ridge along x at y=1 */const o=[],a=[-
  tri(o,a,e,f);tri(o,a,f,b);tri(o,d,c,f);tri(o,d,f,e);tri(o,a,d,e);tri(o,b,f,c);tri(o,a,b,c);tri(o,a,c,d);return o;}
 function uSph(nl,nt){const o=[];const P=(i,j)=>{const a=i/nl*Math.PI*2,b=j/nt*Math.PI;return[Math.cos(a)*Math.sin(b)*.5,Math.cos(b)*.5,Math.sin(a)*Math.sin(b)*.5];};
  for(let i=0;i<nl;i++)for(let j=0;j<nt;j++){const a=P(i,j),b=P(i+1,j),c=P(i+1,j+1),d=P(i,j+1);if(j>0)tri(o,a,d,b);if(j<nt-1)tri(o,b,d,c);}return o;}
+/* boot shell: a closed loft from heel (z=0) to toe (z=1), flat sole at y=0, high at the heel, low and rounded at the toe */
+const BOOTN=new Map();
+function uBoot(n,m){const o=[],sp_=(a,e)=>Math.sign(a)*Math.pow(Math.abs(a),e);
+ const P=(i,j)=>{const a=i/n*Math.PI*2,t=j/m,z=t,cap=Math.sqrt(Math.max(0,Math.sin(Math.min(1,t*1.15+.02)*Math.PI*.5)))*Math.sqrt(Math.max(0,Math.sin(Math.min(1,(1-t)*3.2+.02)*Math.PI*.5)));
+  const w=(.78+.22*Math.sin(Math.min(1,t*1.4)*Math.PI*.5)-.12*Math.max(0,t-.7)/.3)*cap,h=(1-.55*Math.min(1,t/.75))*(t>.75?Math.sqrt(Math.max(0,1-((t-.75)/.27)**2))*.9+.1:1);
+  return[sp_(Math.sin(a),.65)*w*.5,(.5-sp_(Math.cos(a),.55)*.5)*h,z];};
+ for(let i=0;i<n;i++)for(let j=0;j<m;j++){const A=P(i,j),B=P(i+1,j),C=P(i+1,j+1),D=P(i,j+1);tri(o,A,B,C);tri(o,A,C,D);}
+ const key=v=>v.map(x=>x.toFixed(4)).join(','),acc=new Map();
+ for(let q=0;q<o.length;q+=3){const a=o[q],b=o[q+1],c=o[q+2],u=[b[0]-a[0],b[1]-a[1],b[2]-a[2]],v=[c[0]-a[0],c[1]-a[1],c[2]-a[2]],nn=[u[1]*v[2]-u[2]*v[1],u[2]*v[0]-u[0]*v[2],u[0]*v[1]-u[1]*v[0]];
+  [a,b,c].forEach(p=>{const k=key(p),s2=acc.get(k)||[0,0,0];s2[0]+=nn[0];s2[1]+=nn[1];s2[2]+=nn[2];acc.set(k,s2);});}
+ let fl=0;for(let q=0;q<o.length;q++){const p=o[q],nn=acc.get(key(p));fl+=(p[0])*nn[0]+(p[1]-.3)*nn[1]+(p[2]-.5)*nn[2];}
+ acc.forEach((s2,k)=>{const l=Math.hypot(...s2)||1;BOOTN.set(k,[s2[0]/l*(fl<0?-1:1),s2[1]/l*(fl<0?-1:1),s2[2]/l*(fl<0?-1:1)]);});
+ if(fl<0)for(let q=0;q<o.length;q+=3){const t_=o[q+1];o[q+1]=o[q+2];o[q+2]=t_;}
+ return o;}
 function uCui(n,m){const o=[],P=(i,j)=>{const a=i/n*Math.PI*2,y=j/m,t=Math.min(1,y/.72),r=.33+.17*t*t*(3-2*t)-.03*Math.max(0,(y-.86)/.14)**2,fz=Math.max(0,Math.sin(a)),k=1+.2*Math.exp(-(((y-.66)/.17)**2))*fz*fz;return[Math.cos(a)*r,y,Math.sin(a)*r*k];};
  for(let i=0;i<n;i++)for(let j=0;j<m;j++){const A=P(i,j),B=P(i+1,j),C=P(i+1,j+1),D=P(i,j+1);tri(o,A,D,C);tri(o,A,C,B);}return o;}
 function uTube(n,r0,r1){const o=[];for(let i=0;i<n;i++){const a=i/n*Math.PI*2,b=(i+1)/n*Math.PI*2,A=[Math.cos(a)*r0,0,Math.sin(a)*r0],B=[Math.cos(b)*r0,0,Math.sin(b)*r0],C=[Math.cos(b)*r1,1,Math.sin(b)*r1],D=[Math.cos(a)*r1,1,Math.sin(a)*r1];tri(o,A,D,C);tri(o,A,C,B);}return o;}
-const SMOOTH={sphH:v=>{const l=Math.hypot(...v)||1;return[v[0]/l,v[1]/l,v[2]/l];},tubeH:v=>{const l=Math.hypot(v[0],v[2])||1;return[v[0]/l,0,v[2]/l];},tdnH:v=>{const l=Math.hypot(v[0],v[2])||1;return[v[0]/l,.13,v[2]/l];},cuiH:v=>{const l=Math.hypot(v[0],v[2])||1;return[v[0]/l,(v[1]<.72?.2:-.1),v[2]/l];},tupH:v=>{const l=Math.hypot(v[0],v[2])||1;return[v[0]/l,-.14,v[2]/l];},sconeH:v=>{const l=Math.hypot(v[0],v[2])||1;const n=[v[0]/l,.5,v[2]/l],q=Math.hypot(...n);return[n[0]/q,n[1]/q,n[2]/q];},scone:v=>{const l=Math.hypot(v[0],v[2])||1;const n=[v[0]/l,.5,v[2]/l],q=Math.hypot(...n);return[n[0]/q,n[1]/q,n[2]/q];},sph:v=>{const l=Math.hypot(...v)||1;return[v[0]/l,v[1]/l,v[2]/l];},tube:v=>{const l=Math.hypot(v[0],v[2])||1;return[v[0]/l,0,v[2]/l];},tdn:v=>{const l=Math.hypot(v[0],v[2])||1;return[v[0]/l,.13,v[2]/l];},tup:v=>{const l=Math.hypot(v[0],v[2])||1;return[v[0]/l,-.14,v[2]/l];}};
+const SMOOTH={sphH:v=>{const l=Math.hypot(...v)||1;return[v[0]/l,v[1]/l,v[2]/l];},tubeH:v=>{const l=Math.hypot(v[0],v[2])||1;return[v[0]/l,0,v[2]/l];},tdnH:v=>{const l=Math.hypot(v[0],v[2])||1;return[v[0]/l,.13,v[2]/l];},bootH:v=>BOOTN.get(v.map(x=>x.toFixed(4)).join(','))||[0,1,0],cuiH:v=>{const l=Math.hypot(v[0],v[2])||1;return[v[0]/l,(v[1]<.72?.2:-.1),v[2]/l];},tupH:v=>{const l=Math.hypot(v[0],v[2])||1;return[v[0]/l,-.14,v[2]/l];},sconeH:v=>{const l=Math.hypot(v[0],v[2])||1;const n=[v[0]/l,.5,v[2]/l],q=Math.hypot(...n);return[n[0]/q,n[1]/q,n[2]/q];},scone:v=>{const l=Math.hypot(v[0],v[2])||1;const n=[v[0]/l,.5,v[2]/l],q=Math.hypot(...n);return[n[0]/q,n[1]/q,n[2]/q];},sph:v=>{const l=Math.hypot(...v)||1;return[v[0]/l,v[1]/l,v[2]/l];},tube:v=>{const l=Math.hypot(v[0],v[2])||1;return[v[0]/l,0,v[2]/l];},tdn:v=>{const l=Math.hypot(v[0],v[2])||1;return[v[0]/l,.13,v[2]/l];},tup:v=>{const l=Math.hypot(v[0],v[2])||1;return[v[0]/l,-.14,v[2]/l];}};
 const MEMB=(()=>{const o=[],A=[0,0,.5],B=[-.5,1,.5],C=[.5,1,.5],D=[0,0,-.5],E=[-.5,1,-.5],F=[.5,1,-.5];tri(o,A,C,B);tri(o,D,E,F);/* rim so the edge is closed */tri(o,B,C,F);tri(o,B,F,E);tri(o,A,B,E);tri(o,A,E,D);tri(o,A,D,F);tri(o,A,F,C);return o;})();
-const SHAPES={memb:MEMB,sphH:uSph(24,16),tubeH:uTube(20,.5,.5),tdnH:uTube(20,.37,.5),cuiH:uCui(28,10),tupH:uTube(20,.5,.36),sconeH:uTube(20,.5,.0),scone:uTube(20,.5,.0),sph:uSph(16,11),tube:uTube(14,.5,.5),tdn:uTube(14,.37,.5),tup:uTube(14,.5,.36),box:unitBox(),cyl:unitCyl(7,1),cone:unitCyl(7,0),frus:unitCyl(7,.55),ico:unitIco(),disc:disc(14),pyr:pyr4(),roof:prism(),cyl5:unitCyl(5,1),cone5:unitCyl(5,0)};
+const SHAPES={memb:MEMB,sphH:uSph(24,16),tubeH:uTube(20,.5,.5),tdnH:uTube(20,.37,.5),cuiH:uCui(28,10),bootH:uBoot(24,22),tupH:uTube(20,.5,.36),sconeH:uTube(20,.5,.0),scone:uTube(20,.5,.0),sph:uSph(16,11),tube:uTube(14,.5,.5),tdn:uTube(14,.37,.5),tup:uTube(14,.5,.36),box:unitBox(),cyl:unitCyl(7,1),cone:unitCyl(7,0),frus:unitCyl(7,.55),ico:unitIco(),disc:disc(14),pyr:pyr4(),roof:prism(),cyl5:unitCyl(5,1),cone5:unitCyl(5,0)};
 /* ---- static batch builder ---- */
 SHAPES.gb=[[-.5,0,0],[.5,0,0],[.34,.5,.08],[-.5,0,0],[.34,.5,.08],[-.34,.5,.08],[-.34,.5,.08],[.34,.5,.08],[0,1,.3]];
 /* procedural fractured rock shapes: noise-displaced sphere clipped by random fracture planes, with baked colour variation (strata, crevice shading, lichen) */
@@ -2632,7 +2664,7 @@ SHAPES.gb=[[-.5,0,0],[.5,0,0],[.34,.5,.08],[-.5,0,0],[.34,.5,.08],[-.34,.5,.08],
     if(vn(x*6,y*6+sd,z*6)>.78)c=c.map(v=>v*.72);return c;};
   for(let i=0;i<NL;i++)for(let j=0;j<NM;j++){const j2=(j+1)%NM,a=P[i][j],b=P[i][j2],c=P[i+1][j],d=P[i+1][j2];[[a,c,d],[a,d,b]].forEach(t=>{if(i===0&&t[0]===a&&t[2]===b)return;t.forEach(v=>{tri.push(v[0]);vc.push(col(v[0],v[1]));});});}
   SHAPES['rk'+sd]=tri;SHAPES['rk'+sd].vc=vc;}})();
-const CEN={memb:[0,.6,0],sphH:[0,0,0],tubeH:[0,.5,0],tdnH:[0,.5,0],cuiH:[0,.5,0],tupH:[0,.5,0],sconeH:[0,.5,0],scone:[0,.5,0],rk0:[0,0,0],rk1:[0,0,0],rk2:[0,0,0],rk3:[0,0,0],rk4:[0,0,0],rk5:[0,0,0],gb:[0,.5,0],sph:[0,0,0],tube:[0,.5,0],tdn:[0,.5,0],tup:[0,.5,0],box:[0,0,0],cyl:[0,.5,0],cone:[0,.5,0],frus:[0,.5,0],ico:[0,0,0],disc:[0,-1,0],pyr:[0,.3,0],roof:[0,.35,0],cyl5:[0,.5,0],cone5:[0,.5,0]};
+const CEN={memb:[0,.6,0],sphH:[0,0,0],tubeH:[0,.5,0],tdnH:[0,.5,0],cuiH:[0,.5,0],bootH:[0,.3,.5],tupH:[0,.5,0],sconeH:[0,.5,0],scone:[0,.5,0],rk0:[0,0,0],rk1:[0,0,0],rk2:[0,0,0],rk3:[0,0,0],rk4:[0,0,0],rk5:[0,0,0],gb:[0,.5,0],sph:[0,0,0],tube:[0,.5,0],tdn:[0,.5,0],tup:[0,.5,0],box:[0,0,0],cyl:[0,.5,0],cone:[0,.5,0],frus:[0,.5,0],ico:[0,0,0],disc:[0,-1,0],pyr:[0,.3,0],roof:[0,.35,0],cyl5:[0,.5,0],cone5:[0,.5,0]};
 /* ---- sculpted head: one smooth mesh with a real skull, jaw, chin, cheekbones, brow, eye sockets and nose ---- */
 const HEADN={};
 function sculpt(fn,nl,nt,keep){const P=[];for(let i=0;i<=nl;i++){P.push([]);for(let j=0;j<=nt;j++){const a=i/nl*Math.PI*2,b=j/nt*Math.PI;const d=[Math.sin(b)*Math.sin(a),Math.cos(b),Math.sin(b)*Math.cos(a)];P[i].push(fn(d));}}
@@ -3289,7 +3321,7 @@ void main(){vec4 a=uInv*vec4(vQ,-1.,1.),b=uInv*vec4(vQ,1.,1.);vec3 d=normalize(b
    progS=gl.createProgram();gl.attachShader(progS,sh(gl.VERTEX_SHADER,VSS));gl.attachShader(progS,sh(gl.FRAGMENT_SHADER,FSS));gl.bindAttribLocation(progS,0,'aP');gl.linkProgram(progS);
    if(!gl.getProgramParameter(progS,gl.LINK_STATUS))progS=null;else{['uInv','uEye','uSky','uSun','uMoon','uDay','uNight','uDusk','uTime','uCl'].forEach(n=>LS[n]=gl.getUniformLocation(progS,n));SQ=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,SQ);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,0,1,-1,0,-1,1,0,-1,1,0,1,-1,0,1,1,0]),gl.STATIC_DRAW);}}catch(e){progS=null;}
   gl.useProgram(prog);VX=gl.getExtension('OES_vertex_array_object');LM=null;['aP','aN','aC'].forEach((n,i)=>{L[n]=gl.getAttribLocation(prog,n);});['uVP','uM','uCam','uTint','uAdd','uSky','uL','uAlpha','uFogN','uFogF','uAmb','uLC','uTex','uTime','uEye'].forEach(n=>L[n]=gl.getUniformLocation(prog,n));
-  world=W3._buildWorld(gl);['box','cyl','cone','ico','disc','frus','pyr','roof','cyl5','cone5','sph','tube','tdn','tup','sphH','tubeH','tdnH','cuiH','tupH','sconeH','scone','memb','head','hairS','hairL','hairT'].forEach(s=>units[s]=unitMesh(gl,s));
+  world=W3._buildWorld(gl);['box','cyl','cone','ico','disc','frus','pyr','roof','cyl5','cone5','sph','tube','tdn','tup','sphH','tubeH','tdnH','bootH','cuiH','tupH','sconeH','scone','memb','head','hairS','hairL','hairT'].forEach(s=>units[s]=unitMesh(gl,s));
   cv.addEventListener('webglcontextlost',e=>{e.preventDefault();W3.fail();});
   gl.enable(gl.DEPTH_TEST);gl.clearColor(SKY[0],SKY[1],SKY[2],1);return true;}catch(e){console.warn('3D init failed',e);return false;}}
 let VX=null,LM=null,LT=[NaN,0,0],LAd=[NaN,0,0],LAl=NaN;
@@ -3488,7 +3520,12 @@ function drawChar(c,vis){const o=OUT[c.i],sk=hex(o.skin),LK=W3.look||{},SHC=LK.b
  const btc=SK_?chain(bt,T(0,.98,-.02),Sc(.74,.94,.72),T(0,-.98,0)):bt;
  if(LK.cape){const CP=LK.cape,cc=CP.col,k=CP.k,cd=[cc[0]*.62,cc[1]*.62,cc[2]*.62],cl=[Math.min(1,cc[0]*1.3+.08),Math.min(1,cc[1]*1.3+.08),Math.min(1,cc[2]*1.3+.08)],tr=k==='sup'||k==='pharaoh'||k==='wave'?[1,.8,.3]:k==='ice'?[.9,.97,1]:cd,mvg=c.mv>.2,tt=c.t||0;
   const root=chain(btc,T(0,.98,-.24),RX(.1+(mvg?.22:0)+Math.abs(la)*.15));
-  pb(btc,0,.99,-.21,.74,.11,.18,tr);pb(btc,0,.97,.17,.13,.09,.05,GLD_);[-.31,.31].forEach(sx=>pb(btc,sx,.99,.0,.13,.09,.42,tr));
+  /* soft rolled collar that wraps behind the neck onto the shoulders, gathered pleats where the cape hangs, cords to a round brooch */
+  for(let q=0;q<=32;q++){const a=-2.2+q/32*4.4,ca=Math.cos(a),sa=Math.sin(a),f=1-Math.abs(a)/2.2*.35;
+   ps(btc,sa*.37,.955+.02*ca,-.03-ca*.245,.17*f+.03,.055,.15*f+.03,cc);ps(btc,sa*.32,1.0+.025*ca,-.03-ca*.215,.1,.06,.09,cd);}
+  for(let q=0;q<7;q++)ps(btc,(q-3)*.1,.92,-.255,.07,.11,.03,cc);
+  [-1,1].forEach(sd=>{const cm=chain(btc,T(sd*.15,.97,.13),RZ(sd*.75));pb(cm,0,0,0,.025,.2,.025,tr);});
+  ps(btc,0,.9,.19,.09,.09,.05,GLD_);ps(btc,0,.9,.215,.04,.04,.02,tr);
   if(k==='fire'){for(let q=0;q<7;q++){const fx=-.4+q*.133,fh=.28+.2*Math.sin(tt*8.5+q*1.9)+.08*Math.sin(tt*13+q);part('cone',chain(btc,T(fx,1.04,-.31),Sc(.11,fh,.06),RZ(.1*Math.sin(tt*5+q))),[1,.55,.1],[1,.5,.06]);part('cone',chain(btc,T(fx,1.05,-.32),Sc(.05,fh*.65,.03)),[1,.92,.5],[1,.9,.45]);}}
   if(k==='sup'||k==='skill'){const sid=CP.id,sh=.6+.4*Math.sin(tt*2.5),GL=[1,.82,.3],gs=k==='sup'?1:.6;
    [-.43,.43].forEach(sx=>{ps(btc,sx,1.1,-.1,.15*gs,.15*gs,.15*gs,k==='sup'?(sid==='s_void'?[.5,.2,.9]:sid==='s_aurora'?[.3,1,.8]:sid==='s_crimson'?[.9,.1,.2]:[1,.85,.3]):cc,k==='sup'?[.35*sh,.3*sh,.3*sh]:[cc[0]*.3*sh,cc[1]*.3*sh,cc[2]*.3*sh]);
@@ -3645,7 +3682,7 @@ function drawChar(c,vis){const o=OUT[c.i],sk=hex(o.skin),LK=W3.look||{},SHC=LK.b
    const nv=(M,c2)=>{const v=[M[c2*4],M[c2*4+1],M[c2*4+2]],l=Math.hypot(...v)||1;return v.map(x=>x/l);},dt3=(u,v)=>u[0]*v[0]+u[1]*v[1]+u[2]*v[2];
    const pd=nv(PF,1).map(x=>-x),pf=nv(PF,2),thA=TH.map(M=>{const d=nv(M,1).map(x=>-x);return Math.atan2(dt3(d,pf),dt3(d,pd));});
    const now_=performance.now(),sw=Math.sin(now_*.0021+c.i*1.7)*.05+(c.mv>.2?Math.sin(now_*.009+c.i)*.06:0);
-   const LEA=[.3,.19,.11],BKL=[.72,.62,.4];
+   const LEA=[.3,.19,.11],BKL=[.72,.62,.4],BTF=(W3._btf||[-.1,-.115,.205,.2,.45]),k_dk=c=>[c[0]*.6,c[1]*.6,c[2]*.6];
    const drape=(col,TC,TA,o)=>{const w=o.w||.24,L=o.l||.2,y0=o.y||-.13,z0=o.z||.18,n=o.n||2,th=o.th||.018;
     [1,-1].forEach(f=>{const A=Math.max(0,...thA.map(x=>x*f))*1.05,s2=-f;let g=chain(PF,T(0,y0,f*z0),RX(s2*((o.fl||.1)+A*.55+Math.max(0,sw*f)*.4)));
      for(let k=0;k<n;k++){if(k)g=chain(g,T(0,-L,0),RX(s2*(A*.5/(n-1)+sw*f*.5)));part('box',chain(g,T(0,-L/2,0),Sc(w-k*.006,L+.006,th)),col);
@@ -3701,10 +3738,12 @@ function drawChar(c,vis){const o=OUT[c.i],sk=hex(o.skin),LK=W3.look||{},SHC=LK.b
      part('tdnH',chain(M,T(0,-.5,0),Sc(.21,.42,.22)),G0);part('box',chain(M,T(0,-.3,.105),Sc(.03,.4,.02)),TC,TA);sp(M,.05,-.15,.095,.022,.022,.022,RV);sp(M,-.05,-.15,.095,.022,.022,.022,RV);});}
    else if(KL==='hide'){const P0=[PC[0]*.9,PC[1]*.9,PC[2]*.9],P1=[PC[0]*.7,PC[1]*.7,PC[2]*.7];
     TH.forEach(M=>{sp(M,0,-.28,.06,.22,.4,.14,P0);ring(M,-.22,.25,.025,.26,LEA);ring(M,-.4,.23,.025,.24,LEA);});CL.forEach(M=>sp(M,0,-.01,.07,.15,.15,.1,P1));}
-   if(KF==='metal'){const B0=BC,B1=[BC[0]*.78,BC[1]*.78,BC[2]*.78],[TC,TA]=trim(IDS.boots,BC);bootC=[BC[0]*.6,BC[1]*.6,BC[2]*.6];
-    /* sabatons: overlapping foot lames, toe cap, ankle cuff */
-    FT.forEach(M=>{for(let k=0;k<3;k++)sp(M,0,-.025,.0+k*.065,.17-k*.01,.11,.12,k%2?B1:B0);sp(M,0,-.035,.19,.12,.08,.11,B0);ring(M,-.04,.2,.1,.22,B0);sp(M,0,-.02,.2,.06,.05,.05,TC,TA);});CL.forEach(M=>ring(M,-.34,.22,.05,.23,TC,TA));}
-   else CL.forEach(M=>{const BD=[BC[0]*.8,BC[1]*.8,BC[2]*.8];ring(M,-.3,.215,.07,.225,BD);ring(M,-.25,.235,.035,.245,BC);ring(M,-.36,.22,.02,.23,LEA);});
+   if(IDS.boots){const B0=BC,B1=[BC[0]*.72,BC[1]*.72,BC[2]*.72],SOLE=[.13,.1,.08],[TC,TA]=trim(IDS.boots,BC);bootC=B1;
+    /* a closed boot shell over the whole foot so no toes show through, a dark sole and heel, then a shaft up the shin */
+    FT.forEach((M,i)=>{part('bootH',chain(M,T(0,BTF[0],BTF[1]),Sc(BTF[2],BTF[3],BTF[4])),B0);part('bootH',chain(M,T(0,BTF[0]-.012,BTF[1]-.006),Sc(BTF[2]*1.04,BTF[3]*.16,BTF[4]*1.02)),SOLE);
+     if(KF==='metal'){for(let k=0;k<3;k++)part('box',chain(M,T(0,BTF[0]+BTF[3]*(.9-k*.13),BTF[1]+BTF[4]*(.36+k*.13)),RX(-.55+k*.12),Sc(BTF[2]*.86,.018,.05)),B1);part('box',chain(M,T(0,BTF[0]+BTF[3]*.98,BTF[1]+BTF[4]*.2),Sc(BTF[2]*.55,.02,.07)),TC,TA);}
+     else{part('box',chain(M,T(0,BTF[0]+BTF[3]*.72,BTF[1]+BTF[4]*.36),RX(-.45),Sc(BTF[2]*.9,.025,.035)),LEA);part('box',chain(M,T(0,BTF[0]+BTF[3]*.8,BTF[1]+BTF[4]*.25),RX(-.5),Sc(BTF[2]*.95,.025,.035)),LEA);}});
+    CL.forEach(M=>{part('tdnH',chain(M,T(0,-.47,0),Sc(.2,.3,.21)),B0);ring(M,-.19,.215,KF==='metal'?.045:.06,.225,KF==='metal'?TC:k_dk(B0),KF==='metal'?TA:0);if(KF!=='metal')ring(M,-.33,.215,.02,.225,LEA);});}
    if(KG==='metal'){const G0=LK.gloves,G1=[G0[0]*.78,G0[1]*.78,G0[2]*.78],[TC,TA]=trim(IDS.gloves,G0);
     /* flared cuffs, wrist lame, back-of-hand plate and knuckle ridge */
     LA.forEach(M=>{part('tdnH',chain(M,T(0,-.38,0),Sc(.205,.21,.205)),G0);ring(M,-.39,.17,.03,.17,G1);ring(M,-.17,.205,.02,.205,TC,TA);});
@@ -5835,15 +5874,15 @@ function skHead(sk){
  const L=lv(sk),x=S.xp[sk],cur=XPT[L-1],nx=L>=MAXL?cur:XPT[L];
  let h=`<div class="panel"><div class="row"><span class="ci">${SKN[sk].i}</span><div><h2 style="margin:0">${SKN[sk].n}</h2><div class="sub">${SKN[sk].d}</div></div><div class="sp"></div><div style="text-align:right"><b>Level ${L}</b> / ${MAXL}${prN(sk)?' <span class="pill">★'+prN(sk)+' · +'+Math.round(PRES_B*prN(sk)*100)+'% XP</span>':''}<div class="sub">${fmt(x)} XP${L<MAXL?' · '+fmt(nx-x)+' to next':''}</div></div></div>`;
  h+=`<div style="margin-top:8px">${bar(L>=MAXL?100:pc(x-cur,nx-cur),'xp big')}</div>`;
- if(SKN[sk]&&S.mast[sk]&&sk!=='slayer'){const p=poolPct(sk);
-  h+=`<div class="row" style="margin-top:10px"><b style="color:var(--mast)">Mastery pool</b><span class="sub" style="margin-left:auto">Spend on ⬆ buttons: </span>${[1,5,10].map(n=>`<button class="tag${(UI.mspn||1)===n?' on':''}" data-a="mspn" data-n="${n}">+${n} lvl</button>`).join('')}<span class="sub">${fmt(S.mast[sk].pool)} / ${fmt(poolMax(sk))} (${(p*100).toFixed(1)}%)${S.mast[sk].over>0?` · <b>${fmt(S.mast[sk].over)}</b> overflow stored`:''}</span></div><div style="position:relative">${bar(p*100,'mast big')}</div>`;
-  h+='<div class="cps">'+CPS.map(c=>`<span class="${p>=c[0]?'got':''}">${p>=c[0]?'✔':'○'} ${Math.round(c[0]*100)}%: ${c[1]}</span>`).join('')+'</div>';
+ if(SKN[sk]&&S.mast[sk]&&sk!=='slayer'){const p=poolPct(sk),pk2=peakPct(sk);
+  h+=`<div class="row" style="margin-top:10px"><b style="color:var(--mast)">Mastery pool</b><span class="sub" style="margin-left:auto">Spend on ⬆ buttons: </span>${[1,5,10,'M'].map(n=>`<button class="tag${(UI.mspn||1)===n?' on':''}" data-a="mspn" data-n="${n}">${n==='M'?'→ next milestone':'+'+n+' lvl'}</button>`).join('')}<span class="sub">${fmt(S.mast[sk].pool)} / ${fmt(poolMax(sk))} (${(p*100).toFixed(1)}%)${S.mast[sk].over>0?` · <b>${fmt(S.mast[sk].over)}</b> overflow stored`:''}</span></div><div style="position:relative">${bar(p*100,'mast big')}</div>`;
+  h+='<div class="cps">'+CPS.map(c=>`<span class="${pk2>=c[0]?'got':''}">${pk2>=c[0]?'✔':'○'} ${Math.round(c[0]*100)}%: ${c[1]}</span>`).join('')+'</div><div class="sub" style="margin-top:4px">Checkpoints stay unlocked once reached, so spend freely. Each action has its own milestones at mastery '+MMS.join(', ')+'.</div>';
   if(sk==='agi'){const L=lvlOf(S.xp.agi);h+='<div class="row" style="margin-top:10px"><b>Agility level buffs</b><span class="sub">permanent, apply everywhere</span></div><div class="cps">'+AGB.map(b=>`<span class="${L>=b[0]?'got':''}">${L>=b[0]?'✔':'○'} Lv ${b[0]}: ${b[1]}</span>`).join('')+'</div>';}
   const u=S.upg[sk]||0;if(TOOLS[sk]&&u)h+=`<div class="sub" style="margin-top:6px">Tool: ${UPG_N[u-1]} ${TOOLS[sk]} (−${u*6}% action time)</div>`;}
  return h+'</div>';}
 
 function actCard(sk,a){
- const locked=lv(sk)<a.lvl,A=S.acts.find(x=>x&&x.sk===sk&&x.id===a.id),on=!!A,mod=skMods(sk),ml=mLvl(sk,a.id),kind=SKKIND[sk],iv=interval(sk,a);
+ const locked=lv(sk)<a.lvl,A=S.acts.find(x=>x&&x.sk===sk&&x.id===a.id),on=!!A,mod=skMods(sk),ml=mLvl(sk,a.id),mp=mPerk(sk,ml),mnx=mNext(ml),kind=SKKIND[sk],iv=interval(sk,a);
  let io='';
  if(a.in)io+='<div class="io"><b>Uses</b>'+Object.keys(a.in).map(k=>ic(k,0,a.in[k])).join('')+'</div>';
  if(a.out)io+='<div class="io"><b>Makes</b>'+Object.keys(a.out).map(k=>ic(k,a.out[k])).join('')+'</div>';
@@ -5860,8 +5899,8 @@ function actCard(sk,a){
  const dc=Math.round(Math.min(.95,(kind==='art'?mod.pre:mod.dbl)+ml*.0025)*100);
  return`<div class="card${locked?' locked':''}${on?' on':''}" role="button" tabindex="0" data-a="start" data-sk="${sk}" data-id="${a.id}">
  <div class="ch"${oit&&(oit.st||oit.heal||oit.pot)?` data-tip="${oid}"`:''}><span class="ci">${a.i}</span><div><div class="cn">${a.n}</div><div class="cm">${locked?'<span class="bad">Requires level '+a.lvl+'</span>':'Level '+a.lvl}</div></div></div>
- <div class="stats"><span><b>${(a.xp*(1+mod.xp+mBonus(ml))).toFixed(a.xp<20?1:0)}</b> XP</span><span><b>${iv.toFixed(1)}s</b></span>${kind==='gather'||kind==='thief'?`<span>double <b>${dc}%</b></span>`:kind==='art'?`<span>save <b>${dc}%</b></span>`:''}</div>${io}
- <div class="row" style="gap:6px"><span class="sub" style="color:var(--mast)">Mastery ${ml}</span><div class="sp">${bar(ml>=MMAX?100:pc(mXp(sk,a.id)-m0,m1-m0),'mast thin')}</div>${S.mast[sk]&&ml<MMAX?`<button class="tag" data-a="mspend" data-sk="${sk}" data-id="${a.id}" title="Spend mastery pool XP to raise this mastery">⬆ Spend</button>`:''}</div>${ml>99?`<div class="sub" style="color:var(--mast)">Beyond 99: +${(mBonus(ml)*100).toFixed(1)}% skill XP</div>`:''}
+ <div class="stats"><span><b>${(a.xp*(1+mod.xp+mp.xp)).toFixed(a.xp<20?1:0)}</b> XP</span><span><b>${iv.toFixed(1)}s</b></span>${kind==='gather'||kind==='thief'?`<span>double <b>${dc}%</b></span>`:kind==='art'?`<span>save <b>${dc}%</b></span>`:''}</div>${io}
+ <div class="row" style="gap:6px"><span class="sub" style="color:var(--mast)">Mastery ${ml}</span><div class="sp">${bar(ml>=MMAX?100:pc(mXp(sk,a.id)-m0,m1-m0),'mast thin')}</div>${S.mast[sk]&&ml<MMAX?`<button class="tag" data-a="mspend" data-sk="${sk}" data-id="${a.id}" title="Spend mastery pool XP to raise this mastery">⬆ Spend</button>`:''}</div><div class="sub mms">${MMS.map(l=>`<span class="${ml>=l?'got':''}" title="${mmText(sk,l)}">${ml>=l?'✔':'○'}${l}</span>`).join(' ')}${mnx?` · next <b>${mnx}</b>: ${mmText(sk,mnx)}`:''}</div>${ml>99?`<div class="sub" style="color:var(--mast)">Beyond 99: +${(mBonus(ml)*100).toFixed(1)}% skill XP</div>`:''}
  ${on?bar(pct,'big'):''}</div>`;}
 
 
@@ -6268,7 +6307,7 @@ function handle(d){
   case'slotauto':{const m=getMeta();m.auto=!m.auto;setMeta(m);}break;
   case'slots':saveLocal();UI.modal={type:'slots',boot:false,newN:null,delN:null,warn:null};break;
   case'mspend':{const m=mSpend(d.sk,d.id,UI.mspn||1);if(m)toast(m,'warn');dirty.v=1;break;}
-  case'mspn':UI.mspn=+d.n;dirty.v=1;break;
+  case'mspn':UI.mspn=d.n==='M'?'M':+d.n;dirty.v=1;break;
   case'savenow':saveLocal();break;
   case'clnew':{const C=CL(),c=clHex(56);lsSet(CL_K,c);C.acc=clParse(c);C.show=1;C.list=[];C.loaded=1;C.msg='Cloud code created. Upload a save to start using it.';break;}
   case'clenter':{const C=CL(),a=clParse(UI.clc);if(!a){C.msg='That does not look like a cloud code.';break;}lsSet(CL_K,a.code);C.acc=a;C.show=0;C.msg='';C.loaded=0;UI.clc='';clRefresh();break;}
